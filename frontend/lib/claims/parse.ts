@@ -102,6 +102,7 @@ export function parseAmount(text: string, locale: Locale = null): number | null 
   const after = text.slice(start + match[0].length);
   if (/[-−(][\s$€£]*$/.test(before) || /[.,]$/.test(before)) return null;
   if (/^\s*%/.test(after) || /^\s*\)/.test(after)) return null;
+  if (/^[\u00b2\u00b3\u00b9\u2070-\u2079]/.test(after)) return null; // "10⁶": an exponent or footnote glued to the number
 
   const base = parseNumberToken(match[0], locale);
   if (base === null) return null;

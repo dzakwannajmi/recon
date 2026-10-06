@@ -110,6 +110,15 @@ describe("verifyClaim", () => {
     });
   });
 
+  it("requires supply counts to name the asset even in a dedicated document", () => {
+    const text = "The network has 29.1 billion lumens in circulation, all issued on Stellar.";
+    const c = ctx({ text, normalized: normalizeForMatch(text), assets: [{ code: "YLDS" }], dedicated: true });
+    expect(verifyClaim(claim({ field: "stellar_supply", asset_code: "YLDS", quote: text, value_text: "29.1 billion", as_of_text: null }), c)).toEqual({
+      ok: false,
+      reason: "attribution_unverified",
+    });
+  });
+
   it("attributes text fields by the closest preceding asset mention", () => {
     const assets = [{ code: "WTGX", name: "WisdomTree Government Money Market Digital Fund" }, { code: "WTSY" }];
     const multi = ctx({ assets, dedicated: false });
@@ -141,6 +150,8 @@ describe("matching helpers", () => {
     expect(findToken("1 234 567", "234 567")).toBe(-1);
     expect(findToken("CHF 1'234'567", "234'567")).toBe(-1);
     expect(findToken("12 345 678", "678")).toBe(-1);
+    expect(findToken("USD 5. 75 million", "5")).toBe(-1);
+    expect(findToken("USD 5. 75 million", "75")).toBe(-1);
     expect(findToken("$1,234,567", "234,567")).toBe(-1);
     expect(findToken("$5.75 million", "$5")).toBe(-1);
     expect(findToken("is 1 token", "1")).toBe(3);

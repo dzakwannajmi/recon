@@ -64,7 +64,7 @@ describe("parseAmount", () => {
       ["EUR 1.500", null], ["101,234 EUR", null], ["500 600", null], ["2025 2026", null], ["5, 6", null], ["12, 5", null],
       ["100,000 B shares", "en"], ["10,000 B-Shares", "en"], ["100 T-Bills", null], ["1,000 M-units", "en"], ["5 m", null],
       [".5", null], ["$ .5 million", null], ["-5", null], ["(1,234)", "en"], ["5%", null], ["one share", null], ["2026-08-31", null],
-      ["5 mill.", null], ["5 lakh", null], ["5 crore", null], ["000", null], ["0123", null],
+      ["5 mill.", null], ["5 lakh", null], ["5 crore", null], ["000", null], ["0123", null], ["10⁶", null], ["$100¹", null],
     ] as const) {
       expect(parseAmount(text, locale), text).toBeNull();
     }

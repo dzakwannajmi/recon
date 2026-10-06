@@ -24,6 +24,7 @@ export const MAX_QUOTE_CHARS = 600;
 export const MAX_VALUE_CHARS = 120;
 /** How far before a quote an asset code or name may appear to attribute it. */
 export const ATTRIBUTION_WINDOW = 400;
+const SUPPLY_FIELDS = new Set<ClaimField>(["stellar_supply", "units_outstanding"]);
 const TABLE_SCALE = /\bin (thousands|millions|billions)\b|\((?:\$|USD|EUR)?\s*000s?\)|\bin tausend\b|\bin (mio|mrd)\b|in tsd/i;
 
 export type DropReason =
@@ -104,6 +105,9 @@ export function findToken(hay: string, needle: string) {
     if (endsWord && isWordChar(after)) continue;
     if (isDigit(needle[0]) && isDigitSeparator(before) && isDigit(hay[i - 2])) continue;
     if (isDigit(needle.at(-1)) && isDigitSeparator(after) && isDigit(hay[end + 1])) continue;
+    // A decimal mark split from its digits by a space ("5. 75") still joins one number.
+    if (isDigit(needle[0]) && before === " " && (hay[i - 2] === "." || hay[i - 2] === ",") && isDigit(hay[i - 3])) continue;
+    if (isDigit(needle.at(-1)) && (after === "." || after === ",") && hay[end + 1] === " " && isDigit(hay[end + 2])) continue;
     return i;
   }
   return -1;
@@ -242,9 +246,11 @@ export function verifyClaim(claim: ProposedClaim, ctx: VerifyContext): { ok: tru
     const named = tickersIn(quoteText, [...(ctx.knownCodes ?? []), ...ctx.assets.map((a) => a.code)]);
     named.delete(claim.asset_code);
     if (named.size > 0) return { ok: false, reason: "attribution_unverified" };
-    // Outside a dedicated document, an amount must name its asset in the quote itself.
+    // Outside a dedicated document, an amount must name its asset in the quote itself; supply
+    // counts always must, since a prospectus also describes other tokens (e.g. XLM in lumens).
     const claimed = ctx.assets.find((a) => a.code === claim.asset_code);
-    if (!ctx.dedicated && !(claimed && mentionIndex(quoteText, claimed) !== -1)) return { ok: false, reason: "attribution_unverified" };
+    const mustName = !ctx.dedicated || SUPPLY_FIELDS.has(field);
+    if (mustName && !(claimed && mentionIndex(quoteText, claimed) !== -1)) return { ok: false, reason: "attribution_unverified" };
   }
 
   if (claim.asset_code !== "ISSUER" && !(ctx.dedicated && ctx.assets.length === 1 && ctx.assets[0].code === claim.asset_code)) {

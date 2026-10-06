@@ -56,6 +56,11 @@ export function parseFilingFeed(xml: string): FeedEntry[] {
   });
 }
 
+/** Newest filing date first; the feed's own order breaks ties (it lists newest first). */
+export function latestFirst(entries: FeedEntry[]) {
+  return entries.map((e, i) => ({ e, i })).sort((a, b) => b.e.filedAt.localeCompare(a.e.filedAt) || a.i - b.i).map(({ e }) => e);
+}
+
 /** The machine-readable primary document of an XML filing (N-MFP3, NPORT-P). */
 export function primaryXmlUrl(cik: string, accession: string) {
   return `https://www.sec.gov/Archives/edgar/data/${Number(cik)}/${accession.replace(/-/g, "")}/primary_doc.xml`;
@@ -83,18 +88,22 @@ export class EdgarClient {
     });
   }
 
-  /** Latest filings of one form for a fund series. */
-  async seriesFilings(seriesId: string, form: string, count = 3) {
+  /**
+   * Latest filings of one form for a fund series, newest first, including
+   * amendments (`form/A`). EDGAR's `type=` filter matches by prefix, so the
+   * result is filtered to the exact form and its amendment.
+   */
+  async seriesFilings(seriesId: string, form: string, count = 10) {
     if (!/^S\d{9}$/.test(seriesId)) throw new Error("Invalid SEC series ID.");
     const url = `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${seriesId}&type=${encodeURIComponent(form)}&dateb=&owner=include&count=${count}&output=atom`;
     const { bytes } = await this.get(url, 2_000_000);
-    return parseFilingFeed(new TextDecoder().decode(bytes)).filter((e) => e.form === form);
+    return latestFirst(parseFilingFeed(new TextDecoder().decode(bytes)).filter((e) => e.form === form || e.form === `${form}/A`));
   }
 
-  /** The newest fund report (N-MFP3 for money market funds, else NPORT-P) for a series. */
+  /** The newest fund report (N-MFP3 for money market funds, else NPORT-P) for a series; the form used is in `form`. */
   async latestFundReport(seriesId: string) {
     for (const form of FUND_REPORT_FORMS) {
-      const [latest] = await this.seriesFilings(seriesId, form, 1);
+      const [latest] = await this.seriesFilings(seriesId, form);
       if (latest) return latest;
     }
     return null;

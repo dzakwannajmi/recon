@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { HttpResponse, Transport } from "../chain/http";
-import { EdgarClient, matchSecTicker, parseFilingFeed, primaryXmlUrl, secUserAgent } from "./edgar";
+import { EdgarClient, latestFirst, matchSecTicker, parseFilingFeed, primaryXmlUrl, secUserAgent } from "./edgar";
 
 const INDEX = {
   fields: ["cik", "seriesId", "classId", "symbol"],
@@ -49,15 +49,38 @@ describe("SEC helpers", () => {
   });
 });
 
+const entry = (form: string, filedAt: string, accession: string) =>
+  `<entry><accession-number>${accession}</accession-number><filing-date>${filedAt}</filing-date><filing-href>https://www.sec.gov/x</filing-href><filing-type>${form}</filing-type></entry>`;
+
+describe("latestFirst", () => {
+  it("orders by filing date and keeps feed order on ties", () => {
+    const feed = parseFilingFeed(entry("N-MFP3", "2025-12-05", "0000000000-25-000001") + entry("N-MFP3/A", "2025-12-10", "0000000000-25-000002"));
+    expect(latestFirst(feed).map((e) => e.form)).toEqual(["N-MFP3/A", "N-MFP3"]);
+  });
+});
+
 describe("EdgarClient", () => {
-  const capture = () => {
+  const capture = (body = FEED, status = 200, headers: Record<string, string> = { "content-type": "application/atom+xml" }) => {
     const seen: { url: string; headers: Record<string, string> }[] = [];
     const transport: Transport = async (url, init) => {
       seen.push({ url: url.toString(), headers: init.headers });
-      return new Response(FEED, { status: 200, headers: { "content-type": "application/atom+xml" } }) as unknown as HttpResponse;
+      return new Response(status >= 300 && status < 400 ? null : body, { status, headers }) as unknown as HttpResponse;
     };
     return { seen, transport };
   };
+
+  it("returns an amendment at the top of the feed instead of missing the filing", async () => {
+    const feed = `<feed>${entry("N-MFP3/A", "2025-12-10", "0000000000-25-000002")}${entry("N-MFP3", "2025-12-05", "0000000000-25-000001")}${entry("N-MFP3X", "2025-12-11", "0000000000-25-000003")}</feed>`;
+    const client = new EdgarClient("Recon research ops@example.com", capture(feed).transport);
+    const latest = await client.latestFundReport("S000067043");
+    expect(latest?.form).toBe("N-MFP3/A");
+    expect(latest?.accession).toBe("0000000000-25-000002");
+  });
+
+  it("refuses a redirect away from the SEC", async () => {
+    const client = new EdgarClient("Recon research ops@example.com", capture("", 302, { location: "https://evil.com/x" }).transport);
+    await expect(client.get("https://www.sec.gov/files/company_tickers_mf.json")).rejects.toThrow(/Redirect/);
+  });
 
   it("sends the SEC User-Agent and parses the series feed", async () => {
     const { seen, transport } = capture();

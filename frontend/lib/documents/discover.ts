@@ -11,9 +11,9 @@
  * Aggregators and other sites are never sources. All fetches go through the
  * SSRF-guarded client.
  */
-import { parse as parseHtml } from "node-html-parser";
 import { isSameOrSubdomain, normalizeDomain } from "../chain/http";
-import type { StellarToml } from "../chain/toml";
+import { sameSiteWww, type StellarToml } from "../chain/toml";
+import { scanHtml } from "./html";
 
 export type Seed = { url: string; discoveredFrom: string | null };
 
@@ -47,6 +47,15 @@ function httpsUrl(value: unknown): URL | null {
   }
 }
 
+/**
+ * Redirects allowed while fetching an issuer document: between `example.com`
+ * and `www.example.com`, or onto the official domain (or a subdomain).
+ * A redirect to any other site is refused, so provenance can't be laundered.
+ */
+export function issuerRedirectPolicy(officialDomain: string) {
+  return (fromHost: string, toHost: string) => sameSiteWww(fromHost, toHost) || isSameOrSubdomain(toHost.toLowerCase(), officialDomain);
+}
+
 export function isOnOfficialDomain(url: string, officialDomain: string) {
   const u = httpsUrl(url);
   return u !== null && isSameOrSubdomain(u.hostname.toLowerCase(), officialDomain);
@@ -65,19 +74,18 @@ export function tomlDocumentUrls(toml: StellarToml, currency: Record<string, unk
  * name or label reads like a fund document (e.g. a CDN-hosted prospectus).
  */
 export function pickDocumentLinks(html: string, pageUrl: string, officialDomain: string): string[] {
-  const root = parseHtml(html);
   const found: string[] = [];
-  for (const a of root.querySelectorAll("a[href]")) {
+  for (const a of scanHtml(html).links) {
     let url: URL;
     try {
-      url = new URL(a.getAttribute("href")!, pageUrl);
+      url = new URL(a.href, pageUrl);
     } catch {
       continue;
     }
     if (url.protocol !== "https:" || !normalizeDomain(url.hostname) || IMAGE_FILE.test(url.pathname)) continue;
     url.hash = "";
     const isPdf = /\.pdf$/i.test(url.pathname);
-    const looksLikeDoc = DOC_WORDS.test(`${a.text} ${safeDecode(url.pathname)}`);
+    const looksLikeDoc = DOC_WORDS.test(`${a.label} ${safeDecode(url.pathname)}`);
     const onOfficial = isSameOrSubdomain(url.hostname.toLowerCase(), officialDomain);
     if (onOfficial ? !(isPdf || looksLikeDoc) : !(isPdf && looksLikeDoc)) continue;
     const href = url.toString();

@@ -13,12 +13,12 @@
  */
 import fs from "fs";
 import path from "path";
-import { fetchUntrustedBytes, isSameOrSubdomain } from "../lib/chain/http";
-import { findCurrency, parseStellarToml, sameSiteWww, stellarTomlUrl, MAX_TOML_BYTES } from "../lib/chain/toml";
+import { fetchUntrustedBytes } from "../lib/chain/http";
+import { findCurrency, parseStellarToml, sameSiteWww, stellarTomlUrl, tomlListsAccount, MAX_TOML_BYTES } from "../lib/chain/toml";
 import { loadUniverse, parseCsv, type UniverseAsset } from "../lib/chain/universe";
-import { isOnOfficialDomain, pickDocumentLinks, seedsFor, tomlDocumentUrls } from "../lib/documents/discover";
+import { isOnOfficialDomain, issuerRedirectPolicy, pickDocumentLinks, seedsFor, tomlDocumentUrls } from "../lib/documents/discover";
 import { EdgarClient, primaryXmlUrl, secUserAgent } from "../lib/documents/edgar";
-import { extractText } from "../lib/documents/extract";
+import { EXTRACTOR_VERSION, extractText } from "../lib/documents/extract";
 import { assetKey, SnapshotStore, type SnapshotRecord, type SourceClass } from "../lib/documents/store";
 
 const MAX_DOC_BYTES = 20_000_000;
@@ -27,6 +27,7 @@ const DELAY_MS = 300;
 const MIN_HTML_CHARS = 1500;
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const errorText = (err: unknown) => (err instanceof Error ? err.message : String(err));
 
 type SecRow = { asset_code: string; issuer: string; cik: string; series_id: string };
 
@@ -38,9 +39,12 @@ function loadSecMap(): SecRow[] {
 }
 
 /** A snapshot counts toward coverage if it carries real document text. */
-export function isUseful(r: SnapshotRecord) {
+function isUseful(r: SnapshotRecord) {
   return r.sourceClass !== "issuer_toml" && r.text !== null && (r.text.kind !== "html" || r.text.chars >= MIN_HTML_CHARS);
 }
+
+/** One fetch per (official domain, url) per run; `links` are the document links found on an official page. */
+type Visit = { record: SnapshotRecord | null; links: string[] };
 
 async function main() {
   const universe = loadUniverse();
@@ -53,39 +57,43 @@ async function main() {
   const edgar = userAgent ? new EdgarClient(userAgent) : null;
   if (!edgar) console.warn("SEC_CONTACT_EMAIL is not set: skipping SEC filings.\n");
   const secMap = loadSecMap();
-  const seen = new Map<string, SnapshotRecord | null>(); // url → record, once per run
+  const visits = new Map<string, Visit>();
   const now = new Date().toISOString();
 
-  async function snapshot(asset: UniverseAsset, url: string, discoveredFrom: string | null, sourceClass: SourceClass) {
+  /** Fetch and store one issuer URL (once per run), crediting the asset, and return its document links. */
+  async function visit(asset: UniverseAsset, url: string, discoveredFrom: string | null, followLinks: boolean): Promise<Visit> {
     const key = assetKey(asset.asset_code, asset.issuer);
-    if (seen.has(url)) {
-      const record = seen.get(url);
-      if (record && !record.assets.includes(key)) record.assets.push(key);
-      return { record: record ?? null, html: null as string | null };
+    const cacheKey = `${asset.official_domain} ${url}`;
+    const cached = visits.get(cacheKey);
+    if (cached) {
+      if (cached.record && !cached.record.assets.includes(key)) cached.record.assets.push(key);
+      return cached;
     }
+    const result: Visit = { record: null, links: [] };
+    visits.set(cacheKey, result);
     await sleep(DELAY_MS);
     try {
       const { bytes, contentType, finalUrl } = await fetchUntrustedBytes(url, {
         maxBytes: MAX_DOC_BYTES,
         timeoutMs: 30_000,
-        allowRedirect: (from, to) => sameSiteWww(from, to) || isSameOrSubdomain(to, asset.official_domain),
+        allowRedirect: issuerRedirectPolicy(asset.official_domain),
       });
       const text = await extractText(bytes, contentType);
       if (!text) {
         console.log(`    skip (unsupported type ${contentType || "?"}) ${url}`);
-        seen.set(url, null);
-        return { record: null, html: null };
+        return result;
       }
-      const record = store.save({ bytes, url, finalUrl, contentType, sourceClass, asset: key, discoveredFrom, text, now });
-      seen.set(url, record);
+      result.record = store.save({ bytes, url, finalUrl, contentType, sourceClass: "issuer", asset: key, discoveredFrom, text, extractor: EXTRACTOR_VERSION, now });
       const note = text.kind === "html" && text.value.length < MIN_HTML_CHARS ? " (little text: needs a browser)" : "";
-      console.log(`    ${text.kind.padEnd(4)} ${String(text.pages ?? "-").padStart(3)}p ${String(text.value.length).padStart(7)}ch ${record.sha256.slice(0, 12)} ${url}${note}`);
-      return { record, html: text.kind === "html" ? new TextDecoder().decode(bytes) : null };
+      console.log(`    ${text.kind.padEnd(4)} ${String(text.pages ?? "-").padStart(3)}p ${String(text.value.length).padStart(7)}ch ${result.record.sha256.slice(0, 12)} ${url}${note}`);
+      // Links are resolved against the URL the page was actually served from.
+      if (followLinks && text.kind === "html" && isOnOfficialDomain(finalUrl, asset.official_domain)) {
+        result.links = pickDocumentLinks(new TextDecoder().decode(bytes), finalUrl, asset.official_domain);
+      }
     } catch (err) {
-      console.log(`    error (${err instanceof Error ? err.message : err}) ${url}`);
-      seen.set(url, null);
-      return { record: null, html: null };
+      console.log(`    error (${errorText(err)}) ${url}`);
     }
+    return result;
   }
 
   for (const asset of universe) {
@@ -99,23 +107,29 @@ async function main() {
     try {
       const { bytes, contentType, finalUrl } = await fetchUntrustedBytes(tomlSource, { maxBytes: MAX_TOML_BYTES, allowRedirect: sameSiteWww });
       const textValue = new TextDecoder().decode(bytes);
-      store.save({ bytes, url: tomlSource, finalUrl, contentType, sourceClass: "issuer_toml", asset: key, discoveredFrom: null, text: { kind: "text", value: textValue, pages: null }, now });
+      store.save({
+        bytes, url: tomlSource, finalUrl, contentType, sourceClass: "issuer_toml", asset: key, discoveredFrom: null,
+        text: { kind: "text", value: textValue, pages: null }, extractor: EXTRACTOR_VERSION, now,
+      });
       const { toml } = parseStellarToml(textValue);
-      tomlUrl = finalUrl;
-      tomlUrls = tomlDocumentUrls(toml, findCurrency(toml, asset.issuer, asset.asset_code));
+      if (tomlListsAccount(toml, asset.issuer)) {
+        tomlUrl = finalUrl;
+        tomlUrls = tomlDocumentUrls(toml, findCurrency(toml, asset.issuer, asset.asset_code));
+      } else {
+        console.log("    the toml no longer lists this issuer: its links are not used as issuer sources");
+      }
     } catch (err) {
-      console.log(`    toml error (${err instanceof Error ? err.message : err})`);
+      console.log(`    toml error (${errorText(err)})`);
     }
 
     // 2. issuer documents
     const pinnedUrls = asset.docs_urls.split(";").map((u) => u.trim()).filter(Boolean);
     const { seeds, rejected } = seedsFor({ officialDomain: asset.official_domain, tomlUrl, tomlUrls, pinnedUrls });
-    for (const url of rejected) console.log(`    not on the official domain, skipped: ${url}`);
+    for (const url of rejected) console.log(`    pinned URL not on the official domain, not a seed: ${url}`);
     for (const seed of seeds) {
-      const { html } = await snapshot(asset, seed.url, seed.discoveredFrom, "issuer");
-      if (html && isOnOfficialDomain(seed.url, asset.official_domain)) {
-        for (const link of pickDocumentLinks(html, seed.url, asset.official_domain)) await snapshot(asset, link, seed.url, "issuer");
-      }
+      const page = await visit(asset, seed.url, seed.discoveredFrom, true);
+      const from = page.record?.finalUrl ?? seed.url;
+      for (const link of page.links) await visit(asset, link, from, false);
     }
 
     // 3. latest SEC fund report
@@ -130,13 +144,14 @@ async function main() {
           const { bytes, contentType, finalUrl } = await edgar.get(url);
           const text = await extractText(bytes, contentType || "application/xml");
           const record = store.save({
-            bytes, url, finalUrl, contentType, sourceClass: "regulatory_filing", asset: key, discoveredFrom: filing.indexUrl, text, now,
+            bytes, url, finalUrl, contentType, sourceClass: "regulatory_filing", asset: key, discoveredFrom: filing.indexUrl, text,
+            extractor: EXTRACTOR_VERSION, now,
             filing: { cik: sec.cik, seriesId: sec.series_id, form: filing.form, accession: filing.accession, filedAt: filing.filedAt },
           });
           console.log(`    sec  ${filing.form} filed ${filing.filedAt} ${record.sha256.slice(0, 12)} ${url}`);
         }
       } catch (err) {
-        console.log(`    sec error (${err instanceof Error ? err.message : err})`);
+        console.log(`    sec error (${errorText(err)})`);
       }
     }
   }
@@ -154,6 +169,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error(err instanceof Error ? err.message : err);
+  console.error(errorText(err));
   process.exit(1);
 });

@@ -44,6 +44,27 @@ describe("detectKind", () => {
   });
 });
 
+describe("htmlToText on hostile input", () => {
+  const timed = (html: string) => {
+    const start = performance.now();
+    htmlToText(html);
+    return performance.now() - start;
+  };
+
+  it("stays fast on deeply nested unclosed tags and repeated declarations", () => {
+    expect(timed("<div>".repeat(50_000))).toBeLessThan(1000);
+    expect(timed("<div>".repeat(20_000) + "</span>".repeat(20_000))).toBeLessThan(1000);
+    expect(timed("<!doctype".repeat(40_000) + ">")).toBeLessThan(1000);
+    expect(timed("<!--".repeat(100_000))).toBeLessThan(1000);
+    expect(timed("<script>".repeat(50_000))).toBeLessThan(1000);
+    expect(timed(`<a href="${"x".repeat(500_000)}">`)).toBeLessThan(1000);
+  });
+
+  it("refuses HTML over the size cap", () => {
+    expect(() => htmlToText("a".repeat(5_000_001))).toThrow(/larger than/);
+  });
+});
+
 describe("htmlToText", () => {
   it("keeps visible text and drops scripts, styles, comments, and the doctype", () => {
     const html = `<!DOCTYPE html><html><head><style>.a{}</style><script>var x = "secret";</script></head>
@@ -63,6 +84,25 @@ describe("extractText", () => {
     expect(r?.kind).toBe("pdf");
     expect(r?.pages).toBe(2);
     expect(r?.value.split(PAGE_BREAK).map((p) => p.trim())).toEqual(["Shares outstanding 100", "Net assets 100"]);
+  });
+
+  it("removes control characters inside a page so page breaks stay exact", async () => {
+    const r = await extractText(makePdf(["a\\014b"]), "application/pdf");
+    expect(r?.value).toBe("a b");
+    expect(r?.value.includes(PAGE_BREAK)).toBe(false);
+  });
+
+  it("does not change the input bytes", async () => {
+    const bytes = makePdf(["Hello"]);
+    const copy = new Uint8Array(bytes);
+    await extractText(bytes, "application/pdf");
+    expect(bytes).toEqual(copy);
+    expect(bytes.byteLength).toBe(copy.byteLength);
+  });
+
+  it("is deterministic for the same PDF bytes", async () => {
+    const bytes = makePdf(["Same", "Output"]);
+    expect((await extractText(bytes, "application/pdf"))?.value).toBe((await extractText(bytes, "application/pdf"))?.value);
   });
 
   it("keeps XML as is and returns null for unsupported types", async () => {

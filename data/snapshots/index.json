@@ -7,16 +7,22 @@
     "bytes": 87268,
     "sourceClass": "issuer",
     "assets": [
-      "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+      "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
     ],
     "discoveredFrom": "https://app.etherfuse.com/legal/proof-of-reserves",
     "text": {
       "kind": "html",
       "chars": 2572,
-      "pages": null
+      "pages": null,
+      "sha256": "1e39e9e467c9bab8b54f8d0d7dcb33f56e6109467c1629db0018b9806626d70b",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "3f9c7df0b89c9578d5236cf472c08f0a509d6f011dc1ae148732ac75cbbec67c",
@@ -36,17 +42,19 @@
     "text": {
       "kind": "html",
       "chars": 667,
-      "pages": null
+      "pages": null,
+      "sha256": "52e65e4c25ed10cb212d8adc5a38e88db32fa25f1023ddadc27b2322dabc8b54",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
-    "sha256": "d529352362cd853b8ef7c7e30db4985f51078c0d6ee25de1e309ad3a4836d6ff",
+    "sha256": "44173964f348c6f0c87fd9fc1d744bb3f4ab8942ffa441663f0d2c4584a03b3d",
     "url": "https://app.ondo.finance/assets/usdy",
     "finalUrl": "https://app.ondo.finance/assets/usdy",
     "contentType": "text/html; charset=utf-8",
-    "bytes": 380307,
+    "bytes": 380243,
     "sourceClass": "issuer",
     "assets": [
       "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
@@ -55,10 +63,12 @@
     "text": {
       "kind": "html",
       "chars": 11,
-      "pages": null
+      "pages": null,
+      "sha256": "6125333f7b7883ea92b18cba2020ffb10b2f0137468f9764b3939881a0b0fa7d",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
@@ -74,10 +84,12 @@
     "text": {
       "kind": "text",
       "chars": 1850,
-      "pages": null
+      "pages": null,
+      "sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140",
@@ -89,14 +101,16 @@
     "assets": [
       "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
     ],
-    "discoveredFrom": "https://ylds.com/",
+    "discoveredFrom": "https://www.ylds.com/",
     "text": {
       "kind": "pdf",
       "chars": 184633,
-      "pages": 54
+      "pages": 54,
+      "sha256": "230d054ffa9b5a96de5967cdaf65ddea6f49205c94561b0a149b75fbaa9a9eed",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4",
@@ -116,10 +130,12 @@
     "text": {
       "kind": "html",
       "chars": 3337,
-      "pages": null
+      "pages": null,
+      "sha256": "36d470c1feddf1c30f6962736129e569089cbe32cb33fc1deb9906e86a258a5c",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
@@ -139,13 +155,15 @@
     "text": {
       "kind": "text",
       "chars": 7100,
-      "pages": null
+      "pages": null,
+      "sha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
-    "sha256": "c6eb13272903702485198e0ba2ea31c629fa6248e78b80173816b70076636710",
+    "sha256": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd",
     "url": "https://ondo.finance/",
     "finalUrl": "https://ondo.finance/",
     "contentType": "text/html; charset=utf-8",
@@ -158,10 +176,12 @@
     "text": {
       "kind": "html",
       "chars": 6446,
-      "pages": null
+      "pages": null,
+      "sha256": "1763cdee59b81736de664fd64c2faed453404e4fef55de278f099ae93c5b7bcb",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
@@ -177,13 +197,15 @@
     "text": {
       "kind": "text",
       "chars": 831,
-      "pages": null
+      "pages": null,
+      "sha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
-    "sha256": "9695d961bbba9f1847aa9670464b0df2206160ba3784ff6906aa3cca168d2f22",
+    "sha256": "59a231da526c87e044535606679ac46149b404ef8222341d78c4ca994ca8beb6",
     "url": "https://ondo.finance/usdy",
     "finalUrl": "https://ondo.finance/usdy",
     "contentType": "text/html; charset=utf-8",
@@ -196,10 +218,12 @@
     "text": {
       "kind": "html",
       "chars": 14478,
-      "pages": null
+      "pages": null,
+      "sha256": "540491dc4e072019e32fd8abf7c87f722acf2ab6af8ec558146b3048f100d07f",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
@@ -229,10 +253,12 @@
     "text": {
       "kind": "text",
       "chars": 16201,
-      "pages": null
+      "pages": null,
+      "sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "1a1ed14b15e67a5c6680ba1ae1a1281206738fe889fdba64cbb308f7fc6af715",
@@ -248,10 +274,12 @@
     "text": {
       "kind": "html",
       "chars": 53,
-      "pages": null
+      "pages": null,
+      "sha256": "05687c3fe491cf695af3eadfa10afd178a6073d97d2e6780a653d24491ce17c1",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "cf83d61cdc9752b752a58b7be44de16eb09eda99d6aba0f29445243af40e8e4a",
@@ -266,11 +294,13 @@
     "discoveredFrom": null,
     "text": {
       "kind": "pdf",
-      "chars": 250668,
-      "pages": 79
+      "chars": 250605,
+      "pages": 79,
+      "sha256": "35f35db74e4d5f08b17be282a0f36b8b9aa73444aa440ab3af497cd73d4d162f",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "b6e802e66c624445342ff685d18116fd18d31eab600720c0834aa6d960e83ca3",
@@ -286,10 +316,12 @@
     "text": {
       "kind": "pdf",
       "chars": 202609,
-      "pages": 77
+      "pages": 77,
+      "sha256": "d3254bd1783428de497971662835b9632819a41e5650c1d03c0bdb407cfd92da",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "369417c50d60c78b792846223ab4fba68efe29e3c975c7a2858b53a5a79eb8a3",
@@ -308,10 +340,12 @@
     "text": {
       "kind": "html",
       "chars": 29,
-      "pages": null
+      "pages": null,
+      "sha256": "50e44fa316ab203478b39ae68fbd6f84ce81f5c18075705865b452b3635ab8ee",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5",
@@ -330,10 +364,12 @@
     "text": {
       "kind": "text",
       "chars": 4274,
-      "pages": null
+      "pages": null,
+      "sha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "369417c50d60c78b792846223ab4fba68efe29e3c975c7a2858b53a5a79eb8a3",
@@ -349,10 +385,12 @@
     "text": {
       "kind": "html",
       "chars": 29,
-      "pages": null
+      "pages": null,
+      "sha256": "50e44fa316ab203478b39ae68fbd6f84ce81f5c18075705865b452b3635ab8ee",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "95d9a389e3797514144c8adaac6b77829e24bac80d15431eafeadf2c60dc8ac7",
@@ -375,10 +413,12 @@
     "text": {
       "kind": "xml",
       "chars": 175079,
-      "pages": null
+      "pages": null,
+      "sha256": "95d9a389e3797514144c8adaac6b77829e24bac80d15431eafeadf2c60dc8ac7",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "a71a0cf67b6a069a5cc475fe1b7aea1fe0a01d556281b9962d2e125ea6e0ce26",
@@ -401,10 +441,12 @@
     "text": {
       "kind": "xml",
       "chars": 78222,
-      "pages": null
+      "pages": null,
+      "sha256": "a71a0cf67b6a069a5cc475fe1b7aea1fe0a01d556281b9962d2e125ea6e0ce26",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "e428534e3de9d95cca4204e33d264744290b039be0da41eed0b1b8eadf4957f7",
@@ -427,10 +469,12 @@
     "text": {
       "kind": "xml",
       "chars": 111718,
-      "pages": null
+      "pages": null,
+      "sha256": "e428534e3de9d95cca4204e33d264744290b039be0da41eed0b1b8eadf4957f7",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "1f9329bbc2d97cb21c88924d99543f47b6227f685815d7b598f12f6e288ce9d3",
@@ -453,10 +497,12 @@
     "text": {
       "kind": "xml",
       "chars": 34896,
-      "pages": null
+      "pages": null,
+      "sha256": "1f9329bbc2d97cb21c88924d99543f47b6227f685815d7b598f12f6e288ce9d3",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "321f53f1f6e98543a80248b8bbb55f28d120aebe7141cebe90676641387cf4e4",
@@ -479,10 +525,12 @@
     "text": {
       "kind": "xml",
       "chars": 68378,
-      "pages": null
+      "pages": null,
+      "sha256": "321f53f1f6e98543a80248b8bbb55f28d120aebe7141cebe90676641387cf4e4",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "85a6a30b190441b2d0a40f6ef83b4d40dd9bedc68e6c12da25cb388b254626b2",
@@ -505,10 +553,12 @@
     "text": {
       "kind": "xml",
       "chars": 32117,
-      "pages": null
+      "pages": null,
+      "sha256": "85a6a30b190441b2d0a40f6ef83b4d40dd9bedc68e6c12da25cb388b254626b2",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "bd1d729f87172416a13d0d0355519e171626fb8f27230f426ed3a40e170e65ae",
@@ -531,10 +581,12 @@
     "text": {
       "kind": "xml",
       "chars": 35503,
-      "pages": null
+      "pages": null,
+      "sha256": "bd1d729f87172416a13d0d0355519e171626fb8f27230f426ed3a40e170e65ae",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "a362bc40a93d373df37c088d1525281bce0e46e12fa0271affdb567162787f38",
@@ -557,10 +609,12 @@
     "text": {
       "kind": "xml",
       "chars": 29325,
-      "pages": null
+      "pages": null,
+      "sha256": "a362bc40a93d373df37c088d1525281bce0e46e12fa0271affdb567162787f38",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "c2cea8119b0cda0cecef3c0a0a682b69cb1b9a68ccba381ced6f25ae268933be",
@@ -583,10 +637,12 @@
     "text": {
       "kind": "xml",
       "chars": 48102,
-      "pages": null
+      "pages": null,
+      "sha256": "c2cea8119b0cda0cecef3c0a0a682b69cb1b9a68ccba381ced6f25ae268933be",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "761950a5987c38d55628fe3a15f1f08df87e52e812f1d0204a9161714423a9ee",
@@ -609,10 +665,12 @@
     "text": {
       "kind": "xml",
       "chars": 24595,
-      "pages": null
+      "pages": null,
+      "sha256": "761950a5987c38d55628fe3a15f1f08df87e52e812f1d0204a9161714423a9ee",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "5c2ea0b70913a2041c21c789b6faf4533eb8f4241633e85c7ce7c7aa3ea5ea06",
@@ -635,10 +693,12 @@
     "text": {
       "kind": "xml",
       "chars": 136553,
-      "pages": null
+      "pages": null,
+      "sha256": "5c2ea0b70913a2041c21c789b6faf4533eb8f4241633e85c7ce7c7aa3ea5ea06",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "095f5580b649a9d255d3227a038436d76919558fdfab92d29aeffd0b8641e32a",
@@ -661,10 +721,12 @@
     "text": {
       "kind": "xml",
       "chars": 29387,
-      "pages": null
+      "pages": null,
+      "sha256": "095f5580b649a9d255d3227a038436d76919558fdfab92d29aeffd0b8641e32a",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "1053daef26cb5c7319688050f188a3fa6e2adc07564ae541138adfd78687578c",
@@ -687,10 +749,12 @@
     "text": {
       "kind": "xml",
       "chars": 482347,
-      "pages": null
+      "pages": null,
+      "sha256": "1053daef26cb5c7319688050f188a3fa6e2adc07564ae541138adfd78687578c",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "c01c7322df22c21694a4ad2531ca52935c0e912c96f4fbc695e1cefad1d30c65",
@@ -713,10 +777,12 @@
     "text": {
       "kind": "xml",
       "chars": 129198,
-      "pages": null
+      "pages": null,
+      "sha256": "c01c7322df22c21694a4ad2531ca52935c0e912c96f4fbc695e1cefad1d30c65",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "747c1dace2d4083435e96a948306c006d1ede8c27ad4714c7b945e4af9acbc2c",
@@ -739,13 +805,15 @@
     "text": {
       "kind": "xml",
       "chars": 57097,
-      "pages": null
+      "pages": null,
+      "sha256": "747c1dace2d4083435e96a948306c006d1ede8c27ad4714c7b945e4af9acbc2c",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
-    "sha256": "a2844a6f7e50d44f4fbf72caa8f2250c209966c0a51d2aa9258def871280f8f4",
+    "sha256": "3149a2caca84bf87aeb1cd332ebaec2a699e8405cc0c3c85660c8cd70b8c0301",
     "url": "https://www.wisdomtreeprime.com/attestations/",
     "finalUrl": "https://www.wisdomtreeprime.com/attestations/",
     "contentType": "text/html; charset=UTF-8",
@@ -758,10 +826,12 @@
     "text": {
       "kind": "html",
       "chars": 2092,
-      "pages": null
+      "pages": null,
+      "sha256": "0a3a388634ffcbf2f3f934a52c1975a4aed5330f7d0f200cfed8986b776b86d3",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571",
@@ -777,10 +847,12 @@
     "text": {
       "kind": "html",
       "chars": 14262,
-      "pages": null
+      "pages": null,
+      "sha256": "67bbfdb612ff73492d91e503309d7c4c48660a383933549afda7f847797a1806",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81",
@@ -796,10 +868,12 @@
     "text": {
       "kind": "text",
       "chars": 2629,
-      "pages": null
+      "pages": null,
+      "sha256": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
     "sha256": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571",
@@ -815,9 +889,11 @@
     "text": {
       "kind": "html",
       "chars": 14262,
-      "pages": null
+      "pages": null,
+      "sha256": "67bbfdb612ff73492d91e503309d7c4c48660a383933549afda7f847797a1806",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T12:42:10.639Z",
-    "lastSeenAt": "2026-10-06T12:42:10.639Z"
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
   }
 ]

@@ -1,6 +1,6 @@
 import dns from "node:dns";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fetchUntrustedText, isBlockedAddress, isSafeDomain, isSameOrSubdomain, normalizeDomain, publicOnlyLookup } from "./http";
+import { fetchUntrustedBytes, fetchUntrustedText, isBlockedAddress, isSafeDomain, isSameOrSubdomain, normalizeDomain, publicOnlyLookup } from "./http";
 import { fakeTransport } from "./testing";
 
 describe("isSafeDomain", () => {
@@ -81,6 +81,19 @@ describe("isBlockedAddress", () => {
 
 describe("fetchUntrustedText", () => {
   const URL_A = "https://a.example.com/file";
+
+  it("returns the exact bytes (not re-encoded text) and merges extra headers", async () => {
+    const raw = new Uint8Array([0xef, 0xbb, 0xbf, 0x41, 0xff, 0x00, 0x42]); // BOM, A, invalid UTF-8, NUL, B
+    let sent: Record<string, string> = {};
+    const transport = (async (_url: URL, init: { headers: Record<string, string> }) => {
+      sent = init.headers;
+      return new Response(raw, { status: 200, headers: { "content-type": "application/octet-stream" } });
+    }) as unknown as Parameters<typeof fetchUntrustedBytes>[1]["transport"];
+    const r = await fetchUntrustedBytes(URL_A, { maxBytes: 100, transport, headers: { "User-Agent": "Custom ua@example.com", Accept: "*/*" } });
+    expect(Array.from(r.bytes)).toEqual(Array.from(raw));
+    expect(r.contentType).toBe("application/octet-stream");
+    expect(sent).toEqual({ "User-Agent": "Custom ua@example.com", Accept: "*/*" });
+  });
 
   it("returns the text and the final URL", async () => {
     const { transport } = fakeTransport({ [URL_A]: { body: "hello" } });

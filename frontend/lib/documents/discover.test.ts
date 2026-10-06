@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isImageUrl, isOnOfficialDomain, pickDocumentLinks, seedsFor, tomlDocumentUrls } from "./discover";
+import { isImageUrl, isOnOfficialDomain, issuerRedirectPolicy, pickDocumentLinks, seedsFor, tomlDocumentUrls } from "./discover";
 
 const PAGE = "https://ylds.com/";
 const links = (html: string) => pickDocumentLinks(html, PAGE, "ylds.com");
@@ -64,5 +64,21 @@ describe("toml and pinned seeds", () => {
     expect(isOnOfficialDomain("https://ondo.finance.evil.com/x", "ondo.finance")).toBe(false);
     expect(isOnOfficialDomain("http://ondo.finance/x", "ondo.finance")).toBe(false);
     expect(isImageUrl("https://a.com/logo.PNG")).toBe(true);
+  });
+});
+
+describe("issuerRedirectPolicy", () => {
+  const allow = issuerRedirectPolicy("ylds.com");
+
+  it("allows www swaps and moves onto the official domain", () => {
+    expect(allow("ylds.com", "www.ylds.com")).toBe(true);
+    expect(allow("cdn.figure.com", "www.cdn.figure.com")).toBe(true);
+    expect(allow("cdn.figure.com", "docs.ylds.com")).toBe(true);
+  });
+
+  it("refuses third-party and lookalike targets", () => {
+    expect(allow("ylds.com", "evil.com")).toBe(false);
+    expect(allow("cdn.figure.com", "other.figure.com")).toBe(false);
+    expect(allow("ylds.com", "ylds.com.evil.com")).toBe(false);
   });
 });

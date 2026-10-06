@@ -44,8 +44,8 @@
         "page": 1
       }
     ],
-    "verified": 1,
-    "dropped": 1,
+    "verified": 0,
+    "dropped": 2,
     "tokens": 2676,
     "error": null,
     "model": "gemini-flash-lite-latest",

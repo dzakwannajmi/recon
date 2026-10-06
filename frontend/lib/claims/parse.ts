@@ -47,26 +47,43 @@ export function parseNumberToken(token: string, locale: Locale = null): number |
   } else {
     normalized = t;
   }
+  // "000" or "0123" is a fragment of a longer number, not a value.
+  if (normalized !== null && /^0\d/.test(normalized)) return null;
   return normalized === null ? null : Number(normalized);
 }
 
 const CURRENCY_CODES = /^(USD|EUR|GBP|CHF|JPY|MXN|BRL|KRW|SGD|HKD|CAD|AUD|USDC)$/;
 
-/** Scale written right after the number, inside the span. */
+/** Scale written right after the number, inside the span. Single letters are case-sensitive; words are not. */
 const ATTACHED_SCALE: [RegExp, number][] = [
   [/^(T|tn)(?![A-Za-z-])/, 1e12],
   [/^(B|bn)(?![A-Za-z-])/, 1e9],
   [/^(M|m|mn|mm)(?![A-Za-z-])/, 1e6],
   [/^(K|k)(?![A-Za-z-])/, 1e3],
 ];
+/** Spaced scale words. In German, "Billion" is 10^12 and "Milliarde" 10^9 (handled in scaleWord). */
 const SPACED_SCALE: [RegExp, number][] = [
-  [/^\s+(trillions?|tn)(?![A-Za-z])/i, 1e12],
+  [/^\s+(trillions?|tn|billionen)(?![A-Za-z])/i, 1e12],
   [/^\s+(billions?|bn|mrd\.?|milliarden?)(?![A-Za-z])/i, 1e9],
   [/^\s+(millions?|mln|mn|mio\.?|millionen)(?![A-Za-z])/i, 1e6],
-  [/^\s+(thousands?|tsd\.?)(?![A-Za-z])/i, 1e3],
+  [/^\s+(thousands?|tsd\.?|tausend)(?![A-Za-z])/i, 1e3],
 ];
-/** Any scale word or suffix that may follow a number in the document (for "scale omitted" checks). */
-export const FOLLOWING_SCALE = /^(\s*(T|tn|B|bn|M|m|mn|mm|K|k)(?![A-Za-z])|\s+(trillions?|billions?|millions?|thousands?|mln|mio\.?|mrd\.?|tsd\.?|millionen|milliarden?)(?![A-Za-z]))/;
+
+function spacedScale(after: string, locale: Locale) {
+  if (locale === "de" && /^\s+billion(?![A-Za-z])/i.test(after)) return 1e12;
+  return SPACED_SCALE.find(([re]) => re.test(after))?.[1] ?? null;
+}
+
+const SCALE_LETTER_AFTER = /^\s*(T|tn|B|bn|M|m|mn|mm|K|k)(?![A-Za-z])/;
+const SCALE_WORD_AFTER = /^\s+(trillions?|billions?|billionen|millions?|thousands?|tausend|mln|mio\.?|mrd\.?|tsd\.?|millionen|milliarden?|lakh|crore|mill\.?)(?![A-Za-z])/i;
+
+/** True when the document text right after an amount holds a scale (so a value without it would be wrong). */
+export function followsScale(text: string) {
+  return SCALE_LETTER_AFTER.test(text) || SCALE_WORD_AFTER.test(text);
+}
+
+/** Words that may follow a number in an amount span without changing its value. */
+const UNIT_WORD = /^(USD|EUR|GBP|CHF|JPY|MXN|BRL|KRW|SGD|HKD|CAD|AUD|USDC|shares?|tokens?|units?|bonds?|notes?|certificates?|stück|anteile?|schuldverschreibungen|wertpapiere|ounces?|oz|holders?|investors?|of|per|each|je|jeweils)$/i;
 
 const NUMBER = /\d[\d.,  ']*\d|\d/g;
 
@@ -90,15 +107,21 @@ export function parseAmount(text: string, locale: Locale = null): number | null 
   if (base === null) return null;
 
   let scale = 1;
+  let rest = after;
   const attached = ATTACHED_SCALE.find(([re]) => re.test(after));
-  const spaced = SPACED_SCALE.find(([re]) => re.test(after));
-  if (attached) scale = attached[1];
-  else if (spaced) scale = spaced[1];
-  else {
-    const word = /^\s*([A-Za-z]{1,3})\.?(?=$|[\s\-.,;:)])/.exec(after)?.[1];
-    if (word && !CURRENCY_CODES.test(word)) return null; // "5 m", "100 T-Bills", "100,000 B shares": ambiguous
-    if (/^[A-Za-z]/.test(after)) return null; // letters glued to the number: "5x", "100abc"
+  const spaced = spacedScale(after, locale);
+  if (attached) {
+    scale = attached[1];
+    rest = after.replace(attached[0], "");
+  } else if (spaced !== null) {
+    scale = spaced;
+    rest = after.replace(/^\s+\S+/, "");
+  } else if (/^[A-Za-z]/.test(after)) {
+    return null; // letters glued to the number: "5x", "100abc"
   }
+  // The next word must be a known unit or currency; an unknown word could be a scale ("5 crore", "5 m").
+  const word = /^\s*([\p{L}]+)\.?/u.exec(rest)?.[1];
+  if (word && !UNIT_WORD.test(word)) return null;
   return Math.round(base * scale * 1e7) / 1e7;
 }
 

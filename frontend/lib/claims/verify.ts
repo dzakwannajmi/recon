@@ -17,13 +17,14 @@
  */
 import { PAGE_BREAK } from "../documents/extract";
 import { CLAIM_FIELDS, FIELD_GATES, type ClaimField, type ProposedClaim } from "./fields";
-import { FOLLOWING_SCALE, parseAmount, parseDate, type Locale } from "./parse";
+import { followsScale, parseAmount, parseDate, type Locale } from "./parse";
 
 export const MIN_QUOTE_CHARS = 20;
 export const MAX_QUOTE_CHARS = 600;
 export const MAX_VALUE_CHARS = 120;
 /** How far before a quote an asset code or name may appear to attribute it. */
 export const ATTRIBUTION_WINDOW = 400;
+const TABLE_SCALE = /\bin (thousands|millions|billions)\b|\((?:\$|USD|EUR)?\s*000s?\)|\bin tausend\b|\bin (mio|mrd)\b|in tsd/i;
 
 export type DropReason =
   | "quote_too_short"
@@ -87,6 +88,8 @@ export function findQuoteOffsets(document: { value: string }, quote: string) {
 
 const isWordChar = (c: string | undefined) => c !== undefined && /[\p{L}\p{N}]/u.test(c);
 const isDigit = (c: string | undefined) => c !== undefined && /\d/.test(c);
+/** Characters that join digit groups: "1,234", "1.234", "1 234", "1'234". */
+const isDigitSeparator = (c: string | undefined) => c === "." || c === "," || c === " " || c === "'";
 
 /** First index of `needle` in `hay` as a whole token: no letter or digit, and no digit separator, on either side. */
 export function findToken(hay: string, needle: string) {
@@ -99,8 +102,8 @@ export function findToken(hay: string, needle: string) {
     const after = hay[end];
     if (startsWord && isWordChar(before)) continue;
     if (endsWord && isWordChar(after)) continue;
-    if (isDigit(needle[0]) && (before === "." || before === ",") && isDigit(hay[i - 2])) continue;
-    if (isDigit(needle.at(-1)) && (after === "." || after === ",") && isDigit(hay[end + 1])) continue;
+    if (isDigit(needle[0]) && isDigitSeparator(before) && isDigit(hay[i - 2])) continue;
+    if (isDigit(needle.at(-1)) && isDigitSeparator(after) && isDigit(hay[end + 1])) continue;
     return i;
   }
   return -1;
@@ -118,15 +121,22 @@ const CURRENCY_SYMBOL: Record<string, string> = { $: "USD", "€": "EUR", "£": 
 const CURRENCY_CODE = /\b(USD|EUR|GBP|CHF|JPY|MXN|BRL|KRW|SGD|HKD|CAD|AUD)\b/;
 
 /**
- * The currency of an amount, read from the document around the value: an ISO
- * code within a few characters, or a symbol right before the number ($ is
+ * The currency of an amount, read from the document at the value: an ISO
+ * code inside the span, directly before the number, or directly after the
+ * value (and its scale word); else a symbol right before the number ($ is
  * USD only when no letters are glued to it, so A$, C$ and HK$ give null).
  */
 export function currencyAround(text: string, start: number, end: number): string | null {
-  const code = CURRENCY_CODE.exec(text.slice(Math.max(0, start - 6), Math.min(text.length, end + 6)));
-  if (code) return code[1];
-  const firstDigit = text.slice(start, end).search(/\d/);
+  const span = text.slice(start, end);
+  const inSpan = CURRENCY_CODE.exec(span);
+  if (inSpan) return inSpan[1];
+  const firstDigit = span.search(/\d/);
   const numberStart = firstDigit === -1 ? start : start + firstDigit;
+  const before = /\b(USD|EUR|GBP|CHF|JPY|MXN|BRL|KRW|SGD|HKD|CAD|AUD)\s*$/.exec(text.slice(Math.max(0, numberStart - 6), numberStart));
+  if (before) return before[1];
+  // Only a scale word may sit between the value and a following code ("5 million USD").
+  const after = /^\s*(?:(?:trillions?|billions?|millions?|thousands?|mio\.?|mrd\.?|bn|mn|tn|[BMKT])\s+)?(USD|EUR|GBP|CHF|JPY|MXN|BRL|KRW|SGD|HKD|CAD|AUD)\b/i.exec(text.slice(end, end + 24));
+  if (after) return after[1].toUpperCase();
   const symbol = /([A-Za-z]*)([$€£])\s*$/.exec(text.slice(Math.max(0, numberStart - 6), numberStart));
   if (!symbol || symbol[1]) return null;
   return CURRENCY_SYMBOL[symbol[2]];
@@ -142,7 +152,19 @@ export type VerifyContext = {
   assets: AssetRef[];
   /** The document is about one asset only (its prospectus or pinned page). */
   dedicated: boolean;
+  /** Other tickers an amount could belong to (universe codes, XLM, ...): a quote naming one of them is not about the claimed asset. */
+  knownCodes?: string[];
 };
+
+const TICKER_STOPWORDS = new Set(["USD", "EUR", "GBP", "CHF", "NAV", "APY", "TVL", "AUM", "SEC", "LLC", "INC", "FDIC", "ETF", "ISIN", "USA", "EDT", "EST", "UTC", "PDF", "KYC", "AML"]);
+
+/** Tickers named in a quote: known codes as whole words, and any "(ABC)" in parentheses. */
+function tickersIn(quote: string, knownCodes: string[]) {
+  const found = new Set<string>();
+  for (const code of knownCodes) if (new RegExp(`(?<![A-Za-z0-9])${code}(?![A-Za-z0-9])`).test(quote)) found.add(code);
+  for (const m of quote.matchAll(/\(([A-Z]{2,6})\)/g)) if (!TICKER_STOPWORDS.has(m[1])) found.add(m[1]);
+  return found;
+}
 
 export type VerifiedValue = {
   value: number | string;
@@ -169,8 +191,9 @@ function mentionIndex(context: string, asset: AssetRef) {
   let last = -1;
   for (const m of context.matchAll(codeRe)) last = m.index!;
   if (asset.name) {
-    const at = norm(context).lastIndexOf(norm(asset.name));
-    if (at !== -1) last = Math.max(last, at);
+    const normalized = normalizeForMatch(context);
+    const at = normalized.value.lastIndexOf(norm(asset.name));
+    if (at !== -1) last = Math.max(last, normalized.map[at]);
   }
   return last;
 }
@@ -192,7 +215,11 @@ export function verifyClaim(claim: ProposedClaim, ctx: VerifyContext): { ok: tru
   const valueSpan = spanInQuote(ctx, quoteAt, quoteNorm.length, claim.value_text);
   if (!valueSpan) return { ok: false, reason: "value_not_in_quote" };
   const valueText = ctx.text.slice(valueSpan.start, valueSpan.end);
-  if (kind === "amount" && FOLLOWING_SCALE.test(ctx.text.slice(valueSpan.end, valueSpan.end + 14))) {
+  if (kind === "amount" && followsScale(ctx.text.slice(valueSpan.end, valueSpan.end + 14))) {
+    return { ok: false, reason: "value_scale_omitted" };
+  }
+  // Amounts under a "(in thousands)" style header are scaled by a factor the quote doesn't show.
+  if (kind === "amount" && TABLE_SCALE.test(ctx.text.slice(Math.max(0, quoteStart - 300), quoteEnd))) {
     return { ok: false, reason: "value_scale_omitted" };
   }
   const value = kind === "amount" ? parseAmount(valueText, ctx.locale) : kind === "date" ? parseDate(valueText) : valueText.replace(/\s+/g, " ").trim();
@@ -209,6 +236,16 @@ export function verifyClaim(claim: ProposedClaim, ctx: VerifyContext): { ok: tru
   const quoteText = ctx.text.slice(quoteStart, quoteEnd);
   const gate = FIELD_GATES[field];
   if (!gate.require.test(quoteText) || gate.reject?.test(quoteText)) return { ok: false, reason: "field_gate" };
+
+  if (kind === "amount" && claim.asset_code !== "ISSUER") {
+    // An amount whose quote names another asset is about that asset.
+    const named = tickersIn(quoteText, [...(ctx.knownCodes ?? []), ...ctx.assets.map((a) => a.code)]);
+    named.delete(claim.asset_code);
+    if (named.size > 0) return { ok: false, reason: "attribution_unverified" };
+    // Outside a dedicated document, an amount must name its asset in the quote itself.
+    const claimed = ctx.assets.find((a) => a.code === claim.asset_code);
+    if (!ctx.dedicated && !(claimed && mentionIndex(quoteText, claimed) !== -1)) return { ok: false, reason: "attribution_unverified" };
+  }
 
   if (claim.asset_code !== "ISSUER" && !(ctx.dedicated && ctx.assets.length === 1 && ctx.assets[0].code === claim.asset_code)) {
     // Only text before and inside the quote counts; the closest mention wins.

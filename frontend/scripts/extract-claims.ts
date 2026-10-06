@@ -97,6 +97,7 @@ async function main() {
         assets,
         // A prospectus PDF, or a page pinned in that asset's docs_urls, is about that asset only.
         dedicated: assets.length === 1 && (record.text.kind === "pdf" || pinnedFor(record).includes(record.url)),
+        knownCodes: [...new Set([...universe.map((a) => a.asset_code), "XLM", "USDC", "OUSG", "USTB"])],
       },
     };
   }
@@ -104,7 +105,7 @@ async function main() {
   function save(record: SnapshotRecord, run: ExtractionRun, ctx: VerifyContext) {
     const { claims, dropped } = buildClaims({
       record, docKey: run.doc_key, officialDomains: officialDomainsOf(record), proposals: run.proposals,
-      verify: (claim) => verifyClaim(claim, ctx), model: run.model, promptVersion: run.prompt_version, now,
+      verify: (claim) => verifyClaim(claim, ctx), model: run.model, promptVersion: run.prompt_version, now: run.at,
     });
     store.record({ ...run, verified: claims.length, dropped: dropped.length }, claims, dropped);
     return { claims, dropped };

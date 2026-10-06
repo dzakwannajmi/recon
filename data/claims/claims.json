@@ -195,7 +195,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "ec463d0490ac0f77",
@@ -217,7 +217,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "8fdfd3b9eccab0b3",
@@ -242,28 +242,6 @@
     "extracted_at": "2026-10-06T21:51:10.673Z"
   },
   {
-    "id": "930db45dbc31b8c9",
-    "doc_key": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
-    "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
-    "field": "nav_per_unit",
-    "field_source": "llm",
-    "value": 1.1487,
-    "value_text": "$1.1487",
-    "unit": "USD",
-    "as_of": null,
-    "quote": "Price\n$1.1487\n+$0.0003 today",
-    "source_url": "https://ondo.finance/",
-    "source_class": "issuer",
-    "page": null,
-    "snapshot_sha256": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd",
-    "text_sha256": "1763cdee59b81736de664fd64c2faed453404e4fef55de278f099ae93c5b7bcb",
-    "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1",
-    "model": "gemini-flash-lite-latest",
-    "prompt_version": "claims-v3",
-    "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
-  },
-  {
     "id": "601d485967db80f1",
     "doc_key": "59a231da526c87e044535606679ac46149b404ef8222341d78c4ca994ca8beb6|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
     "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
@@ -283,7 +261,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "0e102c089736b368",
@@ -305,7 +283,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "2087c8203d716853",
@@ -327,7 +305,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "20e09e81dd7eae7f",
@@ -349,7 +327,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "2ae04fb6ef123054",
@@ -371,7 +349,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "62a93c87b3caf51b",
@@ -393,7 +371,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "6f846b9040a5b54f",
@@ -415,7 +393,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "8d444aee4d900ca2",
@@ -437,7 +415,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "8f1266ee083db24a",
@@ -459,7 +437,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "b2899e1495d329c6",
@@ -481,7 +459,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "ea6e856c902687de",
@@ -503,7 +481,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "fe232f0190a1e6ad",
@@ -525,7 +503,7 @@
     "model": "gemini-flash-lite-latest",
     "prompt_version": "claims-v3",
     "verified": true,
-    "extracted_at": "2026-10-06T21:50:50.032Z"
+    "extracted_at": "2026-10-06T21:50:06.460Z"
   },
   {
     "id": "1996dbac64f8cc7e",

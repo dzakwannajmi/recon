@@ -1,0 +1,29 @@
+# dependencies & build output
+node_modules/
+.next/
+out/
+dist/
+target/
+*.tsbuildinfo
+next-env.d.ts
+
+# secrets & wallets
+.env
+.env.*
+!.env.example
+.agent-wallet.json
+*.secret
+*.pem
+
+# local-only build docs and agent automation (public docs are written separately)
+CLAUDE.md
+internal/
+.claude/
+
+# OS & editors
+.DS_Store
+.vscode/
+.idea/
+
+# local runtime state
+.cache/

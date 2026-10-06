@@ -84,6 +84,13 @@ describe("decideIdentity", () => {
     expect(decideIdentity({ ...BASE, tomlParseMode: "strict" }).reason).not.toMatch(/fallback/);
   });
 
+  it("only warns when a broken toml read by the fallback parser does not show the issuer", () => {
+    const r = decideIdentity({ ...BASE, tomlListsAccount: false, tomlParseMode: "lenient" });
+    expect(r.status).toBe("toml_invalid");
+    expect(r.severity).toBe("WARNING");
+    expect(decideIdentity({ ...BASE, tomlListsAccount: false, tomlParseMode: "strict" }).severity).toBe("CRITICAL");
+  });
+
   it("accepts any of several pinned domains", () => {
     const r = decideIdentity({ ...BASE, homeDomain: "etherfuse.com", officialDomains: ["other.com", "etherfuse.com"], pinnedDomains: ["other.com", "etherfuse.com"] });
     expect(r.status).toBe("verified");

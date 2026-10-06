@@ -25,6 +25,7 @@ export type IdentityStatus =
   | "invalid_home_domain" // home_domain is not a valid public domain name
   | "issuer_not_found" // no such account on mainnet
   | "toml_unreachable" // could not fetch or parse stellar.toml
+  | "toml_invalid" // the toml is not valid TOML and the fallback parser did not find the issuer
   | "unpinned"; // the toml lists the issuer, but no official domain is pinned for this code yet
 
 export type IdentityInput = {
@@ -56,6 +57,7 @@ const SEVERITY: Record<IdentityStatus, Severity | null> = {
   issuer_not_found: "CRITICAL",
   subdomain_unpinned: "WARNING",
   toml_unreachable: "WARNING",
+  toml_invalid: "WARNING", // a heuristic read of a broken file can't prove absence
   unpinned: "WARNING",
 };
 
@@ -81,7 +83,10 @@ export function decideIdentity(input: IdentityInput): IdentityResult {
     return done("domain_mismatch", `The issuer's home_domain ${home} does not match the official domain ${official} pinned for this asset`);
   }
   if (input.tomlListsAccount === undefined) return done("toml_unreachable", `Could not read stellar.toml at ${home}`);
-  if (!input.tomlListsAccount) return done("not_listed_in_toml", `The stellar.toml at ${home} does not list this issuer account${lenient}`);
+  if (!input.tomlListsAccount && lenient) {
+    return done("toml_invalid", `The stellar.toml at ${home} is not valid TOML, and the fallback parser did not find this issuer account in it`);
+  }
+  if (!input.tomlListsAccount) return done("not_listed_in_toml", `The stellar.toml at ${home} does not list this issuer account`);
   if (input.officialDomains.length === 0) {
     return done("unpinned", `The stellar.toml at ${home} lists this issuer, but no official domain is pinned for this asset yet${lenient}`);
   }

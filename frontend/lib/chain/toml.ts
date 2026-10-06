@@ -79,6 +79,11 @@ function stripComment(line: string) {
   return line;
 }
 
+/** Inside ACCOUNTS, cut at any `#`: account IDs never contain one, and an unclosed quote must not hide a comment. */
+function beforeHash(text: string) {
+  return text.split("#")[0];
+}
+
 /**
  * Line-based fallback for real-world tomls with small syntax errors (e.g. a
  * missing closing quote). Reads only what identity checks need: ACCOUNTS,
@@ -101,20 +106,21 @@ export function parseTomlLenient(text: string): StellarToml {
       if (raw.includes(multiline)) multiline = null;
       continue;
     }
-    const delimiter = ['"""', "'''"].find((d) => raw.includes(d));
+    const line = stripComment(raw).trim();
+    const delimiter = ['"""', "'''"].find((d) => line.includes(d));
     if (delimiter) {
-      if ((raw.split(delimiter).length - 1) % 2 === 1) multiline = delimiter;
+      if ((line.split(delimiter).length - 1) % 2 === 1) multiline = delimiter;
       continue;
     }
-    const line = stripComment(raw).trim();
     if (!line) continue;
 
     if (inAccounts) {
       if (line.startsWith("[") || KEY_VALUE.test(line)) {
         inAccounts = false; // unclosed array: stop at the next table or key
       } else {
-        accounts.push(...(line.match(ACCOUNT_ID) ?? []));
-        if (line.includes("]")) inAccounts = false;
+        const listed = beforeHash(line);
+        accounts.push(...(listed.match(ACCOUNT_ID) ?? []));
+        if (listed.includes("]")) inAccounts = false;
         continue;
       }
     }
@@ -127,15 +133,16 @@ export function parseTomlLenient(text: string): StellarToml {
     if (!kv) continue;
     const [, key, rest] = kv;
     if (section === "root" && key === "ACCOUNTS") {
-      accounts.push(...(rest.match(ACCOUNT_ID) ?? []));
-      inAccounts = !rest.includes("]");
+      const listed = beforeHash(rest);
+      accounts.push(...(listed.match(ACCOUNT_ID) ?? []));
+      inAccounts = !listed.includes("]");
       continue;
     }
     const value = /^"([^"]*)"/.exec(rest)?.[1];
     if (value === undefined) continue;
     if (section === "currency") {
       const current = currencies[currencies.length - 1];
-      if (key in current.entry && current.entry[key] !== value) current.conflict = true;
+      if (Object.hasOwn(current.entry, key) && current.entry[key] !== value) current.conflict = true;
       current.entry[key] = value;
     } else if (section === "documentation") {
       documentation[key] = value;

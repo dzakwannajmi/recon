@@ -113,6 +113,21 @@ describe("parseStellarToml", () => {
       expect(tomlListsCode(t, OTHER, "USDY")).toBe(true);
     });
 
+    it("ignores a comment after an account with a missing closing quote", () => {
+      const t = lenient(`ACCOUNTS=[\n"${OTHER}, # retired: ${ISSUER}\n]\n`);
+      expect(t.ACCOUNTS).toEqual([OTHER]);
+    });
+
+    it("does not start a multi-line block from a comment", () => {
+      const t = lenient(`# use """ blocks for long text\nACCOUNTS=["${ISSUER}"]\n`);
+      expect(t.ACCOUNTS).toEqual([ISSUER]);
+    });
+
+    it("treats inherited object keys as ordinary keys", () => {
+      const t = lenient(`[[CURRENCIES]]\ncode="BENJI"\nissuer="${ISSUER}"\nconstructor="x"\n`);
+      expect(tomlListsCode(t, ISSUER, "BENJI")).toBe(true);
+    });
+
     it("keeps a # inside a quoted value", () => {
       const t = lenient(`[DOCUMENTATION]\nORG_NAME="Fund #1"\n`);
       expect((t.DOCUMENTATION as Record<string, string>).ORG_NAME).toBe("Fund #1");

@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-06T09:23:13.233Z",
+  "checked_at": "2026-10-06T09:26:43.232Z",
   "results": [
     {
       "asset_code": "BENJI",
@@ -17,7 +17,7 @@
           "franklintempleton.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:13.233Z",
+        "checkedAt": "2026-10-06T09:26:43.233Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
           "https://www.franklintempleton.com/.well-known/stellar.toml"
@@ -119,7 +119,7 @@
           "balance": "207653227.8846331",
           "sharePercent": 39.72
         },
-        "checkedAt": "2026-10-06T09:23:13.248Z",
+        "checkedAt": "2026-10-06T09:26:43.246Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=BENJI&asset_issuer=GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
           "https://horizon.stellar.org/accounts/GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
@@ -144,7 +144,7 @@
           "franklintempleton.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:16.201Z",
+        "checkedAt": "2026-10-06T09:26:46.312Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
           "https://www.franklintempleton.com/.well-known/stellar.toml"
@@ -246,7 +246,7 @@
           "balance": "26358964.1962904",
           "sharePercent": 46.41
         },
-        "checkedAt": "2026-10-06T09:23:16.202Z",
+        "checkedAt": "2026-10-06T09:26:46.313Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=gBENJI&asset_issuer=GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
           "https://horizon.stellar.org/accounts/GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
@@ -271,7 +271,7 @@
           "franklintempleton.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:17.372Z",
+        "checkedAt": "2026-10-06T09:26:47.496Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
           "https://www.franklintempleton.com/.well-known/stellar.toml"
@@ -373,7 +373,7 @@
           "balance": "503823.0358549",
           "sharePercent": 38.83
         },
-        "checkedAt": "2026-10-06T09:23:17.373Z",
+        "checkedAt": "2026-10-06T09:26:47.498Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=grBENJI&asset_issuer=GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
           "https://horizon.stellar.org/accounts/GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
@@ -398,7 +398,7 @@
           "franklintempleton.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:18.532Z",
+        "checkedAt": "2026-10-06T09:26:48.680Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
           "https://www.franklintempleton.com/.well-known/stellar.toml"
@@ -500,7 +500,7 @@
           "balance": "14675667.7428823",
           "sharePercent": 60.26
         },
-        "checkedAt": "2026-10-06T09:23:18.532Z",
+        "checkedAt": "2026-10-06T09:26:48.680Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=sgBENJI&asset_issuer=GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
           "https://horizon.stellar.org/accounts/GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
@@ -525,7 +525,7 @@
           "ondo.finance"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:19.717Z",
+        "checkedAt": "2026-10-06T09:26:49.878Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
           "https://ondo.finance/.well-known/stellar.toml"
@@ -571,7 +571,7 @@
           "balance": "353217182.0000000",
           "sharePercent": 75.55
         },
-        "checkedAt": "2026-10-06T09:23:19.718Z",
+        "checkedAt": "2026-10-06T09:26:49.879Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=USDY&asset_issuer=GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
           "https://horizon.stellar.org/accounts/GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
@@ -596,7 +596,7 @@
           "etherfuse.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:20.974Z",
+        "checkedAt": "2026-10-06T09:26:51.100Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
           "https://etherfuse.com/.well-known/stellar.toml"
@@ -610,11 +610,11 @@
         "exists": true,
         "supply": "11513946.4905768",
         "supplyBreakdown": {
-          "authorized": "10437760.0403677",
+          "authorized": "10437759.9833997",
           "authorized_to_maintain_liabilities": "0.0000000",
           "unauthorized": "0.0000000",
           "claimable_balances": "0.0954426",
-          "liquidity_pools": "1170.3041698",
+          "liquidity_pools": "1170.3611378",
           "contracts": "1075016.0505967"
         },
         "authorizedTrustlines": 932,
@@ -642,7 +642,7 @@
           "balance": "9549864.6630000",
           "sharePercent": 82.94
         },
-        "checkedAt": "2026-10-06T09:23:20.975Z",
+        "checkedAt": "2026-10-06T09:26:51.101Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=USTRY&asset_issuer=GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
           "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
@@ -667,7 +667,7 @@
           "etherfuse.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:20.974Z",
+        "checkedAt": "2026-10-06T09:26:51.100Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
           "https://etherfuse.com/.well-known/stellar.toml"
@@ -713,7 +713,7 @@
           "balance": "786608.1482377",
           "sharePercent": 67.17
         },
-        "checkedAt": "2026-10-06T09:23:22.154Z",
+        "checkedAt": "2026-10-06T09:26:52.298Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=TESOURO&asset_issuer=GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
           "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
@@ -738,7 +738,7 @@
           "etherfuse.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:20.974Z",
+        "checkedAt": "2026-10-06T09:26:51.100Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
           "https://etherfuse.com/.well-known/stellar.toml"
@@ -784,7 +784,7 @@
           "balance": "1.0000000",
           "sharePercent": 66.66
         },
-        "checkedAt": "2026-10-06T09:23:23.369Z",
+        "checkedAt": "2026-10-06T09:26:53.497Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=EUROB&asset_issuer=GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
           "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
@@ -809,7 +809,7 @@
           "etherfuse.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:20.974Z",
+        "checkedAt": "2026-10-06T09:26:51.100Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
           "https://etherfuse.com/.well-known/stellar.toml"
@@ -855,7 +855,7 @@
           "balance": "100.0000000",
           "sharePercent": 98.03
         },
-        "checkedAt": "2026-10-06T09:23:24.540Z",
+        "checkedAt": "2026-10-06T09:26:54.672Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=KTB&asset_issuer=GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
           "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
@@ -880,7 +880,7 @@
           "etherfuse.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:20.974Z",
+        "checkedAt": "2026-10-06T09:26:51.100Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
           "https://etherfuse.com/.well-known/stellar.toml"
@@ -926,7 +926,7 @@
           "balance": "1.0000000",
           "sharePercent": 58.82
         },
-        "checkedAt": "2026-10-06T09:23:25.690Z",
+        "checkedAt": "2026-10-06T09:26:55.865Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=GILTS&asset_issuer=GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
           "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
@@ -951,7 +951,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:26.859Z",
+        "checkedAt": "2026-10-06T09:26:57.049Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1005,7 +1005,7 @@
           "balance": "316.7530000",
           "sharePercent": 65.33
         },
-        "checkedAt": "2026-10-06T09:23:26.860Z",
+        "checkedAt": "2026-10-06T09:26:57.049Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=GOLD&asset_issuer=GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
           "https://horizon.stellar.org/accounts/GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
@@ -1030,7 +1030,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:28.712Z",
+        "checkedAt": "2026-10-06T09:26:58.923Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1080,7 +1080,7 @@
           "balance": "803087.5009449",
           "sharePercent": 36.95
         },
-        "checkedAt": "2026-10-06T09:23:28.712Z",
+        "checkedAt": "2026-10-06T09:26:58.924Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=WTGX&asset_issuer=GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
           "https://horizon.stellar.org/accounts/GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
@@ -1105,7 +1105,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:30.023Z",
+        "checkedAt": "2026-10-06T09:27:00.111Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1155,7 +1155,7 @@
           "balance": "1000000.0000000",
           "sharePercent": 98.05
         },
-        "checkedAt": "2026-10-06T09:23:30.024Z",
+        "checkedAt": "2026-10-06T09:27:00.111Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=WTSY&asset_issuer=GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
           "https://horizon.stellar.org/accounts/GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
@@ -1180,7 +1180,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:31.188Z",
+        "checkedAt": "2026-10-06T09:27:01.294Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1230,7 +1230,7 @@
           "balance": "100000.0000000",
           "sharePercent": 99.48
         },
-        "checkedAt": "2026-10-06T09:23:31.188Z",
+        "checkedAt": "2026-10-06T09:27:01.295Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=WTTS&asset_issuer=GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
           "https://horizon.stellar.org/accounts/GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
@@ -1255,7 +1255,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:32.353Z",
+        "checkedAt": "2026-10-06T09:27:02.496Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1305,7 +1305,7 @@
           "balance": "100000.0000000",
           "sharePercent": 98.73
         },
-        "checkedAt": "2026-10-06T09:23:32.353Z",
+        "checkedAt": "2026-10-06T09:27:02.496Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=WTST&asset_issuer=GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
           "https://horizon.stellar.org/accounts/GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
@@ -1330,7 +1330,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:33.680Z",
+        "checkedAt": "2026-10-06T09:27:03.686Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1380,7 +1380,7 @@
           "balance": "100000.0000000",
           "sharePercent": 99.77
         },
-        "checkedAt": "2026-10-06T09:23:33.681Z",
+        "checkedAt": "2026-10-06T09:27:03.687Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=WTLG&asset_issuer=GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
           "https://horizon.stellar.org/accounts/GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
@@ -1405,7 +1405,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:35.008Z",
+        "checkedAt": "2026-10-06T09:27:04.907Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1455,7 +1455,7 @@
           "balance": "1000000.0000000",
           "sharePercent": 53.32
         },
-        "checkedAt": "2026-10-06T09:23:35.009Z",
+        "checkedAt": "2026-10-06T09:27:04.907Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=FLTT&asset_issuer=GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
           "https://horizon.stellar.org/accounts/GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
@@ -1480,7 +1480,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:36.177Z",
+        "checkedAt": "2026-10-06T09:27:06.118Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1530,7 +1530,7 @@
           "balance": "100000.0000000",
           "sharePercent": 98.67
         },
-        "checkedAt": "2026-10-06T09:23:36.177Z",
+        "checkedAt": "2026-10-06T09:27:06.119Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=TIPS&asset_issuer=GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
           "https://horizon.stellar.org/accounts/GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
@@ -1555,7 +1555,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:37.456Z",
+        "checkedAt": "2026-10-06T09:27:07.294Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1605,7 +1605,7 @@
           "balance": "100000.0000000",
           "sharePercent": 78.54
         },
-        "checkedAt": "2026-10-06T09:23:37.456Z",
+        "checkedAt": "2026-10-06T09:27:07.296Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=WTSI&asset_issuer=GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
           "https://horizon.stellar.org/accounts/GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
@@ -1630,7 +1630,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:38.674Z",
+        "checkedAt": "2026-10-06T09:27:08.487Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1680,7 +1680,7 @@
           "balance": "26780.0222829",
           "sharePercent": 73.44
         },
-        "checkedAt": "2026-10-06T09:23:38.674Z",
+        "checkedAt": "2026-10-06T09:27:08.488Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=CRDT&asset_issuer=GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
           "https://horizon.stellar.org/accounts/GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
@@ -1705,7 +1705,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:39.842Z",
+        "checkedAt": "2026-10-06T09:27:09.669Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1755,7 +1755,7 @@
           "balance": "646634.1466581",
           "sharePercent": 69.58
         },
-        "checkedAt": "2026-10-06T09:23:39.843Z",
+        "checkedAt": "2026-10-06T09:27:09.670Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=SPXU&asset_issuer=GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
           "https://horizon.stellar.org/accounts/GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
@@ -1780,7 +1780,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:41.045Z",
+        "checkedAt": "2026-10-06T09:27:10.845Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1830,7 +1830,7 @@
           "balance": "200000.0000000",
           "sharePercent": 84.02
         },
-        "checkedAt": "2026-10-06T09:23:41.045Z",
+        "checkedAt": "2026-10-06T09:27:10.846Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=TECH&asset_issuer=GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
           "https://horizon.stellar.org/accounts/GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
@@ -1855,7 +1855,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:42.222Z",
+        "checkedAt": "2026-10-06T09:27:12.046Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1905,7 +1905,7 @@
           "balance": "33785.1392960",
           "sharePercent": 35.7
         },
-        "checkedAt": "2026-10-06T09:23:42.223Z",
+        "checkedAt": "2026-10-06T09:27:12.046Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=EQTY&asset_issuer=GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
           "https://horizon.stellar.org/accounts/GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
@@ -1930,7 +1930,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:43.384Z",
+        "checkedAt": "2026-10-06T09:27:13.229Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -1980,7 +1980,7 @@
           "balance": "24548.8566425",
           "sharePercent": 58.85
         },
-        "checkedAt": "2026-10-06T09:23:43.385Z",
+        "checkedAt": "2026-10-06T09:27:13.230Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=MODR&asset_issuer=GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
           "https://horizon.stellar.org/accounts/GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
@@ -2005,7 +2005,7 @@
           "wisdomtree.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:44.565Z",
+        "checkedAt": "2026-10-06T09:27:14.415Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
           "https://stellar.wisdomtree.com/.well-known/stellar.toml"
@@ -2055,7 +2055,7 @@
           "balance": "27271.6382121",
           "sharePercent": 62.35
         },
-        "checkedAt": "2026-10-06T09:23:44.566Z",
+        "checkedAt": "2026-10-06T09:27:14.415Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=LNGV&asset_issuer=GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
           "https://horizon.stellar.org/accounts/GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
@@ -2080,7 +2080,7 @@
           "bitbondsto.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:45.829Z",
+        "checkedAt": "2026-10-06T09:27:15.730Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
           "https://bitbondsto.com/.well-known/stellar.toml"
@@ -2126,7 +2126,7 @@
           "balance": "567921.2054286",
           "sharePercent": 21.28
         },
-        "checkedAt": "2026-10-06T09:23:45.830Z",
+        "checkedAt": "2026-10-06T09:27:15.730Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=BB1&asset_issuer=GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
           "https://horizon.stellar.org/accounts/GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
@@ -2151,7 +2151,7 @@
           "ylds.com"
         ],
         "codeListed": true,
-        "checkedAt": "2026-10-06T09:23:47.561Z",
+        "checkedAt": "2026-10-06T09:27:17.469Z",
         "sources": [
           "https://horizon.stellar.org/accounts/GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
           "https://www.ylds.com/.well-known/stellar.toml"
@@ -2197,7 +2197,7 @@
           "balance": "25244774.1066350",
           "sharePercent": 99.99
         },
-        "checkedAt": "2026-10-06T09:23:47.562Z",
+        "checkedAt": "2026-10-06T09:27:17.470Z",
         "sources": [
           "https://horizon.stellar.org/assets?asset_code=YLDS&asset_issuer=GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
           "https://horizon.stellar.org/accounts/GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",

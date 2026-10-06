@@ -82,6 +82,9 @@ describe("SnapshotStore", () => {
     expect(store.all()).toHaveLength(1);
     expect(JSON.stringify(store.all())).not.toContain("SECRET");
     expect(redactUrl("not a url")).toBe("not a url");
+    expect(redactUrl("https://storage.googleapis.com/b/o.pdf?X-Goog-Signature=a&X-Goog-Credential=b&api_key=c&apikey=d&auth=e&page=2")).toBe(
+      "https://storage.googleapis.com/b/o.pdf?X-Goog-Signature=REDACTED&X-Goog-Credential=REDACTED&api_key=REDACTED&apikey=REDACTED&auth=REDACTED&page=2",
+    );
   });
 
   it("builds asset keys", () => {

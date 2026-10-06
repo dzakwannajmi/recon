@@ -52,7 +52,7 @@ export function sha256Hex(bytes: Uint8Array | string) {
 
 export const assetKey = (code: string, issuer: string) => `${code}:${issuer}`;
 
-const SECRET_PARAM = /^(rlkey|st|sig|signature|token|key|access_token|x-amz-.+)$/i;
+const SECRET_PARAM = /^(rlkey|st|sig|signature|token|key|api_?key|auth|access_token|x-amz-.+|x-goog-.+)$/i;
 
 /** Replace the values of access-key query parameters (Dropbox rlkey, S3 signatures, tokens) with REDACTED. */
 export function redactUrl(url: string): string;

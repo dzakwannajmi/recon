@@ -1,0 +1,899 @@
+[
+  {
+    "sha256": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1",
+    "url": "https://app.etherfuse.com/legal/compliance-and-audits",
+    "finalUrl": "https://app.etherfuse.com/legal/compliance-and-audits",
+    "contentType": "text/html; charset=utf-8",
+    "bytes": 87268,
+    "sourceClass": "issuer",
+    "assets": [
+      "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+    ],
+    "discoveredFrom": "https://app.etherfuse.com/legal/proof-of-reserves",
+    "text": {
+      "kind": "html",
+      "chars": 2572,
+      "pages": null,
+      "sha256": "1e39e9e467c9bab8b54f8d0d7dcb33f56e6109467c1629db0018b9806626d70b",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "3f9c7df0b89c9578d5236cf472c08f0a509d6f011dc1ae148732ac75cbbec67c",
+    "url": "https://app.etherfuse.com/legal/proof-of-reserves",
+    "finalUrl": "https://app.etherfuse.com/legal/proof-of-reserves",
+    "contentType": "text/html; charset=utf-8",
+    "bytes": 43547,
+    "sourceClass": "issuer",
+    "assets": [
+      "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+    ],
+    "discoveredFrom": "https://etherfuse.com/.well-known/stellar.toml",
+    "text": {
+      "kind": "html",
+      "chars": 667,
+      "pages": null,
+      "sha256": "52e65e4c25ed10cb212d8adc5a38e88db32fa25f1023ddadc27b2322dabc8b54",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "44173964f348c6f0c87fd9fc1d744bb3f4ab8942ffa441663f0d2c4584a03b3d",
+    "url": "https://app.ondo.finance/assets/usdy",
+    "finalUrl": "https://app.ondo.finance/assets/usdy",
+    "contentType": "text/html; charset=utf-8",
+    "bytes": 380243,
+    "sourceClass": "issuer",
+    "assets": [
+      "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "html",
+      "chars": 11,
+      "pages": null,
+      "sha256": "6125333f7b7883ea92b18cba2020ffb10b2f0137468f9764b3939881a0b0fa7d",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+    "url": "https://bitbondsto.com/.well-known/stellar.toml",
+    "finalUrl": "https://bitbondsto.com/.well-known/stellar.toml",
+    "contentType": "text/plain",
+    "bytes": 1850,
+    "sourceClass": "issuer_toml",
+    "assets": [
+      "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 1850,
+      "pages": null,
+      "sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140",
+    "url": "https://cdn.figure.com/docs/markets/fcc-prospectus.pdf",
+    "finalUrl": "https://cdn.figure.com/docs/markets/fcc-prospectus.pdf",
+    "contentType": "application/pdf",
+    "bytes": 1089901,
+    "sourceClass": "issuer",
+    "assets": [
+      "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+    ],
+    "discoveredFrom": "https://www.ylds.com/",
+    "text": {
+      "kind": "pdf",
+      "chars": 184633,
+      "pages": 54,
+      "sha256": "230d054ffa9b5a96de5967cdaf65ddea6f49205c94561b0a149b75fbaa9a9eed",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4",
+    "url": "https://etherfuse.com/",
+    "finalUrl": "https://etherfuse.com/",
+    "contentType": "text/html; charset=utf-8",
+    "bytes": 194791,
+    "sourceClass": "issuer",
+    "assets": [
+      "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+    ],
+    "discoveredFrom": "https://etherfuse.com/.well-known/stellar.toml",
+    "text": {
+      "kind": "html",
+      "chars": 3337,
+      "pages": null,
+      "sha256": "36d470c1feddf1c30f6962736129e569089cbe32cb33fc1deb9906e86a258a5c",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+    "url": "https://etherfuse.com/.well-known/stellar.toml",
+    "finalUrl": "https://etherfuse.com/.well-known/stellar.toml",
+    "contentType": "text/plain",
+    "bytes": 7107,
+    "sourceClass": "issuer_toml",
+    "assets": [
+      "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 7100,
+      "pages": null,
+      "sha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd",
+    "url": "https://ondo.finance/",
+    "finalUrl": "https://ondo.finance/",
+    "contentType": "text/html; charset=utf-8",
+    "bytes": 676895,
+    "sourceClass": "issuer",
+    "assets": [
+      "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+    ],
+    "discoveredFrom": "https://ondo.finance/.well-known/stellar.toml",
+    "text": {
+      "kind": "html",
+      "chars": 6446,
+      "pages": null,
+      "sha256": "1763cdee59b81736de664fd64c2faed453404e4fef55de278f099ae93c5b7bcb",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
+    "url": "https://ondo.finance/.well-known/stellar.toml",
+    "finalUrl": "https://ondo.finance/.well-known/stellar.toml",
+    "contentType": "text/plain",
+    "bytes": 831,
+    "sourceClass": "issuer_toml",
+    "assets": [
+      "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 831,
+      "pages": null,
+      "sha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "59a231da526c87e044535606679ac46149b404ef8222341d78c4ca994ca8beb6",
+    "url": "https://ondo.finance/usdy",
+    "finalUrl": "https://ondo.finance/usdy",
+    "contentType": "text/html; charset=utf-8",
+    "bytes": 1622177,
+    "sourceClass": "issuer",
+    "assets": [
+      "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+    ],
+    "discoveredFrom": "https://ondo.finance/.well-known/stellar.toml",
+    "text": {
+      "kind": "html",
+      "chars": 14478,
+      "pages": null,
+      "sha256": "540491dc4e072019e32fd8abf7c87f722acf2ab6af8ec558146b3048f100d07f",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+    "url": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+    "finalUrl": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+    "contentType": "text/plain; charset=utf-8",
+    "bytes": 16201,
+    "sourceClass": "issuer_toml",
+    "assets": [
+      "GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+      "WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+      "WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+      "WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+      "WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+      "WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+      "FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+      "TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+      "WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+      "CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+      "SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+      "TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+      "EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+      "MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+      "LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 16201,
+      "pages": null,
+      "sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "1a1ed14b15e67a5c6680ba1ae1a1281206738fe889fdba64cbb308f7fc6af715",
+    "url": "https://www.bitbondsto.com/",
+    "finalUrl": "https://www.bitbondsto.com/",
+    "contentType": "text/html; charset=utf-8",
+    "bytes": 156071,
+    "sourceClass": "issuer",
+    "assets": [
+      "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+    ],
+    "discoveredFrom": "https://bitbondsto.com/.well-known/stellar.toml",
+    "text": {
+      "kind": "html",
+      "chars": 53,
+      "pages": null,
+      "sha256": "05687c3fe491cf695af3eadfa10afd178a6073d97d2e6780a653d24491ce17c1",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "cf83d61cdc9752b752a58b7be44de16eb09eda99d6aba0f29445243af40e8e4a",
+    "url": "https://www.bitbondsto.com/files/bitbond-sto-prospectus-de.pdf",
+    "finalUrl": "https://www.bitbondsto.com/files/bitbond-sto-prospectus-de.pdf",
+    "contentType": "application/pdf",
+    "bytes": 1015999,
+    "sourceClass": "issuer",
+    "assets": [
+      "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "pdf",
+      "chars": 250605,
+      "pages": 79,
+      "sha256": "35f35db74e4d5f08b17be282a0f36b8b9aa73444aa440ab3af497cd73d4d162f",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "b6e802e66c624445342ff685d18116fd18d31eab600720c0834aa6d960e83ca3",
+    "url": "https://www.bitbondsto.com/files/bitbond-sto-prospectus.pdf",
+    "finalUrl": "https://www.bitbondsto.com/files/bitbond-sto-prospectus.pdf",
+    "contentType": "application/pdf",
+    "bytes": 1789544,
+    "sourceClass": "issuer",
+    "assets": [
+      "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "pdf",
+      "chars": 202609,
+      "pages": 77,
+      "sha256": "d3254bd1783428de497971662835b9632819a41e5650c1d03c0bdb407cfd92da",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "369417c50d60c78b792846223ab4fba68efe29e3c975c7a2858b53a5a79eb8a3",
+    "url": "https://www.franklintempleton.com/",
+    "finalUrl": "https://www.franklintempleton.com/",
+    "contentType": "text/html",
+    "bytes": 63560,
+    "sourceClass": "issuer",
+    "assets": [
+      "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+      "gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+      "grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+      "sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C"
+    ],
+    "discoveredFrom": "https://www.franklintempleton.com/.well-known/stellar.toml",
+    "text": {
+      "kind": "html",
+      "chars": 29,
+      "pages": null,
+      "sha256": "50e44fa316ab203478b39ae68fbd6f84ce81f5c18075705865b452b3635ab8ee",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5",
+    "url": "https://www.franklintempleton.com/.well-known/stellar.toml",
+    "finalUrl": "https://www.franklintempleton.com/.well-known/stellar.toml",
+    "contentType": "",
+    "bytes": 4276,
+    "sourceClass": "issuer_toml",
+    "assets": [
+      "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+      "gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+      "grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+      "sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 4274,
+      "pages": null,
+      "sha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "369417c50d60c78b792846223ab4fba68efe29e3c975c7a2858b53a5a79eb8a3",
+    "url": "https://www.franklintempleton.com/investments/options/money-market-funds/products/29386/SINGLCLASS/franklin-on-chain-u-s-government-money-fund/FOBXX",
+    "finalUrl": "https://www.franklintempleton.com/investments/options/money-market-funds/products/29386/SINGLCLASS/franklin-on-chain-u-s-government-money-fund/FOBXX",
+    "contentType": "text/html",
+    "bytes": 63560,
+    "sourceClass": "issuer",
+    "assets": [
+      "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "html",
+      "chars": 29,
+      "pages": null,
+      "sha256": "50e44fa316ab203478b39ae68fbd6f84ce81f5c18075705865b452b3635ab8ee",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "95d9a389e3797514144c8adaac6b77829e24bac80d15431eafeadf2c60dc8ac7",
+    "url": "https://www.sec.gov/Archives/edgar/data/1786958/000207169126021281/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1786958/000207169126021281/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 175079,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1786958/000207169126021281/0002071691-26-021281-index.htm",
+    "filing": {
+      "cik": "1786958",
+      "seriesId": "S000067043",
+      "form": "N-MFP3",
+      "accession": "0002071691-26-021281",
+      "filedAt": "2026-09-04"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 175079,
+      "pages": null,
+      "sha256": "95d9a389e3797514144c8adaac6b77829e24bac80d15431eafeadf2c60dc8ac7",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "a71a0cf67b6a069a5cc475fe1b7aea1fe0a01d556281b9962d2e125ea6e0ce26",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036214/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036214/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 78222,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036214/0000940400-26-036214-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000079161",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036214",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 78222,
+      "pages": null,
+      "sha256": "a71a0cf67b6a069a5cc475fe1b7aea1fe0a01d556281b9962d2e125ea6e0ce26",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "e428534e3de9d95cca4204e33d264744290b039be0da41eed0b1b8eadf4957f7",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036219/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036219/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 111718,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036219/0000940400-26-036219-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000079165",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036219",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 111718,
+      "pages": null,
+      "sha256": "e428534e3de9d95cca4204e33d264744290b039be0da41eed0b1b8eadf4957f7",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "1f9329bbc2d97cb21c88924d99543f47b6227f685815d7b598f12f6e288ce9d3",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036224/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036224/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 34896,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036224/0000940400-26-036224-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000080146",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036224",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 34896,
+      "pages": null,
+      "sha256": "1f9329bbc2d97cb21c88924d99543f47b6227f685815d7b598f12f6e288ce9d3",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "321f53f1f6e98543a80248b8bbb55f28d120aebe7141cebe90676641387cf4e4",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036323/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036323/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 68378,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036323/0000940400-26-036323-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000079158",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036323",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 68378,
+      "pages": null,
+      "sha256": "321f53f1f6e98543a80248b8bbb55f28d120aebe7141cebe90676641387cf4e4",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "85a6a30b190441b2d0a40f6ef83b4d40dd9bedc68e6c12da25cb388b254626b2",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036324/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036324/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 32117,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036324/0000940400-26-036324-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000080143",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036324",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 32117,
+      "pages": null,
+      "sha256": "85a6a30b190441b2d0a40f6ef83b4d40dd9bedc68e6c12da25cb388b254626b2",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "bd1d729f87172416a13d0d0355519e171626fb8f27230f426ed3a40e170e65ae",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036325/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036325/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 35503,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036325/0000940400-26-036325-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000079157",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036325",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 35503,
+      "pages": null,
+      "sha256": "bd1d729f87172416a13d0d0355519e171626fb8f27230f426ed3a40e170e65ae",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "a362bc40a93d373df37c088d1525281bce0e46e12fa0271affdb567162787f38",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036326/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036326/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 29325,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036326/0000940400-26-036326-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000080145",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036326",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 29325,
+      "pages": null,
+      "sha256": "a362bc40a93d373df37c088d1525281bce0e46e12fa0271affdb567162787f38",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "c2cea8119b0cda0cecef3c0a0a682b69cb1b9a68ccba381ced6f25ae268933be",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036327/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036327/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 48102,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036327/0000940400-26-036327-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000094747",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036327",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 48102,
+      "pages": null,
+      "sha256": "c2cea8119b0cda0cecef3c0a0a682b69cb1b9a68ccba381ced6f25ae268933be",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "761950a5987c38d55628fe3a15f1f08df87e52e812f1d0204a9161714423a9ee",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036328/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036328/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 24595,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036328/0000940400-26-036328-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000079166",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036328",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 24595,
+      "pages": null,
+      "sha256": "761950a5987c38d55628fe3a15f1f08df87e52e812f1d0204a9161714423a9ee",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "5c2ea0b70913a2041c21c789b6faf4533eb8f4241633e85c7ce7c7aa3ea5ea06",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036329/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036329/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 136553,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036329/0000940400-26-036329-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000072466",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036329",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 136553,
+      "pages": null,
+      "sha256": "5c2ea0b70913a2041c21c789b6faf4533eb8f4241633e85c7ce7c7aa3ea5ea06",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "095f5580b649a9d255d3227a038436d76919558fdfab92d29aeffd0b8641e32a",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036330/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036330/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 29387,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036330/0000940400-26-036330-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000079160",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036330",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 29387,
+      "pages": null,
+      "sha256": "095f5580b649a9d255d3227a038436d76919558fdfab92d29aeffd0b8641e32a",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "1053daef26cb5c7319688050f188a3fa6e2adc07564ae541138adfd78687578c",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036331/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036331/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 482347,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036331/0000940400-26-036331-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000079163",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036331",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 482347,
+      "pages": null,
+      "sha256": "1053daef26cb5c7319688050f188a3fa6e2adc07564ae541138adfd78687578c",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "c01c7322df22c21694a4ad2531ca52935c0e912c96f4fbc695e1cefad1d30c65",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036332/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036332/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 129198,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036332/0000940400-26-036332-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000079153",
+      "form": "NPORT-P",
+      "accession": "0000940400-26-036332",
+      "filedAt": "2026-08-31"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 129198,
+      "pages": null,
+      "sha256": "c01c7322df22c21694a4ad2531ca52935c0e912c96f4fbc695e1cefad1d30c65",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "747c1dace2d4083435e96a948306c006d1ede8c27ad4714c7b945e4af9acbc2c",
+    "url": "https://www.sec.gov/Archives/edgar/data/1859001/000119312526382896/primary_doc.xml",
+    "finalUrl": "https://www.sec.gov/Archives/edgar/data/1859001/000119312526382896/primary_doc.xml",
+    "contentType": "text/xml",
+    "bytes": 57097,
+    "sourceClass": "regulatory_filing",
+    "assets": [
+      "WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6"
+    ],
+    "discoveredFrom": "https://www.sec.gov/Archives/edgar/data/1859001/000119312526382896/0001193125-26-382896-index.htm",
+    "filing": {
+      "cik": "1859001",
+      "seriesId": "S000082184",
+      "form": "N-MFP3",
+      "accession": "0001193125-26-382896",
+      "filedAt": "2026-09-04"
+    },
+    "text": {
+      "kind": "xml",
+      "chars": 57097,
+      "pages": null,
+      "sha256": "747c1dace2d4083435e96a948306c006d1ede8c27ad4714c7b945e4af9acbc2c",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "3149a2caca84bf87aeb1cd332ebaec2a699e8405cc0c3c85660c8cd70b8c0301",
+    "url": "https://www.wisdomtreeprime.com/attestations/",
+    "finalUrl": "https://www.wisdomtreeprime.com/attestations/",
+    "contentType": "text/html; charset=UTF-8",
+    "bytes": 104665,
+    "sourceClass": "issuer",
+    "assets": [
+      "GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ"
+    ],
+    "discoveredFrom": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+    "text": {
+      "kind": "html",
+      "chars": 2092,
+      "pages": null,
+      "sha256": "0a3a388634ffcbf2f3f934a52c1975a4aed5330f7d0f200cfed8986b776b86d3",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571",
+    "url": "https://www.ylds.com/",
+    "finalUrl": "https://www.ylds.com/",
+    "contentType": "text/html; charset=UTF-8",
+    "bytes": 161427,
+    "sourceClass": "issuer",
+    "assets": [
+      "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+    ],
+    "discoveredFrom": "https://www.ylds.com/.well-known/stellar.toml",
+    "text": {
+      "kind": "html",
+      "chars": 14262,
+      "pages": null,
+      "sha256": "67bbfdb612ff73492d91e503309d7c4c48660a383933549afda7f847797a1806",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81",
+    "url": "https://www.ylds.com/.well-known/stellar.toml",
+    "finalUrl": "https://www.ylds.com/.well-known/stellar.toml",
+    "contentType": "text/plain; charset=UTF-8",
+    "bytes": 2629,
+    "sourceClass": "issuer_toml",
+    "assets": [
+      "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 2629,
+      "pages": null,
+      "sha256": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571",
+    "url": "https://ylds.com/",
+    "finalUrl": "https://www.ylds.com/",
+    "contentType": "text/html; charset=UTF-8",
+    "bytes": 161427,
+    "sourceClass": "issuer",
+    "assets": [
+      "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+    ],
+    "discoveredFrom": "https://www.ylds.com/.well-known/stellar.toml",
+    "text": {
+      "kind": "html",
+      "chars": 14262,
+      "pages": null,
+      "sha256": "67bbfdb612ff73492d91e503309d7c4c48660a383933549afda7f847797a1806",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T13:09:47.813Z",
+    "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  }
+]

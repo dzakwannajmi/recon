@@ -32,6 +32,7 @@ export type IdentityInput = {
   /** The raw on-chain value; only echoed in reasons when it is a valid domain. */
   homeDomain?: string;
   tomlListsAccount?: boolean; // undefined when the toml could not be read
+  tomlParseMode?: TomlParseMode;
   officialDomains: string[];
   pinnedDomains: string[];
   asOf: string; // YYYY-MM-DD
@@ -66,6 +67,7 @@ export function decideIdentity(input: IdentityInput): IdentityResult {
     reason: `${reason} (as of ${input.asOf})`,
   });
   const official = input.officialDomains.join(" or ");
+  const lenient = input.tomlParseMode === "lenient" ? "; this stellar.toml is not valid TOML and was read with a fallback parser" : "";
 
   if (!input.issuerExists) return done("issuer_not_found", "The issuer account does not exist on Stellar mainnet");
   if (!input.homeDomain) return done("no_home_domain", "The issuer account sets no home_domain, so it cannot be tied to an organization");
@@ -79,11 +81,11 @@ export function decideIdentity(input: IdentityInput): IdentityResult {
     return done("domain_mismatch", `The issuer's home_domain ${home} does not match the official domain ${official} pinned for this asset`);
   }
   if (input.tomlListsAccount === undefined) return done("toml_unreachable", `Could not read stellar.toml at ${home}`);
-  if (!input.tomlListsAccount) return done("not_listed_in_toml", `The stellar.toml at ${home} does not list this issuer account`);
+  if (!input.tomlListsAccount) return done("not_listed_in_toml", `The stellar.toml at ${home} does not list this issuer account${lenient}`);
   if (input.officialDomains.length === 0) {
-    return done("unpinned", `The stellar.toml at ${home} lists this issuer, but no official domain is pinned for this asset yet`);
+    return done("unpinned", `The stellar.toml at ${home} lists this issuer, but no official domain is pinned for this asset yet${lenient}`);
   }
-  return done("verified", `The issuer verifies against the official domain ${official}: the stellar.toml at ${home} lists this issuer account`);
+  return done("verified", `The issuer verifies against the official domain ${official}: the stellar.toml at ${home} lists this issuer account${lenient}`);
 }
 
 export type IdentityCheck = IdentityResult & {
@@ -101,22 +103,27 @@ export type IdentityCheck = IdentityResult & {
   tomlParseMode: TomlParseMode | null;
 };
 
-type NetworkInputs = { account: IssuerAccount | null; toml: FetchedToml | null };
+/** Everything read from the network for one issuer, and when it was read. */
+type NetworkInputs = { account: IssuerAccount | null; toml: FetchedToml | null; fetchedAt: string };
 
-const cache = ttlCache<NetworkInputs>(10 * 60 * 1000);
+const TTL_MS = 10 * 60 * 1000;
+const DEGRADED_TTL_MS = 60 * 1000; // an unreachable toml is retried sooner
+const cache = ttlCache<NetworkInputs>((v) => (v.account?.home_domain && !v.toml ? DEGRADED_TTL_MS : TTL_MS));
 
-async function loadNetworkInputs(issuer: string, opts: { signal?: AbortSignal; transport?: Transport }): Promise<NetworkInputs> {
-  const account = await getIssuerAccount(issuer, opts.signal);
+/** Shared by concurrent callers, so it uses only its own deadlines, never a caller's abort signal. */
+async function loadNetworkInputs(issuer: string, transport?: Transport): Promise<NetworkInputs> {
+  const fetchedAt = new Date().toISOString();
+  const account = await getIssuerAccount(issuer);
   const home = normalizeDomain(account?.home_domain);
   let toml: FetchedToml | null = null;
   if (home) {
     try {
-      toml = await fetchStellarToml(home, opts);
+      toml = await fetchStellarToml(home, { transport });
     } catch {
       toml = null;
     }
   }
-  return { account, toml };
+  return { account, toml, fetchedAt };
 }
 
 /** Network check: Horizon account → home_domain → stellar.toml, compared with the pinned universe. */
@@ -126,8 +133,7 @@ export async function checkIssuerIdentity(
   universe: UniverseAsset[] = loadUniverse(),
   opts: { signal?: AbortSignal; transport?: Transport } = {},
 ): Promise<IdentityCheck> {
-  const checkedAt = new Date().toISOString();
-  const { account, toml } = await cache.get(issuer, () => loadNetworkInputs(issuer, opts));
+  const { account, toml, fetchedAt: checkedAt } = await cache.get(issuer, () => loadNetworkInputs(issuer, opts.transport), opts.signal);
   const officialDomains = officialDomainsFor(universe, assetCode);
   const homeDomain = normalizeDomain(account?.home_domain);
 
@@ -137,6 +143,7 @@ export async function checkIssuerIdentity(
     tomlListsAccount: toml ? tomlListsAccount(toml.toml, issuer) : undefined,
     officialDomains,
     pinnedDomains: pinnedDomainsFor(universe, assetCode),
+    tomlParseMode: toml?.parseMode,
     asOf: checkedAt.slice(0, 10),
   });
 

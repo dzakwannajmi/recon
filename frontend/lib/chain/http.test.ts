@@ -1,5 +1,6 @@
-import { describe, expect, it } from "vitest";
-import { fetchUntrustedText, isBlockedAddress, isSafeDomain, isSameOrSubdomain, normalizeDomain } from "./http";
+import dns from "node:dns";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { fetchUntrustedText, isBlockedAddress, isSafeDomain, isSameOrSubdomain, normalizeDomain, publicOnlyLookup } from "./http";
 import { fakeTransport } from "./testing";
 
 describe("isSafeDomain", () => {
@@ -128,5 +129,34 @@ describe("fetchUntrustedText", () => {
   it("rejects HTTP errors", async () => {
     const { transport } = fakeTransport({});
     await expect(fetchUntrustedText(URL_A, { maxBytes: 100, transport })).rejects.toThrow(/HTTP 404/);
+  });
+});
+
+describe("publicOnlyLookup (DNS rebinding guard)", () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  const resolveTo = (...addresses: string[]) =>
+    vi.spyOn(dns, "lookup").mockImplementation(((_host: string, _opts: unknown, cb: (err: null, a: dns.LookupAddress[]) => void) =>
+      cb(null, addresses.map((address) => ({ address, family: address.includes(":") ? 6 : 4 })))) as never);
+
+  const lookup = (options: { all?: boolean } = {}) =>
+    new Promise<{ err: Error | null; address?: unknown }>((resolve) =>
+      publicOnlyLookup("issuer.example.com", options, (err, address) => resolve({ err, address })),
+    );
+
+  it("refuses a name that resolves to a private address", async () => {
+    resolveTo("127.0.0.1");
+    expect((await lookup()).err?.message).toMatch(/non-public address/);
+  });
+
+  it("refuses when any of several addresses is private", async () => {
+    resolveTo("93.184.216.34", "169.254.169.254");
+    expect((await lookup({ all: true })).err).toBeTruthy();
+  });
+
+  it("passes public addresses through in both lookup forms", async () => {
+    resolveTo("93.184.216.34");
+    expect(await lookup()).toEqual({ err: null, address: "93.184.216.34" });
+    expect((await lookup({ all: true })).address).toEqual([{ address: "93.184.216.34", family: 4 }]);
   });
 });

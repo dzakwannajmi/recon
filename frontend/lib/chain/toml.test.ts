@@ -76,6 +76,49 @@ describe("parseStellarToml", () => {
     expect(tomlListsCode(parsed, ISSUER, "CRDT")).toBe(true);
   });
 
+  describe("fallback never lists more than the file plainly states", () => {
+    const BROKEN = `VERSION="2.0.0\n`; // unclosed string: forces the fallback
+    const lenient = (body: string) => {
+      const r = parseStellarToml(BROKEN + body);
+      expect(r.parseMode).toBe("lenient");
+      return r.toml;
+    };
+
+    it("(a) ignores issuer lines inside a multi-line string", () => {
+      const t = lenient(`[[CURRENCIES]]\ncode="BENJI"\nissuer="${OTHER}"\ndesc="""note\nissuer="${ISSUER}"\n"""\n`);
+      expect(tomlListsAccount(t, ISSUER)).toBe(false);
+      expect(tomlListsCode(t, OTHER, "BENJI")).toBe(true);
+    });
+
+    it("(b) ignores an ACCOUNTS array inside a root multi-line string", () => {
+      const t = lenient(`NOTE='\'\'\nACCOUNTS=["${ISSUER}"]\n'\'\'\nACCOUNTS=["${OTHER}"]\n`);
+      expect(t.ACCOUNTS).toEqual([OTHER]);
+    });
+
+    it("(c) ignores accounts in comments", () => {
+      const t = lenient(`ACCOUNTS=[\n"${OTHER}", # retired: ${ISSUER}\n]\n# ACCOUNTS=["${ISSUER}"]\n`);
+      expect(t.ACCOUNTS).toEqual([OTHER]);
+    });
+
+    it("(d) ends an unclosed ACCOUNTS array at the next key or table", () => {
+      const t = lenient(`ACCOUNTS=[\n"${OTHER}"\nSIGNING_KEY="${ISSUER}"\n[DOCUMENTATION]\nORG_NAME="x"\n`);
+      expect(t.ACCOUNTS).toEqual([OTHER]);
+      expect(tomlListsAccount(t, ISSUER)).toBe(false);
+    });
+
+    it("(e) drops a currency entry with conflicting duplicate keys", () => {
+      const t = lenient(`[[CURRENCIES]]\ncode="BENJI"\nissuer="${OTHER}"\nissuer="${ISSUER}"\n[[CURRENCIES]]\ncode="USDY"\nissuer="${OTHER}"\n`);
+      expect(tomlListsAccount(t, ISSUER)).toBe(false);
+      expect(tomlListsCode(t, OTHER, "BENJI")).toBe(false);
+      expect(tomlListsCode(t, OTHER, "USDY")).toBe(true);
+    });
+
+    it("keeps a # inside a quoted value", () => {
+      const t = lenient(`[DOCUMENTATION]\nORG_NAME="Fund #1"\n`);
+      expect((t.DOCUMENTATION as Record<string, string>).ORG_NAME).toBe("Fund #1");
+    });
+  });
+
   it("does not pick up account IDs outside ACCOUNTS or currency issuers in the fallback", () => {
     const broken = `ACCOUNTS=["${OTHER}]\n[DOCUMENTATION]\nORG_DESCRIPTION="see ${ISSUER}"\n`;
     const parsed = parseStellarToml(broken).toml;

@@ -59,9 +59,9 @@ export function isBlockedAddress(address: string) {
 
 export class FetchError extends Error {}
 
-type LookupCallback = (err: Error | null, address?: string | dns.LookupAddress[], family?: number) => void;
+export type LookupCallback = (err: Error | null, address?: string | dns.LookupAddress[], family?: number) => void;
 
-function publicOnlyLookup(hostname: string, options: { all?: boolean } | number | undefined, callback: LookupCallback) {
+export function publicOnlyLookup(hostname: string, options: { all?: boolean } | number | undefined, callback: LookupCallback) {
   dns.lookup(hostname, { all: true, verbatim: true }, (err, addresses) => {
     if (err) return callback(err);
     if (addresses.length === 0 || addresses.some((a) => isBlockedAddress(a.address))) {

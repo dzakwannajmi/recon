@@ -87,14 +87,14 @@ type ExpertAsset = { trustlines?: { funded?: number } };
 type ExpertHolders = { _embedded?: { records?: { address?: string; account?: string; balance?: string }[] } };
 
 /** StellarExpert extras: funded holder count and the largest holder. Null fields if unavailable. */
-async function getExpertExtras(code: string, issuer: string, signal?: AbortSignal) {
+async function getExpertExtras(code: string, issuer: string) {
   const id = `${encodeURIComponent(code)}-${encodeURIComponent(issuer)}`;
   const assetUrl = `${STELLAR_EXPERT}/asset/${id}`;
   const holdersUrl = `${STELLAR_EXPERT}/asset/${id}/holders?limit=1&order=desc`;
   try {
     const [asset, holders] = await Promise.all([
-      fetchTrustedJson<ExpertAsset>(assetUrl, { signal }),
-      fetchTrustedJson<ExpertHolders>(holdersUrl, { signal }),
+      fetchTrustedJson<ExpertAsset>(assetUrl),
+      fetchTrustedJson<ExpertHolders>(holdersUrl),
     ]);
     const top = holders._embedded?.records?.[0];
     const address = top?.address ?? top?.account;
@@ -109,23 +109,31 @@ async function getExpertExtras(code: string, issuer: string, signal?: AbortSigna
   }
 }
 
+/** Everything read from the network for one asset, and when it was read. */
 type NetworkInputs = {
   asset: AssetRecord | null;
   account: IssuerAccount | null;
   expert: Awaited<ReturnType<typeof getExpertExtras>> | null;
+  fetchedAt: string;
 };
 
-const cache = ttlCache<NetworkInputs>(CACHE_TTL_MS);
+const DEGRADED_TTL_MS = 60 * 1000; // StellarExpert extras missing: retry sooner
+const cache = ttlCache<NetworkInputs>((v) => (v.asset && v.expert?.sources.length === 0 ? DEGRADED_TTL_MS : CACHE_TTL_MS));
 
-async function loadNetworkInputs(code: string, issuer: string, signal?: AbortSignal): Promise<NetworkInputs> {
-  const [asset, account] = await Promise.all([getAsset(code, issuer, signal), getIssuerAccount(issuer, signal)]);
-  const expert = asset ? await getExpertExtras(code, issuer, signal) : null;
-  return { asset, account, expert };
+/** Shared by concurrent callers, so it uses only its own deadlines, never a caller's abort signal. */
+async function loadNetworkInputs(code: string, issuer: string): Promise<NetworkInputs> {
+  const fetchedAt = new Date().toISOString();
+  const [asset, account] = await Promise.all([getAsset(code, issuer), getIssuerAccount(issuer)]);
+  const expert = asset ? await getExpertExtras(code, issuer) : null;
+  return { asset, account, expert, fetchedAt };
 }
 
 export async function getAssetFacts(code: string, issuer: string, opts: { signal?: AbortSignal } = {}): Promise<AssetFacts> {
-  const checkedAt = new Date().toISOString();
-  const { asset, account, expert } = await cache.get(`${code}:${issuer}`, () => loadNetworkInputs(code, issuer, opts.signal));
+  const { asset, account, expert, fetchedAt: checkedAt } = await cache.get(
+    `${code}:${issuer}`,
+    () => loadNetworkInputs(code, issuer),
+    opts.signal,
+  );
   const sources = [
     `${HORIZON_MAINNET}/assets?asset_code=${encodeURIComponent(code)}&asset_issuer=${encodeURIComponent(issuer)}`,
     `${HORIZON_MAINNET}/accounts/${encodeURIComponent(issuer)}`,

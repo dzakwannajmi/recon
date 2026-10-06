@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getIssuerAccount, type IssuerAccount } from "./horizon";
 import { checkIssuerIdentity, clearIdentityCache, decideIdentity, type IdentityInput } from "./identity";
+import type { Transport } from "./http";
 import { fakeTransport } from "./testing";
 import { universeFromCsv } from "./universe";
 
@@ -78,6 +79,11 @@ describe("decideIdentity", () => {
     expect(r.severity).toBe("WARNING");
   });
 
+  it("says so in the reason when the toml was read with the fallback parser", () => {
+    expect(decideIdentity({ ...BASE, tomlParseMode: "lenient" }).reason).toMatch(/not valid TOML and was read with a fallback parser \(as of/);
+    expect(decideIdentity({ ...BASE, tomlParseMode: "strict" }).reason).not.toMatch(/fallback/);
+  });
+
   it("accepts any of several pinned domains", () => {
     const r = decideIdentity({ ...BASE, homeDomain: "etherfuse.com", officialDomains: ["other.com", "etherfuse.com"], pinnedDomains: ["other.com", "etherfuse.com"] });
     expect(r.status).toBe("verified");
@@ -144,5 +150,31 @@ describe("checkIssuerIdentity", () => {
     await checkIssuerIdentity("BENJI", ISSUER, universe, { transport });
     expect(getIssuerAccount).toHaveBeenCalledTimes(1);
     expect(calls).toHaveLength(1);
+  });
+
+  it("does not let one caller's abort poison the result for others", async () => {
+    vi.mocked(getIssuerAccount).mockResolvedValue(account("www.franklintempleton.com"));
+    const inner = fakeTransport({ [TOML_URL]: { body: TOML } });
+    const transport: Transport = async (url, init) => {
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      return inner.transport(url, init);
+    };
+    const controller = new AbortController();
+    const a = checkIssuerIdentity("BENJI", ISSUER, universe, { transport, signal: controller.signal });
+    const b = checkIssuerIdentity("BENJI", ISSUER, universe, { transport });
+    controller.abort();
+    await expect(a).rejects.toMatchObject({ name: "AbortError" });
+    expect((await b).status).toBe("verified");
+    expect((await checkIssuerIdentity("BENJI", ISSUER, universe, { transport })).status).toBe("verified");
+    expect(inner.calls).toHaveLength(1);
+  });
+
+  it("reports when the data was fetched, not when the cache was read", async () => {
+    vi.mocked(getIssuerAccount).mockResolvedValue(account("www.franklintempleton.com"));
+    const { transport } = fakeTransport({ [TOML_URL]: { body: TOML } });
+    const first = await checkIssuerIdentity("BENJI", ISSUER, universe, { transport });
+    await new Promise((resolve) => setTimeout(resolve, 5));
+    const second = await checkIssuerIdentity("BENJI", ISSUER, universe, { transport });
+    expect(second.checkedAt).toBe(first.checkedAt);
   });
 });

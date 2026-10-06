@@ -60,33 +60,70 @@ export function parseStellarToml(text: string): { toml: StellarToml; parseMode: 
 }
 
 const ACCOUNT_ID = /\bG[A-Z2-7]{55}\b/g;
+const KEY_VALUE = /^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/;
+
+/** Cut a line at the first `#` outside a quoted string. */
+function stripComment(line: string) {
+  let quote: string | null = null;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (quote) {
+      if (ch === "\\" && quote === '"') i++;
+      else if (ch === quote) quote = null;
+    } else if (ch === '"' || ch === "'") {
+      quote = ch;
+    } else if (ch === "#") {
+      return line.slice(0, i);
+    }
+  }
+  return line;
+}
 
 /**
  * Line-based fallback for real-world tomls with small syntax errors (e.g. a
  * missing closing quote). Reads only what identity checks need: ACCOUNTS,
- * [DOCUMENTATION] and [[CURRENCIES]] string fields.
+ * [DOCUMENTATION] and [[CURRENCIES]] string fields. It is deliberately
+ * conservative, so it never lists more than the file plainly states:
+ * comments and multi-line strings are skipped, an unclosed ACCOUNTS array
+ * ends at the next key or table, and a currency entry with a conflicting
+ * duplicate key is dropped.
  */
 export function parseTomlLenient(text: string): StellarToml {
   const accounts: string[] = [];
-  const currencies: TomlCurrency[] = [];
+  const currencies: { entry: TomlCurrency; conflict: boolean }[] = [];
   const documentation: Record<string, string> = {};
   let section: "root" | "documentation" | "currency" | "other" = "root";
   let inAccounts = false;
+  let multiline: string | null = null;
 
   for (const raw of text.split(/\r?\n/)) {
-    const line = raw.trim();
-    if (!line || line.startsWith("#")) continue;
-    if (inAccounts) {
-      accounts.push(...(line.match(ACCOUNT_ID) ?? []));
-      if (line.includes("]")) inAccounts = false;
+    if (multiline) {
+      if (raw.includes(multiline)) multiline = null;
       continue;
+    }
+    const delimiter = ['"""', "'''"].find((d) => raw.includes(d));
+    if (delimiter) {
+      if ((raw.split(delimiter).length - 1) % 2 === 1) multiline = delimiter;
+      continue;
+    }
+    const line = stripComment(raw).trim();
+    if (!line) continue;
+
+    if (inAccounts) {
+      if (line.startsWith("[") || KEY_VALUE.test(line)) {
+        inAccounts = false; // unclosed array: stop at the next table or key
+      } else {
+        accounts.push(...(line.match(ACCOUNT_ID) ?? []));
+        if (line.includes("]")) inAccounts = false;
+        continue;
+      }
     }
     if (line.startsWith("[")) {
       section = line === "[[CURRENCIES]]" ? "currency" : line === "[DOCUMENTATION]" ? "documentation" : "other";
-      if (section === "currency") currencies.push({});
+      if (section === "currency") currencies.push({ entry: {}, conflict: false });
       continue;
     }
-    const kv = /^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/.exec(line);
+    const kv = KEY_VALUE.exec(line);
     if (!kv) continue;
     const [, key, rest] = kv;
     if (section === "root" && key === "ACCOUNTS") {
@@ -96,10 +133,19 @@ export function parseTomlLenient(text: string): StellarToml {
     }
     const value = /^"([^"]*)"/.exec(rest)?.[1];
     if (value === undefined) continue;
-    if (section === "currency") currencies[currencies.length - 1][key] = value;
-    else if (section === "documentation") documentation[key] = value;
+    if (section === "currency") {
+      const current = currencies[currencies.length - 1];
+      if (key in current.entry && current.entry[key] !== value) current.conflict = true;
+      current.entry[key] = value;
+    } else if (section === "documentation") {
+      documentation[key] = value;
+    }
   }
-  return { ACCOUNTS: accounts, DOCUMENTATION: documentation, CURRENCIES: currencies };
+  return {
+    ACCOUNTS: accounts,
+    DOCUMENTATION: documentation,
+    CURRENCIES: currencies.filter((c) => !c.conflict).map((c) => c.entry),
+  };
 }
 
 function accountsOf(toml: StellarToml) {

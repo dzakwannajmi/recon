@@ -32,6 +32,14 @@ export type AssetRecord = {
   flags: AssetFlags;
 };
 
+function isHorizonUrl(href: string) {
+  try {
+    return new URL(href).origin === HORIZON_MAINNET;
+  } catch {
+    return false;
+  }
+}
+
 type Page = { _embedded: { records: AssetRecord[] }; _links?: { next?: { href: string } } };
 
 /** The issuer account, or null if it doesn't exist on mainnet. */
@@ -61,7 +69,7 @@ export async function listIssuers(code: string, signal?: AbortSignal) {
     records.push(...page._embedded.records);
     pages++;
     const next = page._links?.next?.href;
-    url = page._embedded.records.length === 200 && next?.startsWith(HORIZON_MAINNET) ? next : undefined;
+    url = page._embedded.records.length === 200 && next && isHorizonUrl(next) ? next : undefined;
   }
   return {
     records: records.sort((a, b) => b.accounts.authorized - a.accounts.authorized),

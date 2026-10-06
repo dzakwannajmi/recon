@@ -1,0 +1,2210 @@
+{
+  "checked_at": "2026-10-06T09:26:43.232Z",
+  "results": [
+    {
+      "asset_code": "BENJI",
+      "issuer": "GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+      "issuer_org": "Franklin Templeton",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain franklintempleton.com: the stellar.toml at www.franklintempleton.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "BENJI",
+        "issuer": "GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+        "homeDomain": "www.franklintempleton.com",
+        "officialDomains": [
+          "franklintempleton.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:43.233Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+          "https://www.franklintempleton.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "BENJI",
+        "issuer": "GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+        "exists": true,
+        "supply": "522773589.6259489",
+        "supplyBreakdown": {
+          "authorized": "522773589.6259489",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 1375,
+        "fundedHolders": 1001,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GA2FMHCSP4W6ULNWS2NTQBA4UUTZDKBGP4K4RTUEKOK47SAEUWZPXWI2",
+            "weight": 3
+          },
+          {
+            "key": "GA7T64NIBRXNTYYPGZFK2G6LHUI7WCMMNEU7XPTRXNILX3VDHU3EZQ3D",
+            "weight": 1
+          },
+          {
+            "key": "GAALZGYUXWJU6K6Y7TS62SAF5OMHFIJ7K7Y5BMXUUTQB4UQXOIJTIDGE",
+            "weight": 3
+          },
+          {
+            "key": "GAX37NAA2HDCGIZIXXA23CZBVBNGEANBNNW65YUI3MRGB7RT3H4YL6RA",
+            "weight": 3
+          },
+          {
+            "key": "GB4GGHENIHLZ4WRZ4IL3JIOUYEPL2YDWYILWPUFC3DNQI5YLCIKYCGKY",
+            "weight": 1
+          },
+          {
+            "key": "GB4LOGXE7VLX3XOIIADVSFYWYML2SCFGOPYJIF7ZJUUWU3LYWU6KA5QK",
+            "weight": 1
+          },
+          {
+            "key": "GBCJ4OTK567NQA6YGUS7RNFLFKESS2YGKSD4WZFCNTSTKH7HTU6FDVN5",
+            "weight": 3
+          },
+          {
+            "key": "GBG4BPER44KLTO3GM3J752NGGYKFF6TJAVATJMILBXDNBUVUREXLCM2Z",
+            "weight": 3
+          },
+          {
+            "key": "GBXMLRVSRGWTCOEZYCYODDB2IHT2GLYBW3MKOSVYZXR334XJKGQXIFM5",
+            "weight": 3
+          },
+          {
+            "key": "GCRTPEI6XF6WUZTCIG7TAOC3C3RSA2YXT3BRPA43DYDIADNRWHZQKYEC",
+            "weight": 3
+          },
+          {
+            "key": "GD5VI4WXQ6C2DTTACE3MO5HCCTISQ73LHN6AXHKNX5HZHH57YVVLWENI",
+            "weight": 3
+          },
+          {
+            "key": "GDMWHLJVE5VUBRIH53XKZNJI4NCZMLNISTSL6CFC5WC2DYLEPKUNDMZK",
+            "weight": 1
+          },
+          {
+            "key": "GDV2QFUSUILDOUMXM2Y5JJVH6MG6FCOVELRQTTXFD3XGPIJFPYPBE4HD",
+            "weight": 3
+          },
+          {
+            "key": "GDZEZL43IG5L6PZKLSQLRVCWYIJ7PHJ3M3OMYCJ2ZHTT5RL5ILBGJGEE",
+            "weight": 3
+          },
+          {
+            "key": "GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+            "weight": 0
+          }
+        ],
+        "issuerThresholds": {
+          "low": 2,
+          "medium": 2,
+          "high": 6
+        },
+        "sacContractId": "CCDSDPD7FXB74PFB2SYCHGQRWLXQRYRTQSPCVSRJ7FAOLOUGWEYAXQ7A",
+        "largestHolder": {
+          "address": "GDXP7KSDSHVMPXBBXMRG7MMFLEYD3QTKQ7YC4YG6P3KLXZ3UCABPSYAA",
+          "balance": "207653227.8846331",
+          "sharePercent": 39.72
+        },
+        "checkedAt": "2026-10-06T09:26:43.246Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=BENJI&asset_issuer=GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+          "https://horizon.stellar.org/accounts/GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+          "https://api.stellar.expert/explorer/public/asset/BENJI-GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+          "https://api.stellar.expert/explorer/public/asset/BENJI-GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "gBENJI",
+      "issuer": "GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+      "issuer_org": "Franklin Templeton",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain franklintempleton.com: the stellar.toml at www.franklintempleton.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "gBENJI",
+        "issuer": "GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+        "homeDomain": "www.franklintempleton.com",
+        "officialDomains": [
+          "franklintempleton.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:46.312Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+          "https://www.franklintempleton.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "gBENJI",
+        "issuer": "GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+        "exists": true,
+        "supply": "56784694.6401457",
+        "supplyBreakdown": {
+          "authorized": "56784694.6401457",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 15,
+        "fundedHolders": 8,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GA2FMHCSP4W6ULNWS2NTQBA4UUTZDKBGP4K4RTUEKOK47SAEUWZPXWI2",
+            "weight": 3
+          },
+          {
+            "key": "GA7T64NIBRXNTYYPGZFK2G6LHUI7WCMMNEU7XPTRXNILX3VDHU3EZQ3D",
+            "weight": 1
+          },
+          {
+            "key": "GAALZGYUXWJU6K6Y7TS62SAF5OMHFIJ7K7Y5BMXUUTQB4UQXOIJTIDGE",
+            "weight": 3
+          },
+          {
+            "key": "GAX37NAA2HDCGIZIXXA23CZBVBNGEANBNNW65YUI3MRGB7RT3H4YL6RA",
+            "weight": 3
+          },
+          {
+            "key": "GB4GGHENIHLZ4WRZ4IL3JIOUYEPL2YDWYILWPUFC3DNQI5YLCIKYCGKY",
+            "weight": 1
+          },
+          {
+            "key": "GB4LOGXE7VLX3XOIIADVSFYWYML2SCFGOPYJIF7ZJUUWU3LYWU6KA5QK",
+            "weight": 1
+          },
+          {
+            "key": "GBCJ4OTK567NQA6YGUS7RNFLFKESS2YGKSD4WZFCNTSTKH7HTU6FDVN5",
+            "weight": 3
+          },
+          {
+            "key": "GBG4BPER44KLTO3GM3J752NGGYKFF6TJAVATJMILBXDNBUVUREXLCM2Z",
+            "weight": 3
+          },
+          {
+            "key": "GBXMLRVSRGWTCOEZYCYODDB2IHT2GLYBW3MKOSVYZXR334XJKGQXIFM5",
+            "weight": 3
+          },
+          {
+            "key": "GCRTPEI6XF6WUZTCIG7TAOC3C3RSA2YXT3BRPA43DYDIADNRWHZQKYEC",
+            "weight": 3
+          },
+          {
+            "key": "GD5VI4WXQ6C2DTTACE3MO5HCCTISQ73LHN6AXHKNX5HZHH57YVVLWENI",
+            "weight": 3
+          },
+          {
+            "key": "GDMWHLJVE5VUBRIH53XKZNJI4NCZMLNISTSL6CFC5WC2DYLEPKUNDMZK",
+            "weight": 1
+          },
+          {
+            "key": "GDV2QFUSUILDOUMXM2Y5JJVH6MG6FCOVELRQTTXFD3XGPIJFPYPBE4HD",
+            "weight": 3
+          },
+          {
+            "key": "GDZEZL43IG5L6PZKLSQLRVCWYIJ7PHJ3M3OMYCJ2ZHTT5RL5ILBGJGEE",
+            "weight": 3
+          },
+          {
+            "key": "GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+            "weight": 0
+          }
+        ],
+        "issuerThresholds": {
+          "low": 2,
+          "medium": 2,
+          "high": 6
+        },
+        "sacContractId": "CAZGJD4BG6RLFQIAGPDPSX3IR73CBSVDEIBUDQGDZ3RCGGSOYSVBDSM7",
+        "largestHolder": {
+          "address": "GDWGMB2VY5ROCNIMMPGS7WENUT7WVV4IBSLGYK4U6UKNLPPWBJIBUTRT",
+          "balance": "26358964.1962904",
+          "sharePercent": 46.41
+        },
+        "checkedAt": "2026-10-06T09:26:46.313Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=gBENJI&asset_issuer=GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+          "https://horizon.stellar.org/accounts/GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+          "https://api.stellar.expert/explorer/public/asset/gBENJI-GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+          "https://api.stellar.expert/explorer/public/asset/gBENJI-GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "grBENJI",
+      "issuer": "GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+      "issuer_org": "Franklin Templeton",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain franklintempleton.com: the stellar.toml at www.franklintempleton.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "grBENJI",
+        "issuer": "GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+        "homeDomain": "www.franklintempleton.com",
+        "officialDomains": [
+          "franklintempleton.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:47.496Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+          "https://www.franklintempleton.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "grBENJI",
+        "issuer": "GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+        "exists": true,
+        "supply": "1297326.3579872",
+        "supplyBreakdown": {
+          "authorized": "1297326.3579872",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 12,
+        "fundedHolders": 8,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GA2FMHCSP4W6ULNWS2NTQBA4UUTZDKBGP4K4RTUEKOK47SAEUWZPXWI2",
+            "weight": 3
+          },
+          {
+            "key": "GA7T64NIBRXNTYYPGZFK2G6LHUI7WCMMNEU7XPTRXNILX3VDHU3EZQ3D",
+            "weight": 1
+          },
+          {
+            "key": "GAALZGYUXWJU6K6Y7TS62SAF5OMHFIJ7K7Y5BMXUUTQB4UQXOIJTIDGE",
+            "weight": 3
+          },
+          {
+            "key": "GAX37NAA2HDCGIZIXXA23CZBVBNGEANBNNW65YUI3MRGB7RT3H4YL6RA",
+            "weight": 3
+          },
+          {
+            "key": "GB4GGHENIHLZ4WRZ4IL3JIOUYEPL2YDWYILWPUFC3DNQI5YLCIKYCGKY",
+            "weight": 1
+          },
+          {
+            "key": "GB4LOGXE7VLX3XOIIADVSFYWYML2SCFGOPYJIF7ZJUUWU3LYWU6KA5QK",
+            "weight": 1
+          },
+          {
+            "key": "GBCJ4OTK567NQA6YGUS7RNFLFKESS2YGKSD4WZFCNTSTKH7HTU6FDVN5",
+            "weight": 3
+          },
+          {
+            "key": "GBG4BPER44KLTO3GM3J752NGGYKFF6TJAVATJMILBXDNBUVUREXLCM2Z",
+            "weight": 3
+          },
+          {
+            "key": "GBXMLRVSRGWTCOEZYCYODDB2IHT2GLYBW3MKOSVYZXR334XJKGQXIFM5",
+            "weight": 3
+          },
+          {
+            "key": "GCRTPEI6XF6WUZTCIG7TAOC3C3RSA2YXT3BRPA43DYDIADNRWHZQKYEC",
+            "weight": 3
+          },
+          {
+            "key": "GD5VI4WXQ6C2DTTACE3MO5HCCTISQ73LHN6AXHKNX5HZHH57YVVLWENI",
+            "weight": 3
+          },
+          {
+            "key": "GDMWHLJVE5VUBRIH53XKZNJI4NCZMLNISTSL6CFC5WC2DYLEPKUNDMZK",
+            "weight": 1
+          },
+          {
+            "key": "GDV2QFUSUILDOUMXM2Y5JJVH6MG6FCOVELRQTTXFD3XGPIJFPYPBE4HD",
+            "weight": 3
+          },
+          {
+            "key": "GDZEZL43IG5L6PZKLSQLRVCWYIJ7PHJ3M3OMYCJ2ZHTT5RL5ILBGJGEE",
+            "weight": 3
+          },
+          {
+            "key": "GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+            "weight": 0
+          }
+        ],
+        "issuerThresholds": {
+          "low": 2,
+          "medium": 2,
+          "high": 6
+        },
+        "sacContractId": "CBEFW4IKKVB5KAX7QJAOHZUY77X5M6TRHE7ER6V75WESMAG7SSJBWP4R",
+        "largestHolder": {
+          "address": "GBY3CPIGLCWFJBRJG26Q6L3GMA2QA3BIXU5PIV46JK3YVLFCACU67H3O",
+          "balance": "503823.0358549",
+          "sharePercent": 38.83
+        },
+        "checkedAt": "2026-10-06T09:26:47.498Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=grBENJI&asset_issuer=GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+          "https://horizon.stellar.org/accounts/GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+          "https://api.stellar.expert/explorer/public/asset/grBENJI-GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+          "https://api.stellar.expert/explorer/public/asset/grBENJI-GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "sgBENJI",
+      "issuer": "GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+      "issuer_org": "Franklin Templeton",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain franklintempleton.com: the stellar.toml at www.franklintempleton.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "sgBENJI",
+        "issuer": "GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+        "homeDomain": "www.franklintempleton.com",
+        "officialDomains": [
+          "franklintempleton.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:48.680Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+          "https://www.franklintempleton.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "sgBENJI",
+        "issuer": "GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+        "exists": true,
+        "supply": "24352527.5694453",
+        "supplyBreakdown": {
+          "authorized": "24336155.3100811",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "16372.2593642",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 13,
+        "fundedHolders": 10,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GA2FMHCSP4W6ULNWS2NTQBA4UUTZDKBGP4K4RTUEKOK47SAEUWZPXWI2",
+            "weight": 3
+          },
+          {
+            "key": "GA7T64NIBRXNTYYPGZFK2G6LHUI7WCMMNEU7XPTRXNILX3VDHU3EZQ3D",
+            "weight": 1
+          },
+          {
+            "key": "GAALZGYUXWJU6K6Y7TS62SAF5OMHFIJ7K7Y5BMXUUTQB4UQXOIJTIDGE",
+            "weight": 3
+          },
+          {
+            "key": "GAX37NAA2HDCGIZIXXA23CZBVBNGEANBNNW65YUI3MRGB7RT3H4YL6RA",
+            "weight": 3
+          },
+          {
+            "key": "GB4GGHENIHLZ4WRZ4IL3JIOUYEPL2YDWYILWPUFC3DNQI5YLCIKYCGKY",
+            "weight": 1
+          },
+          {
+            "key": "GB4LOGXE7VLX3XOIIADVSFYWYML2SCFGOPYJIF7ZJUUWU3LYWU6KA5QK",
+            "weight": 1
+          },
+          {
+            "key": "GBCJ4OTK567NQA6YGUS7RNFLFKESS2YGKSD4WZFCNTSTKH7HTU6FDVN5",
+            "weight": 3
+          },
+          {
+            "key": "GBG4BPER44KLTO3GM3J752NGGYKFF6TJAVATJMILBXDNBUVUREXLCM2Z",
+            "weight": 3
+          },
+          {
+            "key": "GBXMLRVSRGWTCOEZYCYODDB2IHT2GLYBW3MKOSVYZXR334XJKGQXIFM5",
+            "weight": 3
+          },
+          {
+            "key": "GCRTPEI6XF6WUZTCIG7TAOC3C3RSA2YXT3BRPA43DYDIADNRWHZQKYEC",
+            "weight": 3
+          },
+          {
+            "key": "GD5VI4WXQ6C2DTTACE3MO5HCCTISQ73LHN6AXHKNX5HZHH57YVVLWENI",
+            "weight": 3
+          },
+          {
+            "key": "GDMWHLJVE5VUBRIH53XKZNJI4NCZMLNISTSL6CFC5WC2DYLEPKUNDMZK",
+            "weight": 1
+          },
+          {
+            "key": "GDV2QFUSUILDOUMXM2Y5JJVH6MG6FCOVELRQTTXFD3XGPIJFPYPBE4HD",
+            "weight": 3
+          },
+          {
+            "key": "GDZEZL43IG5L6PZKLSQLRVCWYIJ7PHJ3M3OMYCJ2ZHTT5RL5ILBGJGEE",
+            "weight": 3
+          },
+          {
+            "key": "GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+            "weight": 0
+          }
+        ],
+        "issuerThresholds": {
+          "low": 2,
+          "medium": 2,
+          "high": 6
+        },
+        "sacContractId": "CA4JGI47NZ4DYZT6SIXFJU4TVJPKC7QHYQXLKUZ2C7BT3ZX4ZXHO6YIK",
+        "largestHolder": {
+          "address": "GCXC3RUXFJ3TNGRRQHHO2DITISMTPIDASUGHFTJ7RAK74OSRZTG5WTTQ",
+          "balance": "14675667.7428823",
+          "sharePercent": 60.26
+        },
+        "checkedAt": "2026-10-06T09:26:48.680Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=sgBENJI&asset_issuer=GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+          "https://horizon.stellar.org/accounts/GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+          "https://api.stellar.expert/explorer/public/asset/sgBENJI-GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+          "https://api.stellar.expert/explorer/public/asset/sgBENJI-GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "USDY",
+      "issuer": "GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+      "issuer_org": "Ondo Finance",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain ondo.finance: the stellar.toml at ondo.finance lists this issuer account (as of 2026-10-06)",
+        "assetCode": "USDY",
+        "issuer": "GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+        "homeDomain": "ondo.finance",
+        "officialDomains": [
+          "ondo.finance"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:49.878Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+          "https://ondo.finance/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "USDY",
+        "issuer": "GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+        "exists": true,
+        "supply": "467502151.6966762",
+        "supplyBreakdown": {
+          "authorized": "461621956.3353797",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "370.3055445",
+          "contracts": "5879825.0557520"
+        },
+        "authorizedTrustlines": 3149,
+        "fundedHolders": 729,
+        "flags": {
+          "auth_required": false,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+            "weight": 1
+          }
+        ],
+        "issuerThresholds": {
+          "low": 0,
+          "medium": 0,
+          "high": 0
+        },
+        "sacContractId": "CB3YA656OYIHU57657I5KGSBRHE5I3OZU4VFC22PYAOANFZHEWNYGAGP",
+        "largestHolder": {
+          "address": "GC635K2GGDMIINZBO6WWLQN6QUVDEBODEYCQ74OLEZUOA37K5E2BXSHC",
+          "balance": "353217182.0000000",
+          "sharePercent": 75.55
+        },
+        "checkedAt": "2026-10-06T09:26:49.879Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=USDY&asset_issuer=GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+          "https://horizon.stellar.org/accounts/GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+          "https://api.stellar.expert/explorer/public/asset/USDY-GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+          "https://api.stellar.expert/explorer/public/asset/USDY-GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "USTRY",
+      "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "issuer_org": "Etherfuse",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain etherfuse.com: the stellar.toml at etherfuse.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "USTRY",
+        "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "homeDomain": "etherfuse.com",
+        "officialDomains": [
+          "etherfuse.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:51.100Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://etherfuse.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "USTRY",
+        "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "exists": true,
+        "supply": "11513946.4905768",
+        "supplyBreakdown": {
+          "authorized": "10437759.9833997",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0954426",
+          "liquidity_pools": "1170.3611378",
+          "contracts": "1075016.0505967"
+        },
+        "authorizedTrustlines": 932,
+        "fundedHolders": 288,
+        "flags": {
+          "auth_required": false,
+          "auth_revocable": false,
+          "auth_immutable": false,
+          "auth_clawback_enabled": false
+        },
+        "issuerSigners": [
+          {
+            "key": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+            "weight": 1
+          }
+        ],
+        "issuerThresholds": {
+          "low": 0,
+          "medium": 0,
+          "high": 0
+        },
+        "sacContractId": "CBLV4ATSIWU67CFSQU2NVRKINQIKUZ2ODSZBUJTJ43VJVRSBTZYOPNUR",
+        "largestHolder": {
+          "address": "GA727XJUNMXMB4SSU3D4CIXZ5A4XK35WJAFNNSDHY3O5462WILRYCSAS",
+          "balance": "9549864.6630000",
+          "sharePercent": 82.94
+        },
+        "checkedAt": "2026-10-06T09:26:51.101Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=USTRY&asset_issuer=GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://api.stellar.expert/explorer/public/asset/USTRY-GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://api.stellar.expert/explorer/public/asset/USTRY-GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "TESOURO",
+      "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "issuer_org": "Etherfuse",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain etherfuse.com: the stellar.toml at etherfuse.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "TESOURO",
+        "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "homeDomain": "etherfuse.com",
+        "officialDomains": [
+          "etherfuse.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:51.100Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://etherfuse.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "TESOURO",
+        "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "exists": true,
+        "supply": "1170994.0890363",
+        "supplyBreakdown": {
+          "authorized": "930520.5318141",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "283.6317038",
+          "contracts": "240189.9255184"
+        },
+        "authorizedTrustlines": 194,
+        "fundedHolders": 93,
+        "flags": {
+          "auth_required": false,
+          "auth_revocable": false,
+          "auth_immutable": false,
+          "auth_clawback_enabled": false
+        },
+        "issuerSigners": [
+          {
+            "key": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+            "weight": 1
+          }
+        ],
+        "issuerThresholds": {
+          "low": 0,
+          "medium": 0,
+          "high": 0
+        },
+        "sacContractId": "CD6M4R2322BYCY2LNWM74PEBQAQ63SA3DUJLI3L4225U4ZVCLMSCBCIS",
+        "largestHolder": {
+          "address": "GABFRFPYM2BXM4OM2ZA4YDBWY4CMPVESHQMKXSM47MWWJD4TW2KQDWWN",
+          "balance": "786608.1482377",
+          "sharePercent": 67.17
+        },
+        "checkedAt": "2026-10-06T09:26:52.298Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=TESOURO&asset_issuer=GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://api.stellar.expert/explorer/public/asset/TESOURO-GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://api.stellar.expert/explorer/public/asset/TESOURO-GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "EUROB",
+      "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "issuer_org": "Etherfuse",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain etherfuse.com: the stellar.toml at etherfuse.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "EUROB",
+        "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "homeDomain": "etherfuse.com",
+        "officialDomains": [
+          "etherfuse.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:51.100Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://etherfuse.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "EUROB",
+        "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "exists": true,
+        "supply": "1.5000000",
+        "supplyBreakdown": {
+          "authorized": "1.5000000",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 32,
+        "fundedHolders": 2,
+        "flags": {
+          "auth_required": false,
+          "auth_revocable": false,
+          "auth_immutable": false,
+          "auth_clawback_enabled": false
+        },
+        "issuerSigners": [
+          {
+            "key": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+            "weight": 1
+          }
+        ],
+        "issuerThresholds": {
+          "low": 0,
+          "medium": 0,
+          "high": 0
+        },
+        "sacContractId": "CCHXOH2JGL6KBO5VOHR6WD4ZQXI6CFMJ5F65XVSZ6P47Y7KVZSQIPN6J",
+        "largestHolder": {
+          "address": "GDINZYZZZBJ2VHVOQGYBFCWDOAGVSTZDNKFOEYFF27KXFR4H4LS4DPI4",
+          "balance": "1.0000000",
+          "sharePercent": 66.66
+        },
+        "checkedAt": "2026-10-06T09:26:53.497Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=EUROB&asset_issuer=GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://api.stellar.expert/explorer/public/asset/EUROB-GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://api.stellar.expert/explorer/public/asset/EUROB-GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "KTB",
+      "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "issuer_org": "Etherfuse",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain etherfuse.com: the stellar.toml at etherfuse.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "KTB",
+        "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "homeDomain": "etherfuse.com",
+        "officialDomains": [
+          "etherfuse.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:51.100Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://etherfuse.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "KTB",
+        "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "exists": true,
+        "supply": "102.0000000",
+        "supplyBreakdown": {
+          "authorized": "102.0000000",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 46,
+        "fundedHolders": 3,
+        "flags": {
+          "auth_required": false,
+          "auth_revocable": false,
+          "auth_immutable": false,
+          "auth_clawback_enabled": false
+        },
+        "issuerSigners": [
+          {
+            "key": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+            "weight": 1
+          }
+        ],
+        "issuerThresholds": {
+          "low": 0,
+          "medium": 0,
+          "high": 0
+        },
+        "sacContractId": "CBAECV6UVDS6ZKPMC63MUYY4V7Q3KTHR7NLUFGVVGK7K3AQT475QTETP",
+        "largestHolder": {
+          "address": "GCBMX35VIBY2BM4C7UJ5D6V7ZRA6EW7M5ZTYBJO2DFHN3KTHHNYDZAV7",
+          "balance": "100.0000000",
+          "sharePercent": 98.03
+        },
+        "checkedAt": "2026-10-06T09:26:54.672Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=KTB&asset_issuer=GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://api.stellar.expert/explorer/public/asset/KTB-GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://api.stellar.expert/explorer/public/asset/KTB-GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "GILTS",
+      "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "issuer_org": "Etherfuse",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain etherfuse.com: the stellar.toml at etherfuse.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "GILTS",
+        "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "homeDomain": "etherfuse.com",
+        "officialDomains": [
+          "etherfuse.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:51.100Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://etherfuse.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "GILTS",
+        "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "exists": true,
+        "supply": "1.7000000",
+        "supplyBreakdown": {
+          "authorized": "1.7000000",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 15,
+        "fundedHolders": 2,
+        "flags": {
+          "auth_required": false,
+          "auth_revocable": false,
+          "auth_immutable": false,
+          "auth_clawback_enabled": false
+        },
+        "issuerSigners": [
+          {
+            "key": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+            "weight": 1
+          }
+        ],
+        "issuerThresholds": {
+          "low": 0,
+          "medium": 0,
+          "high": 0
+        },
+        "sacContractId": "CCQNEBGX5RJQGNLQ25C67DZLOSNM4NFQBANUS3ASALF2X552BSIQ6XCE",
+        "largestHolder": {
+          "address": "GDINZYZZZBJ2VHVOQGYBFCWDOAGVSTZDNKFOEYFF27KXFR4H4LS4DPI4",
+          "balance": "1.0000000",
+          "sharePercent": 58.82
+        },
+        "checkedAt": "2026-10-06T09:26:55.865Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=GILTS&asset_issuer=GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://api.stellar.expert/explorer/public/asset/GILTS-GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "https://api.stellar.expert/explorer/public/asset/GILTS-GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "GOLD",
+      "issuer": "GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "GOLD",
+        "issuer": "GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:57.049Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "GOLD",
+        "issuer": "GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+        "exists": true,
+        "supply": "484.7830000",
+        "supplyBreakdown": {
+          "authorized": "467.2037547",
+          "authorized_to_maintain_liabilities": "17.5792385",
+          "unauthorized": "0.0000068",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 823,
+        "fundedHolders": 572,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GBKNER2KJ6OHPLYMNCEWUBOIVHVGI2U4NR3ZJLR42K64A6SVCS2NFBDT",
+            "weight": 50
+          },
+          {
+            "key": "GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+            "weight": 255
+          },
+          {
+            "key": "GDBUHPGVVPE5A2QA5XFUB5ZUB27Q7ETWFXJFEINNHE44WNYVAHMLHTXP",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CDQULNXLNTST3ERDKI2UXFUL64WGVJA4INLSYZCQLBI5KHQ4PSLFJI5S",
+        "largestHolder": {
+          "address": "GB67UPERU3VQ7OFN4VIZUHHMDWRD3VBAFKR3WMSF5LF4MBMU5E7WD53J",
+          "balance": "316.7530000",
+          "sharePercent": 65.33
+        },
+        "checkedAt": "2026-10-06T09:26:57.049Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=GOLD&asset_issuer=GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+          "https://horizon.stellar.org/accounts/GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+          "https://api.stellar.expert/explorer/public/asset/GOLD-GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+          "https://api.stellar.expert/explorer/public/asset/GOLD-GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "WTGX",
+      "issuer": "GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "WTGX",
+        "issuer": "GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:26:58.923Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "WTGX",
+        "issuer": "GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+        "exists": true,
+        "supply": "2172864.7983930",
+        "supplyBreakdown": {
+          "authorized": "2172864.7983930",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 1185,
+        "fundedHolders": 612,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+            "weight": 255
+          },
+          {
+            "key": "GDXISS7IIZCTN4VQSPGHSQABLR5RRCQYAMAODEE2QBOCRHBIAV5KIS2N",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CCDI4CNUSRI2UYQ2F44VVUB47WNYQL552SQLL5KT6JQHDTTOS4PAWQ5G",
+        "largestHolder": {
+          "address": "GDWZTRFTZPETGNJ5B3WU3R3S55EBNBQ4S4QYHR2IDKETJ3ZWLKTBNN6P",
+          "balance": "803087.5009449",
+          "sharePercent": 36.95
+        },
+        "checkedAt": "2026-10-06T09:26:58.924Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=WTGX&asset_issuer=GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+          "https://horizon.stellar.org/accounts/GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+          "https://api.stellar.expert/explorer/public/asset/WTGX-GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+          "https://api.stellar.expert/explorer/public/asset/WTGX-GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "WTSY",
+      "issuer": "GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "WTSY",
+        "issuer": "GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:00.111Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "WTSY",
+        "issuer": "GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+        "exists": true,
+        "supply": "1019868.9115239",
+        "supplyBreakdown": {
+          "authorized": "1017857.0721800",
+          "authorized_to_maintain_liabilities": "2011.8393439",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 304,
+        "fundedHolders": 63,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+            "weight": 255
+          },
+          {
+            "key": "GDVTKMCT3LSMCXNMGJYIJJZSRLZAUK5MOCS2WDJDXAYXCSZTLSDRNGSY",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CATVJYIVZMI3FFCFLNNBUSR7UGLIOCMJRZJ5YZU4LOVWKPTC4VSQ2IQG",
+        "largestHolder": {
+          "address": "GB67UPERU3VQ7OFN4VIZUHHMDWRD3VBAFKR3WMSF5LF4MBMU5E7WD53J",
+          "balance": "1000000.0000000",
+          "sharePercent": 98.05
+        },
+        "checkedAt": "2026-10-06T09:27:00.111Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=WTSY&asset_issuer=GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+          "https://horizon.stellar.org/accounts/GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+          "https://api.stellar.expert/explorer/public/asset/WTSY-GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+          "https://api.stellar.expert/explorer/public/asset/WTSY-GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "WTTS",
+      "issuer": "GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "WTTS",
+        "issuer": "GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:01.294Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "WTTS",
+        "issuer": "GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+        "exists": true,
+        "supply": "100519.0469656",
+        "supplyBreakdown": {
+          "authorized": "100488.4733625",
+          "authorized_to_maintain_liabilities": "30.5736031",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 276,
+        "fundedHolders": 29,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+            "weight": 255
+          },
+          {
+            "key": "GCBLQXHX66LXS4O5TBAYPQ6AXXK6TN5PBAC5HD2SO73ES533OL6C36Z3",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CBZ63YIHU3OOSP2JW3CHMXJ67T3Z3IU3NRSSJ4M53GFDIRR4YXKCEE36",
+        "largestHolder": {
+          "address": "GB67UPERU3VQ7OFN4VIZUHHMDWRD3VBAFKR3WMSF5LF4MBMU5E7WD53J",
+          "balance": "100000.0000000",
+          "sharePercent": 99.48
+        },
+        "checkedAt": "2026-10-06T09:27:01.295Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=WTTS&asset_issuer=GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+          "https://horizon.stellar.org/accounts/GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+          "https://api.stellar.expert/explorer/public/asset/WTTS-GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+          "https://api.stellar.expert/explorer/public/asset/WTTS-GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "WTST",
+      "issuer": "GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "WTST",
+        "issuer": "GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:02.496Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "WTST",
+        "issuer": "GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+        "exists": true,
+        "supply": "101280.7627074",
+        "supplyBreakdown": {
+          "authorized": "101259.0938168",
+          "authorized_to_maintain_liabilities": "21.6688906",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 261,
+        "fundedHolders": 21,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GCACGN5XCLD4RSGZSHNOJZFZPZ3MOC33L4L743MMQUNRX6NNTK5MHLOP",
+            "weight": 50
+          },
+          {
+            "key": "GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+            "weight": 255
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CACJVBOTJ22N224NILIACP6FM75XE5JXIV2PGWYIXJ5R3GW3YD5VVFVS",
+        "largestHolder": {
+          "address": "GB67UPERU3VQ7OFN4VIZUHHMDWRD3VBAFKR3WMSF5LF4MBMU5E7WD53J",
+          "balance": "100000.0000000",
+          "sharePercent": 98.73
+        },
+        "checkedAt": "2026-10-06T09:27:02.496Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=WTST&asset_issuer=GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+          "https://horizon.stellar.org/accounts/GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+          "https://api.stellar.expert/explorer/public/asset/WTST-GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+          "https://api.stellar.expert/explorer/public/asset/WTST-GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "WTLG",
+      "issuer": "GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "WTLG",
+        "issuer": "GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:03.686Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "WTLG",
+        "issuer": "GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+        "exists": true,
+        "supply": "100229.7773348",
+        "supplyBreakdown": {
+          "authorized": "100221.0676217",
+          "authorized_to_maintain_liabilities": "8.7097131",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 265,
+        "fundedHolders": 24,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+            "weight": 255
+          },
+          {
+            "key": "GB7NJEM3FMHE264NJPLAG5BYF4KI2NDTDK3PIMLL3A2MMCOKBE2TCVU5",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CAIDESHFY4QU4I7FNNROV2ADPFZCWMB3VDMLBT5DZYEKWGOLT4ODNS6I",
+        "largestHolder": {
+          "address": "GB67UPERU3VQ7OFN4VIZUHHMDWRD3VBAFKR3WMSF5LF4MBMU5E7WD53J",
+          "balance": "100000.0000000",
+          "sharePercent": 99.77
+        },
+        "checkedAt": "2026-10-06T09:27:03.687Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=WTLG&asset_issuer=GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+          "https://horizon.stellar.org/accounts/GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+          "https://api.stellar.expert/explorer/public/asset/WTLG-GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+          "https://api.stellar.expert/explorer/public/asset/WTLG-GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "FLTT",
+      "issuer": "GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "FLTT",
+        "issuer": "GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:04.907Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "FLTT",
+        "issuer": "GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+        "exists": true,
+        "supply": "1875230.5762264",
+        "supplyBreakdown": {
+          "authorized": "1867674.3444616",
+          "authorized_to_maintain_liabilities": "7556.2317648",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 439,
+        "fundedHolders": 122,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+            "weight": 255
+          },
+          {
+            "key": "GCFH2P7NWG6QFJOLOWLHQPFVMJD4GNULSFBHUIFA2VANBD2QXHULVJAD",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CCZ6ZWEO3KEA6PHTK56C6MEOHPVPBWZ7C3YUXR6SMBROPIEVXWICRY2L",
+        "largestHolder": {
+          "address": "GB67UPERU3VQ7OFN4VIZUHHMDWRD3VBAFKR3WMSF5LF4MBMU5E7WD53J",
+          "balance": "1000000.0000000",
+          "sharePercent": 53.32
+        },
+        "checkedAt": "2026-10-06T09:27:04.907Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=FLTT&asset_issuer=GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+          "https://horizon.stellar.org/accounts/GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+          "https://api.stellar.expert/explorer/public/asset/FLTT-GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+          "https://api.stellar.expert/explorer/public/asset/FLTT-GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "TIPS",
+      "issuer": "GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "TIPS",
+        "issuer": "GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:06.118Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "TIPS",
+        "issuer": "GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+        "exists": true,
+        "supply": "101346.4682344",
+        "supplyBreakdown": {
+          "authorized": "101323.0208907",
+          "authorized_to_maintain_liabilities": "23.4473437",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 267,
+        "fundedHolders": 32,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+            "weight": 255
+          },
+          {
+            "key": "GCIXM2U2ZTJ6RK5YXOPX2TNEJ4RB4RXYIZZ4OFK3ZNCQZNWFZYH7IVRO",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CC5XKPSET6QVWPL7EFUA7KXO6XLWPWXJKAGJC24MXW7EYVXQLUBV4OM5",
+        "largestHolder": {
+          "address": "GB67UPERU3VQ7OFN4VIZUHHMDWRD3VBAFKR3WMSF5LF4MBMU5E7WD53J",
+          "balance": "100000.0000000",
+          "sharePercent": 98.67
+        },
+        "checkedAt": "2026-10-06T09:27:06.119Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=TIPS&asset_issuer=GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+          "https://horizon.stellar.org/accounts/GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+          "https://api.stellar.expert/explorer/public/asset/TIPS-GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+          "https://api.stellar.expert/explorer/public/asset/TIPS-GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "WTSI",
+      "issuer": "GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "WTSI",
+        "issuer": "GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:07.294Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "WTSI",
+        "issuer": "GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+        "exists": true,
+        "supply": "127311.3932095",
+        "supplyBreakdown": {
+          "authorized": "127193.5140866",
+          "authorized_to_maintain_liabilities": "117.8791229",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 325,
+        "fundedHolders": 54,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+            "weight": 255
+          },
+          {
+            "key": "GCL5Q3H5IYYXWR5QKHE74DHIVRMH5KCD2OHZHGMYQO2EDQYVTB3GZPEI",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CBBIDGSNGX43W6AEN32UFSLRTSM64MLNCXAHFCJV6PQYR5E6LV4IHPSS",
+        "largestHolder": {
+          "address": "GB67UPERU3VQ7OFN4VIZUHHMDWRD3VBAFKR3WMSF5LF4MBMU5E7WD53J",
+          "balance": "100000.0000000",
+          "sharePercent": 78.54
+        },
+        "checkedAt": "2026-10-06T09:27:07.296Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=WTSI&asset_issuer=GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+          "https://horizon.stellar.org/accounts/GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+          "https://api.stellar.expert/explorer/public/asset/WTSI-GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+          "https://api.stellar.expert/explorer/public/asset/WTSI-GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "CRDT",
+      "issuer": "GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "CRDT",
+        "issuer": "GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:08.487Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "CRDT",
+        "issuer": "GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+        "exists": true,
+        "supply": "36464.7645605",
+        "supplyBreakdown": {
+          "authorized": "36464.7645605",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 237,
+        "fundedHolders": 53,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+            "weight": 255
+          },
+          {
+            "key": "GDLI5SLZ54VHJZTEJAL3RKCQIYZBLP5RYYDYJURZDV7JSY7JTK32VVM7",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CBQDK4Y3B2RYUSXE6JYYTHB6AIW655FPGE4OW7A2BWDZXZ5RALQ3UK3P",
+        "largestHolder": {
+          "address": "GAS4I7G4NP2YXOVHTLOKULJWOSDYBORORVS6GSABGPDF2ZPDJ3XNQKCH",
+          "balance": "26780.0222829",
+          "sharePercent": 73.44
+        },
+        "checkedAt": "2026-10-06T09:27:08.488Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=CRDT&asset_issuer=GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+          "https://horizon.stellar.org/accounts/GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+          "https://api.stellar.expert/explorer/public/asset/CRDT-GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+          "https://api.stellar.expert/explorer/public/asset/CRDT-GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "SPXU",
+      "issuer": "GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "SPXU",
+        "issuer": "GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:09.669Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "SPXU",
+        "issuer": "GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+        "exists": true,
+        "supply": "929208.6415004",
+        "supplyBreakdown": {
+          "authorized": "927089.8372079",
+          "authorized_to_maintain_liabilities": "2118.8042925",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 426,
+        "fundedHolders": 171,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GCHAQ5LPIQBGSTOIHXNENCARQ76DLA7AIHWHSWNANBZPK4GNEOF2D576",
+            "weight": 50
+          },
+          {
+            "key": "GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+            "weight": 255
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CBVCBEMVSVH73W7HZZHEMFYSYNF2ALRUFNSATHF2WXENW33BGF5FSTFR",
+        "largestHolder": {
+          "address": "GAD3W2BARXD5RUWLNK33DR45NOYGEAEM2AS4PXXWO6AE6J2TCBBO5CNU",
+          "balance": "646634.1466581",
+          "sharePercent": 69.58
+        },
+        "checkedAt": "2026-10-06T09:27:09.670Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=SPXU&asset_issuer=GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+          "https://horizon.stellar.org/accounts/GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+          "https://api.stellar.expert/explorer/public/asset/SPXU-GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+          "https://api.stellar.expert/explorer/public/asset/SPXU-GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "TECH",
+      "issuer": "GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "TECH",
+        "issuer": "GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:10.845Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "TECH",
+        "issuer": "GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+        "exists": true,
+        "supply": "238030.7570313",
+        "supplyBreakdown": {
+          "authorized": "238030.7570313",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 515,
+        "fundedHolders": 205,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GBBSAT5NTKUXC2Z4EG6H6I6NVCKUUV6H456J7WXW4DLEW73G6HNMURD3",
+            "weight": 50
+          },
+          {
+            "key": "GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+            "weight": 255
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CDBYSQCKN644WWEJBPYDDTF2V5BDSJKC2EXVIEKLGHQSMKILY4IO2NCD",
+        "largestHolder": {
+          "address": "GB67UPERU3VQ7OFN4VIZUHHMDWRD3VBAFKR3WMSF5LF4MBMU5E7WD53J",
+          "balance": "200000.0000000",
+          "sharePercent": 84.02
+        },
+        "checkedAt": "2026-10-06T09:27:10.846Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=TECH&asset_issuer=GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+          "https://horizon.stellar.org/accounts/GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+          "https://api.stellar.expert/explorer/public/asset/TECH-GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+          "https://api.stellar.expert/explorer/public/asset/TECH-GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "EQTY",
+      "issuer": "GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "EQTY",
+        "issuer": "GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:12.046Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "EQTY",
+        "issuer": "GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+        "exists": true,
+        "supply": "94626.3269414",
+        "supplyBreakdown": {
+          "authorized": "86646.7769689",
+          "authorized_to_maintain_liabilities": "7979.5499725",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 305,
+        "fundedHolders": 85,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+            "weight": 255
+          },
+          {
+            "key": "GCTYWQ2I4U6F67H4QOHOQRV4ISYSJ4E7AD3OEFB6USGGNBLFJJXDK3XW",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CCP7YZJWB7C4MIHA7L23OVKUXUXQ3WVFEBOCIYPNIN4LSQPCA26IA6XW",
+        "largestHolder": {
+          "address": "GBKBJYYLNE46KRFZX44DFNRMJNBTYLW6KQILZW6HC4INBSD2AJWQ6MWJ",
+          "balance": "33785.1392960",
+          "sharePercent": 35.7
+        },
+        "checkedAt": "2026-10-06T09:27:12.046Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=EQTY&asset_issuer=GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+          "https://horizon.stellar.org/accounts/GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+          "https://api.stellar.expert/explorer/public/asset/EQTY-GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+          "https://api.stellar.expert/explorer/public/asset/EQTY-GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "MODR",
+      "issuer": "GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "MODR",
+        "issuer": "GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:13.229Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "MODR",
+        "issuer": "GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+        "exists": true,
+        "supply": "41710.0394805",
+        "supplyBreakdown": {
+          "authorized": "37860.0524562",
+          "authorized_to_maintain_liabilities": "3849.9870243",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 251,
+        "fundedHolders": 39,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GA6XWI6I2CWJGIHH3A2BCIPHJN6LOTPP4PHMYZYQSTF56OTGOY6FGE7Y",
+            "weight": 50
+          },
+          {
+            "key": "GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+            "weight": 255
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CCYPD6HRLXCXOT3ZSUJ4HYYBC7MLAYI7E3QEN4IC7H7FNB4PFDMQLHWL",
+        "largestHolder": {
+          "address": "GAS4I7G4NP2YXOVHTLOKULJWOSDYBORORVS6GSABGPDF2ZPDJ3XNQKCH",
+          "balance": "24548.8566425",
+          "sharePercent": 58.85
+        },
+        "checkedAt": "2026-10-06T09:27:13.230Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=MODR&asset_issuer=GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+          "https://horizon.stellar.org/accounts/GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+          "https://api.stellar.expert/explorer/public/asset/MODR-GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+          "https://api.stellar.expert/explorer/public/asset/MODR-GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "LNGV",
+      "issuer": "GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+      "issuer_org": "WisdomTree, Inc.",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-06)",
+        "assetCode": "LNGV",
+        "issuer": "GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+        "homeDomain": "stellar.wisdomtree.com",
+        "officialDomains": [
+          "wisdomtree.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:14.415Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+          "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+        "tomlParseMode": "lenient"
+      },
+      "facts": {
+        "assetCode": "LNGV",
+        "issuer": "GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+        "exists": true,
+        "supply": "43738.9566490",
+        "supplyBreakdown": {
+          "authorized": "41893.2274886",
+          "authorized_to_maintain_liabilities": "1845.7291604",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 265,
+        "fundedHolders": 41,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+            "weight": 255
+          },
+          {
+            "key": "GALG5R4ZUBESVRVWFDKTAFO4R25BTFORUO23HJB3I7HVFH27BOKERXTG",
+            "weight": 50
+          }
+        ],
+        "issuerThresholds": {
+          "low": 25,
+          "medium": 50,
+          "high": 150
+        },
+        "sacContractId": "CAK3GBT7P6ADHBRK3LH3VODDY4HYLYYXAP6PEH436FYID2VJKPKND64L",
+        "largestHolder": {
+          "address": "GAS4I7G4NP2YXOVHTLOKULJWOSDYBORORVS6GSABGPDF2ZPDJ3XNQKCH",
+          "balance": "27271.6382121",
+          "sharePercent": 62.35
+        },
+        "checkedAt": "2026-10-06T09:27:14.415Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=LNGV&asset_issuer=GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+          "https://horizon.stellar.org/accounts/GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+          "https://api.stellar.expert/explorer/public/asset/LNGV-GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+          "https://api.stellar.expert/explorer/public/asset/LNGV-GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "BB1",
+      "issuer": "GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+      "issuer_org": "Bitbond Finance GmbH",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain bitbondsto.com: the stellar.toml at bitbondsto.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "BB1",
+        "issuer": "GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+        "homeDomain": "bitbondsto.com",
+        "officialDomains": [
+          "bitbondsto.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:15.730Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+          "https://bitbondsto.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "BB1",
+        "issuer": "GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+        "exists": true,
+        "supply": "2668351.5866776",
+        "supplyBreakdown": {
+          "authorized": "2667965.9133389",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "0.0000000",
+          "claimable_balances": "1.5486792",
+          "liquidity_pools": "384.1246595",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 1804,
+        "fundedHolders": 1174,
+        "flags": {
+          "auth_required": false,
+          "auth_revocable": false,
+          "auth_immutable": false,
+          "auth_clawback_enabled": false
+        },
+        "issuerSigners": [
+          {
+            "key": "GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+            "weight": 1
+          }
+        ],
+        "issuerThresholds": {
+          "low": 0,
+          "medium": 0,
+          "high": 0
+        },
+        "sacContractId": "CA6EZRSYJDDGN2W6IQPBTT624I6VIS7SS6OR6GPJQOOQT7GRKK5UTDRL",
+        "largestHolder": {
+          "address": "GCYS4YCSDZWVB54QTZ4T5I47LUCFQVOPKK3MWIEEDFMLTXEM6XGA7KPQ",
+          "balance": "567921.2054286",
+          "sharePercent": 21.28
+        },
+        "checkedAt": "2026-10-06T09:27:15.730Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=BB1&asset_issuer=GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+          "https://horizon.stellar.org/accounts/GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+          "https://api.stellar.expert/explorer/public/asset/BB1-GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+          "https://api.stellar.expert/explorer/public/asset/BB1-GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN/holders?limit=1&order=desc"
+        ]
+      }
+    },
+    {
+      "asset_code": "YLDS",
+      "issuer": "GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+      "issuer_org": "Figure Certificate Company",
+      "identity": {
+        "status": "verified",
+        "flag": null,
+        "severity": null,
+        "reason": "The issuer verifies against the official domain ylds.com: the stellar.toml at www.ylds.com lists this issuer account (as of 2026-10-06)",
+        "assetCode": "YLDS",
+        "issuer": "GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+        "homeDomain": "www.ylds.com",
+        "officialDomains": [
+          "ylds.com"
+        ],
+        "codeListed": true,
+        "checkedAt": "2026-10-06T09:27:17.469Z",
+        "sources": [
+          "https://horizon.stellar.org/accounts/GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+          "https://www.ylds.com/.well-known/stellar.toml"
+        ],
+        "tomlSha256": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81",
+        "tomlParseMode": "strict"
+      },
+      "facts": {
+        "assetCode": "YLDS",
+        "issuer": "GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+        "exists": true,
+        "supply": "25244820.1116650",
+        "supplyBreakdown": {
+          "authorized": "25244786.1616650",
+          "authorized_to_maintain_liabilities": "0.0000000",
+          "unauthorized": "33.9500000",
+          "claimable_balances": "0.0000000",
+          "liquidity_pools": "0.0000000",
+          "contracts": "0.0000000"
+        },
+        "authorizedTrustlines": 9,
+        "fundedHolders": 7,
+        "flags": {
+          "auth_required": true,
+          "auth_revocable": true,
+          "auth_immutable": false,
+          "auth_clawback_enabled": true
+        },
+        "issuerSigners": [
+          {
+            "key": "GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+            "weight": 1
+          }
+        ],
+        "issuerThresholds": {
+          "low": 0,
+          "medium": 0,
+          "high": 0
+        },
+        "sacContractId": "CALI5NJUXWSDKW4FUUQEAHTRD4IY6EQ4BIA6YGPMABRNXMXH7WWCC7Q6",
+        "largestHolder": {
+          "address": "GAEH6EWMSXW6ATH2JHYW3EHQAJ3MWVKENLMKEH2D2VPRLYQPQUM26CHV",
+          "balance": "25244774.1066350",
+          "sharePercent": 99.99
+        },
+        "checkedAt": "2026-10-06T09:27:17.470Z",
+        "sources": [
+          "https://horizon.stellar.org/assets?asset_code=YLDS&asset_issuer=GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+          "https://horizon.stellar.org/accounts/GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+          "https://api.stellar.expert/explorer/public/asset/YLDS-GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+          "https://api.stellar.expert/explorer/public/asset/YLDS-GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3/holders?limit=1&order=desc"
+        ]
+      }
+    }
+  ]
+}

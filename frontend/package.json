@@ -11,7 +11,8 @@
     "check:assets": "tsx scripts/check-assets.ts",
     "map:sec": "tsx --env-file-if-exists=.env scripts/map-sec.ts",
     "snapshot:docs": "tsx --env-file-if-exists=.env scripts/snapshot-docs.ts",
-    "extract:claims": "tsx --env-file-if-exists=.env scripts/extract-claims.ts"
+    "extract:claims": "tsx --env-file-if-exists=.env scripts/extract-claims.ts",
+    "examine": "tsx --env-file-if-exists=.env scripts/examine.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.88",

@@ -4,32 +4,43 @@
  *
  *   npm run examine
  *
- * Writes:
+ * Writes (together, at the end of the run):
  *   data/claims/sources.json            facts read by code from SEC filings and stellar.toml supply fields
- *   data/examinations/YYYY-MM-DD.json   checks (consistent / mismatch / not_comparable) and investigations
+ *   data/examinations/YYYY-MM-DD.json   checks, investigations, patterns, errors, and the run's limits
  */
 import fs from "fs";
 import path from "path";
-import { createHash } from "node:crypto";
-import { getAssetFacts } from "../lib/chain/asset";
+import { formatStroops, getAssetFacts, totalSupply } from "../lib/chain/asset";
 import { fetchUntrustedBytes } from "../lib/chain/http";
 import { listIssuers } from "../lib/chain/horizon";
 import { checkIssuerIdentity } from "../lib/chain/identity";
 import { MAX_TOML_BYTES, sameSiteWww, stellarTomlUrl } from "../lib/chain/toml";
 import { loadUniverse, parseCsv } from "../lib/chain/universe";
-import { SnapshotStore, type SnapshotRecord } from "../lib/documents/store";
+import { EXTRACTOR_VERSION } from "../lib/documents/extract";
+import { SnapshotStore, assetKey, type SnapshotRecord } from "../lib/documents/store";
 import { ClaimStore, type Claim } from "../lib/claims/store";
 import { checkFiledShares, checkMaxIssuance, checkTomlFixedNumber, checkTomlMaxNumber, type CheckResult, type Reference } from "../lib/examine/checks";
-import { investigateIdentityMismatch, investigateSupplyMismatch, type Investigation } from "../lib/examine/investigate";
+import { investigateIdentityMismatch, investigateSupplyMismatch, lineOverlap, orgName, type Investigation } from "../lib/examine/investigate";
 import { parseNmfp3, parseNport, tomlSupplyFields, type SourceFact } from "../lib/examine/sources";
 
 const DATA = path.join(process.cwd(), "..", "data");
 const DELAY_MS = 400;
-/** Lookalike issuers investigated per asset code, and in total (bounded). */
+/** Issuers sharing a pinned code that are investigated per code, and in total (bounded). */
 const IDENTITY_PER_CODE = 2;
 const IDENTITY_TOTAL = 12;
 const ISSUERS_SCANNED = 6;
+/**
+ * Codes that are invented for one product (brand names), so another issuer
+ * using one is worth a look on its own. Every other code (ordinary words and
+ * common tickers such as GOLD, TIPS, SPXU) is only investigated when the
+ * issuer's toml or domain points at the pinned organization.
+ */
+const DISTINCTIVE_CODES = new Set([
+  "BENJI", "gBENJI", "grBENJI", "sgBENJI", "USDY", "USTRY", "TESOURO", "YLDS", "BB1", "WTGX", "WTSY", "WTTS", "WTST", "WTLG", "WTSI", "FLTT",
+]);
+
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const errorText = (err: unknown) => (err instanceof Error ? err.message : String(err));
 
 type SecRow = { asset_code: string; issuer: string; cik: string; series_id: string; class_id: string };
 export type StoredSourceFact = SourceFact & { asset: string; source_url: string; source_class: string; snapshot_sha256: string; field_source: "code"; label: string };
@@ -48,31 +59,47 @@ function writeJson(file: string, data: unknown) {
   fs.renameSync(tmp, file);
 }
 
-/** Read code-derived facts from every filing and toml snapshot; each quote is re-checked against the exact bytes. */
+/** The newest record per URL, then per asset and filing form the newest report. */
+function currentRecords(records: readonly SnapshotRecord[]) {
+  const byUrl = new Map<string, SnapshotRecord>();
+  for (const r of records) {
+    const seen = byUrl.get(r.url);
+    if (!seen || r.lastSeenAt > seen.lastSeenAt) byUrl.set(r.url, r);
+  }
+  const latest = [...byUrl.values()];
+  return latest.filter((r) => {
+    if (r.sourceClass !== "regulatory_filing" || !r.filing) return true;
+    const form = r.filing.form.replace(/\/A$/, "");
+    return !latest.some(
+      (o) => o !== r && o.filing && o.filing.form.replace(/\/A$/, "") === form && o.assets.some((a) => r.assets.includes(a)) && o.filing.filedAt > r.filing!.filedAt,
+    );
+  });
+}
+
+/** Code-derived facts from the current filings and tomls; each quote is checked at its exact offset in the bytes. */
 function readSourceFacts(snapshots: SnapshotStore, secMap: SecRow[]): StoredSourceFact[] {
   const facts: StoredSourceFact[] = [];
-  const bytesOf = (r: SnapshotRecord) => fs.readFileSync(path.join(snapshots.dir, "blobs", r.sha256), "utf8");
-  for (const record of snapshots.all()) {
+  for (const record of currentRecords(snapshots.all())) {
     if (record.sourceClass !== "regulatory_filing" && record.sourceClass !== "issuer_toml") continue;
     if (!snapshots.verifyBlob(record.sha256)) {
       console.log(`skip (blob does not match its hash) ${record.url}`);
       continue;
     }
-    const text = bytesOf(record);
+    const text = fs.readFileSync(path.join(snapshots.dir, "blobs", record.sha256), "utf8");
     for (const asset of record.assets) {
       const [code, issuer] = asset.split(":");
       let found: SourceFact[] | null = null;
-      let label = "stellar.toml";
+      let label = `${new URL(record.finalUrl).hostname.replace(/^www\./, "")} stellar.toml`;
       if (record.sourceClass === "regulatory_filing" && record.filing) {
         const sec = secMap.find((r) => r.asset_code === code && r.issuer === issuer);
         if (!sec) continue;
         found = record.filing.form.startsWith("N-MFP") ? parseNmfp3(text, sec.class_id) : parseNport(text, sec.series_id);
         label = `SEC ${record.filing.form} filed ${record.filing.filedAt}`;
-      } else if (record.sourceClass === "issuer_toml") {
+      } else {
         found = tomlSupplyFields(text, code, issuer);
       }
       for (const fact of found ?? []) {
-        if (!text.includes(fact.quote)) continue; // golden rule 2: the quote must be in the exact bytes
+        if (text.slice(fact.offset, fact.offset + fact.quote.length) !== fact.quote) continue; // golden rule 2, at the exact place
         facts.push({ ...fact, asset, source_url: record.url, source_class: record.sourceClass, snapshot_sha256: record.sha256, field_source: "code", label });
       }
     }
@@ -90,6 +117,9 @@ const refFromClaim = (c: Claim): Reference => ({
   where: c.page ? `page ${c.page}` : null, snapshot_sha256: c.snapshot_sha256,
 });
 
+/** The second-level label of a domain ("franklintempleton" for www.franklintempleton.com). */
+const brand = (domain: string) => domain.replace(/^www\./, "").split(".").slice(-2)[0];
+
 async function main() {
   const universe = loadUniverse();
   if (universe.length === 0) {
@@ -99,118 +129,163 @@ async function main() {
   const snapshots = new SnapshotStore();
   const claims = new ClaimStore().claims;
   const sources = readSourceFacts(snapshots, loadSecMap());
-  writeJson(path.join(DATA, "claims", "sources.json"), sources);
 
   const checkedAt = new Date().toISOString();
   const checks: CheckResult[] = [];
   const investigations: Investigation[] = [];
+  const errors: { asset: string; step: string; error: string }[] = [];
+  const limits: string[] = [];
 
   for (const [i, a] of universe.entries()) {
-    if (i > 0) await sleep(DELAY_MS);
-    const asset = `${a.asset_code}:${a.issuer}`;
+    const asset = assetKey(a.asset_code, a.issuer);
     const mine = sources.filter((f) => f.asset === asset);
-    const myClaims = claims.filter((c) => c.asset === asset);
+    const myClaims = claims.filter((c) => c.asset === asset && typeof c.value === "number");
     if (mine.length === 0 && !myClaims.some((c) => c.field === "max_issuance")) continue;
+    if (i > 0) await sleep(DELAY_MS);
 
-    const facts = await getAssetFacts(a.asset_code, a.issuer);
+    let facts;
+    try {
+      facts = await getAssetFacts(a.asset_code, a.issuer);
+    } catch (err) {
+      errors.push({ asset, step: "asset_facts", error: errorText(err) });
+      console.log(`${a.asset_code.padEnd(8)} error reading Horizon (${errorText(err)})`);
+      continue;
+    }
     if (!facts.exists || !facts.supply) {
-      console.log(`${a.asset_code.padEnd(8)} asset not found on Horizon`);
+      errors.push({ asset, step: "asset_facts", error: "asset not found on Horizon" });
       continue;
     }
     const supply = facts.supply;
-    const ratio = myClaims.find((c) => c.field === "token_unit_ratio" && typeof c.value === "number");
+    const ratios = myClaims.filter((c) => c.field === "token_unit_ratio").map(refFromClaim);
     const results: CheckResult[] = [];
-
     for (const f of mine.filter((f) => f.field === "toml_fixed_number")) results.push(checkTomlFixedNumber(asset, supply, facts.checkedAt, refFromSource(f)));
     for (const f of mine.filter((f) => f.field === "toml_max_number")) results.push(checkTomlMaxNumber(asset, supply, facts.checkedAt, refFromSource(f)));
-    for (const f of mine.filter((f) => f.field === "units_outstanding")) {
-      results.push(checkFiledShares(asset, supply, facts.checkedAt, refFromSource(f), ratio ? refFromClaim(ratio) : null));
-    }
-    for (const c of myClaims.filter((c) => c.field === "max_issuance" && typeof c.value === "number")) {
-      const sameUnitRatio = myClaims.find((r) => r.field === "token_unit_ratio" && typeof r.value === "number" && r.unit === c.unit);
+    for (const f of mine.filter((f) => f.field === "units_outstanding")) results.push(checkFiledShares(asset, supply, facts.checkedAt, refFromSource(f), ratios));
+    for (const c of myClaims.filter((c) => c.field === "max_issuance")) {
+      const sameUnitRatio = myClaims.find((r) => r.field === "token_unit_ratio" && r.unit === c.unit);
       results.push(checkMaxIssuance(asset, supply, facts.checkedAt, refFromClaim(c), sameUnitRatio ? refFromClaim(sameUnitRatio) : null));
     }
 
     for (const r of results) {
       checks.push(r);
       console.log(`${a.asset_code.padEnd(8)} ${r.check.padEnd(28)} ${r.status.padEnd(15)} ${r.statement}`);
-      if (r.status === "mismatch" && r.reference) {
-        try {
-          const inv = await investigateSupplyMismatch({
-            asset, check: r.check, supply, breakdown: facts.supplyBreakdown, reference: { label: r.reference.label, value: r.reference.value },
-          });
-          investigations.push(inv);
-          console.log(`         investigation: ${inv.conclusion}`);
-          for (const limit of inv.limits) console.log(`         limit: ${limit}`);
-        } catch (err) {
-          console.log(`         investigation error (${err instanceof Error ? err.message : err})`);
-        }
+      if (r.status !== "mismatch" || !r.reference || !r.threshold_tokens) continue;
+      try {
+        const inv = await investigateSupplyMismatch({
+          asset, check: r.check, supply, breakdown: facts.supplyBreakdown, reference: { label: r.reference.label, tokens: r.threshold_tokens },
+        });
+        investigations.push(inv);
+        console.log(`         investigation: ${inv.conclusion}`);
+      } catch (err) {
+        errors.push({ asset, step: `investigate:${r.check}`, error: errorText(err) });
+        console.log(`         investigation error (${errorText(err)})`);
       }
     }
   }
 
-  // Issuers using a pinned asset code without verifying against its official domain.
-  const tomlText = async (domain: string) => {
+  // Issuers that share a pinned asset's code without verifying against its domain.
+  const fetchToml = async (domain: string) => {
     try {
-      const { bytes, finalUrl } = await fetchUntrustedBytes(stellarTomlUrl(domain), { maxBytes: MAX_TOML_BYTES, allowRedirect: sameSiteWww });
-      return { url: finalUrl, text: new TextDecoder().decode(bytes), sha256: createHash("sha256").update(bytes).digest("hex") };
+      const { bytes, contentType, finalUrl } = await fetchUntrustedBytes(stellarTomlUrl(domain), { maxBytes: MAX_TOML_BYTES, allowRedirect: sameSiteWww });
+      return { bytes, contentType, finalUrl, text: new TextDecoder().decode(bytes) };
     } catch {
       return null;
     }
   };
-  let identityInvestigations = 0;
+  let identityCount = 0;
+  const skippedCodes: string[] = [];
   for (const code of [...new Set(universe.map((a) => a.asset_code))]) {
-    if (identityInvestigations >= IDENTITY_TOTAL) break;
+    if (identityCount >= IDENTITY_TOTAL) {
+      skippedCodes.push(code);
+      continue;
+    }
     const pinned = universe.filter((a) => a.asset_code === code);
     const official = pinned[0];
-    const officialRecord = snapshots.all().find((r) => r.sourceClass === "issuer_toml" && r.assets.includes(`${official.asset_code}:${official.issuer}`));
-    const officialToml = officialRecord ? { url: officialRecord.url, text: snapshots.readText(officialRecord.sha256) ?? "", sha256: officialRecord.sha256 } : null;
-    await sleep(DELAY_MS);
-    const { records } = await listIssuers(code);
+    const officialRecord = snapshots.all().find((r) => r.sourceClass === "issuer_toml" && r.assets.includes(assetKey(official.asset_code, official.issuer)));
+    const officialText = officialRecord ? snapshots.readText(officialRecord.sha256) : null;
+    const officialToml = officialRecord && officialText ? { url: officialRecord.url, text: officialText, sha256: officialRecord.sha256 } : null;
+    const officialOrg = (officialText && orgName(officialText)) || official.issuer_org;
+
+    let records;
+    try {
+      await sleep(DELAY_MS);
+      records = (await listIssuers(code)).records;
+    } catch (err) {
+      errors.push({ asset: code, step: "list_issuers", error: errorText(err) });
+      continue;
+    }
     let done = 0;
     for (const rec of records.filter((r) => !pinned.some((p) => p.issuer === r.asset_issuer)).slice(0, ISSUERS_SCANNED)) {
-      if (done >= IDENTITY_PER_CODE || identityInvestigations >= IDENTITY_TOTAL) break;
-      const id = await checkIssuerIdentity(code, rec.asset_issuer, universe);
-      if (id.status === "verified" || !id.homeDomain) continue;
-      const toml = await tomlText(id.homeDomain);
-      const inv = await investigateIdentityMismatch({
-        code, issuer: rec.asset_issuer, status: id.status, homeDomain: id.homeDomain, officialDomains: id.officialDomains,
-        trustlines: rec.accounts.authorized, supply: rec.balances.authorized, toml, officialToml,
-      });
-      investigations.push(inv);
-      done++;
-      identityInvestigations++;
-      console.log(`${code.padEnd(8)} issuer_identity              ${id.status.padEnd(15)} ${inv.conclusion}`);
+      if (done >= IDENTITY_PER_CODE || identityCount >= IDENTITY_TOTAL) break;
+      const asset = assetKey(code, rec.asset_issuer);
+      try {
+        const id = await checkIssuerIdentity(code, rec.asset_issuer, universe);
+        if (id.status === "verified" || !id.homeDomain) continue;
+        const fetched = await fetchToml(id.homeDomain);
+        if (!DISTINCTIVE_CODES.has(code)) {
+          // A common code: only look further when the issuer points at the pinned organization.
+          const sameOrg = Boolean(fetched && orgName(fetched.text) === officialOrg);
+          const copied = Boolean(fetched && officialToml && lineOverlap(fetched.text, officialToml.text) >= 0.5);
+          const similarDomain = id.homeDomain.includes(brand(official.official_domain));
+          if (!sameOrg && !copied && !similarDomain) continue;
+        }
+        let toml: { url: string; text: string; sha256: string } | null = null;
+        if (fetched) {
+          const record = snapshots.save({
+            bytes: fetched.bytes, url: stellarTomlUrl(id.homeDomain), finalUrl: fetched.finalUrl, contentType: fetched.contentType,
+            sourceClass: "third_party_toml", asset, discoveredFrom: null, text: { kind: "text", value: fetched.text, pages: null }, extractor: EXTRACTOR_VERSION,
+          });
+          toml = { url: fetched.finalUrl, text: fetched.text, sha256: record.sha256 };
+        }
+        const inv = await investigateIdentityMismatch({
+          code, issuer: rec.asset_issuer, status: id.status, homeDomain: id.homeDomain,
+          pinned: { issuer: official.issuer, org: officialOrg, domain: official.official_domain },
+          trustlines: rec.accounts.authorized, supply: formatStroops(totalSupply(rec).total), toml, officialToml,
+        });
+        investigations.push(inv);
+        done++;
+        identityCount++;
+        console.log(`${code.padEnd(8)} issuer_identity              ${id.status.padEnd(15)} ${inv.conclusion}`);
+      } catch (err) {
+        errors.push({ asset, step: "investigate:issuer_identity", error: errorText(err) });
+      }
     }
   }
+  if (skippedCodes.length) limits.push(`The identity scan stopped at ${IDENTITY_TOTAL} investigations; codes not scanned: ${skippedCodes.join(", ")}.`);
+  limits.push(
+    `For each code, up to ${ISSUERS_SCANNED} other issuers (most trustlines first) were checked, and up to ${IDENTITY_PER_CODE} investigated. Only brand-specific codes (${[...DISTINCTIVE_CODES].join(", ")}) were investigated without further signals; other codes only when the issuer's toml (same ORG_NAME or at least half its lines) or domain points at the pinned organization.`,
+  );
 
-  // Facts across investigations: one account funding several of these issuers.
+  // Facts across investigations: one account funding several of these issuer accounts.
   const byFunder = new Map<string, string[]>();
   for (const inv of investigations) {
     const funder = (inv.steps.find((st) => st.step === "account_origin")?.data as { funder?: string } | undefined)?.funder;
     if (funder) byFunder.set(funder, [...(byFunder.get(funder) ?? []), inv.asset]);
   }
   const patterns = [...byFunder]
-    .map(([funder, assets]) => ({ funder, assets, accounts: [...new Set(assets.map((a) => a.split(":")[1]))] }))
+    .map(([funder, assets]) => ({ funder, accounts: [...new Set(assets.map((a) => a.split(":")[1]))], codes: [...new Set(assets.map((a) => a.split(":")[0]))] }))
     .filter((g) => g.accounts.length > 1)
     .map((g) => ({
       pattern: "shared_funder",
       funder: g.funder,
       issuer_accounts: g.accounts,
-      assets: g.assets,
-      statement: `Account ${g.funder} created ${g.accounts.length} of the issuer accounts investigated above (${g.accounts.join(", ")}), which issue ${g.assets.map((a) => a.split(":")[0]).join(", ")}.`,
+      codes: g.codes,
+      statement: `Account ${g.funder} created ${g.accounts.length} of the investigated issuer accounts (${g.accounts.join(", ")}), which issue ${g.codes.join(", ")}.`,
     }));
   for (const p of patterns) console.log(`pattern  ${p.statement}`);
 
+  snapshots.flush();
+  writeJson(path.join(DATA, "claims", "sources.json"), sources);
   const outFile = path.join(DATA, "examinations", `${checkedAt.slice(0, 10)}.json`);
-  writeJson(outFile, { checked_at: checkedAt, checks, investigations, patterns });
+  writeJson(outFile, { checked_at: checkedAt, checks, investigations, patterns, errors, limits });
   const count = (s: string) => checks.filter((c) => c.status === s).length;
   console.log(
-    `\n${sources.length} code-read facts → data/claims/sources.json. ${checks.length} checks: ${count("consistent")} consistent, ${count("mismatch")} mismatch, ${count("not_comparable")} not comparable; ${investigations.length} investigations → ${path.relative(DATA, outFile)}`,
+    `\n${sources.length} code-read facts. ${checks.length} checks: ${count("consistent")} consistent, ${count("mismatch")} mismatch, ${count("not_comparable")} not comparable; ` +
+      `${investigations.length} investigations; ${errors.length} errors → ${path.relative(DATA, outFile)}`,
   );
 }
 
 main().catch((err) => {
-  console.error(err instanceof Error ? err.message : err);
+  console.error(errorText(err));
   process.exit(1);
 });

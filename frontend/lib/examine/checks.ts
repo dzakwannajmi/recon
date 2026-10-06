@@ -27,6 +27,10 @@ export type CheckResult = {
   status: "consistent" | "mismatch" | "not_comparable";
   onchain: { supply: string; as_of: string };
   reference: Reference | null;
+  /** The token ratio used to convert, when one was used. */
+  ratio: Reference | null;
+  /** The reference expressed in tokens (decimal string), for investigations. */
+  threshold_tokens: string | null;
   /** On-chain minus reference, in tokens, when comparable. */
   difference: string | null;
   statement: string;
@@ -34,24 +38,33 @@ export type CheckResult = {
 
 /** Tolerance for comparing today's supply with a month-end or quarter-end filing (fund flows). */
 export const FILED_SHARES_TOLERANCE = 0.1;
+/** An excess over a filing older than this (days) is not compared: normal flows can explain it. */
+export const MAX_FILING_AGE_DAYS = 35;
 
 const fmt = (n: number) => n.toLocaleString("en-US", { maximumFractionDigits: 7 });
+const decimal = (n: number) => n.toFixed(7);
+const daysBetween = (a: string, b: string) => Math.round((Date.parse(b.slice(0, 10)) - Date.parse(a.slice(0, 10))) / 86_400_000);
 const where = (r: Reference) => `${r.label}${r.where ? `, ${r.where}` : ""}`;
 const day = (iso: string) => iso.slice(0, 10);
 
-function result(asset: string, check: CheckName, onchain: CheckResult["onchain"], reference: Reference | null, status: CheckResult["status"], difference: string | null, statement: string): CheckResult {
-  return { asset, check, status, onchain, reference, difference, statement };
+function result(
+  asset: string, check: CheckName, onchain: CheckResult["onchain"], reference: Reference | null, status: CheckResult["status"],
+  difference: string | null, statement: string, extra: { ratio?: Reference | null; threshold?: string | null } = {},
+): CheckResult {
+  return { asset, check, status, onchain, reference, ratio: extra.ratio ?? null, threshold_tokens: extra.threshold ?? null, difference, statement };
 }
 
 /** SEP-1 fixed_number: the number of tokens will never change, so supply must equal it exactly. */
 export function checkTomlFixedNumber(asset: string, supply: string, asOf: string, ref: Reference): CheckResult {
   const onchain = { supply, as_of: asOf };
   const diff = toStroops(supply) - BigInt(ref.value) * 10_000_000n;
-  if (diff === 0n) return result(asset, "supply_vs_toml_fixed_number", onchain, ref, "consistent", "0.0000000", `On-chain supply ${supply} equals the stellar.toml fixed_number (${fmt(ref.value)}) as of ${day(asOf)}.`);
+  const threshold = String(ref.value);
+  if (diff === 0n) return result(asset, "supply_vs_toml_fixed_number", onchain, ref, "consistent", "0.0000000", `On-chain supply ${supply} equals the fixed_number in ${where(ref)} (${fmt(ref.value)}) as of ${day(asOf)}.`, { threshold });
   const signed = (diff < 0n ? "-" : "") + formatStroops(diff < 0n ? -diff : diff);
   return result(
     asset, "supply_vs_toml_fixed_number", onchain, ref, "mismatch", signed,
-    `Mismatch between ${where(ref)} (fixed_number ${fmt(ref.value)}) and on-chain supply ${supply} as of ${day(asOf)}.`,
+    `Mismatch between ${ref.label} (${ref.where ? `${ref.where}, ` : ""}fixed_number ${fmt(ref.value)}) and on-chain supply ${supply} as of ${day(asOf)}.`,
+    { threshold },
   );
 }
 
@@ -59,36 +72,53 @@ export function checkTomlFixedNumber(asset: string, supply: string, asOf: string
 export function checkTomlMaxNumber(asset: string, supply: string, asOf: string, ref: Reference): CheckResult {
   const onchain = { supply, as_of: asOf };
   const diff = toStroops(supply) - BigInt(ref.value) * 10_000_000n;
-  if (diff <= 0n) return result(asset, "supply_vs_toml_max_number", onchain, ref, "consistent", null, `On-chain supply ${supply} is within the stellar.toml max_number (${fmt(ref.value)}) as of ${day(asOf)}.`);
+  const threshold = String(ref.value);
+  if (diff <= 0n) return result(asset, "supply_vs_toml_max_number", onchain, ref, "consistent", null, `On-chain supply ${supply} is within the max_number in ${where(ref)} (${fmt(ref.value)}) as of ${day(asOf)}.`, { threshold });
   return result(
     asset, "supply_vs_toml_max_number", onchain, ref, "mismatch", formatStroops(diff),
-    `Mismatch between ${where(ref)} (max_number ${fmt(ref.value)}) and on-chain supply ${supply} as of ${day(asOf)}.`,
+    `Mismatch between ${ref.label} (${ref.where ? `${ref.where}, ` : ""}max_number ${fmt(ref.value)}) and on-chain supply ${supply} as of ${day(asOf)}.`,
+    { threshold },
   );
 }
 
 /**
- * Stellar supply (in fund units, via the token-to-unit ratio) against the
- * share class's shares outstanding in an SEC filing. Tokens on Stellar can be
- * a part of the class (other chains, off-chain holders), never more than it,
- * beyond a tolerance for flows since the report date.
+ * Stellar supply against the share class's shares outstanding in an SEC
+ * filing. Tokens on Stellar can be a part of the class (other chains,
+ * off-chain holders), never more than it beyond a tolerance for flows since
+ * the report date. Only a stated 1:1 token-to-share ratio is used for now:
+ * any other ratio's direction is an LLM reading that code can't confirm.
  */
-export function checkFiledShares(asset: string, supply: string, asOf: string, filed: Reference, ratio: Reference | null): CheckResult {
+export function checkFiledShares(asset: string, supply: string, asOf: string, filed: Reference, ratios: Reference[]): CheckResult {
   const onchain = { supply, as_of: asOf };
-  if (!ratio) {
-    return result(asset, "supply_vs_filed_shares", onchain, filed, "not_comparable", null, `Not comparable: the issuer states no token-to-share ratio, so ${supply} tokens can't be compared with ${fmt(filed.value)} shares in ${where(filed)}.`);
+  const usable = ratios.filter((r) => r.value === 1 && (r.unit === null || /^shares?$/i.test(r.unit)));
+  if (usable.length === 0 || usable.length !== ratios.length) {
+    const why = ratios.length === 0 ? "the issuer states no token-to-share ratio" : "the stated token ratios are not a single 1:1 token-to-share ratio";
+    return result(asset, "supply_vs_filed_shares", onchain, filed, "not_comparable", null, `Not comparable: ${why}, so ${supply} tokens can't be compared with ${fmt(filed.value)} shares in ${where(filed)}.`);
   }
-  const units = Number(supply) * ratio.value;
+  const ratio = usable[0];
+  const units = Number(supply);
   const share = (units / filed.value) * 100;
-  const difference = String(units - filed.value);
+  const difference = decimal(units - filed.value);
+  const extra = { ratio, threshold: decimal(filed.value) };
   if (units <= filed.value * (1 + FILED_SHARES_TOLERANCE)) {
     return result(
       asset, "supply_vs_filed_shares", onchain, filed, "consistent", difference,
-      `On-chain supply ${supply} (${fmt(units)} shares at ${fmt(ratio.value)} share per token) is ${share.toFixed(2)}% of the ${fmt(filed.value)} shares in ${where(filed)} (as of ${filed.as_of}); on-chain as of ${day(asOf)}.`,
+      `On-chain supply ${supply} (1 share per token) is ${share.toFixed(2)}% of the ${fmt(filed.value)} shares in ${where(filed)} (as of ${filed.as_of}); on-chain as of ${day(asOf)}.`,
+      extra,
+    );
+  }
+  const age = filed.as_of ? daysBetween(filed.as_of, asOf) : Infinity;
+  if (age > MAX_FILING_AGE_DAYS) {
+    return result(
+      asset, "supply_vs_filed_shares", onchain, filed, "not_comparable", difference,
+      `Not comparable: on-chain supply ${supply} is above the ${fmt(filed.value)} shares in ${where(filed)}, but that report is ${age} days older than the on-chain data (as of ${day(asOf)}), so flows since then can explain it.`,
+      extra,
     );
   }
   return result(
     asset, "supply_vs_filed_shares", onchain, filed, "mismatch", difference,
-    `Mismatch between ${where(filed)} (${fmt(filed.value)} shares as of ${filed.as_of}) and on-chain supply ${supply} (${fmt(units)} shares) as of ${day(asOf)}.`,
+    `Mismatch between ${where(filed)} (${fmt(filed.value)} shares as of ${filed.as_of}) and on-chain supply ${supply} as of ${day(asOf)}.`,
+    extra,
   );
 }
 
@@ -103,12 +133,14 @@ export function checkMaxIssuance(asset: string, supply: string, asOf: string, ma
   if (maxTokens === null) {
     return result(asset, "supply_vs_max_issuance", onchain, max, "not_comparable", null, `Not comparable: ${where(max)} states ${fmt(max.value)}${max.unit ? ` ${max.unit}` : ""} with no token ratio in the same unit.`);
   }
-  const over = Number(supply) - maxTokens;
-  if (over <= 0) {
-    return result(asset, "supply_vs_max_issuance", onchain, max, "consistent", String(over), `On-chain supply ${supply} is within the maximum issuance of ${fmt(maxTokens)} tokens (${where(max)}) as of ${day(asOf)}.`);
+  const over = decimal(Number(supply) - maxTokens);
+  const extra = { ratio, threshold: decimal(maxTokens) };
+  if (Number(over) <= 0) {
+    return result(asset, "supply_vs_max_issuance", onchain, max, "consistent", over, `On-chain supply ${supply} is within the maximum issuance of ${fmt(maxTokens)} tokens (${where(max)}) as of ${day(asOf)}.`, extra);
   }
   return result(
-    asset, "supply_vs_max_issuance", onchain, max, "mismatch", String(over),
+    asset, "supply_vs_max_issuance", onchain, max, "mismatch", over,
     `Mismatch between ${where(max)} (maximum ${fmt(maxTokens)} tokens) and on-chain supply ${supply} as of ${day(asOf)}.`,
+    extra,
   );
 }

@@ -92,6 +92,27 @@
     "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
+    "sha256": "6837e7ae8d20912edcae6acda0ca5f4effab25945a9a2f3faaa196a211cd8114",
+    "url": "https://cboe.xmoney.trading/.well-known/stellar.toml",
+    "finalUrl": "https://cboe.xmoney.trading/.well-known/stellar.toml",
+    "contentType": "text/plain; charset=utf-8",
+    "bytes": 97124,
+    "sourceClass": "third_party_toml",
+    "assets": [
+      "SPXU:GBJXUBKMHQ2N4MA7WVB36KGF44QG5UVVGZB6B5JW3CXLU2WZLUCDPAPZ"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 96968,
+      "pages": null,
+      "sha256": "6837e7ae8d20912edcae6acda0ca5f4effab25945a9a2f3faaa196a211cd8114",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T22:59:24.293Z",
+    "lastSeenAt": "2026-10-06T22:59:24.293Z"
+  },
+  {
     "sha256": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140",
     "url": "https://cdn.figure.com/docs/markets/fcc-prospectus.pdf",
     "finalUrl": "https://cdn.figure.com/docs/markets/fcc-prospectus.pdf",
@@ -163,6 +184,27 @@
     "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
+    "sha256": "d3f55d939758c77a385f24f79d8114f0730594cada6d3196e8d06b4a92b9f109",
+    "url": "https://mint.stellarhub.org/.well-known/stellar.toml",
+    "finalUrl": "https://mint.stellarhub.org/.well-known/stellar.toml",
+    "contentType": "",
+    "bytes": 10630,
+    "sourceClass": "third_party_toml",
+    "assets": [
+      "CRDT:GBVGOLNZDENL4U4NNIAO7X464WTRZQ2SWH3Y3WNWZKDAG66T5YKAQNE4"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 10622,
+      "pages": null,
+      "sha256": "d3f55d939758c77a385f24f79d8114f0730594cada6d3196e8d06b4a92b9f109",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T22:57:27.349Z",
+    "lastSeenAt": "2026-10-06T22:57:27.349Z"
+  },
+  {
     "sha256": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd",
     "url": "https://ondo.finance/",
     "finalUrl": "https://ondo.finance/",
@@ -226,6 +268,69 @@
     "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
+    "sha256": "db6a0f90813684d0c3696d95883f1cdf2875eb3145a0663d38cdeeaf0f80e4d8",
+    "url": "https://proshares.com.co/.well-known/stellar.toml",
+    "finalUrl": "https://proshares.com.co/.well-known/stellar.toml",
+    "contentType": "application/octet-stream",
+    "bytes": 49754,
+    "sourceClass": "third_party_toml",
+    "assets": [
+      "SPXU:GAWNS54444UTO4RHV5Y3LM5SKP5UY4MOFDCVAK73JB4CTID3QKPDHYDF"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 49754,
+      "pages": null,
+      "sha256": "db6a0f90813684d0c3696d95883f1cdf2875eb3145a0663d38cdeeaf0f80e4d8",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T22:59:21.022Z",
+    "lastSeenAt": "2026-10-06T22:59:21.022Z"
+  },
+  {
+    "sha256": "1b01514b6a26598e3777e392008d4e32199d8bee4925f89e513a13a3d7d94245",
+    "url": "https://rwa.stellarsynth.org/.well-known/stellar.toml",
+    "finalUrl": "https://rwa.stellarsynth.org/.well-known/stellar.toml",
+    "contentType": "",
+    "bytes": 335,
+    "sourceClass": "third_party_toml",
+    "assets": [
+      "sgBENJI:GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 335,
+      "pages": null,
+      "sha256": "1b01514b6a26598e3777e392008d4e32199d8bee4925f89e513a13a3d7d94245",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T22:56:52.275Z",
+    "lastSeenAt": "2026-10-06T23:00:58.355Z"
+  },
+  {
+    "sha256": "3419537b02847a58f9a7872004d7a295147d80765df125a5d935d34a13c4a31b",
+    "url": "https://rwastellar.org/.well-known/stellar.toml",
+    "finalUrl": "https://rwastellar.org/.well-known/stellar.toml",
+    "contentType": "",
+    "bytes": 5946,
+    "sourceClass": "third_party_toml",
+    "assets": [
+      "USDY:GD235AUTYKOTSCMRSHZXZYRQ6BRVVQTWBBK6DMDJOJIB74J75RZD7RWA"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 5946,
+      "pages": null,
+      "sha256": "3419537b02847a58f9a7872004d7a295147d80765df125a5d935d34a13c4a31b",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T22:56:56.432Z",
+    "lastSeenAt": "2026-10-06T23:01:02.802Z"
+  },
+  {
     "sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
     "url": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
     "finalUrl": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
@@ -259,6 +364,27 @@
     },
     "fetchedAt": "2026-10-06T13:09:47.813Z",
     "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "ace7b18710c73a3f57ffeee376f16d8576f6c0da8b7a28f99950db70160d73bd",
+    "url": "https://trendx.pages.dev/.well-known/stellar.toml",
+    "finalUrl": "https://trendx.pages.dev/.well-known/stellar.toml",
+    "contentType": "",
+    "bytes": 9046,
+    "sourceClass": "third_party_toml",
+    "assets": [
+      "USTRY:GB3P5ZNOUFIOBTBSFMTBEDNBR3I3Z7DPM6QNOYVO4K7HNIVOECB2J567"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 9025,
+      "pages": null,
+      "sha256": "4bcd63675df6473b12f64aecc0e12a4f04b994dafca7e329eddfd5f6efe5352d",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T22:56:58.987Z",
+    "lastSeenAt": "2026-10-06T23:01:05.360Z"
   },
   {
     "sha256": "1a1ed14b15e67a5c6680ba1ae1a1281206738fe889fdba64cbb308f7fc6af715",

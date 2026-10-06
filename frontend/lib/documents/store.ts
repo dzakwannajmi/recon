@@ -15,7 +15,8 @@ import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-export type SourceClass = "issuer" | "issuer_toml" | "regulatory_filing";
+/** `third_party_toml`: a toml read only to compare it with an issuer's (never an issuer claim). */
+export type SourceClass = "issuer" | "issuer_toml" | "regulatory_filing" | "third_party_toml";
 
 export type FilingInfo = { cik: string; seriesId?: string; form: string; accession: string; filedAt: string };
 

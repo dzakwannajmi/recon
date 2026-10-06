@@ -1,13 +1,13 @@
 {
-  "checked_at": "2026-10-06T22:14:30.502Z",
+  "checked_at": "2026-10-06T22:59:48.673Z",
   "checks": [
     {
       "asset": "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
       "check": "supply_vs_filed_shares",
       "status": "consistent",
       "onchain": {
-        "supply": "522774020.6259489",
-        "as_of": "2026-10-06T22:14:30.502Z"
+        "supply": "522827401.0812004",
+        "as_of": "2026-10-06T22:59:48.673Z"
       },
       "reference": {
         "kind": "filing",
@@ -20,8 +20,20 @@
         "where": "classLevelInfo C000215714",
         "snapshot_sha256": "95d9a389e3797514144c8adaac6b77829e24bac80d15431eafeadf2c60dc8ac7"
       },
-      "difference": "-163863062.95405114",
-      "statement": "On-chain supply 522774020.6259489 (522,774,020.6259489 shares at 1 share per token) is 76.14% of the 686,637,083.58 shares in SEC N-MFP3 filed 2026-09-04, classLevelInfo C000215714 (as of 2026-08-31); on-chain as of 2026-10-06."
+      "ratio": {
+        "kind": "claim",
+        "label": "issuer document https://www.franklintempleton.com/.well-known/stellar.toml",
+        "value": 1,
+        "unit": null,
+        "as_of": null,
+        "source_url": "https://www.franklintempleton.com/.well-known/stellar.toml",
+        "quote": "desc=\"1 BENJI token corresponds to 1 share of the fund.\"",
+        "where": null,
+        "snapshot_sha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5"
+      },
+      "threshold_tokens": "686637083.5800000",
+      "difference": "-163809682.4987996",
+      "statement": "On-chain supply 522827401.0812004 (1 share per token) is 76.14% of the 686,637,083.58 shares in SEC N-MFP3 filed 2026-09-04, classLevelInfo C000215714 (as of 2026-08-31); on-chain as of 2026-10-06."
     },
     {
       "asset": "WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
@@ -29,7 +41,7 @@
       "status": "not_comparable",
       "onchain": {
         "supply": "2197284.7373386",
-        "as_of": "2026-10-06T22:14:41.426Z"
+        "as_of": "2026-10-06T22:59:53.086Z"
       },
       "reference": {
         "kind": "filing",
@@ -42,6 +54,8 @@
         "where": "classLevelInfo C000245468",
         "snapshot_sha256": "747c1dace2d4083435e96a948306c006d1ede8c27ad4714c7b945e4af9acbc2c"
       },
+      "ratio": null,
+      "threshold_tokens": null,
       "difference": null,
       "statement": "Not comparable: the issuer states no token-to-share ratio, so 2197284.7373386 tokens can't be compared with 1,020,262,791.273 shares in SEC N-MFP3 filed 2026-09-04, classLevelInfo C000245468."
     },
@@ -51,21 +65,23 @@
       "status": "mismatch",
       "onchain": {
         "supply": "2668351.5866776",
-        "as_of": "2026-10-06T22:14:57.624Z"
+        "as_of": "2026-10-06T23:00:11.079Z"
       },
       "reference": {
         "kind": "toml",
-        "label": "stellar.toml",
+        "label": "bitbondsto.com stellar.toml",
         "value": 2667360,
         "unit": "tokens",
         "as_of": null,
         "source_url": "https://bitbondsto.com/.well-known/stellar.toml",
         "quote": "fixed_number=\"2,667,360\"",
-        "where": "[[CURRENCIES]] BB1",
+        "where": "[[CURRENCIES]] BB1, line 43",
         "snapshot_sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255"
       },
+      "ratio": null,
+      "threshold_tokens": "2667360",
       "difference": "991.5866776",
-      "statement": "Mismatch between stellar.toml, [[CURRENCIES]] BB1 (fixed_number 2,667,360) and on-chain supply 2668351.5866776 as of 2026-10-06."
+      "statement": "Mismatch between bitbondsto.com stellar.toml ([[CURRENCIES]] BB1, line 43, fixed_number 2,667,360) and on-chain supply 2668351.5866776 as of 2026-10-06."
     },
     {
       "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
@@ -73,7 +89,7 @@
       "status": "consistent",
       "onchain": {
         "supply": "2668351.5866776",
-        "as_of": "2026-10-06T22:14:57.624Z"
+        "as_of": "2026-10-06T23:00:11.079Z"
       },
       "reference": {
         "kind": "claim",
@@ -86,6 +102,18 @@
         "where": "page 48",
         "snapshot_sha256": "b6e802e66c624445342ff685d18116fd18d31eab600720c0834aa6d960e83ca3"
       },
+      "ratio": {
+        "kind": "claim",
+        "label": "issuer document https://www.bitbondsto.com/files/bitbond-sto-prospectus-de.pdf",
+        "value": 1,
+        "unit": "EUR",
+        "as_of": null,
+        "source_url": "https://www.bitbondsto.com/files/bitbond-sto-prospectus-de.pdf",
+        "quote": "Ein BB1-Token entspricht EUR 1 der gezeichneten Schuldverschreibung.",
+        "where": "page 44",
+        "snapshot_sha256": "cf83d61cdc9752b752a58b7be44de16eb09eda99d6aba0f29445243af40e8e4a"
+      },
+      "threshold_tokens": "100000000.0000000",
       "difference": "-97331648.4133224",
       "statement": "On-chain supply 2668351.5866776 is within the maximum issuance of 100,000,000 tokens (issuer document https://www.bitbondsto.com/files/bitbond-sto-prospectus.pdf, page 48) as of 2026-10-06."
     },
@@ -95,7 +123,7 @@
       "status": "not_comparable",
       "onchain": {
         "supply": "2668351.5866776",
-        "as_of": "2026-10-06T22:14:57.624Z"
+        "as_of": "2026-10-06T23:00:11.079Z"
       },
       "reference": {
         "kind": "claim",
@@ -108,6 +136,8 @@
         "where": "page 39",
         "snapshot_sha256": "cf83d61cdc9752b752a58b7be44de16eb09eda99d6aba0f29445243af40e8e4a"
       },
+      "ratio": null,
+      "threshold_tokens": null,
       "difference": null,
       "statement": "Not comparable: issuer document https://www.bitbondsto.com/files/bitbond-sto-prospectus-de.pdf, page 39 states 100,000,000 with no token ratio in the same unit."
     }
@@ -116,7 +146,7 @@
     {
       "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
       "check": "supply_vs_toml_fixed_number",
-      "started_at": "2026-10-06T22:14:59.194Z",
+      "started_at": "2026-10-06T23:00:13.413Z",
       "steps": [
         {
           "step": "supply_breakdown",
@@ -134,7 +164,7 @@
         {
           "step": "issuance_history",
           "query": "https://horizon.stellar.org/accounts/GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN/payments?order=asc&limit=200",
-          "finding": "151 issuer payments from 2025-08-22 to 2026-10-03: 0 payments of BB1 from the issuer (0.0000000) and 1 back to it (0.0000036).",
+          "finding": "151 issuer payments from 2025-08-22 to 2026-10-03: 0 issuing BB1 (0.0000000) and 1 returning it to the issuer (0.0000036).",
           "data": {
             "records": 151,
             "from": "2025-08-22T17:28:38Z",
@@ -142,21 +172,23 @@
             "mints": 0,
             "burns": 1,
             "minted": "0.0000000",
-            "burned": "0.0000036"
+            "burned": "0.0000036",
+            "complete": false
           }
         },
         {
-          "step": "other_supply_operations",
+          "step": "other_operations",
           "query": "https://horizon.stellar.org/accounts/GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN/operations?order=asc&limit=200",
-          "finding": "No clawback, claimable-balance, path-payment, or pool-deposit operations by the issuer in the history read.",
+          "finding": "No clawback, claimable-balance, offer, or pool operations by the issuer involving BB1 in the history read.",
           "data": {
             "first_operation": "payment",
             "first_operation_at": "2025-08-22T17:28:38Z",
-            "counts": {}
+            "counts": {},
+            "contract_calls": 0
           }
         }
       ],
-      "conclusion": "On-chain supply 2668351.5866776 differs from stellar.toml (2667360). The issuer's payment history read here (from 2025-08-22) shows no issuance payment of BB1 and 1 payment(s) back to the issuer; the tokens were issued before that history or by other operations.",
+      "conclusion": "On-chain supply 2668351.5866776 differs from bitbondsto.com stellar.toml (2667360 tokens). The issuer's payment history read here (from 2025-08-22) shows no issuing payment of BB1; it was issued before that history or by other operations.",
       "limits": [
         "Horizon's history for the issuer starts at 2025-08-22 and does not include the account's creation, so earlier issuance is not visible here."
       ]
@@ -164,12 +196,12 @@
     {
       "asset": "BENJI:GDE523GTP5CJT66A6EPSAKSDGJ5HVE3XXP3JVC5MKGPYNJWIXOJ4GPQ4",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:02.370Z",
+      "started_at": "2026-10-06T23:00:16.390Z",
       "steps": [
         {
           "step": "identity",
           "query": "https://horizon.stellar.org/accounts/GDE523GTP5CJT66A6EPSAKSDGJ5HVE3XXP3JVC5MKGPYNJWIXOJ4GPQ4",
-          "finding": "home_domain native-rwa.com; the official domain pinned for BENJI is franklintempleton.com; identity status domain_mismatch."
+          "finding": "Shares the code BENJI with the pinned asset BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5 (Franklin Templeton, franklintempleton.com); its home_domain is native-rwa.com; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
@@ -183,7 +215,7 @@
         {
           "step": "footprint",
           "query": "https://horizon.stellar.org/assets?asset_code=BENJI&asset_issuer=GDE523GTP5CJT66A6EPSAKSDGJ5HVE3XXP3JVC5MKGPYNJWIXOJ4GPQ4",
-          "finding": "238 authorized trustlines; supply 100000000000.0000000."
+          "finding": "238 authorized trustlines; total supply 100000000000.0000000."
         },
         {
           "step": "toml_comparison",
@@ -191,18 +223,18 @@
           "finding": "No stellar.toml could be read at native-rwa.com."
         }
       ],
-      "conclusion": "Issuer GDE523GTP5CJT66A6EPSAKSDGJ5HVE3XXP3JVC5MKGPYNJWIXOJ4GPQ4 uses the code BENJI with home_domain native-rwa.com, which is not the official domain pinned for BENJI (franklintempleton.com). Account created on 2026-02-08 by GDBIXGZ3EKI3M4DBM65ADLHVNYIOG7JXGOHW5DHUZQAXPORY3QNO2PNY (tx ef9f34c21a38415f05c7a682fe1c79e94c1f1adb1e287782ad5fa5dfac883bdc). 238 authorized trustlines; supply 100000000000.0000000. No stellar.toml could be read at native-rwa.com.",
+      "conclusion": "Issuer GDE523GTP5CJT66A6EPSAKSDGJ5HVE3XXP3JVC5MKGPYNJWIXOJ4GPQ4 shares the code BENJI with the pinned asset BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5 (Franklin Templeton, franklintempleton.com); its home_domain is native-rwa.com. Account created on 2026-02-08 by GDBIXGZ3EKI3M4DBM65ADLHVNYIOG7JXGOHW5DHUZQAXPORY3QNO2PNY (tx ef9f34c21a38415f05c7a682fe1c79e94c1f1adb1e287782ad5fa5dfac883bdc). 238 authorized trustlines; total supply 100000000000.0000000. No stellar.toml could be read at native-rwa.com.",
       "limits": []
     },
     {
       "asset": "BENJI:GABN7T67CJN4XD6BQA7Y73JHXLO75UACHD7WYNYV4OCKNLJSJZG5CPAC",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:03.893Z",
+      "started_at": "2026-10-06T23:00:18.051Z",
       "steps": [
         {
           "step": "identity",
           "query": "https://horizon.stellar.org/accounts/GABN7T67CJN4XD6BQA7Y73JHXLO75UACHD7WYNYV4OCKNLJSJZG5CPAC",
-          "finding": "home_domain 2pacdrop.com; the official domain pinned for BENJI is franklintempleton.com; identity status domain_mismatch."
+          "finding": "Shares the code BENJI with the pinned asset BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5 (Franklin Templeton, franklintempleton.com); its home_domain is 2pacdrop.com; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
@@ -216,7 +248,7 @@
         {
           "step": "footprint",
           "query": "https://horizon.stellar.org/assets?asset_code=BENJI&asset_issuer=GABN7T67CJN4XD6BQA7Y73JHXLO75UACHD7WYNYV4OCKNLJSJZG5CPAC",
-          "finding": "202 authorized trustlines; supply 35105000000.0000000."
+          "finding": "202 authorized trustlines; total supply 35105000000.0000000."
         },
         {
           "step": "toml_comparison",
@@ -224,18 +256,18 @@
           "finding": "No stellar.toml could be read at 2pacdrop.com."
         }
       ],
-      "conclusion": "Issuer GABN7T67CJN4XD6BQA7Y73JHXLO75UACHD7WYNYV4OCKNLJSJZG5CPAC uses the code BENJI with home_domain 2pacdrop.com, which is not the official domain pinned for BENJI (franklintempleton.com). Account created on 2026-05-23 by GC55JLWRCPQG67FVWXNZ4TNB7PKI4MQ7WU2DYKU3XUDFCDTHVA2KOPAC (tx 1ea67633d8569812a00a5ae98b369dbc6100813c411373c08ef823c3ca582a99). 202 authorized trustlines; supply 35105000000.0000000. No stellar.toml could be read at 2pacdrop.com.",
+      "conclusion": "Issuer GABN7T67CJN4XD6BQA7Y73JHXLO75UACHD7WYNYV4OCKNLJSJZG5CPAC shares the code BENJI with the pinned asset BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5 (Franklin Templeton, franklintempleton.com); its home_domain is 2pacdrop.com. Account created on 2026-05-23 by GC55JLWRCPQG67FVWXNZ4TNB7PKI4MQ7WU2DYKU3XUDFCDTHVA2KOPAC (tx 1ea67633d8569812a00a5ae98b369dbc6100813c411373c08ef823c3ca582a99). 202 authorized trustlines; total supply 35105000000.0000000. No stellar.toml could be read at 2pacdrop.com.",
       "limits": []
     },
     {
       "asset": "gBENJI:GACWH5TUEAZV4VTC44WVJ2P2NCNUDDRBM4NRLB75IWPLZOIANTIMCL7P",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:05.297Z",
+      "started_at": "2026-10-06T23:00:19.599Z",
       "steps": [
         {
           "step": "identity",
           "query": "https://horizon.stellar.org/accounts/GACWH5TUEAZV4VTC44WVJ2P2NCNUDDRBM4NRLB75IWPLZOIANTIMCL7P",
-          "finding": "home_domain mintsoroban.org; the official domain pinned for gBENJI is franklintempleton.com; identity status domain_mismatch."
+          "finding": "Shares the code gBENJI with the pinned asset gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP (Franklin Templeton, franklintempleton.com); its home_domain is mintsoroban.org; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
@@ -245,7 +277,7 @@
         {
           "step": "footprint",
           "query": "https://horizon.stellar.org/assets?asset_code=gBENJI&asset_issuer=GACWH5TUEAZV4VTC44WVJ2P2NCNUDDRBM4NRLB75IWPLZOIANTIMCL7P",
-          "finding": "5 authorized trustlines; supply 138556774.2982236."
+          "finding": "5 authorized trustlines; total supply 138556774.2982236."
         },
         {
           "step": "toml_comparison",
@@ -253,7 +285,7 @@
           "finding": "No stellar.toml could be read at mintsoroban.org."
         }
       ],
-      "conclusion": "Issuer GACWH5TUEAZV4VTC44WVJ2P2NCNUDDRBM4NRLB75IWPLZOIANTIMCL7P uses the code gBENJI with home_domain mintsoroban.org, which is not the official domain pinned for gBENJI (franklintempleton.com). The earliest operation in Horizon's history is payment on 2025-08-17. 5 authorized trustlines; supply 138556774.2982236. No stellar.toml could be read at mintsoroban.org.",
+      "conclusion": "Issuer GACWH5TUEAZV4VTC44WVJ2P2NCNUDDRBM4NRLB75IWPLZOIANTIMCL7P shares the code gBENJI with the pinned asset gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP (Franklin Templeton, franklintempleton.com); its home_domain is mintsoroban.org. The earliest operation in Horizon's history is payment on 2025-08-17. 5 authorized trustlines; total supply 138556774.2982236. No stellar.toml could be read at mintsoroban.org.",
       "limits": [
         "Horizon's history does not include this account's creation."
       ]
@@ -261,12 +293,12 @@
     {
       "asset": "gBENJI:GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:26.706Z",
+      "started_at": "2026-10-06T23:00:41.282Z",
       "steps": [
         {
           "step": "identity",
           "query": "https://horizon.stellar.org/accounts/GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK",
-          "finding": "home_domain lumenvaultx.org; the official domain pinned for gBENJI is franklintempleton.com; identity status domain_mismatch."
+          "finding": "Shares the code gBENJI with the pinned asset gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP (Franklin Templeton, franklintempleton.com); its home_domain is lumenvaultx.org; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
@@ -280,7 +312,7 @@
         {
           "step": "footprint",
           "query": "https://horizon.stellar.org/assets?asset_code=gBENJI&asset_issuer=GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK",
-          "finding": "5 authorized trustlines; supply 2000000000.0000000."
+          "finding": "5 authorized trustlines; total supply 2000000000.0000000."
         },
         {
           "step": "toml_comparison",
@@ -288,18 +320,18 @@
           "finding": "No stellar.toml could be read at lumenvaultx.org."
         }
       ],
-      "conclusion": "Issuer GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK uses the code gBENJI with home_domain lumenvaultx.org, which is not the official domain pinned for gBENJI (franklintempleton.com). Account created on 2026-07-14 by GB4DCS3VBHOMNUB5K5SFBXKFSRDBPZGQE43MWMFTHY4CF4YNIAXNXCUN (tx 7bbc00f24ed38ced9e4f39c729cdd00a573ef29dd885f230df41bd14f087804e). 5 authorized trustlines; supply 2000000000.0000000. No stellar.toml could be read at lumenvaultx.org.",
+      "conclusion": "Issuer GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK shares the code gBENJI with the pinned asset gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP (Franklin Templeton, franklintempleton.com); its home_domain is lumenvaultx.org. Account created on 2026-07-14 by GB4DCS3VBHOMNUB5K5SFBXKFSRDBPZGQE43MWMFTHY4CF4YNIAXNXCUN (tx 7bbc00f24ed38ced9e4f39c729cdd00a573ef29dd885f230df41bd14f087804e). 5 authorized trustlines; total supply 2000000000.0000000. No stellar.toml could be read at lumenvaultx.org.",
       "limits": []
     },
     {
       "asset": "sgBENJI:GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:40.050Z",
+      "started_at": "2026-10-06T23:00:54.302Z",
       "steps": [
         {
           "step": "identity",
           "query": "https://horizon.stellar.org/accounts/GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK",
-          "finding": "home_domain lumenvaultx.org; the official domain pinned for sgBENJI is franklintempleton.com; identity status domain_mismatch."
+          "finding": "Shares the code sgBENJI with the pinned asset sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C (Franklin Templeton, franklintempleton.com); its home_domain is lumenvaultx.org; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
@@ -313,7 +345,7 @@
         {
           "step": "footprint",
           "query": "https://horizon.stellar.org/assets?asset_code=sgBENJI&asset_issuer=GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK",
-          "finding": "8 authorized trustlines; supply 1999999821.4285715."
+          "finding": "8 authorized trustlines; total supply 2000000000.0000000."
         },
         {
           "step": "toml_comparison",
@@ -321,18 +353,18 @@
           "finding": "No stellar.toml could be read at lumenvaultx.org."
         }
       ],
-      "conclusion": "Issuer GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK uses the code sgBENJI with home_domain lumenvaultx.org, which is not the official domain pinned for sgBENJI (franklintempleton.com). Account created on 2026-07-14 by GB4DCS3VBHOMNUB5K5SFBXKFSRDBPZGQE43MWMFTHY4CF4YNIAXNXCUN (tx 7bbc00f24ed38ced9e4f39c729cdd00a573ef29dd885f230df41bd14f087804e). 8 authorized trustlines; supply 1999999821.4285715. No stellar.toml could be read at lumenvaultx.org.",
+      "conclusion": "Issuer GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK shares the code sgBENJI with the pinned asset sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C (Franklin Templeton, franklintempleton.com); its home_domain is lumenvaultx.org. Account created on 2026-07-14 by GB4DCS3VBHOMNUB5K5SFBXKFSRDBPZGQE43MWMFTHY4CF4YNIAXNXCUN (tx 7bbc00f24ed38ced9e4f39c729cdd00a573ef29dd885f230df41bd14f087804e). 8 authorized trustlines; total supply 2000000000.0000000. No stellar.toml could be read at lumenvaultx.org.",
       "limits": []
     },
     {
       "asset": "sgBENJI:GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:42.446Z",
+      "started_at": "2026-10-06T23:00:58.810Z",
       "steps": [
         {
           "step": "identity",
           "query": "https://horizon.stellar.org/accounts/GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE",
-          "finding": "home_domain rwa.stellarsynth.org; the official domain pinned for sgBENJI is franklintempleton.com; identity status domain_mismatch."
+          "finding": "Shares the code sgBENJI with the pinned asset sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C (Franklin Templeton, franklintempleton.com); its home_domain is rwa.stellarsynth.org; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
@@ -346,31 +378,32 @@
         {
           "step": "footprint",
           "query": "https://horizon.stellar.org/assets?asset_code=sgBENJI&asset_issuer=GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE",
-          "finding": "1 authorized trustlines; supply 3000000000.0000000."
+          "finding": "1 authorized trustlines; total supply 3000000000.0000000."
         },
         {
           "step": "toml_comparison",
           "query": "https://rwa.stellarsynth.org/.well-known/stellar.toml",
-          "finding": "stellar.toml at rwa.stellarsynth.org (sha256 1b01514b6a26…) states ORG_NAME \"Stellarsynth\"; the official toml states \"Franklin Templeton\"; 20% of its lines also appear in the official toml (https://www.franklintempleton.com/.well-known/stellar.toml).",
+          "finding": "The stellar.toml at rwa.stellarsynth.org states ORG_NAME \"Stellarsynth\"; the pinned issuer's toml states \"Franklin Templeton\"; 0% of its distinctive lines also appear in the pinned issuer's toml (https://www.franklintempleton.com/.well-known/stellar.toml).",
           "data": {
+            "sha256": "1b01514b6a26598e3777e392008d4e32199d8bee4925f89e513a13a3d7d94245",
             "org_name": "Stellarsynth",
             "official_org_name": "Franklin Templeton",
-            "line_overlap": 0.2
+            "line_overlap": 0
           }
         }
       ],
-      "conclusion": "Issuer GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE uses the code sgBENJI with home_domain rwa.stellarsynth.org, which is not the official domain pinned for sgBENJI (franklintempleton.com). Account created on 2026-07-10 by GB4DCS3VBHOMNUB5K5SFBXKFSRDBPZGQE43MWMFTHY4CF4YNIAXNXCUN (tx 4c4eea60a7409a2f7615325d38a8b52617731823bac449642b6c46c899a9ec1f). 1 authorized trustlines; supply 3000000000.0000000. stellar.toml at rwa.stellarsynth.org (sha256 1b01514b6a26…) states ORG_NAME \"Stellarsynth\"; the official toml states \"Franklin Templeton\"; 20% of its lines also appear in the official toml (https://www.franklintempleton.com/.well-known/stellar.toml).",
+      "conclusion": "Issuer GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE shares the code sgBENJI with the pinned asset sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C (Franklin Templeton, franklintempleton.com); its home_domain is rwa.stellarsynth.org. Account created on 2026-07-10 by GB4DCS3VBHOMNUB5K5SFBXKFSRDBPZGQE43MWMFTHY4CF4YNIAXNXCUN (tx 4c4eea60a7409a2f7615325d38a8b52617731823bac449642b6c46c899a9ec1f). 1 authorized trustlines; total supply 3000000000.0000000. The stellar.toml at rwa.stellarsynth.org states ORG_NAME \"Stellarsynth\"; the pinned issuer's toml states \"Franklin Templeton\"; 0% of its distinctive lines also appear in the pinned issuer's toml (https://www.franklintempleton.com/.well-known/stellar.toml).",
       "limits": []
     },
     {
       "asset": "USDY:GCLFMBAFL7RTZAO5VYDAILKUVD7BDPCDIGVURKUDC5QLRCMXQN7EONDO",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:44.821Z",
+      "started_at": "2026-10-06T23:01:01.449Z",
       "steps": [
         {
           "step": "identity",
           "query": "https://horizon.stellar.org/accounts/GCLFMBAFL7RTZAO5VYDAILKUVD7BDPCDIGVURKUDC5QLRCMXQN7EONDO",
-          "finding": "home_domain finance-ondo.com; the official domain pinned for USDY is ondo.finance; identity status domain_mismatch."
+          "finding": "Shares the code USDY with the pinned asset USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6 (Ondo Finance, ondo.finance); its home_domain is finance-ondo.com; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
@@ -384,7 +417,7 @@
         {
           "step": "footprint",
           "query": "https://horizon.stellar.org/assets?asset_code=USDY&asset_issuer=GCLFMBAFL7RTZAO5VYDAILKUVD7BDPCDIGVURKUDC5QLRCMXQN7EONDO",
-          "finding": "294 authorized trustlines; supply 921033130909.4940001."
+          "finding": "294 authorized trustlines; total supply 922285398685.0000001."
         },
         {
           "step": "toml_comparison",
@@ -392,18 +425,18 @@
           "finding": "No stellar.toml could be read at finance-ondo.com."
         }
       ],
-      "conclusion": "Issuer GCLFMBAFL7RTZAO5VYDAILKUVD7BDPCDIGVURKUDC5QLRCMXQN7EONDO uses the code USDY with home_domain finance-ondo.com, which is not the official domain pinned for USDY (ondo.finance). Account created on 2026-04-22 by GDTAOBZRKNGWN7X2EFHCAVPW2TBE6RVZJX3GCH7LRXC7Z3UE27BNPPQB (tx e8da7ae1dc9d1b9267ebd62b480882f281803c49eca24e2769dfcaa76206f745). 294 authorized trustlines; supply 921033130909.4940001. No stellar.toml could be read at finance-ondo.com.",
+      "conclusion": "Issuer GCLFMBAFL7RTZAO5VYDAILKUVD7BDPCDIGVURKUDC5QLRCMXQN7EONDO shares the code USDY with the pinned asset USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6 (Ondo Finance, ondo.finance); its home_domain is finance-ondo.com. Account created on 2026-04-22 by GDTAOBZRKNGWN7X2EFHCAVPW2TBE6RVZJX3GCH7LRXC7Z3UE27BNPPQB (tx e8da7ae1dc9d1b9267ebd62b480882f281803c49eca24e2769dfcaa76206f745). 294 authorized trustlines; total supply 922285398685.0000001. No stellar.toml could be read at finance-ondo.com.",
       "limits": []
     },
     {
       "asset": "USDY:GD235AUTYKOTSCMRSHZXZYRQ6BRVVQTWBBK6DMDJOJIB74J75RZD7RWA",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:46.097Z",
+      "started_at": "2026-10-06T23:01:03.108Z",
       "steps": [
         {
           "step": "identity",
           "query": "https://horizon.stellar.org/accounts/GD235AUTYKOTSCMRSHZXZYRQ6BRVVQTWBBK6DMDJOJIB74J75RZD7RWA",
-          "finding": "home_domain rwastellar.org; the official domain pinned for USDY is ondo.finance; identity status domain_mismatch."
+          "finding": "Shares the code USDY with the pinned asset USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6 (Ondo Finance, ondo.finance); its home_domain is rwastellar.org; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
@@ -417,31 +450,32 @@
         {
           "step": "footprint",
           "query": "https://horizon.stellar.org/assets?asset_code=USDY&asset_issuer=GD235AUTYKOTSCMRSHZXZYRQ6BRVVQTWBBK6DMDJOJIB74J75RZD7RWA",
-          "finding": "110 authorized trustlines; supply 17950379999.1506385."
+          "finding": "110 authorized trustlines; total supply 17950379999.1506385."
         },
         {
           "step": "toml_comparison",
           "query": "https://rwastellar.org/.well-known/stellar.toml",
-          "finding": "stellar.toml at rwastellar.org (sha256 3419537b0284…) states no ORG_NAME; 4% of its lines also appear in the official toml (https://ondo.finance/.well-known/stellar.toml).",
+          "finding": "The stellar.toml at rwastellar.org states no ORG_NAME; 2% of its distinctive lines also appear in the pinned issuer's toml (https://ondo.finance/.well-known/stellar.toml).",
           "data": {
+            "sha256": "3419537b02847a58f9a7872004d7a295147d80765df125a5d935d34a13c4a31b",
             "org_name": null,
             "official_org_name": "Ondo Finance",
-            "line_overlap": 0.03508771929824561
+            "line_overlap": 0.019230769230769232
           }
         }
       ],
-      "conclusion": "Issuer GD235AUTYKOTSCMRSHZXZYRQ6BRVVQTWBBK6DMDJOJIB74J75RZD7RWA uses the code USDY with home_domain rwastellar.org, which is not the official domain pinned for USDY (ondo.finance). Account created on 2026-01-05 by GBM2VUCTBCNXYR2EC5B27WAM2UCFA5UBOSSRAIWGQEL5HGR3SLM4RRWA (tx 02e030201ed1412187e2e94185219596fa66bd44667774d5657bae58235e026a). 110 authorized trustlines; supply 17950379999.1506385. stellar.toml at rwastellar.org (sha256 3419537b0284…) states no ORG_NAME; 4% of its lines also appear in the official toml (https://ondo.finance/.well-known/stellar.toml).",
+      "conclusion": "Issuer GD235AUTYKOTSCMRSHZXZYRQ6BRVVQTWBBK6DMDJOJIB74J75RZD7RWA shares the code USDY with the pinned asset USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6 (Ondo Finance, ondo.finance); its home_domain is rwastellar.org. Account created on 2026-01-05 by GBM2VUCTBCNXYR2EC5B27WAM2UCFA5UBOSSRAIWGQEL5HGR3SLM4RRWA (tx 02e030201ed1412187e2e94185219596fa66bd44667774d5657bae58235e026a). 110 authorized trustlines; total supply 17950379999.1506385. The stellar.toml at rwastellar.org states no ORG_NAME; 2% of its distinctive lines also appear in the pinned issuer's toml (https://ondo.finance/.well-known/stellar.toml).",
       "limits": []
     },
     {
       "asset": "USTRY:GDR7NZZUZFYPGX5JSD6PQGM26RNELMUQLJKRLWHEBYG4O6PR4NAD2BHP",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:47.653Z",
+      "started_at": "2026-10-06T23:01:04.748Z",
       "steps": [
         {
           "step": "identity",
           "query": "https://horizon.stellar.org/accounts/GDR7NZZUZFYPGX5JSD6PQGM26RNELMUQLJKRLWHEBYG4O6PR4NAD2BHP",
-          "finding": "home_domain ustry.lobstr.pro; the official domain pinned for USTRY is etherfuse.com; identity status domain_mismatch."
+          "finding": "Shares the code USTRY with the pinned asset USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC (Etherfuse, etherfuse.com); its home_domain is ustry.lobstr.pro; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
@@ -451,7 +485,7 @@
         {
           "step": "footprint",
           "query": "https://horizon.stellar.org/assets?asset_code=USTRY&asset_issuer=GDR7NZZUZFYPGX5JSD6PQGM26RNELMUQLJKRLWHEBYG4O6PR4NAD2BHP",
-          "finding": "36 authorized trustlines; supply 267.0080346."
+          "finding": "36 authorized trustlines; total supply 267.0080346."
         },
         {
           "step": "toml_comparison",
@@ -459,7 +493,7 @@
           "finding": "No stellar.toml could be read at ustry.lobstr.pro."
         }
       ],
-      "conclusion": "Issuer GDR7NZZUZFYPGX5JSD6PQGM26RNELMUQLJKRLWHEBYG4O6PR4NAD2BHP uses the code USTRY with home_domain ustry.lobstr.pro, which is not the official domain pinned for USTRY (etherfuse.com). The earliest operation in Horizon's history is payment on 2025-10-25. 36 authorized trustlines; supply 267.0080346. No stellar.toml could be read at ustry.lobstr.pro.",
+      "conclusion": "Issuer GDR7NZZUZFYPGX5JSD6PQGM26RNELMUQLJKRLWHEBYG4O6PR4NAD2BHP shares the code USTRY with the pinned asset USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC (Etherfuse, etherfuse.com); its home_domain is ustry.lobstr.pro. The earliest operation in Horizon's history is payment on 2025-10-25. 36 authorized trustlines; total supply 267.0080346. No stellar.toml could be read at ustry.lobstr.pro.",
       "limits": [
         "Horizon's history does not include this account's creation."
       ]
@@ -467,12 +501,12 @@
     {
       "asset": "USTRY:GB3P5ZNOUFIOBTBSFMTBEDNBR3I3Z7DPM6QNOYVO4K7HNIVOECB2J567",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:48.636Z",
+      "started_at": "2026-10-06T23:01:05.678Z",
       "steps": [
         {
           "step": "identity",
           "query": "https://horizon.stellar.org/accounts/GB3P5ZNOUFIOBTBSFMTBEDNBR3I3Z7DPM6QNOYVO4K7HNIVOECB2J567",
-          "finding": "home_domain trendx.pages.dev; the official domain pinned for USTRY is etherfuse.com; identity status domain_mismatch."
+          "finding": "Shares the code USTRY with the pinned asset USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC (Etherfuse, etherfuse.com); its home_domain is trendx.pages.dev; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
@@ -482,90 +516,88 @@
         {
           "step": "footprint",
           "query": "https://horizon.stellar.org/assets?asset_code=USTRY&asset_issuer=GB3P5ZNOUFIOBTBSFMTBEDNBR3I3Z7DPM6QNOYVO4K7HNIVOECB2J567",
-          "finding": "24 authorized trustlines; supply 99999999993.0000000."
+          "finding": "24 authorized trustlines; total supply 99999999993.0000000."
         },
         {
           "step": "toml_comparison",
           "query": "https://trendx.pages.dev/.well-known/stellar.toml",
-          "finding": "stellar.toml at trendx.pages.dev (sha256 ace7b18710c7…) states ORG_NAME \"TRENDX\"; the official toml states \"Etherfuse\"; 2% of its lines also appear in the official toml (https://etherfuse.com/.well-known/stellar.toml).",
+          "finding": "The stellar.toml at trendx.pages.dev states ORG_NAME \"TRENDX\"; the pinned issuer's toml states \"Etherfuse\"; 0% of its distinctive lines also appear in the pinned issuer's toml (https://etherfuse.com/.well-known/stellar.toml).",
           "data": {
+            "sha256": "ace7b18710c73a3f57ffeee376f16d8576f6c0da8b7a28f99950db70160d73bd",
             "org_name": "TRENDX",
             "official_org_name": "Etherfuse",
-            "line_overlap": 0.018518518518518517
+            "line_overlap": 0
           }
         }
       ],
-      "conclusion": "Issuer GB3P5ZNOUFIOBTBSFMTBEDNBR3I3Z7DPM6QNOYVO4K7HNIVOECB2J567 uses the code USTRY with home_domain trendx.pages.dev, which is not the official domain pinned for USTRY (etherfuse.com). The earliest operation in Horizon's history is payment on 2025-08-17. 24 authorized trustlines; supply 99999999993.0000000. stellar.toml at trendx.pages.dev (sha256 ace7b18710c7…) states ORG_NAME \"TRENDX\"; the official toml states \"Etherfuse\"; 2% of its lines also appear in the official toml (https://etherfuse.com/.well-known/stellar.toml).",
+      "conclusion": "Issuer GB3P5ZNOUFIOBTBSFMTBEDNBR3I3Z7DPM6QNOYVO4K7HNIVOECB2J567 shares the code USTRY with the pinned asset USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC (Etherfuse, etherfuse.com); its home_domain is trendx.pages.dev. The earliest operation in Horizon's history is payment on 2025-08-17. 24 authorized trustlines; total supply 99999999993.0000000. The stellar.toml at trendx.pages.dev states ORG_NAME \"TRENDX\"; the pinned issuer's toml states \"Etherfuse\"; 0% of its distinctive lines also appear in the pinned issuer's toml (https://etherfuse.com/.well-known/stellar.toml).",
       "limits": [
         "Horizon's history does not include this account's creation."
       ]
     },
     {
-      "asset": "GOLD:GBC5ZGK6MQU3XG5Y72SXPA7P5R5NHYT2475SNEJB2U3EQ6J56QLVGOLD",
+      "asset": "BB1:GA64IWIUTT2PLFFPUOPJ3PXATXFC4Y2HLA2OHZN3IUK5PZNRV7ZHWHIP",
       "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:56.275Z",
+      "started_at": "2026-10-06T23:02:02.194Z",
       "steps": [
         {
           "step": "identity",
-          "query": "https://horizon.stellar.org/accounts/GBC5ZGK6MQU3XG5Y72SXPA7P5R5NHYT2475SNEJB2U3EQ6J56QLVGOLD",
-          "finding": "home_domain mintx.co; the official domain pinned for GOLD is wisdomtree.com; identity status domain_mismatch."
+          "query": "https://horizon.stellar.org/accounts/GA64IWIUTT2PLFFPUOPJ3PXATXFC4Y2HLA2OHZN3IUK5PZNRV7ZHWHIP",
+          "finding": "Shares the code BB1 with the pinned asset BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN (Bitbond Finance GmbH, bitbondsto.com); its home_domain is stellar-whiplash.com; identity status domain_mismatch."
         },
         {
           "step": "account_origin",
-          "query": "https://horizon.stellar.org/accounts/GBC5ZGK6MQU3XG5Y72SXPA7P5R5NHYT2475SNEJB2U3EQ6J56QLVGOLD/operations?order=asc&limit=1",
-          "finding": "The earliest operation in Horizon's history is payment on 2025-08-22."
+          "query": "https://horizon.stellar.org/accounts/GA64IWIUTT2PLFFPUOPJ3PXATXFC4Y2HLA2OHZN3IUK5PZNRV7ZHWHIP/operations?order=asc&limit=1",
+          "finding": "The earliest operation in Horizon's history is payment on 2026-04-06."
         },
         {
           "step": "footprint",
-          "query": "https://horizon.stellar.org/assets?asset_code=GOLD&asset_issuer=GBC5ZGK6MQU3XG5Y72SXPA7P5R5NHYT2475SNEJB2U3EQ6J56QLVGOLD",
-          "finding": "13739 authorized trustlines; supply 24999860.1774077."
-        },
-        {
-          "step": "toml_comparison",
-          "query": "https://mintx.co/.well-known/stellar.toml",
-          "finding": "stellar.toml at mintx.co (sha256 42089c4f4fd2…) states ORG_NAME \"SecureLC Limited\"; the official toml states \"WisdomTree, Inc.\"; 6% of its lines also appear in the official toml (https://stellar.wisdomtree.com/.well-known/stellar.toml).",
-          "data": {
-            "org_name": "SecureLC Limited",
-            "official_org_name": "WisdomTree, Inc.",
-            "line_overlap": 0.06060606060606061
-          }
-        }
-      ],
-      "conclusion": "Issuer GBC5ZGK6MQU3XG5Y72SXPA7P5R5NHYT2475SNEJB2U3EQ6J56QLVGOLD uses the code GOLD with home_domain mintx.co, which is not the official domain pinned for GOLD (wisdomtree.com). The earliest operation in Horizon's history is payment on 2025-08-22. 13739 authorized trustlines; supply 24999860.1774077. stellar.toml at mintx.co (sha256 42089c4f4fd2…) states ORG_NAME \"SecureLC Limited\"; the official toml states \"WisdomTree, Inc.\"; 6% of its lines also appear in the official toml (https://stellar.wisdomtree.com/.well-known/stellar.toml).",
-      "limits": [
-        "Horizon's history does not include this account's creation."
-      ]
-    },
-    {
-      "asset": "GOLD:GDBCZF3RDYF3FWSP46TILK2LU3M2V25PFCCWXD4SXJYK752AQ4J2CX4S",
-      "check": "issuer_identity:domain_mismatch",
-      "started_at": "2026-10-06T22:15:56.848Z",
-      "steps": [
-        {
-          "step": "identity",
-          "query": "https://horizon.stellar.org/accounts/GDBCZF3RDYF3FWSP46TILK2LU3M2V25PFCCWXD4SXJYK752AQ4J2CX4S",
-          "finding": "home_domain indus.gold; the official domain pinned for GOLD is wisdomtree.com; identity status domain_mismatch."
-        },
-        {
-          "step": "account_origin",
-          "query": "https://horizon.stellar.org/accounts/GDBCZF3RDYF3FWSP46TILK2LU3M2V25PFCCWXD4SXJYK752AQ4J2CX4S/operations?order=asc&limit=1",
-          "finding": "The earliest operation in Horizon's history is payment on 2025-08-17."
-        },
-        {
-          "step": "footprint",
-          "query": "https://horizon.stellar.org/assets?asset_code=GOLD&asset_issuer=GDBCZF3RDYF3FWSP46TILK2LU3M2V25PFCCWXD4SXJYK752AQ4J2CX4S",
-          "finding": "7880 authorized trustlines; supply 899968102176.8967733."
+          "query": "https://horizon.stellar.org/assets?asset_code=BB1&asset_issuer=GA64IWIUTT2PLFFPUOPJ3PXATXFC4Y2HLA2OHZN3IUK5PZNRV7ZHWHIP",
+          "finding": "2 authorized trustlines; total supply 999999900.4320338."
         },
         {
           "step": "toml_comparison",
           "query": null,
-          "finding": "No stellar.toml could be read at indus.gold."
+          "finding": "No stellar.toml could be read at stellar-whiplash.com."
         }
       ],
-      "conclusion": "Issuer GDBCZF3RDYF3FWSP46TILK2LU3M2V25PFCCWXD4SXJYK752AQ4J2CX4S uses the code GOLD with home_domain indus.gold, which is not the official domain pinned for GOLD (wisdomtree.com). The earliest operation in Horizon's history is payment on 2025-08-17. 7880 authorized trustlines; supply 899968102176.8967733. No stellar.toml could be read at indus.gold.",
+      "conclusion": "Issuer GA64IWIUTT2PLFFPUOPJ3PXATXFC4Y2HLA2OHZN3IUK5PZNRV7ZHWHIP shares the code BB1 with the pinned asset BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN (Bitbond Finance GmbH, bitbondsto.com); its home_domain is stellar-whiplash.com. The earliest operation in Horizon's history is payment on 2026-04-06. 2 authorized trustlines; total supply 999999900.4320338. No stellar.toml could be read at stellar-whiplash.com.",
       "limits": [
         "Horizon's history does not include this account's creation."
       ]
+    },
+    {
+      "asset": "YLDS:GCZVTSTWPKFH27KZJWXZKONFHNZKIKDFMJZ4N2KOP25SEX5ZAD3ARO6B",
+      "check": "issuer_identity:domain_mismatch",
+      "started_at": "2026-10-06T23:02:48.474Z",
+      "steps": [
+        {
+          "step": "identity",
+          "query": "https://horizon.stellar.org/accounts/GCZVTSTWPKFH27KZJWXZKONFHNZKIKDFMJZ4N2KOP25SEX5ZAD3ARO6B",
+          "finding": "Shares the code YLDS with the pinned asset YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3 (Figure Certificate Company, ylds.com); its home_domain is xlmstellar.online; identity status domain_mismatch."
+        },
+        {
+          "step": "account_origin",
+          "query": "https://horizon.stellar.org/accounts/GCZVTSTWPKFH27KZJWXZKONFHNZKIKDFMJZ4N2KOP25SEX5ZAD3ARO6B/operations?order=asc&limit=1",
+          "finding": "Account created on 2026-03-24 by GAHIFSWYCDYCD6PPTWMA6L6M672FUXX44YIX5RPILFGOROMYZ2XFMNPY (tx 727f6ef21281c97319b61035beaa6ef163330ccb68e8221b3eacf0e03d16da5f).",
+          "data": {
+            "funder": "GAHIFSWYCDYCD6PPTWMA6L6M672FUXX44YIX5RPILFGOROMYZ2XFMNPY",
+            "created_at": "2026-03-24T02:07:43Z"
+          }
+        },
+        {
+          "step": "footprint",
+          "query": "https://horizon.stellar.org/assets?asset_code=YLDS&asset_issuer=GCZVTSTWPKFH27KZJWXZKONFHNZKIKDFMJZ4N2KOP25SEX5ZAD3ARO6B",
+          "finding": "3 authorized trustlines; total supply 9000000000.0000000."
+        },
+        {
+          "step": "toml_comparison",
+          "query": null,
+          "finding": "No stellar.toml could be read at xlmstellar.online."
+        }
+      ],
+      "conclusion": "Issuer GCZVTSTWPKFH27KZJWXZKONFHNZKIKDFMJZ4N2KOP25SEX5ZAD3ARO6B shares the code YLDS with the pinned asset YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3 (Figure Certificate Company, ylds.com); its home_domain is xlmstellar.online. Account created on 2026-03-24 by GAHIFSWYCDYCD6PPTWMA6L6M672FUXX44YIX5RPILFGOROMYZ2XFMNPY (tx 727f6ef21281c97319b61035beaa6ef163330ccb68e8221b3eacf0e03d16da5f). 3 authorized trustlines; total supply 9000000000.0000000. No stellar.toml could be read at xlmstellar.online.",
+      "limits": []
     }
   ],
   "patterns": [
@@ -576,12 +608,21 @@
         "GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK",
         "GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE"
       ],
-      "assets": [
-        "gBENJI:GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK",
-        "sgBENJI:GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK",
-        "sgBENJI:GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE"
+      "codes": [
+        "gBENJI",
+        "sgBENJI"
       ],
-      "statement": "Account GB4DCS3VBHOMNUB5K5SFBXKFSRDBPZGQE43MWMFTHY4CF4YNIAXNXCUN created 2 of the issuer accounts investigated above (GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK, GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE), which issue gBENJI, sgBENJI, sgBENJI."
+      "statement": "Account GB4DCS3VBHOMNUB5K5SFBXKFSRDBPZGQE43MWMFTHY4CF4YNIAXNXCUN created 2 of the investigated issuer accounts (GCK2IO4RTHSBFCLCKMJAV2EO6YIW2ZM4O3ABMSFGSYL5ZWZJ4WK2C5RK, GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE), which issue gBENJI, sgBENJI."
     }
+  ],
+  "errors": [
+    {
+      "asset": "BB1:GC3JWUII6XEGUA7525IPHR35TV644O5BTKVRT6L3O7VSLH3VFTJCOJYX",
+      "step": "investigate:issuer_identity",
+      "error": "Not found."
+    }
+  ],
+  "limits": [
+    "For each code, up to 6 other issuers (most trustlines first) were checked, and up to 2 investigated. Only brand-specific codes (BENJI, gBENJI, grBENJI, sgBENJI, USDY, USTRY, TESOURO, YLDS, BB1, WTGX, WTSY, WTTS, WTST, WTLG, WTSI, FLTT) were investigated without further signals; other codes only when the issuer's toml (same ORG_NAME or at least half its lines) or domain points at the pinned organization."
   ]
 }

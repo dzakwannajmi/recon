@@ -21,6 +21,39 @@ export const CLAIM_FIELDS = {
 } as const satisfies Record<string, { kind: ValueKind; hint: string }>;
 
 export type ClaimField = keyof typeof CLAIM_FIELDS;
+
+/**
+ * Deterministic field gate: the quote itself must read like the field, and
+ * hedged or target wording is refused. The LLM's field label is a judgement;
+ * this gate keeps the obvious mislabels out (e.g. "Current TVL" as net
+ * assets, "seeks to maintain $1.00" as a NAV, a logo strip as networks).
+ */
+export const FIELD_GATES: Record<ClaimField, { require: RegExp; reject?: RegExp }> = {
+  net_assets: {
+    require: /net assets|assets under management|\bAUM\b|underlying assets|fund size|total assets|nettoinventar|fondsvermögen/i,
+    reject: /\bTVL\b|\bseeks?\b|\bmay\b|\bup to\b|\btarget/i,
+  },
+  units_outstanding: {
+    require: /outstanding|in circulation|\bissued\b|currently issued|ausgegeben|im umlauf/i,
+    reject: /\bup to\b|\bmay\b|\boffer|angebot|maximum|authori[sz]ed|will be issued|werden .* ausgegeben/i,
+  },
+  max_issuance: {
+    require: /offer|\bissue|nominal|maximum|\bup to\b|aggregate|authori[sz]ed|gesamtnennbetrag|angebot|begibt|ausgegeben|emission/i,
+  },
+  nav_per_unit: {
+    require: /\bNAV\b|net asset value|\bprice\b|per (share|token|unit|certificate)|nettoinventarwert|ausgabepreis|\bpreis\b/i,
+    reject: /\bseeks?\b|\bstable\b|\baims?\b|\btarget|\bmay\b|\balways\b/i,
+  },
+  token_unit_ratio: { require: /token/i },
+  stellar_supply: { require: /stellar/i, reject: /\bup to\b|\bmay\b/i },
+  report_date: { require: /as of|attest|audit|report|statement|dated|stichtag|\bstand\b|prüf/i },
+  networks: {
+    require: /network|blockchain|\bchains?\b|available on|issued on|deployed|\bbased on\b|\bvia\b|netzwerk/i,
+    reject: /\bmay\b|\bcould\b|\bmight\b|potentially|\bplans?\b/i,
+  },
+  custodian: { require: /custod|trustee|depositary|verwahr|in custody/i },
+  auditor: { require: /audit|attest|prüf/i },
+};
 export const FIELD_NAMES = Object.keys(CLAIM_FIELDS) as [ClaimField, ...ClaimField[]];
 
 export const MAX_CLAIMS_PER_DOCUMENT = 25;

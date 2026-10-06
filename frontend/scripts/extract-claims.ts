@@ -3,10 +3,14 @@
  * only the ones deterministic code can verify (golden rules 1 and 2).
  * SEC filings are not sent to the LLM; they are parsed by code (W2.3).
  *
- *   npm run extract:claims -- [--dry-run] [--asset CODE] [--limit N] [--force]
+ *   npm run extract:claims -- [--dry-run] [--reverify] [--asset CODE] [--limit N] [--force]
  *
- * --dry-run  show what would be sent (chunks, characters, estimated tokens); no LLM call
- * --force    ignore the cache of earlier runs for the same snapshot, prompt, and model
+ * --dry-run   show what would be sent (chunks, characters, estimated tokens); no LLM call
+ * --reverify  re-run the verifier on the stored proposals; no LLM call
+ * --force     ignore earlier runs (including failed ones) for the same config
+ *
+ * Batch extraction shares the app's daily token budget; it stops while
+ * LLM_APP_RESERVE_TOKENS (default 50,000) would still be left for chat.
  */
 import { createHash } from "node:crypto";
 import { EXTRACT_MODEL as MODEL, budgetLeft, generateStructured } from "../agent/llm";
@@ -14,14 +18,18 @@ import { findCurrency, parseStellarToml } from "../lib/chain/toml";
 import { loadUniverse } from "../lib/chain/universe";
 import { EXTRACTOR_VERSION } from "../lib/documents/extract";
 import { SnapshotStore, sha256Hex, type SnapshotRecord } from "../lib/documents/store";
-import { MAX_CLAIMS_PER_DOCUMENT, extractionSchema, type ProposedClaim } from "../lib/claims/fields";
+import { positiveInt } from "../lib/env";
+import { buildClaims } from "../lib/claims/claim";
+import { CLAIM_FIELDS, extractionSchema, type ProposedClaim } from "../lib/claims/fields";
+import { detectLocale } from "../lib/claims/parse";
 import { EXTRACTION_INSTRUCTIONS, PROMPT_VERSION, buildPrompt } from "../lib/claims/prompt";
-import { selectChunks } from "../lib/claims/select";
-import { ClaimStore, runKey, type Claim, type DroppedClaim } from "../lib/claims/store";
-import { normalizeForMatch, verifyClaim, type AssetRef } from "../lib/claims/verify";
+import { MAX_CHARS_PER_DOCUMENT, selectChunks } from "../lib/claims/select";
+import { ClaimStore, docKey, type ExtractionRun } from "../lib/claims/store";
+import { normalizeForMatch, verifyClaim, type AssetRef, type VerifyContext } from "../lib/claims/verify";
 
 const MIN_HTML_CHARS = 1500;
 const OUTPUT_TOKENS = 4096;
+const APP_RESERVE = positiveInt("LLM_APP_RESERVE_TOKENS", 50_000);
 
 const args = process.argv.slice(2);
 const flag = (name: string) => args.includes(name);
@@ -30,15 +38,22 @@ const option = (name: string) => {
   return i === -1 ? undefined : args[i + 1];
 };
 
+/** Everything that changes what the LLM sees, so a changed config never reuses an old run. */
+function configKey(doc: string, assets: AssetRef[]) {
+  const config = JSON.stringify([PROMPT_VERSION, EXTRACTION_INSTRUCTIONS, Object.keys(CLAIM_FIELDS), MAX_CHARS_PER_DOCUMENT, MODEL, doc, assets]);
+  return createHash("sha256").update(config).digest("hex").slice(0, 32);
+}
+
 async function main() {
   const dryRun = flag("--dry-run");
+  const reverify = flag("--reverify");
   const force = flag("--force");
   const onlyAsset = option("--asset");
   const limit = Number(option("--limit") ?? Infinity);
 
   const universe = loadUniverse();
   const snapshots = new SnapshotStore();
-  const claims = new ClaimStore();
+  const store = new ClaimStore();
   const now = new Date().toISOString();
 
   // Asset names from the issuers' own tomls help attribute claims in multi-asset documents.
@@ -53,103 +68,137 @@ async function main() {
       if (typeof name === "string") names.set(key, name);
     }
   }
+  const pinnedFor = (record: SnapshotRecord) =>
+    universe
+      .filter((a) => record.assets.includes(`${a.asset_code}:${a.issuer}`))
+      .flatMap((a) => a.docs_urls.split(";").map((u) => u.trim()).filter(Boolean))
+      .map((u) => {
+        try {
+          return new URL(u).toString();
+        } catch {
+          return u;
+        }
+      });
+  const officialDomainsOf = (record: SnapshotRecord) =>
+    universe.filter((a) => record.assets.includes(`${a.asset_code}:${a.issuer}`)).map((a) => a.official_domain);
 
+  /** Verification context for one document, or null if its stored text is stale. */
+  function contextFor(record: SnapshotRecord): { ctx: VerifyContext; text: string } | null {
+    const text = snapshots.readText(record.sha256);
+    if (!text || !record.text || sha256Hex(text) !== record.text.sha256 || record.text.extractor !== EXTRACTOR_VERSION) return null;
+    const assets: AssetRef[] = record.assets.map((k) => ({ code: k.split(":")[0], name: names.get(k) }));
+    return {
+      text,
+      ctx: {
+        text,
+        normalized: normalizeForMatch(text),
+        isPdf: record.text.kind === "pdf",
+        locale: record.sourceClass === "issuer_toml" ? "en" : detectLocale(text),
+        assets,
+        // A prospectus PDF, or a page pinned in that asset's docs_urls, is about that asset only.
+        dedicated: assets.length === 1 && (record.text.kind === "pdf" || pinnedFor(record).includes(record.url)),
+      },
+    };
+  }
+
+  function save(record: SnapshotRecord, run: ExtractionRun, ctx: VerifyContext) {
+    const { claims, dropped } = buildClaims({
+      record, docKey: run.doc_key, officialDomains: officialDomainsOf(record), proposals: run.proposals,
+      verify: (claim) => verifyClaim(claim, ctx), model: run.model, promptVersion: run.prompt_version, now,
+    });
+    store.record({ ...run, verified: claims.length, dropped: dropped.length }, claims, dropped);
+    return { claims, dropped };
+  }
+
+  if (reverify) {
+    let count = 0;
+    for (const run of [...store.runs]) {
+      const record = snapshots.all().find((r) => docKey(r.sha256, r.assets) === run.doc_key);
+      const prepared = record && contextFor(record);
+      if (!record || !prepared) {
+        console.log(`skip (snapshot or text missing) ${run.source_url}`);
+        continue;
+      }
+      const { claims, dropped } = save(record, run, prepared.ctx);
+      count += claims.length;
+      console.log(`${run.source_url}\n    ${run.proposals.length} proposals → ${claims.length} verified, ${dropped.length} dropped`);
+    }
+    store.flush();
+    console.log(`\nRe-verified without the LLM: ${count} verified claims.`);
+    return;
+  }
+
+  const seen = new Set<string>();
   const candidates = snapshots
     .all()
     .filter((r) => r.sourceClass === "issuer" || r.sourceClass === "issuer_toml")
     .filter((r) => r.text && (r.text.kind !== "html" || r.text.chars >= MIN_HTML_CHARS))
-    .filter((r) => !onlyAsset || r.assets.some((a) => a.startsWith(`${onlyAsset}:`)));
+    .filter((r) => !onlyAsset || r.assets.some((a) => a.startsWith(`${onlyAsset}:`)))
+    .filter((r) => {
+      const key = docKey(r.sha256, r.assets);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 
   let done = 0;
   for (const record of candidates) {
     if (done >= limit) break;
-    const key = runKey({ snapshotSha256: record.sha256, textSha256: record.text!.sha256, promptVersion: PROMPT_VERSION, model: MODEL });
-    if (!force && claims.hasRun(key)) continue;
-
-    const text = snapshots.readText(record.sha256);
-    if (!text || sha256Hex(text) !== record.text!.sha256 || record.text!.extractor !== EXTRACTOR_VERSION) {
+    const prepared = contextFor(record);
+    if (!prepared) {
       console.log(`skip (stored text does not match its hash or extractor; re-run snapshot:docs) ${record.url}`);
       continue;
     }
-    const assets: AssetRef[] = record.assets.map((k) => ({ code: k.split(":")[0], name: names.get(k) }));
-    const extraTerms = assets.flatMap((a) => [a.code, a.name ?? ""]);
+    const { ctx, text } = prepared;
+    const doc = docKey(record.sha256, record.assets);
+    const key = configKey(doc, ctx.assets);
+    if (!force && store.hasRun(key)) continue;
+
+    const extraTerms = ctx.assets.flatMap((a) => [a.code, a.name ?? ""]);
     const selection = selectChunks(text, record.text!.kind, extraTerms);
     const estimate = Math.ceil((selection.chars + EXTRACTION_INSTRUCTIONS.length) / 3.5) + OUTPUT_TOKENS;
     console.log(`${record.url}\n    ${record.text!.kind}, ${selection.chunks.length}/${selection.totalChunks} chunks, ${selection.chars} chars, ~${estimate} tokens max`);
     if (dryRun) continue;
     done++;
 
-    let proposed: ProposedClaim[] = [];
-    let tokens: number | null = 0;
+    const run: ExtractionRun = {
+      key, doc_key: doc, snapshot_sha256: record.sha256, text_sha256: record.text!.sha256, source_url: record.url,
+      chunks_sent: selection.chunks.length, chars_sent: selection.chars, proposals: [], verified: 0, dropped: 0, tokens: 0, error: null,
+      model: MODEL, prompt_version: PROMPT_VERSION, at: now,
+    };
     if (selection.chunks.length > 0) {
-      if (budgetLeft() < estimate) {
-        console.log(`    stopping: ${budgetLeft()} tokens left today, this document may need ${estimate}`);
+      if (budgetLeft() - APP_RESERVE < estimate) {
+        console.log(`    stopping: ${budgetLeft()} tokens left today and ${APP_RESERVE} are kept for the app; this document may need ${estimate}`);
         break;
       }
-      const codes = assets.map((a) => a.code) as [string, ...string[]];
       try {
         const result = await generateStructured({
           instructions: EXTRACTION_INSTRUCTIONS,
-          prompt: buildPrompt({ url: record.url, kind: record.text!.kind, assets, chunks: selection.chunks }),
-          schema: extractionSchema(codes),
+          prompt: buildPrompt({ url: record.url, kind: record.text!.kind, assets: ctx.assets, chunks: selection.chunks }),
+          schema: extractionSchema(ctx.assets.map((a) => a.code) as [string, ...string[]]),
           maxOutputTokens: OUTPUT_TOKENS,
         });
-        proposed = result.output.claims.slice(0, MAX_CLAIMS_PER_DOCUMENT);
-        tokens = result.tokens;
+        run.proposals = result.output.claims as ProposedClaim[];
+        run.tokens = result.tokens;
       } catch (err) {
-        console.log(`    LLM error (${err instanceof Error ? err.message.slice(0, 160) : err}); will retry next run`);
-        continue;
+        run.error = err instanceof Error ? err.message.slice(0, 200) : String(err);
+        run.tokens = null;
+        console.log(`    LLM error (${run.error}); recorded, not retried without --force`);
       }
     }
-
-    const verified: Claim[] = [];
-    const dropped: DroppedClaim[] = [];
-    const normalized = normalizeForMatch(text);
-    for (const claim of proposed) {
-      const check = verifyClaim({ claim, text, normalized, isPdf: record.text!.kind === "pdf", assets });
-      if (!check.ok) {
-        dropped.push({
-          snapshot_sha256: record.sha256, source_url: record.url, reason: check.reason, field: claim.field, asset_code: claim.asset_code,
-          value_text: claim.value_text, quote: claim.quote, model: MODEL, prompt_version: PROMPT_VERSION, extracted_at: now,
-        });
-        continue;
-      }
-      verified.push(toClaim(record, claim, check.result, assets, now));
-    }
-    claims.record(
-      {
-        key, snapshot_sha256: record.sha256, source_url: record.url, chunks_sent: selection.chunks.length, chars_sent: selection.chars,
-        proposed: proposed.length, verified: verified.length, dropped: dropped.length, tokens, model: MODEL, prompt_version: PROMPT_VERSION, at: now,
-      },
-      verified,
-      dropped,
-    );
-    claims.flush();
+    const { claims, dropped } = save(record, run, ctx);
+    store.flush();
     const reasons = [...new Set(dropped.map((d) => d.reason))].join(", ");
-    console.log(`    ${proposed.length} proposed, ${verified.length} verified, ${dropped.length} dropped${reasons ? ` (${reasons})` : ""}, ${tokens ?? "?"} tokens`);
+    console.log(`    ${run.proposals.length} proposed, ${claims.length} verified, ${dropped.length} dropped${reasons ? ` (${reasons})` : ""}, ${run.tokens ?? "?"} tokens`);
   }
 
   if (!dryRun) {
     const byField = new Map<string, number>();
-    for (const c of claims.claims) byField.set(c.field, (byField.get(c.field) ?? 0) + 1);
-    const assetsWithClaims = new Set(claims.claims.flatMap((c) => (c.asset.startsWith("ISSUER:") ? [] : [c.asset])));
-    console.log(`\n${claims.claims.length} verified claims stored (${[...byField].map(([f, n]) => `${f} ${n}`).join(", ")}).`);
+    for (const c of store.claims) byField.set(c.field, (byField.get(c.field) ?? 0) + 1);
+    const assetsWithClaims = new Set(store.claims.flatMap((c) => (c.asset.startsWith("ISSUER:") ? [] : [c.asset])));
+    console.log(`\n${store.claims.length} verified claims stored (${[...byField].map(([f, n]) => `${f} ${n}`).join(", ")}).`);
     console.log(`${assetsWithClaims.size}/${universe.length} assets have at least one verified asset-level claim. ${budgetLeft()} LLM tokens left today.`);
   }
-}
-
-function toClaim(record: SnapshotRecord, claim: ProposedClaim, result: { value: number | string; as_of: string | null; page: number | null }, assets: AssetRef[], now: string): Claim {
-  const single = assets.length === 1 ? record.assets[0] : null;
-  const asset =
-    claim.asset_code === "ISSUER"
-      ? `ISSUER:${new URL(record.finalUrl).hostname.replace(/^www\./, "")}`
-      : single ?? record.assets.find((k) => k.startsWith(`${claim.asset_code}:`))!;
-  const id = createHash("sha256").update([record.sha256, asset, claim.field, claim.quote, String(result.value)].join("|")).digest("hex").slice(0, 16);
-  return {
-    id, asset, field: claim.field, value: result.value, value_text: claim.value_text, unit: claim.unit, as_of: result.as_of, quote: claim.quote,
-    source_url: record.url, source_class: record.sourceClass, page: result.page, snapshot_sha256: record.sha256, text_sha256: record.text!.sha256,
-    extractor: record.text!.extractor, model: MODEL, prompt_version: PROMPT_VERSION, verified: true, extracted_at: now,
-  };
 }
 
 main().catch((err) => {

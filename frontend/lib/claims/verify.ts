@@ -2,34 +2,45 @@
  * Quote or discard (golden rule 2), in deterministic code.
  *
  * A proposed claim becomes a verified claim only if:
- * 1. the snapshot text is the one the extractor produced (text hash + version),
- * 2. its quote appears verbatim in that text (only whitespace, typographic
- *    quotes, dashes and Unicode compatibility forms are normalized),
- * 3. `value_text` (and `as_of_text`, if any) appear inside the quote,
- * 4. code can parse the value (amount or date) from `value_text`,
- * 5. for documents about several assets, the asset code or name appears in
- *    the quote or just before it.
- * The page is computed from the match position, never taken from the LLM.
+ * 1. its quote appears exactly once in the snapshot text (only whitespace,
+ *    typographic quotes, dashes and PDF ligatures are normalized; case,
+ *    digits and superscripts are not),
+ * 2. `value_text` (and `as_of_text`, if any) appear inside the quote as a
+ *    whole token, never inside a longer word or number, and an amount does
+ *    not leave out a scale word that follows it,
+ * 3. code can parse the value from the DOCUMENT's characters at that spot
+ *    (the stored value_text is the document's span, not the LLM's copy),
+ * 4. the quote reads like the field (FIELD_GATES),
+ * 5. the claim is attributed to the asset mentioned closest before the quote,
+ *    unless the document is dedicated to a single asset.
+ * The page and the unit are computed by code, never taken from the LLM.
  */
 import { PAGE_BREAK } from "../documents/extract";
-import { CLAIM_FIELDS, type ClaimField, type ProposedClaim } from "./fields";
-import { parseAmount, parseDate } from "./parse";
+import { CLAIM_FIELDS, FIELD_GATES, type ClaimField, type ProposedClaim } from "./fields";
+import { FOLLOWING_SCALE, parseAmount, parseDate, type Locale } from "./parse";
 
-export const MIN_QUOTE_CHARS = 12;
+export const MIN_QUOTE_CHARS = 20;
 export const MAX_QUOTE_CHARS = 600;
 export const MAX_VALUE_CHARS = 120;
-/** How far before a quote an asset code or name may appear to attribute it (multi-asset documents). */
+/** How far before a quote an asset code or name may appear to attribute it. */
 export const ATTRIBUTION_WINDOW = 400;
 
 export type DropReason =
   | "quote_too_short"
   | "quote_too_long"
   | "quote_not_found"
+  | "quote_ambiguous"
   | "value_not_in_quote"
+  | "value_scale_omitted"
   | "value_unparseable"
   | "as_of_not_in_quote"
   | "as_of_unparseable"
-  | "attribution_unverified";
+  | "field_gate"
+  | "attribution_unverified"
+  | "issuer_ambiguous"
+  | "over_cap";
+
+const LIGATURES: Record<string, string> = { "ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl" };
 
 /** Map each character to a comparable form; returns the normalized string and, per char, its source index. */
 export function normalizeForMatch(text: string): { value: string; map: number[] } {
@@ -37,8 +48,8 @@ export function normalizeForMatch(text: string): { value: string; map: number[] 
   const map: number[] = [];
   let lastSpace = true;
   for (let i = 0; i < text.length; i++) {
-    let ch = text[i].normalize("NFKC");
-    if (/[\s ​]/.test(ch)) {
+    const raw = text[i];
+    if (/[\s ​ ]/.test(raw)) {
       if (!lastSpace) {
         out.push(" ");
         map.push(i);
@@ -46,8 +57,11 @@ export function normalizeForMatch(text: string): { value: string; map: number[] 
       lastSpace = true;
       continue;
     }
-    ch = ch.replace(/[‘’‚′]/g, "'").replace(/[“”„″]/g, '"').replace(/[‐-―−]/g, "-");
-    for (const c of ch.toLowerCase()) {
+    const ch = (LIGATURES[raw] ?? raw)
+      .replace(/[‘’‚′]/g, "'")
+      .replace(/[“”„″]/g, '"')
+      .replace(/[‐-―−]/g, "-");
+    for (const c of ch) {
       out.push(c);
       map.push(i);
     }
@@ -62,12 +76,34 @@ export function normalizeForMatch(text: string): { value: string; map: number[] 
 
 const norm = (s: string) => normalizeForMatch(s).value;
 
-/** Find a quote in the document text; returns the source offset of the first match or null. */
-export function findQuote(document: { value: string; map: number[] }, quote: string): number | null {
+/** All normalized offsets where the quote occurs. */
+export function findQuoteOffsets(document: { value: string }, quote: string) {
   const q = norm(quote);
-  if (!q) return null;
-  const at = document.value.indexOf(q);
-  return at === -1 ? null : document.map[at];
+  const found: number[] = [];
+  if (!q) return found;
+  for (let at = document.value.indexOf(q); at !== -1; at = document.value.indexOf(q, at + 1)) found.push(at);
+  return found;
+}
+
+const isWordChar = (c: string | undefined) => c !== undefined && /[\p{L}\p{N}]/u.test(c);
+const isDigit = (c: string | undefined) => c !== undefined && /\d/.test(c);
+
+/** First index of `needle` in `hay` as a whole token: no letter or digit, and no digit separator, on either side. */
+export function findToken(hay: string, needle: string) {
+  if (!needle) return -1;
+  for (let i = hay.indexOf(needle); i !== -1; i = hay.indexOf(needle, i + 1)) {
+    const end = i + needle.length;
+    const startsWord = isWordChar(needle[0]);
+    const endsWord = isWordChar(needle.at(-1));
+    const before = hay[i - 1];
+    const after = hay[end];
+    if (startsWord && isWordChar(before)) continue;
+    if (endsWord && isWordChar(after)) continue;
+    if (isDigit(needle[0]) && (before === "." || before === ",") && isDigit(hay[i - 2])) continue;
+    if (isDigit(needle.at(-1)) && (after === "." || after === ",") && isDigit(hay[end + 1])) continue;
+    return i;
+  }
+  return -1;
 }
 
 /** 1-based page of an offset in PDF text (pages separated by \f); null for other kinds. */
@@ -78,45 +114,120 @@ export function pageAt(text: string, offset: number, isPdf: boolean) {
   return page;
 }
 
+const CURRENCY_SYMBOL: Record<string, string> = { $: "USD", "€": "EUR", "£": "GBP" };
+const CURRENCY_CODE = /\b(USD|EUR|GBP|CHF|JPY|MXN|BRL|KRW|SGD|HKD|CAD|AUD)\b/;
+
+/**
+ * The currency of an amount, read from the document around the value: an ISO
+ * code within a few characters, or a symbol right before the number ($ is
+ * USD only when no letters are glued to it, so A$, C$ and HK$ give null).
+ */
+export function currencyAround(text: string, start: number, end: number): string | null {
+  const code = CURRENCY_CODE.exec(text.slice(Math.max(0, start - 6), Math.min(text.length, end + 6)));
+  if (code) return code[1];
+  const firstDigit = text.slice(start, end).search(/\d/);
+  const numberStart = firstDigit === -1 ? start : start + firstDigit;
+  const symbol = /([A-Za-z]*)([$€£])\s*$/.exec(text.slice(Math.max(0, numberStart - 6), numberStart));
+  if (!symbol || symbol[1]) return null;
+  return CURRENCY_SYMBOL[symbol[2]];
+}
+
 export type AssetRef = { code: string; name?: string };
 
-export type VerifiedValue = { value: number | string; as_of: string | null; page: number | null };
-
-export function verifyClaim(input: {
-  claim: ProposedClaim;
+export type VerifyContext = {
   text: string;
   normalized: { value: string; map: number[] };
   isPdf: boolean;
+  locale: Locale;
   assets: AssetRef[];
-}): { ok: true; result: VerifiedValue } | { ok: false; reason: DropReason } {
-  const { claim, text, normalized, isPdf, assets } = input;
-  if (norm(claim.quote).length < MIN_QUOTE_CHARS) return { ok: false, reason: "quote_too_short" };
+  /** The document is about one asset only (its prospectus or pinned page). */
+  dedicated: boolean;
+};
+
+export type VerifiedValue = {
+  value: number | string;
+  value_text: string;
+  unit: string | null;
+  as_of: string | null;
+  page: number | null;
+};
+
+/** Find a token inside the matched quote and return its span in the source text. */
+function spanInQuote(ctx: VerifyContext, quoteAt: number, quoteLength: number, token: string) {
+  const quoteNorm = ctx.normalized.value.slice(quoteAt, quoteAt + quoteLength);
+  const t = norm(token);
+  const i = findToken(quoteNorm, t);
+  if (i === -1) return null;
+  const start = ctx.normalized.map[quoteAt + i];
+  const end = ctx.normalized.map[quoteAt + i + t.length - 1] + 1;
+  return { start, end };
+}
+
+function mentionIndex(context: string, asset: AssetRef) {
+  const code = asset.code.replace(/[^A-Za-z0-9]/g, "");
+  const codeRe = new RegExp(`(?<![A-Za-z0-9])${code}(?![A-Za-z0-9])`, "g");
+  let last = -1;
+  for (const m of context.matchAll(codeRe)) last = m.index!;
+  if (asset.name) {
+    const at = norm(context).lastIndexOf(norm(asset.name));
+    if (at !== -1) last = Math.max(last, at);
+  }
+  return last;
+}
+
+export function verifyClaim(claim: ProposedClaim, ctx: VerifyContext): { ok: true; result: VerifiedValue } | { ok: false; reason: DropReason } {
+  const quoteNorm = norm(claim.quote);
+  if (quoteNorm.length < MIN_QUOTE_CHARS) return { ok: false, reason: "quote_too_short" };
   if (claim.quote.length > MAX_QUOTE_CHARS || claim.value_text.length > MAX_VALUE_CHARS) return { ok: false, reason: "quote_too_long" };
-  const offset = findQuote(normalized, claim.quote);
-  if (offset === null) return { ok: false, reason: "quote_not_found" };
 
-  const quote = norm(claim.quote);
-  if (!quote.includes(norm(claim.value_text))) return { ok: false, reason: "value_not_in_quote" };
+  const offsets = findQuoteOffsets(ctx.normalized, claim.quote);
+  if (offsets.length === 0) return { ok: false, reason: "quote_not_found" };
+  if (offsets.length > 1) return { ok: false, reason: "quote_ambiguous" };
+  const quoteAt = offsets[0];
+  const quoteStart = ctx.normalized.map[quoteAt];
+  const quoteEnd = ctx.normalized.map[quoteAt + quoteNorm.length - 1] + 1;
 
-  const kind = CLAIM_FIELDS[claim.field as ClaimField].kind;
-  const value = kind === "amount" ? parseAmount(claim.value_text) : kind === "date" ? parseDate(claim.value_text) : claim.value_text.trim();
+  const field = claim.field as ClaimField;
+  const kind = CLAIM_FIELDS[field].kind;
+  const valueSpan = spanInQuote(ctx, quoteAt, quoteNorm.length, claim.value_text);
+  if (!valueSpan) return { ok: false, reason: "value_not_in_quote" };
+  const valueText = ctx.text.slice(valueSpan.start, valueSpan.end);
+  if (kind === "amount" && FOLLOWING_SCALE.test(ctx.text.slice(valueSpan.end, valueSpan.end + 14))) {
+    return { ok: false, reason: "value_scale_omitted" };
+  }
+  const value = kind === "amount" ? parseAmount(valueText, ctx.locale) : kind === "date" ? parseDate(valueText) : valueText.replace(/\s+/g, " ").trim();
   if (value === null || value === "") return { ok: false, reason: "value_unparseable" };
 
   let asOf: string | null = null;
   if (claim.as_of_text) {
-    if (!quote.includes(norm(claim.as_of_text))) return { ok: false, reason: "as_of_not_in_quote" };
-    asOf = parseDate(claim.as_of_text);
+    const asOfSpan = spanInQuote(ctx, quoteAt, quoteNorm.length, claim.as_of_text);
+    if (!asOfSpan) return { ok: false, reason: "as_of_not_in_quote" };
+    asOf = parseDate(ctx.text.slice(asOfSpan.start, asOfSpan.end));
     if (!asOf) return { ok: false, reason: "as_of_unparseable" };
   }
 
-  if (assets.length > 1 && claim.asset_code !== "ISSUER") {
-    const asset = assets.find((a) => a.code === claim.asset_code);
-    const start = Math.max(0, offset - ATTRIBUTION_WINDOW);
-    const context = text.slice(start, offset + claim.quote.length + 50);
-    const codeRe = asset && new RegExp(`(^|[^A-Za-z0-9])${asset.code.replace(/[^A-Za-z0-9]/g, "")}([^A-Za-z0-9]|$)`);
-    const named = asset?.name && norm(context).includes(norm(asset.name));
-    if (!asset || !(codeRe!.test(context) || named)) return { ok: false, reason: "attribution_unverified" };
+  const quoteText = ctx.text.slice(quoteStart, quoteEnd);
+  const gate = FIELD_GATES[field];
+  if (!gate.require.test(quoteText) || gate.reject?.test(quoteText)) return { ok: false, reason: "field_gate" };
+
+  if (claim.asset_code !== "ISSUER" && !(ctx.dedicated && ctx.assets.length === 1 && ctx.assets[0].code === claim.asset_code)) {
+    // Only text before and inside the quote counts; the closest mention wins.
+    const context = ctx.text.slice(Math.max(0, quoteStart - ATTRIBUTION_WINDOW), quoteEnd);
+    const claimed = ctx.assets.find((a) => a.code === claim.asset_code);
+    if (!claimed) return { ok: false, reason: "attribution_unverified" };
+    const mine = mentionIndex(context, claimed);
+    const closestOther = Math.max(-1, ...ctx.assets.filter((a) => a !== claimed).map((a) => mentionIndex(context, a)));
+    if (mine === -1 || closestOther > mine) return { ok: false, reason: "attribution_unverified" };
   }
 
-  return { ok: true, result: { value, as_of: asOf, page: pageAt(text, offset, isPdf) } };
+  return {
+    ok: true,
+    result: {
+      value,
+      value_text: valueText,
+      unit: kind === "amount" ? currencyAround(ctx.text, valueSpan.start, valueSpan.end) : null,
+      as_of: asOf,
+      page: pageAt(ctx.text, quoteStart, ctx.isPdf),
+    },
+  };
 }

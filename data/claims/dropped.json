@@ -1,0 +1,14 @@
+[
+  {
+    "snapshot_sha256": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571",
+    "source_url": "https://www.ylds.com/",
+    "reason": "quote_too_short",
+    "field": "networks",
+    "asset_code": "YLDS",
+    "value_text": "Solana",
+    "quote": "OndoSolana",
+    "model": "gemini-flash-lite-latest",
+    "prompt_version": "claims-v2",
+    "extracted_at": "2026-10-06T13:25:01.544Z"
+  }
+]

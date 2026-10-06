@@ -11,13 +11,16 @@
  */
 import fs from "fs";
 import path from "path";
-import { generateText, isStepCount, jsonSchema, tool, type LanguageModelUsage, type ModelMessage } from "ai";
+import { generateText, isStepCount, jsonSchema, Output, tool, type LanguageModelUsage, type ModelMessage } from "ai";
+import type { z } from "zod";
 import { createGoogle } from "@ai-sdk/google";
 import { positiveInt } from "@/lib/env";
 import type { Tool } from "./tools";
 
 export const PROVIDER = process.env.LLM_PROVIDER || "google";
 export const MODEL = process.env.LLM_MODEL || "gemini-flash-latest";
+/** Batch extraction can use a different (e.g. faster) model; the W2.6 benchmark picks the final one. */
+export const EXTRACT_MODEL = process.env.LLM_EXTRACT_MODEL || MODEL;
 
 const DAILY_TOKEN_BUDGET = positiveInt("LLM_DAILY_TOKEN_BUDGET", 200_000);
 const MAX_OUTPUT_TOKENS = positiveInt("LLM_MAX_OUTPUT_TOKENS", 1024);
@@ -35,8 +38,8 @@ export function hasApiKey() {
   return false;
 }
 
-function languageModel() {
-  if (PROVIDER === "google") return createGoogle({ apiKey: process.env.GEMINI_API_KEY })(MODEL);
+function languageModel(model = MODEL) {
+  if (PROVIDER === "google") return createGoogle({ apiKey: process.env.GEMINI_API_KEY })(model);
   throw new Error(`LLM provider "${PROVIDER}" is not set up yet.`);
 }
 
@@ -130,4 +133,24 @@ export async function generateWithTools(opts: { instructions: string; messages: 
     if (budgetRanOut) throw new BudgetExceededError("Today's LLM budget ran out during this answer. Try again tomorrow.");
     throw err;
   }
+}
+
+/**
+ * One structured-output call with no tools, for quarantined extraction from
+ * untrusted documents. It counts against the same daily budget and fails
+ * closed the same way. Returns the parsed output and the tokens used.
+ */
+export async function generateStructured<T>(opts: { instructions: string; prompt: string; schema: z.ZodType<T>; maxOutputTokens?: number; model?: string }) {
+  if (budgetLeft() <= 0) throw new BudgetExceededError("Today's LLM budget is used up. Try again tomorrow.");
+  const result = await generateText({
+    model: languageModel(opts.model ?? EXTRACT_MODEL),
+    instructions: opts.instructions,
+    prompt: opts.prompt,
+    output: Output.object({ schema: opts.schema }),
+    maxOutputTokens: opts.maxOutputTokens ?? 4096,
+    timeout: { totalMs: 120_000 },
+    onStepEnd: ({ usage }) => recordUsage(usage),
+  });
+  const usage = result.totalUsage;
+  return { output: result.output as T, tokens: usage.totalTokens ?? (usage.inputTokens ?? 0) + (usage.outputTokens ?? 0) };
 }

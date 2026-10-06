@@ -65,6 +65,8 @@ export const tools: Tool[] = [
       }
       const signal = abortSignal;
       const universe = loadUniverse();
+      // Without the pinned universe every issuer would look "unpinned"; fail loudly instead.
+      if (universe.length === 0) return { error: "The asset universe (data/assets.csv) is not loaded, so issuer identity cannot be checked." };
 
       if (!issuer) {
         const { records, truncated } = await listIssuers(asset_code, signal);

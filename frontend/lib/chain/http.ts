@@ -95,13 +95,13 @@ async function discard(res: HttpResponse) {
   await res.body?.cancel().catch(() => {});
 }
 
-async function readCapped(res: HttpResponse, maxBytes: number) {
+async function readCapped(res: HttpResponse, maxBytes: number): Promise<Uint8Array> {
   const declared = Number(res.headers.get("content-length") ?? 0);
   if (declared > maxBytes) {
     await discard(res);
     throw new FetchError(`Response is larger than ${maxBytes} bytes.`);
   }
-  if (!res.body) return "";
+  if (!res.body) return new Uint8Array();
   const reader = res.body.getReader();
   const chunks: Uint8Array[] = [];
   let total = 0;
@@ -115,7 +115,7 @@ async function readCapped(res: HttpResponse, maxBytes: number) {
     }
     chunks.push(value);
   }
-  return new TextDecoder().decode(Buffer.concat(chunks));
+  return new Uint8Array(Buffer.concat(chunks));
 }
 
 export type UntrustedFetchOptions = {
@@ -124,19 +124,22 @@ export type UntrustedFetchOptions = {
   signal?: AbortSignal;
   /** Decide whether a redirect from one host to another may be followed. Default: never. */
   allowRedirect?: (fromHost: string, toHost: string) => boolean;
+  /** Extra request headers (e.g. the SEC's required User-Agent). */
+  headers?: Record<string, string>;
   transport?: Transport;
 };
 
-/** GET a text resource on an untrusted domain. Returns the text and the final URL it came from. */
-export async function fetchUntrustedText(url: string, opts: UntrustedFetchOptions) {
+/** GET a resource on an untrusted domain. Returns the exact bytes, the content type, and the final URL. */
+export async function fetchUntrustedBytes(url: string, opts: UntrustedFetchOptions) {
   const signal = deadline(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS, opts.signal);
   const transport = opts.transport ?? defaultTransport;
+  const headers = { "User-Agent": USER_AGENT, ...opts.headers };
   let current = new URL(url);
   for (let hop = 0; hop <= MAX_REDIRECTS; hop++) {
     if (current.protocol !== "https:" || current.port || !isSafeDomain(current.hostname)) {
       throw new FetchError("Refusing to fetch: only https on public domain names is allowed.");
     }
-    const res = await transport(current, { redirect: "manual", signal, headers: { "User-Agent": USER_AGENT } });
+    const res = await transport(current, { redirect: "manual", signal, headers });
     if (res.status >= 300 && res.status < 400) {
       const location = res.headers.get("location");
       await discard(res);
@@ -150,9 +153,16 @@ export async function fetchUntrustedText(url: string, opts: UntrustedFetchOption
       await discard(res);
       throw new FetchError(`HTTP ${res.status}.`);
     }
-    return { text: await readCapped(res, opts.maxBytes), finalUrl: current.toString() };
+    const bytes = await readCapped(res, opts.maxBytes);
+    return { bytes, contentType: res.headers.get("content-type") ?? "", finalUrl: current.toString() };
   }
   throw new FetchError("Too many redirects.");
+}
+
+/** GET a text resource on an untrusted domain. Returns the text and the final URL it came from. */
+export async function fetchUntrustedText(url: string, opts: UntrustedFetchOptions) {
+  const { bytes, finalUrl } = await fetchUntrustedBytes(url, opts);
+  return { text: new TextDecoder().decode(bytes), finalUrl };
 }
 
 /** GET JSON from a fixed, trusted API (Horizon, StellarExpert). */

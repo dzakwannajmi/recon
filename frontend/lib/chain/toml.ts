@@ -3,9 +3,9 @@
  */
 import { createHash } from "node:crypto";
 import { parse } from "smol-toml";
-import { fetchUntrustedText, type Transport } from "./http";
+import { fetchUntrustedBytes, type Transport } from "./http";
 
-const MAX_TOML_BYTES = 100_000;
+export const MAX_TOML_BYTES = 100_000;
 
 export type TomlCurrency = {
   code?: string;
@@ -38,16 +38,20 @@ export function sameSiteWww(fromHost: string, toHost: string) {
   return strip(fromHost) === strip(toHost);
 }
 
+export function stellarTomlUrl(domain: string) {
+  return `https://${domain}/.well-known/stellar.toml`;
+}
+
 export async function fetchStellarToml(domain: string, opts: { signal?: AbortSignal; transport?: Transport } = {}): Promise<FetchedToml> {
-  const url = `https://${domain}/.well-known/stellar.toml`;
-  const { text, finalUrl } = await fetchUntrustedText(url, {
+  const url = stellarTomlUrl(domain);
+  const { bytes, finalUrl } = await fetchUntrustedBytes(url, {
     maxBytes: MAX_TOML_BYTES,
     signal: opts.signal,
     transport: opts.transport,
     allowRedirect: sameSiteWww,
   });
-  const sha256 = createHash("sha256").update(text).digest("hex");
-  return { ...parseStellarToml(text), url, finalUrl, sha256 };
+  const sha256 = createHash("sha256").update(bytes).digest("hex");
+  return { ...parseStellarToml(new TextDecoder().decode(bytes)), url, finalUrl, sha256 };
 }
 
 /** Parse strictly; if the file is not valid TOML, fall back to `parseTomlLenient`. */

@@ -27,3 +27,7 @@ internal/
 
 # local runtime state
 .cache/
+
+# Document snapshots: bytes and extracted text stay local; index.json is committed
+data/snapshots/blobs/
+data/snapshots/text/

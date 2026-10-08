@@ -226,6 +226,48 @@
     "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
+    "sha256": "1b01514b6a26598e3777e392008d4e32199d8bee4925f89e513a13a3d7d94245",
+    "url": "https://rwa.stellarsynth.org/.well-known/stellar.toml",
+    "finalUrl": "https://rwa.stellarsynth.org/.well-known/stellar.toml",
+    "contentType": "",
+    "bytes": 335,
+    "sourceClass": "third_party_toml",
+    "assets": [
+      "sgBENJI:GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 335,
+      "pages": null,
+      "sha256": "1b01514b6a26598e3777e392008d4e32199d8bee4925f89e513a13a3d7d94245",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T22:56:52.275Z",
+    "lastSeenAt": "2026-10-08T01:14:16.539Z"
+  },
+  {
+    "sha256": "3419537b02847a58f9a7872004d7a295147d80765df125a5d935d34a13c4a31b",
+    "url": "https://rwastellar.org/.well-known/stellar.toml",
+    "finalUrl": "https://rwastellar.org/.well-known/stellar.toml",
+    "contentType": "",
+    "bytes": 5946,
+    "sourceClass": "third_party_toml",
+    "assets": [
+      "USDY:GD235AUTYKOTSCMRSHZXZYRQ6BRVVQTWBBK6DMDJOJIB74J75RZD7RWA"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 5946,
+      "pages": null,
+      "sha256": "3419537b02847a58f9a7872004d7a295147d80765df125a5d935d34a13c4a31b",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T22:56:56.432Z",
+    "lastSeenAt": "2026-10-08T01:14:16.539Z"
+  },
+  {
     "sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
     "url": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
     "finalUrl": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
@@ -259,6 +301,27 @@
     },
     "fetchedAt": "2026-10-06T13:09:47.813Z",
     "lastSeenAt": "2026-10-06T13:09:47.813Z"
+  },
+  {
+    "sha256": "ace7b18710c73a3f57ffeee376f16d8576f6c0da8b7a28f99950db70160d73bd",
+    "url": "https://trendx.pages.dev/.well-known/stellar.toml",
+    "finalUrl": "https://trendx.pages.dev/.well-known/stellar.toml",
+    "contentType": "",
+    "bytes": 9046,
+    "sourceClass": "third_party_toml",
+    "assets": [
+      "USTRY:GB3P5ZNOUFIOBTBSFMTBEDNBR3I3Z7DPM6QNOYVO4K7HNIVOECB2J567"
+    ],
+    "discoveredFrom": null,
+    "text": {
+      "kind": "text",
+      "chars": 9025,
+      "pages": null,
+      "sha256": "4bcd63675df6473b12f64aecc0e12a4f04b994dafca7e329eddfd5f6efe5352d",
+      "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
+    },
+    "fetchedAt": "2026-10-06T22:56:58.987Z",
+    "lastSeenAt": "2026-10-08T01:14:16.539Z"
   },
   {
     "sha256": "1a1ed14b15e67a5c6680ba1ae1a1281206738fe889fdba64cbb308f7fc6af715",

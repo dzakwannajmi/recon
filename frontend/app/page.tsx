@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
   Bot,
@@ -104,6 +105,9 @@ export default function Home() {
         <p className="max-w-xl text-lg text-muted-foreground">
           An AI agent that checks tokenized real-world assets against Stellar on-chain data.
         </p>
+        <Link href="/en/assets" className="w-fit text-sm text-primary underline underline-offset-4">
+          Fact sheets
+        </Link>
       </header>
 
       <div className="grid flex-1 gap-6 lg:grid-cols-[380px_1fr]">

@@ -4,6 +4,9 @@ import { tools } from "@/agent/tools";
 import { WalletError } from "@/agent/wallet";
 import { positiveInt } from "@/lib/env";
 
+// Up to 5 model steps with a 60s timeout (agent/llm.ts).
+export const maxDuration = 60;
+
 const RATE_LIMIT_PER_MIN = positiveInt("CHAT_RATE_LIMIT_PER_MIN", 10);
 const GLOBAL_RATE_LIMIT_PER_MIN = positiveInt("GLOBAL_RATE_LIMIT_PER_MIN", 30);
 // Only trust X-Forwarded-For behind a proxy that overwrites it; otherwise clients could spoof it.
@@ -50,7 +53,10 @@ export async function GET() {
 // POST /api/agent { messages } -> the agent's answer + the tools it used
 export async function POST(req: Request) {
   if (!hasApiKey()) {
-    return Response.json({ error: "Add GEMINI_API_KEY to frontend/.env, then restart `npm run dev`." }, { status: 500 });
+    const error = process.env.VERCEL
+      ? "The demo has no LLM key configured yet."
+      : "Add GEMINI_API_KEY to frontend/.env, then restart `npm run dev`.";
+    return Response.json({ error }, { status: 500 });
   }
   if (rateLimited(req)) {
     return Response.json({ error: "Too many messages. Wait a minute and try again." }, { status: 429 });

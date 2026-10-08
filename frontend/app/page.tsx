@@ -27,7 +27,7 @@ type Message = { role: "user" | "agent"; text: string; steps?: Step[]; error?: b
 type Status = { hasApiKey: boolean; model: string; tools: { name: string; description: string }[] };
 type WalletInfo = { address: string | null; balance?: string };
 
-const EXAMPLES = ["What's in your wallet?", "Fund your wallet on testnet", "What can you check for me?"];
+const EXAMPLES = ["Check USTRY on Stellar mainnet", "What's in your wallet?", "Fund your wallet on testnet", "What can you check for me?"];
 
 export default function Home() {
   const [status, setStatus] = useState<Status | null>(null);
@@ -58,7 +58,7 @@ export default function Home() {
       if (!res.ok) setWalletError((await res.json().catch(() => null))?.error ?? "Could not create the wallet.");
       await loadWallet();
     } catch {
-      setWalletError("Could not reach the server. Is `npm run dev` still running?");
+      setWalletError("Could not reach the server. Try again in a moment.");
     } finally {
       setCreating(false);
     }
@@ -81,7 +81,7 @@ export default function Home() {
       setMessages((m) => [...m, data.error ? { role: "agent", text: data.error, error: true } : { role: "agent", text: data.answer, steps: data.steps }]);
       if (data.steps?.some((s: Step) => s.tool.includes("wallet"))) loadWallet();
     } catch {
-      setMessages((m) => [...m, { role: "agent", text: "Could not reach the server. Is `npm run dev` still running?", error: true }]);
+      setMessages((m) => [...m, { role: "agent", text: "Could not reach the server. Try again in a moment.", error: true }]);
     }
     setThinking(false);
   }
@@ -339,7 +339,7 @@ function WalletDetails({ wallet, onRefresh }: { wallet: WalletInfo; onRefresh: (
           Fund with Friendbot <ExternalLink className="size-3" />
         </a>
       </div>
-      <p className="text-xs text-muted-foreground">Stellar testnet. Saved in .agent-wallet.json.</p>
+      <p className="text-xs text-muted-foreground">Stellar testnet only.</p>
     </div>
   );
 }

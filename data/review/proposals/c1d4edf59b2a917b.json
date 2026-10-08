@@ -1,0 +1,55 @@
+{
+  "id": "c1d4edf59b2a917b",
+  "doc_key": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+  "text_sha256": "230d054ffa9b5a96de5967cdaf65ddea6f49205c94561b0a149b75fbaa9a9eed",
+  "proposed_by": "operator via Claude Code (review-reader, sonnet)",
+  "reviewed_at": "2026-10-08T08:11:25Z",
+  "note": "SEC prospectus (with two supplements) for Figure Certificate Company's certificates (YLDS). Stellar and other chains appear only as hedged options ('may also use'), so they are skipped. No offering size is stated. The operator removed one proposed nav_per_unit ('$0.01/certificate') because it is the face and issue price, not a NAV.",
+  "claims": [
+    {
+      "field": "auditor",
+      "asset_code": "ISSUER",
+      "value_text": "KPMG LLP",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "have been audited by KPMG LLP, independent registered public accounting firm",
+      "page": null
+    },
+    {
+      "field": "report_date",
+      "asset_code": "ISSUER",
+      "value_text": "December 31, 2025",
+      "unit": null,
+      "as_of_text": "December 31, 2025",
+      "quote": "The balance sheets of Figure Certificate Company as of December 31, 2025 and 2024",
+      "page": null
+    },
+    {
+      "field": "custodian",
+      "asset_code": "YLDS",
+      "value_text": "UMB Bank N.A.",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements.",
+      "page": null
+    },
+    {
+      "field": "custodian",
+      "asset_code": "YLDS",
+      "value_text": "Flagstar Bank, N.A.",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements.",
+      "page": null
+    },
+    {
+      "field": "networks",
+      "asset_code": "YLDS",
+      "value_text": "Provenance Blockchain",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "The digital asset standard used on the Provenance Blockchain enables FCC to enforce transfer restrictions on the Provenance Blockchain in connection with the Certificates.",
+      "page": null
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "072b341b345b2842",
+  "doc_key": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+  "text_sha256": "1763cdee59b81736de664fd64c2faed453404e4fef55de278f099ae93c5b7bcb",
+  "proposed_by": "operator via Claude Code (review-reader, sonnet)",
+  "reviewed_at": "2026-10-08T08:10:54Z",
+  "note": "Ondo marketing homepage. I proposed only the USDY price, which has no explicit as-of date. The TVL figures are excluded by the net_assets gate, and the custodian and audit statements are generic with no named party.",
+  "claims": [
+    {
+      "field": "nav_per_unit",
+      "asset_code": "USDY",
+      "value_text": "$1.1487",
+      "unit": "USD",
+      "as_of_text": null,
+      "quote": "Price\n$1.1487\n+$0.0003 today",
+      "page": null
+    }
+  ]
+}

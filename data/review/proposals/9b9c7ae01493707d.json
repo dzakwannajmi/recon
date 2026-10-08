@@ -1,0 +1,9 @@
+{
+  "id": "9b9c7ae01493707d",
+  "doc_key": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255|BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+  "text_sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+  "proposed_by": "operator via Claude Code (review-reader, sonnet)",
+  "reviewed_at": "2026-10-08T08:10:54Z",
+  "note": "Bitbond stellar.toml describing the BB1 bond. The only candidates are the 'issued BB1 tokens' condition and fixed_number 2,667,360, which sit on separate lines. The condition's wording ('primary offering') also fails the units_outstanding gate, and the number is not clearly a maximum, so I proposed nothing.",
+  "claims": []
+}

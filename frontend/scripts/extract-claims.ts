@@ -14,18 +14,16 @@
  */
 import { createHash } from "node:crypto";
 import { EXTRACT_MODEL as MODEL, budgetLeft, generateStructured } from "../agent/llm";
-import { findCurrency, parseStellarToml } from "../lib/chain/toml";
 import { loadUniverse } from "../lib/chain/universe";
-import { EXTRACTOR_VERSION } from "../lib/documents/extract";
-import { SnapshotStore, sha256Hex, type SnapshotRecord } from "../lib/documents/store";
+import { SnapshotStore, type SnapshotRecord } from "../lib/documents/store";
 import { positiveInt } from "../lib/env";
 import { buildClaims } from "../lib/claims/claim";
+import { createContextFactory } from "../lib/claims/context";
 import { CLAIM_FIELDS, extractionSchema, type ProposedClaim } from "../lib/claims/fields";
-import { detectLocale } from "../lib/claims/parse";
 import { EXTRACTION_INSTRUCTIONS, PROMPT_VERSION, buildPrompt } from "../lib/claims/prompt";
 import { MAX_CHARS_PER_DOCUMENT, selectChunks } from "../lib/claims/select";
 import { ClaimStore, docKey, type ExtractionRun } from "../lib/claims/store";
-import { normalizeForMatch, verifyClaim, type AssetRef, type VerifyContext } from "../lib/claims/verify";
+import { verifyClaim, type AssetRef, type VerifyContext } from "../lib/claims/verify";
 
 const MIN_HTML_CHARS = 1500;
 const OUTPUT_TOKENS = 4096;
@@ -56,56 +54,12 @@ async function main() {
   const store = new ClaimStore();
   const now = new Date().toISOString();
 
-  // Asset names from the issuers' own tomls help attribute claims in multi-asset documents.
-  const names = new Map<string, string>();
-  for (const r of snapshots.all().filter((s) => s.sourceClass === "issuer_toml")) {
-    const text = snapshots.readText(r.sha256);
-    if (!text) continue;
-    const { toml } = parseStellarToml(text);
-    for (const key of r.assets) {
-      const [code, issuer] = key.split(":");
-      const name = findCurrency(toml, issuer, code)?.name;
-      if (typeof name === "string") names.set(key, name);
-    }
-  }
-  const pinnedFor = (record: SnapshotRecord) =>
-    universe
-      .filter((a) => record.assets.includes(`${a.asset_code}:${a.issuer}`))
-      .flatMap((a) => a.docs_urls.split(";").map((u) => u.trim()).filter(Boolean))
-      .map((u) => {
-        try {
-          return new URL(u).toString();
-        } catch {
-          return u;
-        }
-      });
-  const officialDomainsOf = (record: SnapshotRecord) =>
-    universe.filter((a) => record.assets.includes(`${a.asset_code}:${a.issuer}`)).map((a) => a.official_domain);
-
-  /** Verification context for one document, or null if its stored text is stale. */
-  function contextFor(record: SnapshotRecord): { ctx: VerifyContext; text: string } | null {
-    const text = snapshots.readText(record.sha256);
-    if (!text || !record.text || sha256Hex(text) !== record.text.sha256 || record.text.extractor !== EXTRACTOR_VERSION) return null;
-    const assets: AssetRef[] = record.assets.map((k) => ({ code: k.split(":")[0], name: names.get(k) }));
-    return {
-      text,
-      ctx: {
-        text,
-        normalized: normalizeForMatch(text),
-        isPdf: record.text.kind === "pdf",
-        locale: record.sourceClass === "issuer_toml" ? "en" : detectLocale(text),
-        assets,
-        // A prospectus PDF, or a page pinned in that asset's docs_urls, is about that asset only.
-        dedicated: assets.length === 1 && (record.text.kind === "pdf" || pinnedFor(record).includes(record.url)),
-        knownCodes: [...new Set([...universe.map((a) => a.asset_code), "XLM", "USDC", "OUSG", "USTB"])],
-      },
-    };
-  }
+  const { contextFor, officialDomainsOf } = createContextFactory(universe, snapshots);
 
   function save(record: SnapshotRecord, run: ExtractionRun, ctx: VerifyContext) {
     const { claims, dropped } = buildClaims({
       record, docKey: run.doc_key, officialDomains: officialDomainsOf(record), proposals: run.proposals,
-      verify: (claim) => verifyClaim(claim, ctx), model: run.model, promptVersion: run.prompt_version, now: run.at,
+      verify: (claim) => verifyClaim(claim, ctx), model: run.model, promptVersion: run.prompt_version, now: run.at, fieldSource: "llm",
     });
     store.record({ ...run, verified: claims.length, dropped: dropped.length }, claims, dropped);
     return { claims, dropped };

@@ -1,0 +1,37 @@
+{
+  "id": "f5141a838562238f",
+  "doc_key": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+  "text_sha256": "36d470c1feddf1c30f6962736129e569089cbe32cb33fc1deb9906e86a258a5c",
+  "proposed_by": "operator via Claude Code (review-reader, sonnet)",
+  "reviewed_at": "2026-10-08T12:35:28Z",
+  "note": "Etherfuse marketing homepage. The custodians are named for the issuer as a whole, not per asset, one claim each (the list ends \"and more\"). The chain list has no network wording to pass the gate, and the Security Audited line names smart-contract auditors, so both are skipped.",
+  "claims": [
+    {
+      "field": "custodian",
+      "asset_code": "ISSUER",
+      "value_text": "BBVA",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Regulated Custodians\nBBVA, Shinhan, B3, and more",
+      "page": null
+    },
+    {
+      "field": "custodian",
+      "asset_code": "ISSUER",
+      "value_text": "Shinhan",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Regulated Custodians\nBBVA, Shinhan, B3, and more",
+      "page": null
+    },
+    {
+      "field": "custodian",
+      "asset_code": "ISSUER",
+      "value_text": "B3",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Regulated Custodians\nBBVA, Shinhan, B3, and more",
+      "page": null
+    }
+  ]
+}

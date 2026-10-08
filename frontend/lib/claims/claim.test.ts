@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import type { SnapshotRecord } from "../documents/store";
 import { buildClaims } from "./claim";
@@ -17,8 +18,8 @@ const p = (overrides: Partial<ProposedClaim>): ProposedClaim => ({
 });
 const ok = { ok: true as const, result: { value: "UMB Bank", value_text: "UMB Bank", unit: null, as_of: null, page: 3 } };
 
-const build = (proposals: ProposedClaim[], officialDomains = ["ylds.com"]) =>
-  buildClaims({ record, docKey: "d", officialDomains, proposals, verify: () => ok, model: "m", promptVersion: "v", now: "2026-10-07T00:00:00.000Z" });
+const build = (proposals: ProposedClaim[], officialDomains = ["ylds.com"], fieldSource: "llm" | "operator-reviewed" = "llm") =>
+  buildClaims({ record, docKey: "d", officialDomains, proposals, verify: () => ok, model: "m", promptVersion: "v", now: "2026-10-07T00:00:00.000Z", fieldSource });
 
 describe("buildClaims", () => {
   it("keys issuer-level claims by the pinned official domain, never the document host", () => {
@@ -40,9 +41,18 @@ describe("buildClaims", () => {
     expect(build([p({}), p({ quote: "UMB Bank is the custodian of the assets." })]).claims).toHaveLength(1);
     const many = Array.from({ length: 27 }, (_, i) => p({ value_text: `Bank ${i}` }));
     const { dropped } = buildClaims({
-      record, docKey: "d", officialDomains: ["ylds.com"], proposals: many, model: "m", promptVersion: "v", now: "n",
+      record, docKey: "d", officialDomains: ["ylds.com"], proposals: many, model: "m", promptVersion: "v", now: "n", fieldSource: "llm",
       verify: (c) => ({ ok: true, result: { ...ok.result, value: c.value_text } }),
     });
     expect(dropped.filter((d) => d.reason === "over_cap")).toHaveLength(2);
+  });
+
+  it("keeps LLM claim ids stable and gives operator-reviewed claims their own ids", () => {
+    const llm = build([p({})]).claims[0];
+    const op = build([p({})], ["ylds.com"], "operator-reviewed").claims[0];
+    // Pinned: the id of an LLM claim must never change (existing data/claims ids).
+    expect(llm.id).toBe(createHash("sha256").update(["d", "ISSUER:ylds.com", "custodian", "UMB Bank holds the assets in custody.", "UMB Bank"].join("|")).digest("hex").slice(0, 16));
+    expect(op.field_source).toBe("operator-reviewed");
+    expect(op.id).not.toBe(llm.id);
   });
 });

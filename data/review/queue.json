@@ -1,0 +1,419 @@
+[
+  {
+    "id": "072b341b345b2842",
+    "doc_key": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+    "reason": "no_verified_claims",
+    "status": "imported",
+    "queued_at": "2026-10-08T08:06:30.106Z",
+    "source_url": "https://ondo.finance/",
+    "source_class": "issuer",
+    "kind": "html",
+    "chars": 6446,
+    "pages": null,
+    "snapshot_sha256": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd",
+    "text_sha256": "1763cdee59b81736de664fd64c2faed453404e4fef55de278f099ae93c5b7bcb",
+    "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1",
+    "assets": [
+      {
+        "key": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+        "code": "USDY",
+        "name": "Ondo US Dollar Yield"
+      }
+    ],
+    "text_file": "data/snapshots/text/3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd.txt",
+    "proposals_file": "data/review/proposals/072b341b345b2842.json",
+    "run": {
+      "model": "gemini-flash-lite-latest",
+      "prompt_version": "claims-v3",
+      "at": "2026-10-06T21:50:06.460Z",
+      "proposals": 2,
+      "verified": 0,
+      "dropped_reasons": {
+        "attribution_unverified": 1,
+        "field_gate": 1
+      },
+      "error": null
+    }
+  },
+  {
+    "id": "195c66f44c26ff3c",
+    "doc_key": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+    "reason": "no_verified_claims",
+    "status": "imported",
+    "queued_at": "2026-10-08T08:06:30.106Z",
+    "source_url": "https://etherfuse.com/.well-known/stellar.toml",
+    "source_class": "issuer_toml",
+    "kind": "text",
+    "chars": 7100,
+    "pages": null,
+    "snapshot_sha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+    "text_sha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+    "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1",
+    "assets": [
+      {
+        "key": "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "code": "USTRY",
+        "name": "Etherfuse USTRY"
+      },
+      {
+        "key": "TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "code": "TESOURO",
+        "name": "Etherfuse TESOURO"
+      },
+      {
+        "key": "EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "code": "EUROB",
+        "name": "Etherfuse EUROB"
+      },
+      {
+        "key": "KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "code": "KTB",
+        "name": "Etherfuse KTB"
+      },
+      {
+        "key": "GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "code": "GILTS",
+        "name": "Etherfuse GILTS"
+      }
+    ],
+    "text_file": "data/snapshots/text/f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe.txt",
+    "proposals_file": "data/review/proposals/195c66f44c26ff3c.json",
+    "run": {
+      "model": "gemini-flash-lite-latest",
+      "prompt_version": "claims-v3",
+      "at": "2026-10-06T21:50:06.460Z",
+      "proposals": 0,
+      "verified": 0,
+      "dropped_reasons": {},
+      "error": null
+    }
+  },
+  {
+    "id": "49bce52c98afb1e7",
+    "doc_key": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156|CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45,EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6,FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6,GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ,LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D,MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ,SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM,TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R,TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD,WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6,WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH,WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG,WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P,WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF,WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+    "reason": "no_verified_claims",
+    "status": "imported",
+    "queued_at": "2026-10-08T08:06:30.106Z",
+    "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+    "source_class": "issuer_toml",
+    "kind": "text",
+    "chars": 16201,
+    "pages": null,
+    "snapshot_sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+    "text_sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+    "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1",
+    "assets": [
+      {
+        "key": "GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+        "code": "GOLD",
+        "name": "WisdomTree Gold Token"
+      },
+      {
+        "key": "WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+        "code": "WTGX",
+        "name": "WisdomTree Government Money Market Digital Fund"
+      },
+      {
+        "key": "WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+        "code": "WTSY",
+        "name": "WisdomTree Short-Term Treasury Digital Fund"
+      },
+      {
+        "key": "WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+        "code": "WTTS",
+        "name": "WisdomTree 3-7 Year Treasury Digital Fund"
+      },
+      {
+        "key": "WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+        "code": "WTST",
+        "name": "WisdomTree 7-10 Year Treasury Digital Fund"
+      },
+      {
+        "key": "WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+        "code": "WTLG",
+        "name": "WisdomTree Long Term Treasury Digital Fund"
+      },
+      {
+        "key": "FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+        "code": "FLTT",
+        "name": "WisdomTree Floating Rate Treasury Digital Fund"
+      },
+      {
+        "key": "TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+        "code": "TIPS",
+        "name": "WisdomTree TIPS Digital Fund"
+      },
+      {
+        "key": "WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+        "code": "WTSI",
+        "name": "WisdomTree Short-Duration Income Digital Fund"
+      },
+      {
+        "key": "CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+        "code": "CRDT",
+        "name": "WisdomTree Private Credit and Alternative Income Digital Fund"
+      },
+      {
+        "key": "SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+        "code": "SPXU",
+        "name": "WisdomTree 500 Digital Fund"
+      },
+      {
+        "key": "TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+        "code": "TECH",
+        "name": "WisdomTree Technology & Innovation 100 Digital Fund"
+      },
+      {
+        "key": "EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+        "code": "EQTY",
+        "name": "WisdomTree Siegel Global Equity Digital Fund"
+      },
+      {
+        "key": "MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+        "code": "MODR",
+        "name": "WisdomTree Siegel Moderate Digital Fund"
+      },
+      {
+        "key": "LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+        "code": "LNGV",
+        "name": "WisdomTree Siegel Longevity Digital Fund"
+      }
+    ],
+    "text_file": "data/snapshots/text/773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156.txt",
+    "proposals_file": "data/review/proposals/49bce52c98afb1e7.json",
+    "run": {
+      "model": "gemini-flash-lite-latest",
+      "prompt_version": "claims-v3",
+      "at": "2026-10-06T21:50:06.460Z",
+      "proposals": 0,
+      "verified": 0,
+      "dropped_reasons": {},
+      "error": null
+    }
+  },
+  {
+    "id": "9693d960cc14a12a",
+    "doc_key": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+    "reason": "no_verified_claims",
+    "status": "imported",
+    "queued_at": "2026-10-08T08:06:30.106Z",
+    "source_url": "https://ondo.finance/.well-known/stellar.toml",
+    "source_class": "issuer_toml",
+    "kind": "text",
+    "chars": 831,
+    "pages": null,
+    "snapshot_sha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
+    "text_sha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
+    "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1",
+    "assets": [
+      {
+        "key": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+        "code": "USDY",
+        "name": "Ondo US Dollar Yield"
+      }
+    ],
+    "text_file": "data/snapshots/text/61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c.txt",
+    "proposals_file": "data/review/proposals/9693d960cc14a12a.json",
+    "run": {
+      "model": "gemini-flash-lite-latest",
+      "prompt_version": "claims-v3",
+      "at": "2026-10-06T21:50:06.460Z",
+      "proposals": 0,
+      "verified": 0,
+      "dropped_reasons": {},
+      "error": null
+    }
+  },
+  {
+    "id": "9b9c7ae01493707d",
+    "doc_key": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255|BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+    "reason": "no_verified_claims",
+    "status": "imported",
+    "queued_at": "2026-10-08T08:06:30.106Z",
+    "source_url": "https://bitbondsto.com/.well-known/stellar.toml",
+    "source_class": "issuer_toml",
+    "kind": "text",
+    "chars": 1850,
+    "pages": null,
+    "snapshot_sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+    "text_sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+    "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1",
+    "assets": [
+      {
+        "key": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+        "code": "BB1",
+        "name": "Bitbond Finance Tokenized Bond 1"
+      }
+    ],
+    "text_file": "data/snapshots/text/5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255.txt",
+    "proposals_file": "data/review/proposals/9b9c7ae01493707d.json",
+    "run": {
+      "model": "gemini-flash-lite-latest",
+      "prompt_version": "claims-v3",
+      "at": "2026-10-06T21:50:06.460Z",
+      "proposals": 1,
+      "verified": 0,
+      "dropped_reasons": {
+        "field_gate": 1
+      },
+      "error": null
+    }
+  },
+  {
+    "id": "be02311d2bbd9223",
+    "doc_key": "3149a2caca84bf87aeb1cd332ebaec2a699e8405cc0c3c85660c8cd70b8c0301|GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+    "reason": "no_verified_claims",
+    "status": "imported",
+    "queued_at": "2026-10-08T08:06:30.106Z",
+    "source_url": "https://www.wisdomtreeprime.com/attestations/",
+    "source_class": "issuer",
+    "kind": "html",
+    "chars": 2092,
+    "pages": null,
+    "snapshot_sha256": "3149a2caca84bf87aeb1cd332ebaec2a699e8405cc0c3c85660c8cd70b8c0301",
+    "text_sha256": "0a3a388634ffcbf2f3f934a52c1975a4aed5330f7d0f200cfed8986b776b86d3",
+    "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1",
+    "assets": [
+      {
+        "key": "GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+        "code": "GOLD",
+        "name": "WisdomTree Gold Token"
+      }
+    ],
+    "text_file": "data/snapshots/text/3149a2caca84bf87aeb1cd332ebaec2a699e8405cc0c3c85660c8cd70b8c0301.txt",
+    "proposals_file": "data/review/proposals/be02311d2bbd9223.json",
+    "run": {
+      "model": "gemini-flash-lite-latest",
+      "prompt_version": "claims-v3",
+      "at": "2026-10-06T21:51:10.673Z",
+      "proposals": 0,
+      "verified": 0,
+      "dropped_reasons": {},
+      "error": null
+    }
+  },
+  {
+    "id": "c1d4edf59b2a917b",
+    "doc_key": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+    "reason": "no_verified_claims",
+    "status": "imported",
+    "queued_at": "2026-10-08T08:06:30.106Z",
+    "source_url": "https://cdn.figure.com/docs/markets/fcc-prospectus.pdf",
+    "source_class": "issuer",
+    "kind": "pdf",
+    "chars": 184633,
+    "pages": 54,
+    "snapshot_sha256": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140",
+    "text_sha256": "230d054ffa9b5a96de5967cdaf65ddea6f49205c94561b0a149b75fbaa9a9eed",
+    "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1",
+    "assets": [
+      {
+        "key": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+        "code": "YLDS",
+        "name": "YLDS"
+      }
+    ],
+    "text_file": "data/snapshots/text/7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140.txt",
+    "proposals_file": "data/review/proposals/c1d4edf59b2a917b.json",
+    "run": {
+      "model": "gemini-flash-lite-latest",
+      "prompt_version": "claims-v3",
+      "at": "2026-10-06T21:50:06.460Z",
+      "proposals": 3,
+      "verified": 0,
+      "dropped_reasons": {
+        "field_gate": 1,
+        "quote_ambiguous": 2
+      },
+      "error": null
+    }
+  },
+  {
+    "id": "c8d07d3a92081206",
+    "doc_key": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+    "reason": "no_verified_claims",
+    "status": "imported",
+    "queued_at": "2026-10-08T08:06:30.106Z",
+    "source_url": "https://www.ylds.com/.well-known/stellar.toml",
+    "source_class": "issuer_toml",
+    "kind": "text",
+    "chars": 2629,
+    "pages": null,
+    "snapshot_sha256": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81",
+    "text_sha256": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81",
+    "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1",
+    "assets": [
+      {
+        "key": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+        "code": "YLDS",
+        "name": "YLDS"
+      }
+    ],
+    "text_file": "data/snapshots/text/b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81.txt",
+    "proposals_file": "data/review/proposals/c8d07d3a92081206.json",
+    "run": {
+      "model": "gemini-flash-lite-latest",
+      "prompt_version": "claims-v3",
+      "at": "2026-10-06T21:51:10.673Z",
+      "proposals": 0,
+      "verified": 0,
+      "dropped_reasons": {},
+      "error": null
+    }
+  },
+  {
+    "id": "f5141a838562238f",
+    "doc_key": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+    "reason": "no_verified_claims",
+    "status": "imported",
+    "queued_at": "2026-10-08T08:06:30.106Z",
+    "source_url": "https://etherfuse.com/",
+    "source_class": "issuer",
+    "kind": "html",
+    "chars": 3337,
+    "pages": null,
+    "snapshot_sha256": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4",
+    "text_sha256": "36d470c1feddf1c30f6962736129e569089cbe32cb33fc1deb9906e86a258a5c",
+    "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1",
+    "assets": [
+      {
+        "key": "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "code": "USTRY",
+        "name": "Etherfuse USTRY"
+      },
+      {
+        "key": "TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "code": "TESOURO",
+        "name": "Etherfuse TESOURO"
+      },
+      {
+        "key": "EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "code": "EUROB",
+        "name": "Etherfuse EUROB"
+      },
+      {
+        "key": "KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "code": "KTB",
+        "name": "Etherfuse KTB"
+      },
+      {
+        "key": "GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "code": "GILTS",
+        "name": "Etherfuse GILTS"
+      }
+    ],
+    "text_file": "data/snapshots/text/72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4.txt",
+    "proposals_file": "data/review/proposals/f5141a838562238f.json",
+    "run": {
+      "model": "gemini-flash-lite-latest",
+      "prompt_version": "claims-v3",
+      "at": "2026-10-06T21:50:06.460Z",
+      "proposals": 10,
+      "verified": 0,
+      "dropped_reasons": {
+        "field_gate": 10
+      },
+      "error": null
+    }
+  }
+]

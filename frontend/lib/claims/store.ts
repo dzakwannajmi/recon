@@ -16,13 +16,16 @@ import path from "node:path";
 import type { ClaimField, ProposedClaim } from "./fields";
 import type { DropReason } from "./verify";
 
+/** Who chose the field label and quote; the quote, value, as-of date, page, and unit are always verified by code. */
+export type ClaimFieldSource = "llm" | "operator-reviewed";
+
 export type Claim = {
   id: string;
   doc_key: string;
   asset: string; // CODE:ISSUER, or ISSUER:<official domain> for issuer-level facts
   field: ClaimField;
-  /** The field label is the LLM's judgement, gated by FIELD_GATES; everything else is checked by code. */
-  field_source: "llm";
+  /** The field label is the LLM's or the operator's judgement, gated by FIELD_GATES; everything else is checked by code. */
+  field_source: ClaimFieldSource;
   value: number | string;
   /** The document's own characters at the matched spot. */
   value_text: string;
@@ -108,11 +111,26 @@ export class ClaimStore {
     return this.runs.some((r) => r.key === key);
   }
 
-  /** Replace everything stored for this document. */
+  /** Replace the LLM claims, drops, and run stored for this document; operator-reviewed claims stay. */
   record(run: ExtractionRun, claims: Claim[], dropped: DroppedClaim[]) {
-    this.claims = [...this.claims.filter((c) => c.doc_key !== run.doc_key), ...claims];
+    this.claims = [...this.claims.filter((c) => c.doc_key !== run.doc_key || c.field_source !== "llm"), ...claims];
     this.dropped = [...this.dropped.filter((d) => d.doc_key !== run.doc_key), ...dropped];
     this.runs = [...this.runs.filter((r) => r.doc_key !== run.doc_key), run];
+  }
+
+  /** Replace only the operator-reviewed claims of this document. Operator drops are not stored here (dropped.json is LLM-only). */
+  recordReview(docKey: string, claims: Claim[]) {
+    this.removeReview(docKey);
+    this.claims = [...this.claims, ...claims];
+  }
+
+  removeReview(docKey: string) {
+    this.claims = this.claims.filter((c) => c.doc_key !== docKey || c.field_source !== "operator-reviewed");
+  }
+
+  /** Keep operator-reviewed claims only for these documents (the ones with a valid, imported proposals file). */
+  retainReview(liveDocKeys: ReadonlySet<string>) {
+    this.claims = this.claims.filter((c) => c.field_source !== "operator-reviewed" || liveDocKeys.has(c.doc_key));
   }
 
   flush() {

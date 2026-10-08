@@ -6,7 +6,7 @@
 import { createHash } from "node:crypto";
 import type { SnapshotRecord } from "../documents/store";
 import { MAX_CLAIMS_PER_DOCUMENT, type ProposedClaim } from "./fields";
-import type { Claim, DroppedClaim } from "./store";
+import type { Claim, ClaimFieldSource, DroppedClaim } from "./store";
 import type { DropReason, VerifiedValue } from "./verify";
 
 export type BuildInput = {
@@ -19,6 +19,8 @@ export type BuildInput = {
   model: string;
   promptVersion: string;
   now: string;
+  /** Who chose the field label and quote. Operator-reviewed ids carry a suffix so they never collide with LLM ids. */
+  fieldSource: ClaimFieldSource;
 };
 
 export function buildClaims(input: BuildInput): { claims: Claim[]; dropped: DroppedClaim[] } {
@@ -49,9 +51,11 @@ export function buildClaims(input: BuildInput): { claims: Claim[]; dropped: Drop
     const { value, value_text, unit, as_of, page } = check.result;
     // The same fact stated twice in one document is stored once.
     if (claims.some((c) => c.asset === asset && c.field === claim.field && c.value === value && c.as_of === as_of)) return;
-    const id = createHash("sha256").update([input.docKey, asset, claim.field, claim.quote, String(value)].join("|")).digest("hex").slice(0, 16);
+    const idParts = [input.docKey, asset, claim.field, claim.quote, String(value)];
+    if (input.fieldSource === "operator-reviewed") idParts.push("operator-reviewed");
+    const id = createHash("sha256").update(idParts.join("|")).digest("hex").slice(0, 16);
     claims.push({
-      id, doc_key: input.docKey, asset, field: claim.field, field_source: "llm", value, value_text, unit, as_of, quote: claim.quote,
+      id, doc_key: input.docKey, asset, field: claim.field, field_source: input.fieldSource, value, value_text, unit, as_of, quote: claim.quote,
       source_url: record.url, source_class: record.sourceClass, page, snapshot_sha256: record.sha256, text_sha256: record.text!.sha256,
       extractor: record.text!.extractor, model: input.model, prompt_version: input.promptVersion, verified: true, extracted_at: input.now,
     });

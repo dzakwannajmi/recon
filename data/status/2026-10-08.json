@@ -1,0 +1,3641 @@
+{
+  "generated_at": "2026-10-08T01:41:58.551Z",
+  "as_of": "2026-10-08",
+  "rules_version": "flags-v1",
+  "inputs": {
+    "checks": {
+      "path": "data/checks/2026-10-08.json",
+      "sha256": "1e2b36db652b6458804fcc4d72af9cad15739b392ed539a99a05f4abc2c7e73f",
+      "checked_at": "2026-10-08T01:34:10.993Z"
+    },
+    "previous_checks": {
+      "path": "data/checks/2026-10-06.json",
+      "sha256": "152229d2464d4c04290cf12a0ad37adde559c1dc2077cc32d574d9a1d63cfdd1",
+      "checked_at": "2026-10-06T09:26:43.232Z"
+    },
+    "examinations": {
+      "path": "data/examinations/2026-10-08.json",
+      "sha256": "fc97ad08d428f5232a99f6c93c171ee3d91681d2a480c21bd3fe37ce46314756",
+      "checked_at": "2026-10-08T01:14:16.539Z"
+    },
+    "claims": {
+      "path": "data/claims/claims.json",
+      "sha256": "33686fa06804b22bcdab167eceb1b291967ccb03d1fce5106f58b46f2bc697c5"
+    },
+    "sources": {
+      "path": "data/claims/sources.json",
+      "sha256": "31c4ffc51ff7ba24f4d6329ea5c11fa2d027547a1a087f08cfa10bf1cf3746ff"
+    },
+    "snapshots": {
+      "path": "data/snapshots/index.json",
+      "sha256": "e689f775beb220ce8b5bddfee6a64ca1d254889019f22cab0e23df2fc37190eb"
+    },
+    "reviews": null
+  },
+  "bits": {
+    "ISSUER_IDENTITY": 0,
+    "SUPPLY_MISMATCH": 1,
+    "STALE_ATTESTATION": 2,
+    "FLAG_CHANGE": 3,
+    "SIGNER_CHANGE": 4,
+    "LARGE_MINT_BURN": 5,
+    "PRICE_DEVIATION": 6,
+    "NO_PUBLIC_DOCS": 7,
+    "TOML_INCONSISTENT": 8
+  },
+  "status_codes": {
+    "OK": 0,
+    "WARNING": 1,
+    "CRITICAL": 2
+  },
+  "summary": {
+    "OK": 18,
+    "WARNING": 9,
+    "CRITICAL": 0,
+    "unpublished": 0,
+    "pending_review": 0
+  },
+  "assets": [
+    {
+      "asset": "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+      "asset_code": "BENJI",
+      "issuer": "GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+      "issuer_org": "Franklin Templeton",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "e31688ac7ae5b6c45cada2417c33a7242f72a82dbc5b2f28b7b1a7de4dcaa760",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain franklintempleton.com: the stellar.toml at www.franklintempleton.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+              "source_url": "https://horizon.stellar.org/accounts/GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://www.franklintempleton.com/.well-known/stellar.toml",
+              "source_url": "https://www.franklintempleton.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "clear",
+          "reason": "On-chain supply 530877708.5240231 (1 share per token) is 77.32% of the 686,637,083.58 shares in SEC N-MFP3 filed 2026-09-04, classLevelInfo C000215714 (as of 2026-08-31); on-chain as of 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "examination",
+              "ref": "data/examinations/2026-10-08.json#BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5#supply_vs_filed_shares"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-08-31 (SEC N-MFP3 filed 2026-09-04) is 38 days before 2026-10-08, inside the 45-day window for N-MFP3.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "95d9a389e3797514144c8adaac6b77829e24bac80d15431eafeadf2c60dc8ac7#generalInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1786958/000207169126021281/primary_doc.xml",
+              "snapshot_sha256": "95d9a389e3797514144c8adaac6b77829e24bac80d15431eafeadf2c60dc8ac7",
+              "quote": "<reportDate>2026-08-31</reportDate>",
+              "where": "generalInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "95d9a389e3797514144c8adaac6b77829e24bac80d15431eafeadf2c60dc8ac7",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1786958/000207169126021281/primary_doc.xml",
+              "snapshot_sha256": "95d9a389e3797514144c8adaac6b77829e24bac80d15431eafeadf2c60dc8ac7"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists BENJI and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+      "asset_code": "gBENJI",
+      "issuer": "GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+      "issuer_org": "Franklin Templeton",
+      "asset_type": "fund",
+      "status": "WARNING",
+      "status_code": 1,
+      "flags_bitmask": 128,
+      "evidence_hash": "861d1ec9ab6ac3397fb33fb3e32a7660db94a836b4a200f9e317839f48b710db",
+      "raised": [
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "No issuer document or regulatory filing with readable text was found for gBENJI as of 2026-10-06: 1 page(s) fetched from the issuer's site, the largest with 29 characters of text.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "369417c50d60c78b792846223ab4fba68efe29e3c975c7a2858b53a5a79eb8a3",
+              "source_url": "https://www.franklintempleton.com/",
+              "snapshot_sha256": "369417c50d60c78b792846223ab4fba68efe29e3c975c7a2858b53a5a79eb8a3"
+            }
+          ],
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        }
+      ],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain franklintempleton.com: the stellar.toml at www.franklintempleton.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+              "source_url": "https://horizon.stellar.org/accounts/GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://www.franklintempleton.com/.well-known/stellar.toml",
+              "source_url": "https://www.franklintempleton.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists gBENJI and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No report date found in filings or verified issuer claims"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+      "asset_code": "grBENJI",
+      "issuer": "GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+      "issuer_org": "Franklin Templeton",
+      "asset_type": "fund",
+      "status": "WARNING",
+      "status_code": 1,
+      "flags_bitmask": 128,
+      "evidence_hash": "83b61b382db99b6149feac80f50ce76781b0474f893c307bfaae6cc0c0ca6f32",
+      "raised": [
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "No issuer document or regulatory filing with readable text was found for grBENJI as of 2026-10-06: 1 page(s) fetched from the issuer's site, the largest with 29 characters of text.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "369417c50d60c78b792846223ab4fba68efe29e3c975c7a2858b53a5a79eb8a3",
+              "source_url": "https://www.franklintempleton.com/",
+              "snapshot_sha256": "369417c50d60c78b792846223ab4fba68efe29e3c975c7a2858b53a5a79eb8a3"
+            }
+          ],
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        }
+      ],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain franklintempleton.com: the stellar.toml at www.franklintempleton.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+              "source_url": "https://horizon.stellar.org/accounts/GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://www.franklintempleton.com/.well-known/stellar.toml",
+              "source_url": "https://www.franklintempleton.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists grBENJI and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No report date found in filings or verified issuer claims"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+      "asset_code": "sgBENJI",
+      "issuer": "GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+      "issuer_org": "Franklin Templeton",
+      "asset_type": "fund",
+      "status": "WARNING",
+      "status_code": 1,
+      "flags_bitmask": 128,
+      "evidence_hash": "c09304a56fa05614e14b4c5b15507df5c7aa2c4bba1c78fab0f1ebb8ada3e628",
+      "raised": [
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "No issuer document or regulatory filing with readable text was found for sgBENJI as of 2026-10-06: 1 page(s) fetched from the issuer's site, the largest with 29 characters of text.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "369417c50d60c78b792846223ab4fba68efe29e3c975c7a2858b53a5a79eb8a3",
+              "source_url": "https://www.franklintempleton.com/",
+              "snapshot_sha256": "369417c50d60c78b792846223ab4fba68efe29e3c975c7a2858b53a5a79eb8a3"
+            }
+          ],
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        }
+      ],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain franklintempleton.com: the stellar.toml at www.franklintempleton.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+              "source_url": "https://horizon.stellar.org/accounts/GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://www.franklintempleton.com/.well-known/stellar.toml",
+              "source_url": "https://www.franklintempleton.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists sgBENJI and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No report date found in filings or verified issuer claims"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+      "asset_code": "USDY",
+      "issuer": "GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+      "issuer_org": "Ondo Finance",
+      "asset_type": "yield-bearing",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "558fa4fb2a3420e5d78c4e33a1a0ae58da1fa1f0f6ab6e3a1a6877b8eb83d99d",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain ondo.finance: the stellar.toml at ondo.finance lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "source_url": "https://horizon.stellar.org/accounts/GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://ondo.finance/.well-known/stellar.toml",
+              "source_url": "https://ondo.finance/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "2 issuer or regulatory documents with readable text (html) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd",
+              "source_url": "https://ondo.finance/",
+              "snapshot_sha256": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd"
+            },
+            {
+              "kind": "snapshot",
+              "ref": "59a231da526c87e044535606679ac46149b404ef8222341d78c4ca994ca8beb6",
+              "source_url": "https://ondo.finance/usdy",
+              "snapshot_sha256": "59a231da526c87e044535606679ac46149b404ef8222341d78c4ca994ca8beb6"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists USDY and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No report date found in filings or verified issuer claims"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "asset_code": "USTRY",
+      "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "issuer_org": "Etherfuse",
+      "asset_type": "bond",
+      "status": "WARNING",
+      "status_code": 1,
+      "flags_bitmask": 24,
+      "evidence_hash": "a5c41c781b3920d3255955afb5b687167ee018ed52f5636ab4a7520b43ae456d",
+      "raised": [
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ],
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ],
+          "extra": {
+            "added": [
+              {
+                "key": "GAENTBJOHXAUUERDKE242SIVUJYDQEUDACHN4MNNTUDZKC6JI6TY4ELZ",
+                "weight": 2
+              },
+              {
+                "key": "GAQW5UGB7IFES4R4HZ7PGEX5ZJ336QYX5LKQ6N7K7DPXMJZGKNXB4UHG",
+                "weight": 2
+              },
+              {
+                "key": "GAWR6H5ICMJFHGWX6FQSVMDCZAZAMDZX75YGJGXDMR7K4DVNSGP73VIP",
+                "weight": 2
+              },
+              {
+                "key": "GBRQNIKZWPD23DUAPI6T6SZNYRHD3TKOGJSMPJ55VVZWIS65SDPZEQFF",
+                "weight": 2
+              },
+              {
+                "key": "GBY2SK3RV643AJSHHML2M42HHC6OHO6ACKSLTSOY4REZXDN75OSEANVV",
+                "weight": 2
+              }
+            ],
+            "removed": []
+          },
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        }
+      ],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain etherfuse.com: the stellar.toml at etherfuse.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+              "source_url": "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://etherfuse.com/.well-known/stellar.toml",
+              "source_url": "https://etherfuse.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "2 issuer or regulatory documents with readable text (html) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1",
+              "source_url": "https://app.etherfuse.com/legal/compliance-and-audits",
+              "snapshot_sha256": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1"
+            },
+            {
+              "kind": "snapshot",
+              "ref": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4",
+              "source_url": "https://etherfuse.com/",
+              "snapshot_sha256": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists USTRY and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No periodic attestation window is defined for asset type bond in v1"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "asset_code": "TESOURO",
+      "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "issuer_org": "Etherfuse",
+      "asset_type": "bond",
+      "status": "WARNING",
+      "status_code": 1,
+      "flags_bitmask": 24,
+      "evidence_hash": "2d86fab0a4b824cb1a175985e25c1722ffcdd637837b7b1b9ca7d2dee6690d6d",
+      "raised": [
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ],
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ],
+          "extra": {
+            "added": [
+              {
+                "key": "GAENTBJOHXAUUERDKE242SIVUJYDQEUDACHN4MNNTUDZKC6JI6TY4ELZ",
+                "weight": 2
+              },
+              {
+                "key": "GAQW5UGB7IFES4R4HZ7PGEX5ZJ336QYX5LKQ6N7K7DPXMJZGKNXB4UHG",
+                "weight": 2
+              },
+              {
+                "key": "GAWR6H5ICMJFHGWX6FQSVMDCZAZAMDZX75YGJGXDMR7K4DVNSGP73VIP",
+                "weight": 2
+              },
+              {
+                "key": "GBRQNIKZWPD23DUAPI6T6SZNYRHD3TKOGJSMPJ55VVZWIS65SDPZEQFF",
+                "weight": 2
+              },
+              {
+                "key": "GBY2SK3RV643AJSHHML2M42HHC6OHO6ACKSLTSOY4REZXDN75OSEANVV",
+                "weight": 2
+              }
+            ],
+            "removed": []
+          },
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        }
+      ],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain etherfuse.com: the stellar.toml at etherfuse.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+              "source_url": "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://etherfuse.com/.well-known/stellar.toml",
+              "source_url": "https://etherfuse.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "2 issuer or regulatory documents with readable text (html) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1",
+              "source_url": "https://app.etherfuse.com/legal/compliance-and-audits",
+              "snapshot_sha256": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1"
+            },
+            {
+              "kind": "snapshot",
+              "ref": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4",
+              "source_url": "https://etherfuse.com/",
+              "snapshot_sha256": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists TESOURO and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No periodic attestation window is defined for asset type bond in v1"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "asset_code": "EUROB",
+      "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "issuer_org": "Etherfuse",
+      "asset_type": "bond",
+      "status": "WARNING",
+      "status_code": 1,
+      "flags_bitmask": 24,
+      "evidence_hash": "15c1b0f9eddfd6aefe314c4752ed3ebec6bdba7c7e1acb3a363f7dacc818893c",
+      "raised": [
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ],
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ],
+          "extra": {
+            "added": [
+              {
+                "key": "GAENTBJOHXAUUERDKE242SIVUJYDQEUDACHN4MNNTUDZKC6JI6TY4ELZ",
+                "weight": 2
+              },
+              {
+                "key": "GAQW5UGB7IFES4R4HZ7PGEX5ZJ336QYX5LKQ6N7K7DPXMJZGKNXB4UHG",
+                "weight": 2
+              },
+              {
+                "key": "GAWR6H5ICMJFHGWX6FQSVMDCZAZAMDZX75YGJGXDMR7K4DVNSGP73VIP",
+                "weight": 2
+              },
+              {
+                "key": "GBRQNIKZWPD23DUAPI6T6SZNYRHD3TKOGJSMPJ55VVZWIS65SDPZEQFF",
+                "weight": 2
+              },
+              {
+                "key": "GBY2SK3RV643AJSHHML2M42HHC6OHO6ACKSLTSOY4REZXDN75OSEANVV",
+                "weight": 2
+              }
+            ],
+            "removed": []
+          },
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        }
+      ],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain etherfuse.com: the stellar.toml at etherfuse.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+              "source_url": "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://etherfuse.com/.well-known/stellar.toml",
+              "source_url": "https://etherfuse.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "2 issuer or regulatory documents with readable text (html) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1",
+              "source_url": "https://app.etherfuse.com/legal/compliance-and-audits",
+              "snapshot_sha256": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1"
+            },
+            {
+              "kind": "snapshot",
+              "ref": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4",
+              "source_url": "https://etherfuse.com/",
+              "snapshot_sha256": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists EUROB and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No periodic attestation window is defined for asset type bond in v1"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "asset_code": "KTB",
+      "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "issuer_org": "Etherfuse",
+      "asset_type": "bond",
+      "status": "WARNING",
+      "status_code": 1,
+      "flags_bitmask": 24,
+      "evidence_hash": "709705765f42c0a7ebfa57e13e259e0f99857697ad5470e48219ac4633d92cdf",
+      "raised": [
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ],
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ],
+          "extra": {
+            "added": [
+              {
+                "key": "GAENTBJOHXAUUERDKE242SIVUJYDQEUDACHN4MNNTUDZKC6JI6TY4ELZ",
+                "weight": 2
+              },
+              {
+                "key": "GAQW5UGB7IFES4R4HZ7PGEX5ZJ336QYX5LKQ6N7K7DPXMJZGKNXB4UHG",
+                "weight": 2
+              },
+              {
+                "key": "GAWR6H5ICMJFHGWX6FQSVMDCZAZAMDZX75YGJGXDMR7K4DVNSGP73VIP",
+                "weight": 2
+              },
+              {
+                "key": "GBRQNIKZWPD23DUAPI6T6SZNYRHD3TKOGJSMPJ55VVZWIS65SDPZEQFF",
+                "weight": 2
+              },
+              {
+                "key": "GBY2SK3RV643AJSHHML2M42HHC6OHO6ACKSLTSOY4REZXDN75OSEANVV",
+                "weight": 2
+              }
+            ],
+            "removed": []
+          },
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        }
+      ],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain etherfuse.com: the stellar.toml at etherfuse.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+              "source_url": "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://etherfuse.com/.well-known/stellar.toml",
+              "source_url": "https://etherfuse.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "2 issuer or regulatory documents with readable text (html) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1",
+              "source_url": "https://app.etherfuse.com/legal/compliance-and-audits",
+              "snapshot_sha256": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1"
+            },
+            {
+              "kind": "snapshot",
+              "ref": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4",
+              "source_url": "https://etherfuse.com/",
+              "snapshot_sha256": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists KTB and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No periodic attestation window is defined for asset type bond in v1"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "asset_code": "GILTS",
+      "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "issuer_org": "Etherfuse",
+      "asset_type": "bond",
+      "status": "WARNING",
+      "status_code": 1,
+      "flags_bitmask": 24,
+      "evidence_hash": "b4dae0144c8b398359f2c2b9970a9db4b260caf4c2f6c8715799ec77213fcab9",
+      "raised": [
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ],
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ],
+          "extra": {
+            "added": [
+              {
+                "key": "GAENTBJOHXAUUERDKE242SIVUJYDQEUDACHN4MNNTUDZKC6JI6TY4ELZ",
+                "weight": 2
+              },
+              {
+                "key": "GAQW5UGB7IFES4R4HZ7PGEX5ZJ336QYX5LKQ6N7K7DPXMJZGKNXB4UHG",
+                "weight": 2
+              },
+              {
+                "key": "GAWR6H5ICMJFHGWX6FQSVMDCZAZAMDZX75YGJGXDMR7K4DVNSGP73VIP",
+                "weight": 2
+              },
+              {
+                "key": "GBRQNIKZWPD23DUAPI6T6SZNYRHD3TKOGJSMPJ55VVZWIS65SDPZEQFF",
+                "weight": 2
+              },
+              {
+                "key": "GBY2SK3RV643AJSHHML2M42HHC6OHO6ACKSLTSOY4REZXDN75OSEANVV",
+                "weight": 2
+              }
+            ],
+            "removed": []
+          },
+          "document_derived": false,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        }
+      ],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain etherfuse.com: the stellar.toml at etherfuse.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+              "source_url": "https://horizon.stellar.org/accounts/GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://etherfuse.com/.well-known/stellar.toml",
+              "source_url": "https://etherfuse.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "2 issuer or regulatory documents with readable text (html) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1",
+              "source_url": "https://app.etherfuse.com/legal/compliance-and-audits",
+              "snapshot_sha256": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1"
+            },
+            {
+              "kind": "snapshot",
+              "ref": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4",
+              "source_url": "https://etherfuse.com/",
+              "snapshot_sha256": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists GILTS and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No periodic attestation window is defined for asset type bond in v1"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+      "asset_code": "GOLD",
+      "issuer": "GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "commodity",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "bcc28b698e39c79e46dc575d3010249322d8d049d810c125d6b2a8024307cfe4",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+              "source_url": "https://horizon.stellar.org/accounts/GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (html) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "3149a2caca84bf87aeb1cd332ebaec2a699e8405cc0c3c85660c8cd70b8c0301",
+              "source_url": "https://www.wisdomtreeprime.com/attestations/",
+              "snapshot_sha256": "3149a2caca84bf87aeb1cd332ebaec2a699e8405cc0c3c85660c8cd70b8c0301"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists GOLD and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No periodic attestation window is defined for asset type commodity in v1"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+      "asset_code": "WTGX",
+      "issuer": "GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "f67476b187d1e681902c82228e743396d84990976bcab4f51871a8021d3e5ff8",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+              "source_url": "https://horizon.stellar.org/accounts/GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-08-31 (SEC N-MFP3 filed 2026-09-04) is 38 days before 2026-10-08, inside the 45-day window for N-MFP3.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "747c1dace2d4083435e96a948306c006d1ede8c27ad4714c7b945e4af9acbc2c#generalInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000119312526382896/primary_doc.xml",
+              "snapshot_sha256": "747c1dace2d4083435e96a948306c006d1ede8c27ad4714c7b945e4af9acbc2c",
+              "quote": "<reportDate>2026-08-31</reportDate>",
+              "where": "generalInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "747c1dace2d4083435e96a948306c006d1ede8c27ad4714c7b945e4af9acbc2c",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000119312526382896/primary_doc.xml",
+              "snapshot_sha256": "747c1dace2d4083435e96a948306c006d1ede8c27ad4714c7b945e4af9acbc2c"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists WTGX and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "Not comparable: the issuer states no token-to-share ratio, so 2196817.9005646 tokens can't be compared with 1,020,262,791.273 shares in SEC N-MFP3 filed 2026-09-04, classLevelInfo C000245468."
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+      "asset_code": "WTSY",
+      "issuer": "GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "8debf12557df7f7d749d7d3bf1fe2ebc96fd7f3ddc6fd37e96994192d8c740bd",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+              "source_url": "https://horizon.stellar.org/accounts/GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "5c2ea0b70913a2041c21c789b6faf4533eb8f4241633e85c7ce7c7aa3ea5ea06#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036329/primary_doc.xml",
+              "snapshot_sha256": "5c2ea0b70913a2041c21c789b6faf4533eb8f4241633e85c7ce7c7aa3ea5ea06",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "5c2ea0b70913a2041c21c789b6faf4533eb8f4241633e85c7ce7c7aa3ea5ea06",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036329/primary_doc.xml",
+              "snapshot_sha256": "5c2ea0b70913a2041c21c789b6faf4533eb8f4241633e85c7ce7c7aa3ea5ea06"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists WTSY and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+      "asset_code": "WTTS",
+      "issuer": "GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "3d84ab58fbfb758def37a56c60cf352c7e5b4893b9bca8932d06bd79ae65df37",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+              "source_url": "https://horizon.stellar.org/accounts/GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "c01c7322df22c21694a4ad2531ca52935c0e912c96f4fbc695e1cefad1d30c65#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036332/primary_doc.xml",
+              "snapshot_sha256": "c01c7322df22c21694a4ad2531ca52935c0e912c96f4fbc695e1cefad1d30c65",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "c01c7322df22c21694a4ad2531ca52935c0e912c96f4fbc695e1cefad1d30c65",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036332/primary_doc.xml",
+              "snapshot_sha256": "c01c7322df22c21694a4ad2531ca52935c0e912c96f4fbc695e1cefad1d30c65"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists WTTS and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+      "asset_code": "WTST",
+      "issuer": "GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "c01a6ae32d24f7110bbfee6aff7dfa62c422cb577188946da38badc502f8ef92",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+              "source_url": "https://horizon.stellar.org/accounts/GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "bd1d729f87172416a13d0d0355519e171626fb8f27230f426ed3a40e170e65ae#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036325/primary_doc.xml",
+              "snapshot_sha256": "bd1d729f87172416a13d0d0355519e171626fb8f27230f426ed3a40e170e65ae",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "bd1d729f87172416a13d0d0355519e171626fb8f27230f426ed3a40e170e65ae",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036325/primary_doc.xml",
+              "snapshot_sha256": "bd1d729f87172416a13d0d0355519e171626fb8f27230f426ed3a40e170e65ae"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists WTST and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+      "asset_code": "WTLG",
+      "issuer": "GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "32bdfe16ec9027e45a9ec219ad8bad4377e290bd44ed807e236859106f304a41",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+              "source_url": "https://horizon.stellar.org/accounts/GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "321f53f1f6e98543a80248b8bbb55f28d120aebe7141cebe90676641387cf4e4#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036323/primary_doc.xml",
+              "snapshot_sha256": "321f53f1f6e98543a80248b8bbb55f28d120aebe7141cebe90676641387cf4e4",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "321f53f1f6e98543a80248b8bbb55f28d120aebe7141cebe90676641387cf4e4",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036323/primary_doc.xml",
+              "snapshot_sha256": "321f53f1f6e98543a80248b8bbb55f28d120aebe7141cebe90676641387cf4e4"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists WTLG and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+      "asset_code": "FLTT",
+      "issuer": "GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "7a76c1209b23dc9253acb0a85f2aa6966b31ac1adb6ca3362548044c68ff9aca",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+              "source_url": "https://horizon.stellar.org/accounts/GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "095f5580b649a9d255d3227a038436d76919558fdfab92d29aeffd0b8641e32a#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036330/primary_doc.xml",
+              "snapshot_sha256": "095f5580b649a9d255d3227a038436d76919558fdfab92d29aeffd0b8641e32a",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "095f5580b649a9d255d3227a038436d76919558fdfab92d29aeffd0b8641e32a",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036330/primary_doc.xml",
+              "snapshot_sha256": "095f5580b649a9d255d3227a038436d76919558fdfab92d29aeffd0b8641e32a"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists FLTT and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+      "asset_code": "TIPS",
+      "issuer": "GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "950fec552ff8a2af21a5d4fe8cfa9c7bebdd95cba6c0a20da6bfe5df5cf9f3d4",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+              "source_url": "https://horizon.stellar.org/accounts/GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "a71a0cf67b6a069a5cc475fe1b7aea1fe0a01d556281b9962d2e125ea6e0ce26#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036214/primary_doc.xml",
+              "snapshot_sha256": "a71a0cf67b6a069a5cc475fe1b7aea1fe0a01d556281b9962d2e125ea6e0ce26",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "a71a0cf67b6a069a5cc475fe1b7aea1fe0a01d556281b9962d2e125ea6e0ce26",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036214/primary_doc.xml",
+              "snapshot_sha256": "a71a0cf67b6a069a5cc475fe1b7aea1fe0a01d556281b9962d2e125ea6e0ce26"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists TIPS and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+      "asset_code": "WTSI",
+      "issuer": "GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "b622f9de2356462766d0d6db087043369229c4c095df1076b49dcbc48d2100a2",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+              "source_url": "https://horizon.stellar.org/accounts/GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "761950a5987c38d55628fe3a15f1f08df87e52e812f1d0204a9161714423a9ee#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036328/primary_doc.xml",
+              "snapshot_sha256": "761950a5987c38d55628fe3a15f1f08df87e52e812f1d0204a9161714423a9ee",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "761950a5987c38d55628fe3a15f1f08df87e52e812f1d0204a9161714423a9ee",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036328/primary_doc.xml",
+              "snapshot_sha256": "761950a5987c38d55628fe3a15f1f08df87e52e812f1d0204a9161714423a9ee"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists WTSI and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+      "asset_code": "CRDT",
+      "issuer": "GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "08801515cb9c084e98773fede16ebedc1b37ed56eff3e4adb7f472df611eff89",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+              "source_url": "https://horizon.stellar.org/accounts/GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "c2cea8119b0cda0cecef3c0a0a682b69cb1b9a68ccba381ced6f25ae268933be#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036327/primary_doc.xml",
+              "snapshot_sha256": "c2cea8119b0cda0cecef3c0a0a682b69cb1b9a68ccba381ced6f25ae268933be",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "c2cea8119b0cda0cecef3c0a0a682b69cb1b9a68ccba381ced6f25ae268933be",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036327/primary_doc.xml",
+              "snapshot_sha256": "c2cea8119b0cda0cecef3c0a0a682b69cb1b9a68ccba381ced6f25ae268933be"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists CRDT and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+      "asset_code": "SPXU",
+      "issuer": "GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "bb090fd8f4e2fdd8ebf0d491727289b83d98ca31223c5f7d22d880c882f1f528",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+              "source_url": "https://horizon.stellar.org/accounts/GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "1053daef26cb5c7319688050f188a3fa6e2adc07564ae541138adfd78687578c#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036331/primary_doc.xml",
+              "snapshot_sha256": "1053daef26cb5c7319688050f188a3fa6e2adc07564ae541138adfd78687578c",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "1053daef26cb5c7319688050f188a3fa6e2adc07564ae541138adfd78687578c",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036331/primary_doc.xml",
+              "snapshot_sha256": "1053daef26cb5c7319688050f188a3fa6e2adc07564ae541138adfd78687578c"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists SPXU and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+      "asset_code": "TECH",
+      "issuer": "GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "b18692384966338d440f6cf661e23af27c5702186b887658d19ab95a8811748f",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+              "source_url": "https://horizon.stellar.org/accounts/GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "e428534e3de9d95cca4204e33d264744290b039be0da41eed0b1b8eadf4957f7#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036219/primary_doc.xml",
+              "snapshot_sha256": "e428534e3de9d95cca4204e33d264744290b039be0da41eed0b1b8eadf4957f7",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "e428534e3de9d95cca4204e33d264744290b039be0da41eed0b1b8eadf4957f7",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036219/primary_doc.xml",
+              "snapshot_sha256": "e428534e3de9d95cca4204e33d264744290b039be0da41eed0b1b8eadf4957f7"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists TECH and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+      "asset_code": "EQTY",
+      "issuer": "GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "b18d4d70b573b57b348d36cf599534f6e36b399ff44b5065ae1eef9445632fe7",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+              "source_url": "https://horizon.stellar.org/accounts/GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "a362bc40a93d373df37c088d1525281bce0e46e12fa0271affdb567162787f38#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036326/primary_doc.xml",
+              "snapshot_sha256": "a362bc40a93d373df37c088d1525281bce0e46e12fa0271affdb567162787f38",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "a362bc40a93d373df37c088d1525281bce0e46e12fa0271affdb567162787f38",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036326/primary_doc.xml",
+              "snapshot_sha256": "a362bc40a93d373df37c088d1525281bce0e46e12fa0271affdb567162787f38"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists EQTY and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+      "asset_code": "MODR",
+      "issuer": "GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "4457b4b435ba891f1f2d80f77e36faf087e34f27330f141aad46713c51fcb35f",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+              "source_url": "https://horizon.stellar.org/accounts/GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "1f9329bbc2d97cb21c88924d99543f47b6227f685815d7b598f12f6e288ce9d3#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036224/primary_doc.xml",
+              "snapshot_sha256": "1f9329bbc2d97cb21c88924d99543f47b6227f685815d7b598f12f6e288ce9d3",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "1f9329bbc2d97cb21c88924d99543f47b6227f685815d7b598f12f6e288ce9d3",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036224/primary_doc.xml",
+              "snapshot_sha256": "1f9329bbc2d97cb21c88924d99543f47b6227f685815d7b598f12f6e288ce9d3"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists MODR and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+      "asset_code": "LNGV",
+      "issuer": "GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+      "issuer_org": "WisdomTree, Inc.",
+      "asset_type": "fund",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "a3bd671066a25e185f0f0568b010331249b5a20ceda5ae1e30289c0868cb349c",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain wisdomtree.com: the stellar.toml at stellar.wisdomtree.com lists this issuer account; this stellar.toml is not valid TOML and was read with a fallback parser (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+              "source_url": "https://horizon.stellar.org/accounts/GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+              "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "clear",
+          "reason": "Newest report date 2026-06-30 (SEC NPORT-P filed 2026-08-31) is 100 days before 2026-10-08, inside the 160-day window for NPORT-P.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "source_fact",
+              "ref": "85a6a30b190441b2d0a40f6ef83b4d40dd9bedc68e6c12da25cb388b254626b2#genInfo",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036324/primary_doc.xml",
+              "snapshot_sha256": "85a6a30b190441b2d0a40f6ef83b4d40dd9bedc68e6c12da25cb388b254626b2",
+              "quote": "<repPdDate>2026-06-30</repPdDate>",
+              "where": "genInfo"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "1 issuer or regulatory document with readable text (xml) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "85a6a30b190441b2d0a40f6ef83b4d40dd9bedc68e6c12da25cb388b254626b2",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1859001/000094040026036324/primary_doc.xml",
+              "snapshot_sha256": "85a6a30b190441b2d0a40f6ef83b4d40dd9bedc68e6c12da25cb388b254626b2"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists LNGV and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+      "asset_code": "BB1",
+      "issuer": "GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+      "issuer_org": "Bitbond Finance GmbH",
+      "asset_type": "bond",
+      "status": "WARNING",
+      "status_code": 1,
+      "flags_bitmask": 256,
+      "evidence_hash": "fede243bcbfe400af6a2f2c94de807d19431ce8e492bc2269b62df2427775cae",
+      "raised": [
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "raised",
+          "severity": "WARNING",
+          "statement": "Mismatch between bitbondsto.com stellar.toml ([[CURRENCIES]] BB1, line 43, fixed_number 2,667,360) and on-chain supply 2668351.5866776 as of 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+            },
+            {
+              "kind": "examination",
+              "ref": "data/examinations/2026-10-08.json#BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN#supply_vs_toml_fixed_number"
+            },
+            {
+              "kind": "source_fact",
+              "ref": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255#[[CURRENCIES]] BB1, line 43",
+              "source_url": "https://bitbondsto.com/.well-known/stellar.toml",
+              "snapshot_sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+              "quote": "fixed_number=\"2,667,360\"",
+              "where": "[[CURRENCIES]] BB1, line 43"
+            }
+          ],
+          "document_derived": true,
+          "review": "not_needed",
+          "review_key": null,
+          "effective_severity": "WARNING"
+        }
+      ],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain bitbondsto.com: the stellar.toml at bitbondsto.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+              "source_url": "https://horizon.stellar.org/accounts/GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://bitbondsto.com/.well-known/stellar.toml",
+              "source_url": "https://bitbondsto.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "clear",
+          "reason": "On-chain supply 2668351.5866776 is within the maximum issuance of 100,000,000 tokens (issuer document https://www.bitbondsto.com/files/bitbond-sto-prospectus.pdf, page 48) as of 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "examination",
+              "ref": "data/examinations/2026-10-08.json#BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN#supply_vs_max_issuance"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "2 issuer or regulatory documents with readable text (pdf) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "cf83d61cdc9752b752a58b7be44de16eb09eda99d6aba0f29445243af40e8e4a",
+              "source_url": "https://www.bitbondsto.com/files/bitbond-sto-prospectus-de.pdf",
+              "snapshot_sha256": "cf83d61cdc9752b752a58b7be44de16eb09eda99d6aba0f29445243af40e8e4a"
+            },
+            {
+              "kind": "snapshot",
+              "ref": "b6e802e66c624445342ff685d18116fd18d31eab600720c0834aa6d960e83ca3",
+              "source_url": "https://www.bitbondsto.com/files/bitbond-sto-prospectus.pdf",
+              "snapshot_sha256": "b6e802e66c624445342ff685d18116fd18d31eab600720c0834aa6d960e83ca3"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No periodic attestation window is defined for asset type bond in v1"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    },
+    {
+      "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+      "asset_code": "YLDS",
+      "issuer": "GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+      "issuer_org": "Figure Certificate Company",
+      "asset_type": "yield-bearing",
+      "status": "OK",
+      "status_code": 0,
+      "flags_bitmask": 0,
+      "evidence_hash": "2696826dd30b21c989e8addbb2118cb13339dcb919f94937202ad228ce7ff560",
+      "raised": [],
+      "clear": [
+        {
+          "flag": "ISSUER_IDENTITY",
+          "outcome": "clear",
+          "reason": "The issuer verifies against the official domain ylds.com: the stellar.toml at www.ylds.com lists this issuer account (as of 2026-10-08)",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://horizon.stellar.org/accounts/GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+              "source_url": "https://horizon.stellar.org/accounts/GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "https://www.ylds.com/.well-known/stellar.toml",
+              "source_url": "https://www.ylds.com/.well-known/stellar.toml"
+            }
+          ]
+        },
+        {
+          "flag": "FLAG_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+            }
+          ]
+        },
+        {
+          "flag": "SIGNER_CHANGE",
+          "outcome": "clear",
+          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-06.json#YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+            },
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+            }
+          ]
+        },
+        {
+          "flag": "NO_PUBLIC_DOCS",
+          "outcome": "clear",
+          "reason": "3 issuer or regulatory documents with readable text (html, pdf) as of 2026-10-06.",
+          "as_of": "2026-10-06",
+          "evidence": [
+            {
+              "kind": "snapshot",
+              "ref": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140",
+              "source_url": "https://cdn.figure.com/docs/markets/fcc-prospectus.pdf",
+              "snapshot_sha256": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140"
+            },
+            {
+              "kind": "snapshot",
+              "ref": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571",
+              "source_url": "https://www.ylds.com/",
+              "snapshot_sha256": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571"
+            },
+            {
+              "kind": "snapshot",
+              "ref": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571",
+              "source_url": "https://ylds.com/",
+              "snapshot_sha256": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571"
+            }
+          ]
+        },
+        {
+          "flag": "TOML_INCONSISTENT",
+          "outcome": "clear",
+          "reason": "The stellar.toml lists YLDS and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "as_of": "2026-10-08",
+          "evidence": [
+            {
+              "kind": "chain_check",
+              "ref": "data/checks/2026-10-08.json#YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3"
+            }
+          ]
+        }
+      ],
+      "not_evaluated": [
+        {
+          "flag": "SUPPLY_MISMATCH",
+          "outcome": "not_evaluated",
+          "reason": "No filed shares or maximum issuance to compare with"
+        },
+        {
+          "flag": "STALE_ATTESTATION",
+          "outcome": "not_evaluated",
+          "reason": "No report date found in filings or verified issuer claims"
+        },
+        {
+          "flag": "LARGE_MINT_BURN",
+          "outcome": "not_evaluated",
+          "reason": "Needs daily issuance data from the Monitor (W4.1)"
+        },
+        {
+          "flag": "PRICE_DEVIATION",
+          "outcome": "not_evaluated",
+          "reason": "No market price source yet (Reflector/SDEX planned) and no NAV per unit in verified claims or filings"
+        }
+      ]
+    }
+  ]
+}

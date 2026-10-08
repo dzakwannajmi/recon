@@ -68,6 +68,13 @@ export type ExamCheck = CheckResult & { file: string };
 
 export const day = (iso: string) => iso.slice(0, 10);
 
+/** A real calendar date in the form YYYY-MM-DD (rejects 2026-02-30). */
+export function isIsoDay(s: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+  const d = new Date(`${s}T00:00:00Z`);
+  return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s;
+}
+
 export const raised = (
   flag: FlagName, severity: Severity, statement: string, as_of: string, evidence: EvidenceRef[], extra?: Record<string, unknown>,
 ): RaisedEvaluation => ({ flag, outcome: "raised", severity, statement, as_of, evidence, ...(extra ? { extra } : {}) });

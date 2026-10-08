@@ -13,8 +13,9 @@ export function flagTomlInconsistent(row: ChecksRow | undefined, checks: readonl
   if (identity.status !== "verified") {
     return notEvaluated("TOML_INCONSISTENT", `The issuer's stellar.toml is not verified for this asset (identity status: ${identity.status})`);
   }
-  const asOf = day(identity.checkedAt);
-  const mismatches = checks.filter((c) => TOML_CHECKS.includes(c.check) && c.status === "mismatch");
+  const identityDate = day(identity.checkedAt);
+  const tomlChecks = checks.filter((c) => TOML_CHECKS.includes(c.check));
+  const mismatches = tomlChecks.filter((c) => c.status === "mismatch");
   const statements = mismatches.map((c) => c.statement);
   const evidence: EvidenceRef[] = [chainRef(row)];
   for (const c of mismatches) {
@@ -22,11 +23,23 @@ export function flagTomlInconsistent(row: ChecksRow | undefined, checks: readonl
     if (c.reference) evidence.push(referenceRef(c.reference));
   }
   if (identity.codeListed === false) {
-    statements.push(`The stellar.toml at ${identity.homeDomain} lists the issuer account but no [[CURRENCIES]] entry for ${identity.assetCode} (as of ${asOf}).`);
+    statements.push(`The stellar.toml at ${identity.homeDomain} lists the issuer account but no [[CURRENCIES]] entry for ${identity.assetCode} (as of ${identityDate}).`);
   }
-  if (statements.length > 0) return raised("TOML_INCONSISTENT", "WARNING", statements.join(" "), asOf, evidence);
+  // as_of is the date of the data each reason read: the examination for supply fields, the chain check for the listing.
+  const latest = (dates: string[]) => dates.sort().at(-1)!;
+  if (statements.length > 0) {
+    const dates = [...mismatches.map((c) => day(c.onchain.as_of)), ...(identity.codeListed === false ? [identityDate] : [])];
+    return raised("TOML_INCONSISTENT", "WARNING", statements.join(" "), latest(dates), evidence);
+  }
   if (identity.codeListed === true) {
-    return clear("TOML_INCONSISTENT", `The stellar.toml lists ${identity.assetCode} and no toml supply field differs from on-chain supply (as of ${asOf}).`, asOf, evidence);
+    const consistent = tomlChecks.filter((c) => c.status === "consistent");
+    const examDates = consistent.map((c) => day(c.onchain.as_of));
+    evidence.push(...consistent.map(examRef));
+    const supplyNote = examDates.length > 0 ? `; on-chain supply agrees with its toml supply fields (as of ${latest([...examDates])})` : "";
+    return clear(
+      "TOML_INCONSISTENT", `The stellar.toml lists ${identity.assetCode} (as of ${identityDate}) and no toml supply field differs from on-chain supply${supplyNote}.`,
+      latest([identityDate, ...examDates]), evidence,
+    );
   }
   return notEvaluated("TOML_INCONSISTENT", "It is unknown whether the stellar.toml lists this asset code");
 }

@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import type { Claim } from "../claims/store";
 import type { StoredSourceFact } from "../examine/sources";
 import { KEY, check, row, snapshot } from "./fixtures";
-import { examChecksFor, reportDatesFor, rowFor } from "./inputs";
+import { datedFiles, examChecksFor, parseAsOf, reportDatesFor, rowFor } from "./inputs";
+import { isIsoDay } from "./types";
 
 const fact = (over: Partial<StoredSourceFact> = {}): StoredSourceFact => ({
   field: "report_date", value: "2026-08-31", unit: null, as_of: "2026-08-31", quote: "<reportDate>2026-08-31</reportDate>", offset: 10, section: "generalInfo",
@@ -32,6 +33,44 @@ describe("reportDatesFor", () => {
     expect(out.map((r) => [r.date, r.form])).toEqual([["2026-09-30", null], ["2026-09-01", null]]);
     expect(out[0].label).toBe("issuer document https://bitbondsto.com/r.pdf, page 2");
     expect(out[0].evidence).toMatchObject({ kind: "claim", ref: "c1", quote: "as of 30 September 2026", where: "page 2" });
+  });
+});
+
+describe("isIsoDay", () => {
+  it("accepts only real calendar dates", () => {
+    expect(isIsoDay("2026-10-08")).toBe(true);
+    expect(isIsoDay("2024-02-29")).toBe(true);
+    for (const bad of ["2026-02-30", "2026-13-01", "2026-10-8", "2026-10-08T00:00:00Z", "", "not a date"]) expect(isIsoDay(bad)).toBe(false);
+  });
+
+  it("skips a filing fact with an impossible date", () => {
+    expect(reportDatesFor(KEY, [fact({ value: "2026-02-30" })], [], [sec("N-MFP3")])).toEqual([]);
+  });
+});
+
+describe("parseAsOf", () => {
+  it("defaults to today and takes --as-of", () => {
+    expect(parseAsOf([], "2026-10-08")).toBe("2026-10-08");
+    expect(parseAsOf(["--as-of", "2026-09-01"], "2026-10-08")).toBe("2026-09-01");
+  });
+
+  it("fails on a bad format, an impossible date, or a missing value", () => {
+    for (const bad of ["2026-02-30", "2026-13-99", "10/08/2026", ""]) expect(() => parseAsOf(["--as-of", bad])).toThrow("--as-of must be");
+    expect(() => parseAsOf(["--as-of"])).toThrow("--as-of must be");
+  });
+});
+
+describe("datedFiles", () => {
+  const names = ["2026-10-08.json", "2026-10-06.json", "2026-10-09.json", "notes.txt", "2026-10-05.json.tmp", "2026-02-30.json", "2026-09-01.json"];
+
+  it("returns the dated files up to as-of, newest first (current, then previous)", () => {
+    expect(datedFiles(names, "2026-10-08")).toEqual(["2026-10-08.json", "2026-10-06.json", "2026-09-01.json"]);
+    expect(datedFiles(names, "2026-10-07")).toEqual(["2026-10-06.json", "2026-09-01.json"]);
+  });
+
+  it("returns nothing when no file is dated on or before as-of", () => {
+    expect(datedFiles(names, "2020-01-01")).toEqual([]);
+    expect(datedFiles([], "2026-10-08")).toEqual([]);
   });
 });
 

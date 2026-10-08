@@ -20,11 +20,11 @@ import { sha256Hex, type SnapshotRecord } from "../lib/documents/store";
 import type { CheckResult } from "../lib/examine/checks";
 import type { StoredSourceFact } from "../lib/examine/sources";
 import { evaluateAsset } from "../lib/flags/evaluate";
+import { datedFiles, parseAsOf } from "../lib/flags/inputs";
 import { assetStatus, parseReviews, type AssetStatus, type Review } from "../lib/flags/status";
 import { FLAG_BITS, RULES_VERSION, STATUS_CODES, type ChecksRow } from "../lib/flags/types";
 
 const DATA = path.join(process.cwd(), "..", "data");
-const DAY = /^\d{4}-\d{2}-\d{2}$/;
 
 function writeJson(file: string, data: unknown) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -33,23 +33,10 @@ function writeJson(file: string, data: unknown) {
   fs.renameSync(tmp, file);
 }
 
-function parseAsOf(argv: string[]) {
-  const i = argv.indexOf("--as-of");
-  const value = i >= 0 ? argv[i + 1] : new Date().toISOString().slice(0, 10);
-  if (!value || !DAY.test(value) || Number.isNaN(Date.parse(value))) throw new Error("--as-of must be a date in the form YYYY-MM-DD");
-  return value;
-}
-
-/** Dated files of a folder (YYYY-MM-DD.json) up to and including as-of, newest first. */
-function datedFiles(folder: string, asOf: string) {
+/** The dated files of a folder up to as-of, newest first, as `folder/YYYY-MM-DD.json`. */
+function datedFilesIn(folder: string, asOf: string) {
   const dir = path.join(DATA, folder);
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir)
-    .map((name) => /^(\d{4}-\d{2}-\d{2})\.json$/.exec(name)?.[1])
-    .filter((date): date is string => !!date && date <= asOf)
-    .sort()
-    .reverse()
-    .map((date) => `${folder}/${date}.json`);
+  return datedFiles(fs.existsSync(dir) ? fs.readdirSync(dir) : [], asOf).map((name) => `${folder}/${name}`);
 }
 
 type Input = { path: string; sha256: string };
@@ -66,12 +53,12 @@ function main() {
   const universe = loadUniverse();
   if (universe.length === 0) throw new Error("data/assets.csv is missing or empty");
 
-  const [checksFile, previousFile] = datedFiles("checks", asOf);
+  const [checksFile, previousFile] = datedFilesIn("checks", asOf);
   if (!checksFile) throw new Error(`No data/checks/YYYY-MM-DD.json dated on or before ${asOf}. Run: npm run check:assets`);
   const checks = readInput<{ checked_at: string; results: Omit<ChecksRow, "file">[] }>(checksFile);
   const previous = previousFile ? readInput<{ checked_at: string; results: Omit<ChecksRow, "file">[] }>(previousFile) : null;
 
-  const [examFile] = datedFiles("examinations", asOf);
+  const [examFile] = datedFilesIn("examinations", asOf);
   const exam = examFile ? readInput<{ checked_at: string; checks: CheckResult[] }>(examFile) : null;
   const claims = readInput<Claim[]>("claims/claims.json");
   const sources = readInput<StoredSourceFact[]>("claims/sources.json");

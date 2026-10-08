@@ -45,5 +45,7 @@ export function flagSignerChange(previous: ChecksRow | undefined, current: Check
   return raised("SIGNER_CHANGE", "WARNING", `Issuer signers or thresholds changed between checks on ${p.dates[0]} and ${p.dates[1]}: ${changes.join("; ")}.`, p.dates[1], evidence, {
     added: [...to].filter(([k]) => !from.has(k)).map(([key, weight]) => ({ key, weight })),
     removed: [...from].filter(([k]) => !to.has(k)).map(([key, weight]) => ({ key, weight })),
+    changed: [...to].filter(([k, w]) => from.has(k) && from.get(k) !== w).map(([key, weight]) => ({ key, from: from.get(key), to: weight })),
+    thresholds: { from: tFrom, to: tTo },
   });
 }

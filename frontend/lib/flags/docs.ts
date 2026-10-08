@@ -8,7 +8,7 @@ export const MIN_HTML_CHARS = 1500;
 export function isReadableDocument(r: SnapshotRecord): boolean {
   if (r.sourceClass !== "issuer" && r.sourceClass !== "regulatory_filing") return false;
   if (!r.text) return false;
-  return r.text.kind === "pdf" || r.text.kind === "xml" || (r.text.kind === "html" && r.text.chars >= MIN_HTML_CHARS);
+  return ((r.text.kind === "pdf" || r.text.kind === "xml") && r.text.chars > 0) || (r.text.kind === "html" && r.text.chars >= MIN_HTML_CHARS);
 }
 
 /**

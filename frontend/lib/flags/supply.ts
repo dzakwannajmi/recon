@@ -21,7 +21,8 @@ export function flagSupplyMismatch(checks: readonly ExamCheck[]): Evaluation {
   const own = checks.filter((c) => SUPPLY_CHECKS.includes(c.check));
   const mismatches = own.filter((c) => c.status === "mismatch");
   if (mismatches.length > 0) {
-    const shares = mismatches.map(excessShare);
+    // A mismatch without a reference has no document behind it, so it cannot count toward CRITICAL.
+    const shares = mismatches.map((c) => (c.reference ? excessShare(c) : null));
     const critical = shares.some((s) => s !== null && s > CRITICAL_EXCESS);
     const evidence: EvidenceRef[] = [];
     for (const c of mismatches) {

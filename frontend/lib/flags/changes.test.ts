@@ -53,7 +53,10 @@ describe("flagSignerChange", () => {
     expect(e.outcome === "raised" && e.statement).toBe(
       "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GCCC…CCCC(weight 1); removed GBBB…BBBB(weight 3); GAAA…AAAA weight 1 → 2; medium threshold 0 → 1; high threshold 6 → 5.",
     );
-    expect(e.outcome === "raised" && e.extra).toEqual({ added: [{ key: C, weight: 1 }], removed: [{ key: B, weight: 3 }] });
+    expect(e.outcome === "raised" && e.extra).toEqual({
+      added: [{ key: C, weight: 1 }], removed: [{ key: B, weight: 3 }], changed: [{ key: A, from: 1, to: 2 }],
+      thresholds: { from: { low: 0, medium: 0, high: 6 }, to: { low: 0, medium: 1, high: 5 } },
+    });
   });
 
   it("detects a weight-only and a threshold-only change", () => {

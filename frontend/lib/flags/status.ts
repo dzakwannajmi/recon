@@ -74,6 +74,12 @@ export function canonicalJson(value: unknown): string {
 const isDocumentDerived = (e: RaisedEvaluation) => e.evidence.some((r) => r.kind === "claim" || r.kind === "source_fact");
 
 /**
+ * Flags whose CRITICAL needs no operator review: the identity check is chain
+ * plus a SEP-1 protocol check (D-035). Any other CRITICAL waits for a confirmation.
+ */
+export const NO_REVIEW_CRITICAL: ReadonlySet<FlagName> = new Set<FlagName>(["ISSUER_IDENTITY"]);
+
+/**
  * SHA-256 of the asset, the flag, and the documents (snapshot hash and quote)
  * behind it. On-chain values are not in it, so a confirmation lasts until the document changes.
  */
@@ -87,7 +93,9 @@ export function reviewKey(asset: string, e: RaisedEvaluation): string {
 
 function review(asset: string, e: RaisedEvaluation, reviews: readonly Review[]): ReviewedFlag {
   const document_derived = isDocumentDerived(e);
-  if (e.severity !== "CRITICAL" || !document_derived) return { ...e, document_derived, review: "not_needed", review_key: null, effective_severity: e.severity };
+  if (e.severity !== "CRITICAL" || NO_REVIEW_CRITICAL.has(e.flag)) return { ...e, document_derived, review: "not_needed", review_key: null, effective_severity: e.severity };
+  // Without a document there is nothing a review key can pin, so it can never be confirmed.
+  if (!document_derived) return { ...e, document_derived, review: "pending", review_key: null, effective_severity: "WARNING" };
   const key = reviewKey(asset, e);
   const entries = reviews.filter((r) => r.asset === asset && r.flag === e.flag && r.review_key === key);
   // Conflicting entries resolve to the conservative one: any rejection wins over a confirmation.
@@ -97,17 +105,26 @@ function review(asset: string, e: RaisedEvaluation, reviews: readonly Review[]):
 
 const byBit = <T extends { flag: FlagName }>(list: T[]) => [...list].sort((a, b) => FLAG_BITS[a.flag] - FLAG_BITS[b.flag]);
 
+/** Exactly one evaluation per flag: a missing or duplicate one must stop the run, never publish a status. */
+function assertOnePerFlag(key: string, evaluations: readonly Evaluation[]) {
+  const seen = evaluations.map((e) => e.flag);
+  const ok = seen.length === FLAG_ORDER.length && FLAG_ORDER.every((f) => seen.filter((x) => x === f).length === 1);
+  if (!ok) throw new Error(`${key}: expected exactly one evaluation for each of ${FLAG_ORDER.length} flags, got ${seen.length} (${seen.join(", ") || "none"})`);
+}
+
 /** One asset's status from its nine evaluations (exactly one per flag). */
 export function assetStatus(asset: UniverseAsset, evaluations: readonly Evaluation[], reviews: readonly Review[]): AssetStatus {
   const key = `${asset.asset_code}:${asset.issuer}`;
+  assertOnePerFlag(key, evaluations);
   const raisedList = byBit(evaluations.filter((e): e is RaisedEvaluation => e.outcome === "raised").map((e) => review(key, e, reviews)));
   const clearList = byBit(evaluations.filter((e): e is ClearEvaluation => e.outcome === "clear"));
   const notEvaluatedList = byBit(evaluations.filter((e): e is NotEvaluated => e.outcome === "not_evaluated"));
-  const published = !evaluations.some((e) => e.flag === "ISSUER_IDENTITY" && e.outcome === "not_evaluated");
+  const published = evaluations.some((e) => e.flag === "ISSUER_IDENTITY" && e.outcome !== "not_evaluated");
   const status: StatusName | null = !published
     ? null
     : raisedList.some((r) => r.effective_severity === "CRITICAL") ? "CRITICAL" : raisedList.length > 0 ? "WARNING" : "OK";
-  const flags_bitmask = raisedList.reduce((mask, r) => mask | (1 << FLAG_BITS[r.flag]), 0);
+  // Nothing is published for an unpublished asset, so no bits either (its raised flags stay listed).
+  const flags_bitmask = !status ? 0 : raisedList.reduce((mask, r) => mask | (1 << FLAG_BITS[r.flag]), 0);
   const evidence_hash = sha256Hex(canonicalJson({ asset: key, status, flags_bitmask, raised: raisedList, clear: clearList, not_evaluated: notEvaluatedList }));
   return {
     asset: key, asset_code: asset.asset_code, issuer: asset.issuer, issuer_org: asset.issuer_org, asset_type: asset.asset_type,

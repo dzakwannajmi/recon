@@ -40,6 +40,12 @@ describe("flagSupplyMismatch", () => {
     expect(e).toMatchObject({ severity: "CRITICAL", statement: "A. B.", extra: { excess_percent: 50 } });
   });
 
+  it("does not count a mismatch without a reference toward CRITICAL", () => {
+    const e = flagSupplyMismatch([filed("500", "400.0000000", { reference: null, ratio: null })]);
+    expect(e).toMatchObject({ outcome: "raised", severity: "WARNING" });
+    expect(e.outcome === "raised" && e.extra).toBeUndefined();
+  });
+
   it("never invents CRITICAL when the excess can't be computed", () => {
     const e = flagSupplyMismatch([filed("999", "899", { threshold_tokens: null })]);
     expect(e).toMatchObject({ outcome: "raised", severity: "WARNING" });

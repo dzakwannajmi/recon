@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-08T01:41:58.551Z",
+  "generated_at": "2026-10-08T01:48:49.859Z",
   "as_of": "2026-10-08",
   "rules_version": "flags-v1",
   "inputs": {
@@ -65,7 +65,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "e31688ac7ae5b6c45cada2417c33a7242f72a82dbc5b2f28b7b1a7de4dcaa760",
+      "evidence_hash": "4100092b42d163a811a50f221ae5fd1d0e2970348c5a8324cbbd9ed585a2cb25",
       "raised": [],
       "clear": [
         {
@@ -167,7 +167,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists BENJI and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists BENJI (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -199,7 +199,7 @@
       "status": "WARNING",
       "status_code": 1,
       "flags_bitmask": 128,
-      "evidence_hash": "861d1ec9ab6ac3397fb33fb3e32a7660db94a836b4a200f9e317839f48b710db",
+      "evidence_hash": "8823ec593e7b177a2bb2ff9a6ec8a5c7693514d969292f5e89fc18235360a370",
       "raised": [
         {
           "flag": "NO_PUBLIC_DOCS",
@@ -279,7 +279,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists gBENJI and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists gBENJI (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -321,7 +321,7 @@
       "status": "WARNING",
       "status_code": 1,
       "flags_bitmask": 128,
-      "evidence_hash": "83b61b382db99b6149feac80f50ce76781b0474f893c307bfaae6cc0c0ca6f32",
+      "evidence_hash": "7cefc5efa088758ba200ee91afd29126094976377c10660936da7de157a23c69",
       "raised": [
         {
           "flag": "NO_PUBLIC_DOCS",
@@ -401,7 +401,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists grBENJI and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists grBENJI (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -443,7 +443,7 @@
       "status": "WARNING",
       "status_code": 1,
       "flags_bitmask": 128,
-      "evidence_hash": "c09304a56fa05614e14b4c5b15507df5c7aa2c4bba1c78fab0f1ebb8ada3e628",
+      "evidence_hash": "363cdd7073325df1dccfc86546163b74995ccb72d19863f440ebf0b9595207df",
       "raised": [
         {
           "flag": "NO_PUBLIC_DOCS",
@@ -523,7 +523,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists sgBENJI and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists sgBENJI (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -565,7 +565,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "558fa4fb2a3420e5d78c4e33a1a0ae58da1fa1f0f6ab6e3a1a6877b8eb83d99d",
+      "evidence_hash": "719e5ce3ef31350fb0373914c0f82f8a265ff5cb87cb477122f29f19b291136d",
       "raised": [],
       "clear": [
         {
@@ -645,7 +645,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists USDY and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists USDY (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -687,7 +687,7 @@
       "status": "WARNING",
       "status_code": 1,
       "flags_bitmask": 24,
-      "evidence_hash": "a5c41c781b3920d3255955afb5b687167ee018ed52f5636ab4a7520b43ae456d",
+      "evidence_hash": "2ec970844e852f63e20d0c644c72c783b859182d21ea7d51cce061b793d5d5a2",
       "raised": [
         {
           "flag": "FLAG_CHANGE",
@@ -749,7 +749,26 @@
                 "weight": 2
               }
             ],
-            "removed": []
+            "removed": [],
+            "changed": [
+              {
+                "key": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+                "from": 1,
+                "to": 5
+              }
+            ],
+            "thresholds": {
+              "from": {
+                "low": 0,
+                "medium": 0,
+                "high": 0
+              },
+              "to": {
+                "low": 5,
+                "medium": 5,
+                "high": 6
+              }
+            }
           },
           "document_derived": false,
           "review": "not_needed",
@@ -803,7 +822,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists USTRY and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists USTRY (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -845,7 +864,7 @@
       "status": "WARNING",
       "status_code": 1,
       "flags_bitmask": 24,
-      "evidence_hash": "2d86fab0a4b824cb1a175985e25c1722ffcdd637837b7b1b9ca7d2dee6690d6d",
+      "evidence_hash": "f441841da971e0ad18e243b18b69b3d6dfa472b57e94b0e0c6939459d3c0c295",
       "raised": [
         {
           "flag": "FLAG_CHANGE",
@@ -907,7 +926,26 @@
                 "weight": 2
               }
             ],
-            "removed": []
+            "removed": [],
+            "changed": [
+              {
+                "key": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+                "from": 1,
+                "to": 5
+              }
+            ],
+            "thresholds": {
+              "from": {
+                "low": 0,
+                "medium": 0,
+                "high": 0
+              },
+              "to": {
+                "low": 5,
+                "medium": 5,
+                "high": 6
+              }
+            }
           },
           "document_derived": false,
           "review": "not_needed",
@@ -961,7 +999,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists TESOURO and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists TESOURO (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1003,7 +1041,7 @@
       "status": "WARNING",
       "status_code": 1,
       "flags_bitmask": 24,
-      "evidence_hash": "15c1b0f9eddfd6aefe314c4752ed3ebec6bdba7c7e1acb3a363f7dacc818893c",
+      "evidence_hash": "b2e6bad2381cc915485cc1dbcd10bc96b3301b74204b59316aa6329ff4301d22",
       "raised": [
         {
           "flag": "FLAG_CHANGE",
@@ -1065,7 +1103,26 @@
                 "weight": 2
               }
             ],
-            "removed": []
+            "removed": [],
+            "changed": [
+              {
+                "key": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+                "from": 1,
+                "to": 5
+              }
+            ],
+            "thresholds": {
+              "from": {
+                "low": 0,
+                "medium": 0,
+                "high": 0
+              },
+              "to": {
+                "low": 5,
+                "medium": 5,
+                "high": 6
+              }
+            }
           },
           "document_derived": false,
           "review": "not_needed",
@@ -1119,7 +1176,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists EUROB and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists EUROB (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1161,7 +1218,7 @@
       "status": "WARNING",
       "status_code": 1,
       "flags_bitmask": 24,
-      "evidence_hash": "709705765f42c0a7ebfa57e13e259e0f99857697ad5470e48219ac4633d92cdf",
+      "evidence_hash": "030f54e0dd54f3d3f8510c56deb6b31f5dbff2dcf6a06ad4466bce38f9ea56e2",
       "raised": [
         {
           "flag": "FLAG_CHANGE",
@@ -1223,7 +1280,26 @@
                 "weight": 2
               }
             ],
-            "removed": []
+            "removed": [],
+            "changed": [
+              {
+                "key": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+                "from": 1,
+                "to": 5
+              }
+            ],
+            "thresholds": {
+              "from": {
+                "low": 0,
+                "medium": 0,
+                "high": 0
+              },
+              "to": {
+                "low": 5,
+                "medium": 5,
+                "high": 6
+              }
+            }
           },
           "document_derived": false,
           "review": "not_needed",
@@ -1277,7 +1353,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists KTB and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists KTB (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1319,7 +1395,7 @@
       "status": "WARNING",
       "status_code": 1,
       "flags_bitmask": 24,
-      "evidence_hash": "b4dae0144c8b398359f2c2b9970a9db4b260caf4c2f6c8715799ec77213fcab9",
+      "evidence_hash": "112814c035d2014fdf04adf7ccd3742ae5e6c15daaae953f45745d221ee77f4a",
       "raised": [
         {
           "flag": "FLAG_CHANGE",
@@ -1381,7 +1457,26 @@
                 "weight": 2
               }
             ],
-            "removed": []
+            "removed": [],
+            "changed": [
+              {
+                "key": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+                "from": 1,
+                "to": 5
+              }
+            ],
+            "thresholds": {
+              "from": {
+                "low": 0,
+                "medium": 0,
+                "high": 0
+              },
+              "to": {
+                "low": 5,
+                "medium": 5,
+                "high": 6
+              }
+            }
           },
           "document_derived": false,
           "review": "not_needed",
@@ -1435,7 +1530,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists GILTS and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists GILTS (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1477,7 +1572,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "bcc28b698e39c79e46dc575d3010249322d8d049d810c125d6b2a8024307cfe4",
+      "evidence_hash": "3b831dea0b90a8070bd7a94bf25fed6033f3bb3ff54f83602c00f0aae15abec1",
       "raised": [],
       "clear": [
         {
@@ -1551,7 +1646,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists GOLD and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists GOLD (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1593,7 +1688,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "f67476b187d1e681902c82228e743396d84990976bcab4f51871a8021d3e5ff8",
+      "evidence_hash": "069e8980b1e4978df3f2012b2b8eae1c530e1d0d3183e95fcc816c6a52fbb7dc",
       "raised": [],
       "clear": [
         {
@@ -1683,7 +1778,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists WTGX and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists WTGX (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1720,7 +1815,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "8debf12557df7f7d749d7d3bf1fe2ebc96fd7f3ddc6fd37e96994192d8c740bd",
+      "evidence_hash": "de91286650dff83c21985b33821a34849ea4e73c909b82864c57e8bb4d453e8d",
       "raised": [],
       "clear": [
         {
@@ -1810,7 +1905,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists WTSY and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists WTSY (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1847,7 +1942,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "3d84ab58fbfb758def37a56c60cf352c7e5b4893b9bca8932d06bd79ae65df37",
+      "evidence_hash": "1fb7ba7b47e9b49b03b5d481a04fadc8f6fe99e8950117da7917f6596e4c07b3",
       "raised": [],
       "clear": [
         {
@@ -1937,7 +2032,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists WTTS and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists WTTS (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1974,7 +2069,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "c01a6ae32d24f7110bbfee6aff7dfa62c422cb577188946da38badc502f8ef92",
+      "evidence_hash": "7eb64ff4e393618295205118b4561e5eb2076bcf6e06c4ecc2ba31b2145b8652",
       "raised": [],
       "clear": [
         {
@@ -2064,7 +2159,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists WTST and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists WTST (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2101,7 +2196,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "32bdfe16ec9027e45a9ec219ad8bad4377e290bd44ed807e236859106f304a41",
+      "evidence_hash": "f37885000129c40af9a42bed603120ac12f0a8866e38db9c6991a1ff65eb6079",
       "raised": [],
       "clear": [
         {
@@ -2191,7 +2286,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists WTLG and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists WTLG (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2228,7 +2323,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "7a76c1209b23dc9253acb0a85f2aa6966b31ac1adb6ca3362548044c68ff9aca",
+      "evidence_hash": "529057a8769cba561c0dad0ca8b31275c3ca2ae64671f3c23aac924823a81169",
       "raised": [],
       "clear": [
         {
@@ -2318,7 +2413,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists FLTT and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists FLTT (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2355,7 +2450,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "950fec552ff8a2af21a5d4fe8cfa9c7bebdd95cba6c0a20da6bfe5df5cf9f3d4",
+      "evidence_hash": "f6e6d5f28703c375503da3b1ebdc7008202da54a6f68076b0742e6886c34a8d3",
       "raised": [],
       "clear": [
         {
@@ -2445,7 +2540,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists TIPS and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists TIPS (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2482,7 +2577,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "b622f9de2356462766d0d6db087043369229c4c095df1076b49dcbc48d2100a2",
+      "evidence_hash": "fea3a4c7bcccb37d5cb42b739e4e47942aa1dcb347ce4426b9b3974a9cc687d4",
       "raised": [],
       "clear": [
         {
@@ -2572,7 +2667,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists WTSI and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists WTSI (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2609,7 +2704,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "08801515cb9c084e98773fede16ebedc1b37ed56eff3e4adb7f472df611eff89",
+      "evidence_hash": "84aaa9504cfd4205914493a5b16c219540abbd89fb8d66b585a036cf29785412",
       "raised": [],
       "clear": [
         {
@@ -2699,7 +2794,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists CRDT and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists CRDT (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2736,7 +2831,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "bb090fd8f4e2fdd8ebf0d491727289b83d98ca31223c5f7d22d880c882f1f528",
+      "evidence_hash": "4e6a735b0c647394e489bfadfed85f2150a723ad3e212a7fee2290b156482dfe",
       "raised": [],
       "clear": [
         {
@@ -2826,7 +2921,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists SPXU and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists SPXU (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2863,7 +2958,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "b18692384966338d440f6cf661e23af27c5702186b887658d19ab95a8811748f",
+      "evidence_hash": "1fe863e45711484b4292d301919838e7d2a54222c4e5e07f3aa0682921554cca",
       "raised": [],
       "clear": [
         {
@@ -2953,7 +3048,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists TECH and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists TECH (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2990,7 +3085,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "b18d4d70b573b57b348d36cf599534f6e36b399ff44b5065ae1eef9445632fe7",
+      "evidence_hash": "f567be8ef36b1344013356d74cc4142a0f4464085d162ff146b14af9df9f7339",
       "raised": [],
       "clear": [
         {
@@ -3080,7 +3175,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists EQTY and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists EQTY (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3117,7 +3212,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "4457b4b435ba891f1f2d80f77e36faf087e34f27330f141aad46713c51fcb35f",
+      "evidence_hash": "b5e0c9e0e5b6b5ee3ed9094869fc5b1c98b4bfc8f6edec9a389e074790090818",
       "raised": [],
       "clear": [
         {
@@ -3207,7 +3302,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists MODR and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists MODR (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3244,7 +3339,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "a3bd671066a25e185f0f0568b010331249b5a20ceda5ae1e30289c0868cb349c",
+      "evidence_hash": "1048e3fc4e46f56d5ca484e4a409b4c5b6b4ec88b7daf8a1e7f90593bf0897aa",
       "raised": [],
       "clear": [
         {
@@ -3334,7 +3429,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists LNGV and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists LNGV (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3518,7 +3613,7 @@
       "status": "OK",
       "status_code": 0,
       "flags_bitmask": 0,
-      "evidence_hash": "2696826dd30b21c989e8addbb2118cb13339dcb919f94937202ad228ce7ff560",
+      "evidence_hash": "2b58938f7dacb4cce6c922731f96359998e587af867fdae91e5dad4c9ae02959",
       "raised": [],
       "clear": [
         {
@@ -3604,7 +3699,7 @@
         {
           "flag": "TOML_INCONSISTENT",
           "outcome": "clear",
-          "reason": "The stellar.toml lists YLDS and no toml supply field differs from on-chain supply (as of 2026-10-08).",
+          "reason": "The stellar.toml lists YLDS (as of 2026-10-08) and no toml supply field differs from on-chain supply.",
           "as_of": "2026-10-08",
           "evidence": [
             {

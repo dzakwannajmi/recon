@@ -24,6 +24,17 @@ describe("flagTomlInconsistent", () => {
     expect(e.evidence[2]).toMatchObject({ quote: 'fixed_number="100"', snapshot_sha256: "sha-toml", where: "[[CURRENCIES]] BB1, line 43" });
   });
 
+  it("dates a result by the examination it read, not the chain check", () => {
+    const old = { supply: "105.0000000", as_of: "2026-10-06T01:14:16.540Z" };
+    expect(flagTomlInconsistent(row(), [check({ onchain: old })])).toMatchObject({ outcome: "raised", as_of: "2026-10-06" });
+    const ok = flagTomlInconsistent(row(), [check({ status: "consistent", onchain: old })]);
+    expect(ok).toMatchObject({ outcome: "clear", as_of: "2026-10-08" });
+    expect(ok.outcome === "clear" && ok.reason).toContain("agrees with its toml supply fields (as of 2026-10-06)");
+    // a listing problem is dated by the chain check, and the later date wins
+    const both = flagTomlInconsistent(row({ identity: identity({ codeListed: false }) }), [check({ onchain: old })]);
+    expect(both).toMatchObject({ outcome: "raised", as_of: "2026-10-08" });
+  });
+
   it("also covers max_number and ignores supply checks against filings", () => {
     expect(flagTomlInconsistent(row(), [check({ check: "supply_vs_toml_max_number" })])).toMatchObject({ outcome: "raised" });
     expect(flagTomlInconsistent(row(), [check({ check: "supply_vs_filed_shares" })])).toMatchObject({ outcome: "clear" });

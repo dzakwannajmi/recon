@@ -18,6 +18,11 @@ describe("flagNoPublicDocs", () => {
     expect(flagNoPublicDocs([toml, html(MIN_HTML_CHARS)], KEY).outcome).toBe("clear");
   });
 
+  it("does not count an empty pdf or xml", () => {
+    const empty = snapshot({ sha256: "e", text: { kind: "pdf", chars: 0, pages: 1, sha256: "t", extractor: "x" } });
+    expect(flagNoPublicDocs([toml, empty], KEY).outcome).toBe("raised");
+  });
+
   it("counts html with 1499 characters as a shell page and raises", () => {
     const e = flagNoPublicDocs([toml, html(MIN_HTML_CHARS - 1)], KEY);
     expect(e).toMatchObject({ outcome: "raised", severity: "WARNING" });

@@ -25,6 +25,15 @@ describe("flagStaleAttestation", () => {
     expect(run([report("not a date")]).outcome).toBe("not_evaluated");
   });
 
+  it("rejects dates that are not real calendar days, naming them only when nothing usable remains", () => {
+    const bad = run([report("2026-02-30")]);
+    expect(bad).toMatchObject({ outcome: "not_evaluated", reason: "No report date found in filings or verified issuer claims (invalid date 2026-02-30 ignored)" });
+    expect(run([report("2026-02-30"), report("2026-10-09")])).toMatchObject({
+      outcome: "not_evaluated", reason: expect.stringContaining("invalid date 2026-02-30 ignored; ignored 1 report date after 2026-10-08: 2026-10-09"),
+    });
+    expect(run([report("2026-02-30"), report("2026-09-30")]).outcome).toBe("clear");
+  });
+
   it("is clear at exactly the window and raised one day later (N-MFP3, 45 days)", () => {
     expect(run([report("2026-08-24")])).toMatchObject({ outcome: "clear", reason: "Newest report date 2026-08-24 (SEC N-MFP3 filed 2026-08-24) is 45 days before 2026-10-08, inside the 45-day window for N-MFP3." });
     const late = run([report("2026-08-23")]);

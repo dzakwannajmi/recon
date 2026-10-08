@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { UniverseAsset } from "../chain/universe";
 import { ISSUER, KEY } from "./fixtures";
-import { assetStatus, canonicalJson, parseReviews, reviewKey, type Review } from "./status";
+import { NO_REVIEW_CRITICAL, assetStatus, canonicalJson, parseReviews, reviewKey, type Review } from "./status";
 import { FLAG_BITS, FLAG_ORDER, STATUS_CODES, clear, notEvaluated, raised, type Evaluation, type EvidenceRef, type RaisedEvaluation } from "./types";
 
 const asset = { asset_code: "BB1", issuer: ISSUER, issuer_org: "Bit Bond", asset_type: "bond" } as UniverseAsset;
@@ -13,6 +13,16 @@ function evals(over: Partial<Record<(typeof FLAG_ORDER)[number], Evaluation>> = 
 }
 const supplyCritical = (statement = "Mismatch of 130.", evidence = doc()) => raised("SUPPLY_MISMATCH", "CRITICAL", statement, "2026-10-08", evidence);
 const review = (key: string, decision: "confirm" | "reject"): Review => ({ asset: KEY, flag: "SUPPLY_MISMATCH", review_key: key, decision, by: "op", at: "2026-10-08" });
+
+describe("one evaluation per flag", () => {
+  it("throws on an empty list, a missing flag, or a duplicate, never publishing OK", () => {
+    expect(() => assetStatus(asset, [], [])).toThrow(/expected exactly one evaluation/);
+    expect(() => assetStatus(asset, evals().filter((e) => e.flag !== "ISSUER_IDENTITY"), [])).toThrow(/got 8/);
+    expect(() => assetStatus(asset, [...evals(), clear("FLAG_CHANGE", "again", "d", [])], [])).toThrow(/got 10/);
+    // nine entries, but one flag twice and another missing
+    expect(() => assetStatus(asset, [...evals().filter((e) => e.flag !== "FLAG_CHANGE"), clear("SIGNER_CHANGE", "dup", "d", [])], [])).toThrow(/expected exactly one/);
+  });
+});
 
 describe("bits and codes", () => {
   it("keeps the append-only feed numbering", () => {
@@ -47,6 +57,25 @@ describe("assetStatus", () => {
     const s = assetStatus(asset, evals({ ISSUER_IDENTITY: notEvaluated("ISSUER_IDENTITY", "no check") }), []);
     expect(s).toMatchObject({ status: null, status_code: null });
     expect(s.not_evaluated).toHaveLength(1);
+  });
+
+  it("sets no bits for an unpublished asset but keeps its raised flags listed", () => {
+    const s = assetStatus(asset, evals({ ISSUER_IDENTITY: notEvaluated("ISSUER_IDENTITY", "no check"), FLAG_CHANGE: raised("FLAG_CHANGE", "WARNING", "x", "d", []) }), []);
+    expect(s).toMatchObject({ status: null, status_code: null, flags_bitmask: 0 });
+    expect(s.raised.map((r) => r.flag)).toEqual(["FLAG_CHANGE"]);
+  });
+
+  it("only the identity flag may be CRITICAL without review", () => {
+    expect([...NO_REVIEW_CRITICAL]).toEqual(["ISSUER_IDENTITY"]);
+  });
+
+  it("keeps a CRITICAL without document evidence pending forever (no key to confirm)", () => {
+    const e = raised("SUPPLY_MISMATCH", "CRITICAL", "x", "d", [{ kind: "examination", ref: "data/examinations/2026-10-08.json#a#b" }]);
+    const s = assetStatus(asset, evals({ SUPPLY_MISMATCH: e }), [review("a".repeat(64), "confirm"), review(reviewKey(KEY, e), "confirm")]);
+    expect(s).toMatchObject({ status: "WARNING" });
+    expect(s.raised[0]).toMatchObject({ review: "pending", review_key: null, effective_severity: "WARNING", document_derived: false });
+    const other = assetStatus(asset, evals({ FLAG_CHANGE: raised("FLAG_CHANGE", "CRITICAL", "x", "d", []) }), []);
+    expect(other.raised[0]).toMatchObject({ review: "pending", effective_severity: "WARNING" });
   });
 
   it("keeps a document-derived CRITICAL pending, counted as WARNING, until confirmed", () => {
@@ -110,6 +139,13 @@ describe("evidence_hash", () => {
     const raisedOne = assetStatus(asset, evals({ FLAG_CHANGE: raised("FLAG_CHANGE", "WARNING", "x", "d", []) }), []).evidence_hash;
     expect(raisedOne).not.toBe(a);
     expect(assetStatus(asset, evals({ FLAG_CHANGE: raised("FLAG_CHANGE", "WARNING", "x2", "d", []) }), []).evidence_hash).not.toBe(raisedOne);
+  });
+
+  it("changes when a review confirms a flag", () => {
+    const e = supplyCritical();
+    const pending = assetStatus(asset, evals({ SUPPLY_MISMATCH: e }), []);
+    const confirmed = assetStatus(asset, evals({ SUPPLY_MISMATCH: e }), [review(reviewKey(KEY, e), "confirm")]);
+    expect(confirmed.evidence_hash).not.toBe(pending.evidence_hash);
   });
 
   it("does not depend on the order the evaluations are given in", () => {

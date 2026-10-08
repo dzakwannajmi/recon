@@ -1,4 +1,4 @@
-import { clear, notEvaluated, raised, type Evaluation, type EvidenceRef } from "./types";
+import { clear, isIsoDay, notEvaluated, raised, type Evaluation, type EvidenceRef } from "./types";
 
 /**
  * Days a report date stays fresh, by where it was found (D-035). A filing's
@@ -22,7 +22,6 @@ export type ReportDate = {
 };
 
 const DAY_MS = 86_400_000;
-const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
 const daysBetween = (a: string, b: string) => Math.round((Date.parse(b) - Date.parse(a)) / DAY_MS);
 const windowFor = (r: ReportDate) => (r.form === null ? STALE_WINDOWS.issuer_document : STALE_WINDOWS[r.form]);
 const windowName = (r: ReportDate) => r.form ?? "issuer documents";
@@ -37,12 +36,16 @@ export function flagStaleAttestation(input: { assetType: string; reports: readon
     return notEvaluated("STALE_ATTESTATION", `No periodic attestation window is defined for asset type ${assetType} in v1`);
   }
   const usable = reports
-    .filter((r) => ISO_DAY.test(r.date) && r.date <= asOf && windowFor(r) !== undefined)
+    .filter((r) => isIsoDay(r.date) && r.date <= asOf && windowFor(r) !== undefined)
     .sort((a, b) => b.date.localeCompare(a.date));
   if (usable.length === 0) {
-    const future = reports.filter((r) => ISO_DAY.test(r.date) && r.date > asOf);
-    const note = future.length > 0 ? ` (ignored ${future.length} report date${future.length === 1 ? "" : "s"} after ${asOf}: ${future.map((r) => r.date).join(", ")})` : "";
-    return notEvaluated("STALE_ATTESTATION", `No report date found in filings or verified issuer claims${note}`);
+    const future = reports.filter((r) => isIsoDay(r.date) && r.date > asOf);
+    const invalid = reports.filter((r) => !isIsoDay(r.date));
+    const notes = [
+      ...invalid.map((r) => `invalid date ${r.date} ignored`),
+      ...(future.length > 0 ? [`ignored ${future.length} report date${future.length === 1 ? "" : "s"} after ${asOf}: ${future.map((r) => r.date).join(", ")}`] : []),
+    ];
+    return notEvaluated("STALE_ATTESTATION", `No report date found in filings or verified issuer claims${notes.length > 0 ? ` (${notes.join("; ")})` : ""}`);
   }
   const age = (r: ReportDate) => daysBetween(r.date, asOf);
   const inside = usable.find((r) => age(r) <= windowFor(r));

@@ -10,6 +10,7 @@
  * Usage is counted per server in `.cache/llm-usage.json` (git-ignored).
  */
 import fs from "fs";
+import os from "os";
 import path from "path";
 import { generateText, isStepCount, jsonSchema, Output, tool, type LanguageModelUsage, type ModelMessage } from "ai";
 import type { z } from "zod";
@@ -26,7 +27,8 @@ const DAILY_TOKEN_BUDGET = positiveInt("LLM_DAILY_TOKEN_BUDGET", 200_000);
 const MAX_OUTPUT_TOKENS = positiveInt("LLM_MAX_OUTPUT_TOKENS", 1024);
 const MAX_STEPS = 5;
 const TIMEOUT_MS = 60_000;
-const USAGE_FILE = path.join(process.cwd(), ".cache", "llm-usage.json");
+// Vercel functions can only write to the temp dir, so there the budget is counted per instance.
+const USAGE_FILE = path.join(process.env.VERCEL ? os.tmpdir() : path.join(process.cwd(), ".cache"), "llm-usage.json");
 
 export type Step = { tool: string; args: unknown; result: unknown; error?: boolean };
 

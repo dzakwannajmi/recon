@@ -1,0 +1,9 @@
+{
+  "id": "9693d960cc14a12a",
+  "doc_key": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+  "text_sha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
+  "proposed_by": "operator via Claude Code (review-reader, sonnet)",
+  "reviewed_at": "2026-10-08T08:10:54Z",
+  "note": "Ondo stellar.toml with account list and USDY description only. It has no figures, dates, custodian or auditor in the v1 fields.",
+  "claims": []
+}

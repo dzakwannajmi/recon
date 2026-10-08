@@ -1,0 +1,9 @@
+{
+  "id": "c8d07d3a92081206",
+  "doc_key": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+  "text_sha256": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81",
+  "proposed_by": "operator via Claude Code (review-reader, sonnet)",
+  "reviewed_at": "2026-10-08T08:10:54Z",
+  "note": "YLDS stellar.toml with contact, validator and redemption details. It has no supply, NAV, custodian or auditor data.",
+  "claims": []
+}

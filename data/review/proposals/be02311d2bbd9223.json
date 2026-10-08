@@ -1,0 +1,19 @@
+{
+  "id": "be02311d2bbd9223",
+  "doc_key": "3149a2caca84bf87aeb1cd332ebaec2a699e8405cc0c3c85660c8cd70b8c0301|GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+  "text_sha256": "0a3a388634ffcbf2f3f934a52c1975a4aed5330f7d0f200cfed8986b776b86d3",
+  "proposed_by": "operator via Claude Code (review-reader, sonnet)",
+  "reviewed_at": "2026-10-08T08:10:54Z",
+  "note": "WisdomTree Prime attestations index page. It is a list of monthly attestation links with no figures. I proposed only the latest Gold Token attestation month.",
+  "claims": [
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "August 2026",
+      "unit": null,
+      "as_of_text": "August 2026",
+      "quote": "August 2026 Gold Token Attestation",
+      "page": null
+    }
+  ]
+}

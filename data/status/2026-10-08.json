@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-08T01:48:49.859Z",
+  "generated_at": "2026-10-08T12:42:47.260Z",
   "as_of": "2026-10-08",
   "rules_version": "flags-v1",
   "inputs": {
@@ -20,7 +20,7 @@
     },
     "claims": {
       "path": "data/claims/claims.json",
-      "sha256": "33686fa06804b22bcdab167eceb1b291967ccb03d1fce5106f58b46f2bc697c5"
+      "sha256": "40e1540bd2fb9211dc2592e7b36ae9fafc1604f776c619a4857c4504bb0ceea9"
     },
     "sources": {
       "path": "data/claims/sources.json",

@@ -128,8 +128,9 @@ export function checkFiledShares(asset: string, supply: string, asOf: string, fi
  */
 export function checkMaxIssuance(asset: string, supply: string, asOf: string, max: Reference, ratio: Reference | null): CheckResult {
   const onchain = { supply, as_of: asOf };
+  // As with filed shares, only a stated 1-per-token ratio is used: another value's direction can't be confirmed.
   let maxTokens: number | null = null;
-  if (max.unit && ratio?.unit && max.unit === ratio.unit && ratio.value > 0) maxTokens = max.value / ratio.value;
+  if (max.unit && ratio?.unit && max.unit === ratio.unit && ratio.value === 1) maxTokens = max.value;
   if (maxTokens === null) {
     return result(asset, "supply_vs_max_issuance", onchain, max, "not_comparable", null, `Not comparable: ${where(max)} states ${fmt(max.value)}${max.unit ? ` ${max.unit}` : ""} with no token ratio in the same unit.`);
   }

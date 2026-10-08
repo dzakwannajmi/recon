@@ -29,7 +29,11 @@ type Op = {
   selling_asset_issuer?: string;
   buying_asset_code?: string;
   buying_asset_issuer?: string;
-  asset?: string; // "CODE:ISSUER" on claimable-balance operations
+  asset?: string; // "CODE:ISSUER" on create_claimable_balance
+  reserves_max?: { asset: string }[];
+  reserves_deposited?: { asset: string }[];
+  reserves_min?: { asset: string }[];
+  reserves_received?: { asset: string }[];
   funder?: string;
 };
 type Page = { _embedded: { records: Op[] }; _links?: { next?: { href: string } } };
@@ -70,9 +74,13 @@ function involves(op: Op, code: string, issuer: string) {
   const is = (c?: string, i?: string) => c === code && i === issuer;
   return (
     is(op.asset_code, op.asset_issuer) || is(op.source_asset_code, op.source_asset_issuer) || is(op.selling_asset_code, op.selling_asset_issuer) ||
-    is(op.buying_asset_code, op.buying_asset_issuer) || op.asset === `${code}:${issuer}`
+    is(op.buying_asset_code, op.buying_asset_issuer) || op.asset === `${code}:${issuer}` ||
+    [op.reserves_max, op.reserves_deposited, op.reserves_min, op.reserves_received].some((list) => list?.some((r) => r.asset === `${code}:${issuer}`))
   );
 }
+
+/** Claimable-balance operations that name a balance id only: their asset can't be told from the record. */
+const UNRESOLVED_TYPES = new Set(["claim_claimable_balance", "clawback_claimable_balance"]);
 
 /**
  * A supply mismatch: where the supply sits, issuance and redemption from the
@@ -109,11 +117,11 @@ export async function investigateSupplyMismatch(input: {
   if (firstOp?.type !== "create_account") {
     limits.push(`Horizon's history for the issuer starts at ${firstOp?.created_at.slice(0, 10) ?? "an unknown date"} and does not include the account's creation, so earlier issuance is not visible here.`);
   }
-  if (operations.truncated) limits.push(`Issuer operations were read up to ${MAX_PAGES * PAGE_SIZE} records.`);
+  if (operations.truncated) limits.push(`Only the first ${operations.records.length} issuer operations were read; more exist.`);
 
   // 3. Issuance and redemption by payments.
   const payments = await readAll("payments", issuer, input.signal);
-  if (payments.truncated) limits.push(`Issuer payments were read up to ${MAX_PAGES * PAGE_SIZE} records.`);
+  if (payments.truncated) limits.push(`Only the first ${payments.records.length} issuer payments were read; more exist.`);
   let minted = 0n;
   let burned = 0n;
   let mints = 0;
@@ -151,11 +159,14 @@ export async function investigateSupplyMismatch(input: {
   const relevant = ["clawback", "clawback_claimable_balance", "create_claimable_balance", "claim_claimable_balance", "manage_sell_offer", "manage_buy_offer", "create_passive_sell_offer", "liquidity_pool_deposit", "liquidity_pool_withdraw"];
   const counts: Record<string, number> = {};
   let contractCalls = 0;
+  let unresolved = 0;
   for (const op of operations.records) {
     if (op.type === "invoke_host_function") contractCalls++;
+    else if (UNRESOLVED_TYPES.has(op.type) && !op.asset) unresolved++;
     else if (relevant.includes(op.type) && involves(op, code, issuer)) counts[op.type] = (counts[op.type] ?? 0) + 1;
   }
   if (contractCalls) limits.push(`${contractCalls} smart-contract calls by the issuer were not decoded; Stellar Asset Contract mints or burns are not counted here.`);
+  if (unresolved) limits.push(`${unresolved} claimable-balance claims or clawbacks by the issuer name only a balance id, so their asset is not known here.`);
   steps.push({
     step: "other_operations",
     query: operations.query,
@@ -176,24 +187,29 @@ export async function investigateSupplyMismatch(input: {
 }
 
 /** Lines that are table headers or appear in almost every SEP-1 file; they say nothing about who wrote a toml. */
-const BOILERPLATE = /^\[|^(VERSION|NETWORK_PASSPHRASE|display_decimals|is_asset_anchored|status|anchor_asset_type)\s*=|^\s*$/;
+const BOILERPLATE = /^\[|^(VERSION|NETWORK_PASSPHRASE|display_decimals|is_asset_anchored|is_unlimited|status|anchor_asset_type)\s*=|^\s*$/;
 
-/** Share of a document's distinctive lines (not comments or boilerplate) that also appear in a reference document. */
-export function lineOverlap(text: string, reference: string) {
+/** Distinctive lines (not comments or boilerplate) of a document that also appear in a reference: count and share. */
+export function lineStats(text: string, reference: string) {
   const lines = (t: string) => new Set(t.split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith("#") && !BOILERPLATE.test(l)));
   const mine = lines(text);
   const theirs = lines(reference);
-  if (mine.size === 0) return 0;
-  let same = 0;
-  for (const l of mine) if (theirs.has(l)) same++;
-  return same / mine.size;
+  let shared = 0;
+  for (const l of mine) if (theirs.has(l)) shared++;
+  return { shared, ratio: mine.size === 0 ? 0 : shared / mine.size };
+}
+
+/** Share of a document's distinctive lines that also appear in a reference document. */
+export function lineOverlap(text: string, reference: string) {
+  return lineStats(text, reference).ratio;
 }
 
 /** ORG_NAME from the [DOCUMENTATION] table of an untrusted toml: one line, at most 120 visible characters. */
 export function orgName(toml: string) {
   const doc = /^\s*\[DOCUMENTATION\]\s*$([\s\S]*?)(?=^\s*\[|(?![\s\S]))/m.exec(toml)?.[1] ?? "";
   const raw = /^\s*ORG_NAME\s*=\s*"([^"\n]{0,120})"\s*$/m.exec(doc)?.[1];
-  return raw ? raw.replace(/[\u0000-\u001f\u007f<>]/g, " ").replace(/\s+/g, " ").trim() || null : null;
+  // Control, bidi-override, and zero-width characters can disguise a name; drop them with < and >.
+  return raw ? raw.replace(/[\u0000-\u001f\u007f<>\u200b-\u200f\u202a-\u202e\u2066-\u2069\ufeff]/g, " ").replace(/\s+/g, " ").trim() || null : null;
 }
 
 /**

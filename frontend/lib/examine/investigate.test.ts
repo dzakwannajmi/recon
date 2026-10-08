@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fetchTrustedJson } from "../chain/http";
-import { investigateIdentityMismatch, investigateSupplyMismatch, lineOverlap, orgName } from "./investigate";
+import { investigateIdentityMismatch, investigateSupplyMismatch, lineOverlap, lineStats, orgName } from "./investigate";
 
 vi.mock("../chain/http", async (importOriginal) => ({ ...(await importOriginal<typeof import("../chain/http")>()), fetchTrustedJson: vi.fn() }));
 
@@ -70,6 +70,22 @@ describe("investigateSupplyMismatch", () => {
   });
 });
 
+describe("other operations", () => {
+  it("matches pool operations by their reserves and notes claimable-balance operations it can't resolve", async () => {
+    horizon([], [
+      { type: "payment", created_at: "2025-08-22T00:00:00Z", transaction_hash: "t1" },
+      { type: "liquidity_pool_deposit", created_at: "2025-09-01T00:00:00Z", transaction_hash: "t2", reserves_max: [{ asset: "native" }, { asset: `BB1:${ISSUER}` }] },
+      { type: "liquidity_pool_withdraw", created_at: "2025-09-02T00:00:00Z", transaction_hash: "t3", reserves_min: [{ asset: "native" }, { asset: "USDC:GU" }] },
+      { type: "claim_claimable_balance", created_at: "2025-09-03T00:00:00Z", transaction_hash: "t4", balance_id: "00ab" },
+    ]);
+    const inv = await supplyCase();
+    const other = inv.steps.find((s) => s.step === "other_operations")!;
+    expect(other.finding).toContain("liquidity_pool_deposit ×1");
+    expect(other.finding).not.toContain("liquidity_pool_withdraw");
+    expect(inv.limits.some((l) => l.includes("1 claimable-balance claims or clawbacks"))).toBe(true);
+  });
+});
+
 describe("investigateIdentityMismatch", () => {
   it("reports the funder, footprint, and toml similarity as neutral facts", async () => {
     vi.mocked(fetchTrustedJson).mockResolvedValue(page([{ type: "create_account", created_at: "2026-07-14T00:00:00Z", transaction_hash: "tx", funder: "GFUNDER" }]));
@@ -91,11 +107,14 @@ describe("investigateIdentityMismatch", () => {
     expect(orgName('ORG_NAME="Outside"\n[DOCUMENTATION]\nORG_URL="x"')).toBeNull();
     expect(orgName(`[DOCUMENTATION]\nORG_NAME="${"x".repeat(200)}"`)).toBeNull();
     expect(orgName('[DOCUMENTATION]\nORG_NAME="multi\nline"')).toBeNull();
+    expect(orgName('[DOCUMENTATION]\nORG_NAME="Fran\u202eklin\u200b Templeton"')).toBe("Fran klin Templeton");
   });
 
   it("measures overlap on distinctive lines only", () => {
     expect(lineOverlap("a\nb\n# c\n\n", "a\nx")).toBe(0.5);
     expect(lineOverlap('[DOCUMENTATION]\nVERSION="2.0.0"\nORG_NAME="X"', '[DOCUMENTATION]\nVERSION="2.0.0"\nORG_NAME="Y"')).toBe(0);
     expect(lineOverlap("", "a")).toBe(0);
+    expect(lineStats('is_unlimited=true\ncode="X"', 'is_unlimited=true\ncode="Y"')).toEqual({ shared: 0, ratio: 0 });
+    expect(lineStats("a\nb\nc\nd", "a\nb\nc")).toEqual({ shared: 3, ratio: 0.75 });
   });
 });

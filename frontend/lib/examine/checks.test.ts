@@ -64,8 +64,9 @@ describe("checkMaxIssuance", () => {
     expect(checkMaxIssuance("BB1:G", "200000000", AS_OF, max, ref(1, { unit: "EUR" })).status).toBe("mismatch");
   });
 
-  it("refuses to compare across units", () => {
+  it("refuses to compare across units or with a ratio other than 1", () => {
     expect(checkMaxIssuance("BB1:G", "1", AS_OF, max, ref(1, { unit: "USD" })).status).toBe("not_comparable");
+    expect(checkMaxIssuance("BB1:G", "2", AS_OF, max, ref(100, { unit: "EUR" })).status).toBe("not_comparable");
     expect(checkMaxIssuance("BB1:G", "1", AS_OF, max, null).status).toBe("not_comparable");
   });
 });

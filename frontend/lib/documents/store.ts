@@ -121,6 +121,11 @@ export class SnapshotStore {
     }
 
     const existing = this.find(url, sha256);
+    if (existing && existing.sourceClass !== input.sourceClass) {
+      // The same bytes at the same URL were already stored as another source class (e.g. an issuer's
+      // own toml): never attach another asset to that record. The caller can reuse its sha256.
+      return existing;
+    }
     if (existing) {
       existing.lastSeenAt = now;
       existing.text = text;
@@ -159,6 +164,13 @@ export class SnapshotStore {
   verifyBlob(sha256: string) {
     const file = path.join(this.dir, "blobs", sha256);
     return fs.existsSync(file) && sha256Hex(fs.readFileSync(file)) === sha256;
+  }
+
+  /** Drop index records (bytes and text stay on disk); returns how many were removed. */
+  remove(predicate: (r: SnapshotRecord) => boolean) {
+    const before = this.records.length;
+    this.records = this.records.filter((r) => !predicate(r));
+    return before - this.records.length;
   }
 
   flush() {

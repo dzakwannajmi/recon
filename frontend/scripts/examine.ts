@@ -20,7 +20,7 @@ import { EXTRACTOR_VERSION } from "../lib/documents/extract";
 import { SnapshotStore, assetKey, type SnapshotRecord } from "../lib/documents/store";
 import { ClaimStore, type Claim } from "../lib/claims/store";
 import { checkFiledShares, checkMaxIssuance, checkTomlFixedNumber, checkTomlMaxNumber, type CheckResult, type Reference } from "../lib/examine/checks";
-import { investigateIdentityMismatch, investigateSupplyMismatch, lineOverlap, orgName, type Investigation } from "../lib/examine/investigate";
+import { investigateIdentityMismatch, investigateSupplyMismatch, lineStats, orgName, type Investigation } from "../lib/examine/investigate";
 import { parseNmfp3, parseNport, tomlSupplyFields, type SourceFact } from "../lib/examine/sources";
 
 const DATA = path.join(process.cwd(), "..", "data");
@@ -225,15 +225,19 @@ async function main() {
         if (!DISTINCTIVE_CODES.has(code)) {
           // A common code: only look further when the issuer points at the pinned organization.
           const sameOrg = Boolean(fetched && orgName(fetched.text) === officialOrg);
-          const copied = Boolean(fetched && officialToml && lineOverlap(fetched.text, officialToml.text) >= 0.5);
+          const stats = fetched && officialToml ? lineStats(fetched.text, officialToml.text) : null;
+          const copied = Boolean(stats && stats.ratio >= 0.5 && stats.shared >= 3);
           const similarDomain = id.homeDomain.includes(brand(official.official_domain));
           if (!sameOrg && !copied && !similarDomain) continue;
         }
         let toml: { url: string; text: string; sha256: string } | null = null;
         if (fetched) {
+          // If these bytes are already stored (e.g. this home_domain is the pinned issuer's own domain),
+          // reuse that snapshot; save() never attaches this issuer to another class's record.
           const record = snapshots.save({
             bytes: fetched.bytes, url: stellarTomlUrl(id.homeDomain), finalUrl: fetched.finalUrl, contentType: fetched.contentType,
             sourceClass: "third_party_toml", asset, discoveredFrom: null, text: { kind: "text", value: fetched.text, pages: null }, extractor: EXTRACTOR_VERSION,
+            now: checkedAt,
           });
           toml = { url: fetched.finalUrl, text: fetched.text, sha256: record.sha256 };
         }
@@ -274,6 +278,9 @@ async function main() {
     }));
   for (const p of patterns) console.log(`pattern  ${p.statement}`);
 
+  // Third-party tomls not seen in this run belong to earlier runs' investigations.
+  const stale = snapshots.remove((r) => r.sourceClass === "third_party_toml" && r.lastSeenAt < checkedAt);
+  if (stale) console.log(`removed ${stale} third-party toml records from earlier runs`);
   snapshots.flush();
   writeJson(path.join(DATA, "claims", "sources.json"), sources);
   const outFile = path.join(DATA, "examinations", `${checkedAt.slice(0, 10)}.json`);

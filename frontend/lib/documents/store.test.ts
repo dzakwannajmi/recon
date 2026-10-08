@@ -87,6 +87,24 @@ describe("SnapshotStore", () => {
     );
   });
 
+  it("never attaches an asset to a record of another source class", () => {
+    const store = new SnapshotStore(dir);
+    const official = store.save({ ...input("toml"), sourceClass: "issuer_toml", asset: "BB1:GOFFICIAL" });
+    const spoof = store.save({ ...input("toml"), sourceClass: "third_party_toml", asset: "BB1:GSPOOF" });
+    expect(spoof).toBe(official);
+    expect(official.sourceClass).toBe("issuer_toml");
+    expect(official.assets).toEqual(["BB1:GOFFICIAL"]);
+    expect(store.all()).toHaveLength(1);
+  });
+
+  it("removes records by predicate", () => {
+    const store = new SnapshotStore(dir);
+    store.save(input("v1"));
+    store.save({ ...input("v2"), sourceClass: "third_party_toml" });
+    expect(store.remove((r) => r.sourceClass === "third_party_toml")).toBe(1);
+    expect(store.all()).toHaveLength(1);
+  });
+
   it("builds asset keys", () => {
     expect(assetKey("BENJI", "GA")).toBe("BENJI:GA");
   });

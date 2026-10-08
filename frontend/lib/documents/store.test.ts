@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { SnapshotStore, assetKey, redactUrl, sha256Hex } from "./store";
+import { SnapshotStore, assetKey, currentRecords, redactUrl, sha256Hex, type SnapshotRecord } from "./store";
 
 let dir: string;
 beforeEach(() => {
@@ -107,5 +107,28 @@ describe("SnapshotStore", () => {
 
   it("builds asset keys", () => {
     expect(assetKey("BENJI", "GA")).toBe("BENJI:GA");
+  });
+});
+
+describe("currentRecords", () => {
+  const rec = (over: Partial<SnapshotRecord>): SnapshotRecord => ({
+    sha256: "a", url: "https://example.com/a", finalUrl: "https://example.com/a", contentType: "text/html", bytes: 1, sourceClass: "issuer",
+    assets: ["X:G"], discoveredFrom: null, text: null, fetchedAt: "2026-10-01T00:00:00.000Z", lastSeenAt: "2026-10-01T00:00:00.000Z", ...over,
+  });
+  const filing = (form: string, filedAt: string) => ({ cik: "1", form, accession: filedAt, filedAt });
+
+  it("keeps the record seen last for each URL", () => {
+    const old = rec({ sha256: "old", lastSeenAt: "2026-10-01T00:00:00.000Z" });
+    const fresh = rec({ sha256: "new", lastSeenAt: "2026-10-05T00:00:00.000Z" });
+    expect(currentRecords([fresh, old])).toEqual([fresh]);
+  });
+
+  it("keeps only the newest filing per asset and form, treating an amendment as the same form", () => {
+    const base = { sourceClass: "regulatory_filing" as const };
+    const a = rec({ ...base, sha256: "f1", url: "https://sec.gov/1", filing: filing("N-MFP3", "2026-08-04") });
+    const b = rec({ ...base, sha256: "f2", url: "https://sec.gov/2", filing: filing("N-MFP3/A", "2026-09-04") });
+    const other = rec({ ...base, sha256: "f3", url: "https://sec.gov/3", filing: filing("NPORT-P", "2026-01-01") });
+    const elsewhere = rec({ ...base, sha256: "f4", url: "https://sec.gov/4", assets: ["Y:G"], filing: filing("N-MFP3", "2026-08-04") });
+    expect(currentRecords([a, b, other, elsewhere]).map((r) => r.sha256).sort()).toEqual(["f2", "f3", "f4"]);
   });
 });

@@ -69,6 +69,23 @@ export function redactUrl(url: string | null) {
   }
 }
 
+/** The newest record per URL, then per asset and filing form the newest report. */
+export function currentRecords(records: readonly SnapshotRecord[]): SnapshotRecord[] {
+  const byUrl = new Map<string, SnapshotRecord>();
+  for (const r of records) {
+    const seen = byUrl.get(r.url);
+    if (!seen || r.lastSeenAt > seen.lastSeenAt) byUrl.set(r.url, r);
+  }
+  const latest = [...byUrl.values()];
+  return latest.filter((r) => {
+    if (r.sourceClass !== "regulatory_filing" || !r.filing) return true;
+    const form = r.filing.form.replace(/\/A$/, "");
+    return !latest.some(
+      (o) => o !== r && o.filing && o.filing.form.replace(/\/A$/, "") === form && o.assets.some((a) => r.assets.includes(a)) && o.filing.filedAt > r.filing!.filedAt,
+    );
+  });
+}
+
 function writeAtomic(file: string, data: Uint8Array | string) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const tmp = `${file}.${process.pid}.tmp`;

@@ -17,11 +17,11 @@ import { checkIssuerIdentity } from "../lib/chain/identity";
 import { MAX_TOML_BYTES, sameSiteWww, stellarTomlUrl } from "../lib/chain/toml";
 import { loadUniverse, parseCsv } from "../lib/chain/universe";
 import { EXTRACTOR_VERSION } from "../lib/documents/extract";
-import { SnapshotStore, assetKey, type SnapshotRecord } from "../lib/documents/store";
+import { SnapshotStore, assetKey, currentRecords } from "../lib/documents/store";
 import { ClaimStore, type Claim } from "../lib/claims/store";
 import { checkFiledShares, checkMaxIssuance, checkTomlFixedNumber, checkTomlMaxNumber, type CheckResult, type Reference } from "../lib/examine/checks";
 import { investigateIdentityMismatch, investigateSupplyMismatch, lineStats, orgName, type Investigation } from "../lib/examine/investigate";
-import { parseNmfp3, parseNport, tomlSupplyFields, type SourceFact } from "../lib/examine/sources";
+import { parseNmfp3, parseNport, tomlSupplyFields, type SourceFact, type StoredSourceFact } from "../lib/examine/sources";
 
 const DATA = path.join(process.cwd(), "..", "data");
 const DELAY_MS = 400;
@@ -43,7 +43,6 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const errorText = (err: unknown) => (err instanceof Error ? err.message : String(err));
 
 type SecRow = { asset_code: string; issuer: string; cik: string; series_id: string; class_id: string };
-export type StoredSourceFact = SourceFact & { asset: string; source_url: string; source_class: string; snapshot_sha256: string; field_source: "code"; label: string };
 
 function loadSecMap(): SecRow[] {
   const file = path.join(DATA, "sec.csv");
@@ -57,23 +56,6 @@ function writeJson(file: string, data: unknown) {
   const tmp = `${file}.${process.pid}.tmp`;
   fs.writeFileSync(tmp, JSON.stringify(data, null, 2) + "\n");
   fs.renameSync(tmp, file);
-}
-
-/** The newest record per URL, then per asset and filing form the newest report. */
-function currentRecords(records: readonly SnapshotRecord[]) {
-  const byUrl = new Map<string, SnapshotRecord>();
-  for (const r of records) {
-    const seen = byUrl.get(r.url);
-    if (!seen || r.lastSeenAt > seen.lastSeenAt) byUrl.set(r.url, r);
-  }
-  const latest = [...byUrl.values()];
-  return latest.filter((r) => {
-    if (r.sourceClass !== "regulatory_filing" || !r.filing) return true;
-    const form = r.filing.form.replace(/\/A$/, "");
-    return !latest.some(
-      (o) => o !== r && o.filing && o.filing.form.replace(/\/A$/, "") === form && o.assets.some((a) => r.assets.includes(a)) && o.filing.filedAt > r.filing!.filedAt,
-    );
-  });
 }
 
 /** Code-derived facts from the current filings and tomls; each quote is checked at its exact offset in the bytes. */

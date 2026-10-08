@@ -18,6 +18,9 @@ export type SourceFact = {
   section: string;
 };
 
+/** A SourceFact as saved in data/claims/sources.json, with the snapshot it was read from. */
+export type StoredSourceFact = SourceFact & { asset: string; source_url: string; source_class: string; snapshot_sha256: string; field_source: "code"; label: string };
+
 const DECIMAL = /^\d+(\.\d+)?$/;
 /** Larger than any Stellar amount (int64 stroops / 10^7). */
 const MAX_TOKENS = 922_337_203_685;

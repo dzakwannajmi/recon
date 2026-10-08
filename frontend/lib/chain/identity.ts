@@ -48,7 +48,7 @@ export type IdentityResult = {
   reason: string;
 };
 
-const SEVERITY: Record<IdentityStatus, Severity | null> = {
+export const IDENTITY_SEVERITY: Record<IdentityStatus, Severity | null> = {
   verified: null,
   domain_mismatch: "CRITICAL",
   not_listed_in_toml: "CRITICAL",
@@ -65,7 +65,7 @@ export function decideIdentity(input: IdentityInput): IdentityResult {
   const done = (status: IdentityStatus, reason: string): IdentityResult => ({
     status,
     flag: status === "verified" ? null : "ISSUER_IDENTITY",
-    severity: SEVERITY[status],
+    severity: IDENTITY_SEVERITY[status],
     reason: `${reason} (as of ${input.asOf})`,
   });
   const official = input.officialDomains.join(" or ");

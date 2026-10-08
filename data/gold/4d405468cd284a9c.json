@@ -1,0 +1,64 @@
+{
+  "id": "4d405468cd284a9c",
+  "doc_key": "cf83d61cdc9752b752a58b7be44de16eb09eda99d6aba0f29445243af40e8e4a|BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+  "source_url": "https://www.bitbondsto.com/files/bitbond-sto-prospectus-de.pdf",
+  "text_sha256": "35f35db74e4d5f08b17be282a0f36b8b9aa73444aa440ab3af497cd73d4d162f",
+  "window": {
+    "labels": [
+      "page 9",
+      "page 39",
+      "page 44",
+      "page 49",
+      "page 50",
+      "page 71",
+      "page 74"
+    ],
+    "chars": 23777
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "German 2019 BB1 prospectus window: offering size (EUR 100,000,000; 100,000,000 bonds), one token per bond, Stellar. EUR 1 per token is a nominal value; net proceeds are estimates.",
+  "items": [
+    {
+      "field": "max_issuance",
+      "asset_code": "BB1",
+      "value_text": "100.000.000",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Im Rahmen eines öffentlichen Angebots werden 100.000.000 tokenbasierte Schuldverschreibungen mit einem Nennbetrag von jeweils EUR 1",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "max_issuance",
+      "asset_code": "BB1",
+      "value_text": "100.000.000,00",
+      "unit": "EUR",
+      "as_of_text": null,
+      "quote": "Die Emittentin begibt diese Serie von tokenbasierten Schuldverschreibungen im Gesamtnennbetrag von EUR 100.000.000,00",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "token_unit_ratio",
+      "asset_code": "BB1",
+      "value_text": "ein",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Für jede emittierte Schuldverschreibung wird ein BB1-Token von der Emittentin an den Anleger herausgegeben.",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "BB1",
+      "value_text": "Stellar",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "BB1-Token basieren auf der Stellar Blockchain und repräsentieren die Rechte aus der Schuldverschreibung.",
+      "page": null,
+      "origin": "reader"
+    }
+  ]
+}

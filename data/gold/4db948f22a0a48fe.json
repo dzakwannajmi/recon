@@ -1,0 +1,59 @@
+{
+  "id": "4db948f22a0a48fe",
+  "doc_key": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5|BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5,gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP,grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ,sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+  "source_url": "https://www.franklintempleton.com/.well-known/stellar.toml",
+  "text_sha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5",
+  "window": {
+    "labels": [
+      "part 1",
+      "part 2"
+    ],
+    "chars": 4272
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "Franklin Templeton stellar.toml (FOCGX deprecated, BENJI, gBENJI, grBENJI, sgBENJI). Only the 1-token-to-1-share ratio per asset is a v1 fact.",
+  "items": [
+    {
+      "field": "token_unit_ratio",
+      "asset_code": "BENJI",
+      "value_text": "1",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "desc=\"1 BENJI token corresponds to 1 share of the fund.\"",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "token_unit_ratio",
+      "asset_code": "gBENJI",
+      "value_text": "1",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "desc=\"1 gBENJI token corresponds to 1 share of the fund.\"",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "token_unit_ratio",
+      "asset_code": "grBENJI",
+      "value_text": "1",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "desc=\"1 grBENJI token corresponds to 1 share of the fund.\"",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "token_unit_ratio",
+      "asset_code": "sgBENJI",
+      "value_text": "1",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "desc=\"1 sgBENJI token corresponds to 1 share of the fund.\"",
+      "page": null,
+      "origin": "reader"
+    }
+  ]
+}

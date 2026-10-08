@@ -1,0 +1,138 @@
+{
+  "id": "be02311d2bbd9223",
+  "doc_key": "3149a2caca84bf87aeb1cd332ebaec2a699e8405cc0c3c85660c8cd70b8c0301|GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+  "source_url": "https://www.wisdomtreeprime.com/attestations/",
+  "text_sha256": "0a3a388634ffcbf2f3f934a52c1975a4aed5330f7d0f200cfed8986b776b86d3",
+  "window": {
+    "labels": [
+      "part 1"
+    ],
+    "chars": 2092
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "WisdomTree Prime attestations index: monthly Gold Token attestation links (Sep 2025 to Aug 2026). Only month-level report dates; no provider, amounts, custodian or networks. Dollar Token entries are out of scope.",
+  "items": [
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "August 2026",
+      "unit": null,
+      "as_of_text": "August 2026",
+      "quote": "August 2026 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "July 2026",
+      "unit": null,
+      "as_of_text": "July 2026",
+      "quote": "July 2026 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "June 2026",
+      "unit": null,
+      "as_of_text": "June 2026",
+      "quote": "June 2026 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "May 2026",
+      "unit": null,
+      "as_of_text": "May 2026",
+      "quote": "May 2026 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "April 2026",
+      "unit": null,
+      "as_of_text": "April 2026",
+      "quote": "April 2026 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "March 2026",
+      "unit": null,
+      "as_of_text": "March 2026",
+      "quote": "March 2026 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "February 2026",
+      "unit": null,
+      "as_of_text": "February 2026",
+      "quote": "February 2026 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "January 2026",
+      "unit": null,
+      "as_of_text": "January 2026",
+      "quote": "January 2026 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "December 2025",
+      "unit": null,
+      "as_of_text": "December 2025",
+      "quote": "December 2025 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "November 2025",
+      "unit": null,
+      "as_of_text": "November 2025",
+      "quote": "November 2025 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "October 2025",
+      "unit": null,
+      "as_of_text": "October 2025",
+      "quote": "October 2025 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "GOLD",
+      "value_text": "September 2025",
+      "unit": null,
+      "as_of_text": "September 2025",
+      "quote": "September 2025 Gold Token Attestation",
+      "page": null,
+      "origin": "reader"
+    }
+  ]
+}

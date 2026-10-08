@@ -1,0 +1,17 @@
+{
+  "id": "9693d960cc14a12a",
+  "doc_key": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+  "source_url": "https://ondo.finance/.well-known/stellar.toml",
+  "text_sha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
+  "window": {
+    "labels": [
+      "part 1"
+    ],
+    "chars": 831
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "Ondo stellar.toml for USDY: only account, URL, description and anchor metadata; no supply, NAV, custodian, auditor, report date, token ratio or network. The desc line only says the price will appreciate, which is not a current NAV.",
+  "items": []
+}

@@ -137,12 +137,28 @@ export async function generateWithTools(opts: { instructions: string; messages: 
   }
 }
 
+/** Provider-specific settings passed straight to the AI SDK (e.g. `{ google: { thinkingConfig: { thinkingLevel: "low" } } }`). */
+export type ProviderOptions = NonNullable<Parameters<typeof generateText>[0]["providerOptions"]>;
+
+/** Token usage of one call. `reasoning` is the part of `output` the model spent thinking; null if the provider does not report it. */
+export type TokenUsage = { input: number; output: number; reasoning: number | null; total: number };
+
 /**
  * One structured-output call with no tools, for quarantined extraction from
  * untrusted documents. It counts against the same daily budget and fails
- * closed the same way. Returns the parsed output and the tokens used.
+ * closed the same way. Returns the parsed output, the tokens used, the
+ * usage split (input, output, reasoning, total), and the response model ID.
  */
-export async function generateStructured<T>(opts: { instructions: string; prompt: string; schema: z.ZodType<T>; maxOutputTokens?: number; model?: string }) {
+export async function generateStructured<T>(opts: {
+  instructions: string;
+  prompt: string;
+  schema: z.ZodType<T>;
+  maxOutputTokens?: number;
+  model?: string;
+  providerOptions?: ProviderOptions;
+  /** SDK retries on 429/5xx (default 2). The benchmark passes 0 and retries itself, so free-tier requests are not burned in bursts. */
+  maxRetries?: number;
+}) {
   if (budgetLeft() <= 0) throw new BudgetExceededError("Today's LLM budget is used up. Try again tomorrow.");
   const result = await generateText({
     model: languageModel(opts.model ?? EXTRACT_MODEL),
@@ -150,9 +166,20 @@ export async function generateStructured<T>(opts: { instructions: string; prompt
     prompt: opts.prompt,
     output: Output.object({ schema: opts.schema }),
     maxOutputTokens: opts.maxOutputTokens ?? 4096,
+    ...(opts.providerOptions ? { providerOptions: opts.providerOptions } : {}),
+    ...(opts.maxRetries !== undefined ? { maxRetries: opts.maxRetries } : {}),
     timeout: { totalMs: 120_000 },
     onStepEnd: ({ usage }) => recordUsage(usage),
   });
-  const usage = result.totalUsage;
-  return { output: result.output as T, tokens: usage.totalTokens ?? (usage.inputTokens ?? 0) + (usage.outputTokens ?? 0) };
+  const u = result.totalUsage;
+  const input = u.inputTokens ?? 0;
+  const output = u.outputTokens ?? 0;
+  const total = u.totalTokens ?? input + output;
+  return {
+    output: result.output as T,
+    tokens: total,
+    usage: { input, output, reasoning: u.outputTokenDetails?.reasoningTokens ?? null, total } satisfies TokenUsage,
+    /** The model ID the provider says answered (may differ from the requested alias). */
+    responseModel: (result.response?.modelId as string | undefined) ?? null,
+  };
 }

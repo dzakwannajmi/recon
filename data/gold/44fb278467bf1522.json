@@ -1,0 +1,164 @@
+{
+  "id": "44fb278467bf1522",
+  "doc_key": "59a231da526c87e044535606679ac46149b404ef8222341d78c4ca994ca8beb6|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+  "source_url": "https://ondo.finance/usdy",
+  "text_sha256": "540491dc4e072019e32fd8abf7c87f722acf2ab6af8ec558146b3048f100d07f",
+  "window": {
+    "labels": [
+      "part 1",
+      "part 2",
+      "part 3",
+      "part 4",
+      "part 5"
+    ],
+    "chars": 14443
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "Ondo USDY product page: price, value of underlying assets as of October 2, 2026, and 11 networks from the contract-address list. Operator removed 'Value of USDY Outstanding $2.06B' (a dollar value, not a unit count) and the dashboard as-of line as report_date (it dates the stats, not an attestation or report). No named auditor or custodian.",
+  "items": [
+    {
+      "field": "nav_per_unit",
+      "asset_code": "USDY",
+      "value_text": "$1.1487",
+      "unit": "USD",
+      "as_of_text": null,
+      "quote": "Buy USDY\n$1.1487\n+$0.0001 today",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "net_assets",
+      "asset_code": "USDY",
+      "value_text": "$2.32B",
+      "unit": "USD",
+      "as_of_text": null,
+      "quote": "Value of Underlying Assets4\n$2.32B",
+      "page": null,
+      "comment": "The page dates the stats \"As of October 2, 2026\", but the verifier cannot place that date inside one quote with the value (as_of_not_in_quote), so the gold item has no as-of date.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "Ethereum",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "Mantle",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "Solana",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "Sui",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "Aptos",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "Noble",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "Arbitrum",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "Stellar",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "Sei",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "Tempo",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "USDY",
+      "value_text": "BNB Chain",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the \"Available Networks\" list (the reader had used the contract-address list, which fails the networks gate); a model found this list.",
+      "origin": "reader"
+    }
+  ]
+}

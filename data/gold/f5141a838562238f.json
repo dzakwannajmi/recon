@@ -1,0 +1,48 @@
+{
+  "id": "f5141a838562238f",
+  "doc_key": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+  "source_url": "https://etherfuse.com/",
+  "text_sha256": "36d470c1feddf1c30f6962736129e569089cbe32cb33fc1deb9906e86a258a5c",
+  "window": {
+    "labels": [
+      "part 1"
+    ],
+    "chars": 2999
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "Etherfuse homepage. A custodian list at issuer level (split by the operator into one item per custodian). Skipped: the network logo strip, smart-contract auditors, and an unnamed weekly proof of reserves. Agrees with the three W2.7 operator-reviewed custodian claims.",
+  "items": [
+    {
+      "field": "custodian",
+      "asset_code": "ISSUER",
+      "value_text": "BBVA",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Regulated Custodians BBVA, Shinhan, B3, and more",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "custodian",
+      "asset_code": "ISSUER",
+      "value_text": "Shinhan",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Regulated Custodians BBVA, Shinhan, B3, and more",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "custodian",
+      "asset_code": "ISSUER",
+      "value_text": "B3",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "Regulated Custodians BBVA, Shinhan, B3, and more",
+      "page": null,
+      "origin": "reader"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "71033ba712b3d810",
+  "doc_key": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+  "source_url": "https://app.etherfuse.com/legal/compliance-and-audits",
+  "text_sha256": "1e39e9e467c9bab8b54f8d0d7dcb33f56e6109467c1629db0018b9806626d70b",
+  "window": {
+    "labels": [
+      "part 1"
+    ],
+    "chars": 2572
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "Etherfuse compliance and audits link page. The only named auditors are an AML auditor and a smart-contract auditor (OtterSec), both excluded by the auditor guideline; proof-of-reserves auditors are not named. No amounts, NAV, attestation dates, custodian, or per-asset facts. The only network mention (Solana) sits in the smart-contract audit line and is not tied to an asset.",
+  "items": []
+}

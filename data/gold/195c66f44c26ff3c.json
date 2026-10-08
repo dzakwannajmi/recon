@@ -1,0 +1,19 @@
+{
+  "id": "195c66f44c26ff3c",
+  "doc_key": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+  "source_url": "https://etherfuse.com/.well-known/stellar.toml",
+  "text_sha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+  "window": {
+    "labels": [
+      "part 1",
+      "part 2",
+      "part 3"
+    ],
+    "chars": 7098
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "Etherfuse stellar.toml: account and currency metadata, image URLs, a proof-of-reserves link, redemption instructions. No supply, NAV, net assets, auditor, custodian or report date for USTRY, TESOURO, EUROB, KTB, GILTS. The only unit-ratio wording is for MEXe (not in this asset list). NETWORK_PASSPHRASE is configuration, not labeled.",
+  "items": []
+}

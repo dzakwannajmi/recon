@@ -1,0 +1,17 @@
+{
+  "id": "c8d07d3a92081206",
+  "doc_key": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+  "source_url": "https://www.ylds.com/.well-known/stellar.toml",
+  "text_sha256": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81",
+  "window": {
+    "labels": [
+      "part 1"
+    ],
+    "chars": 2628
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "YLDS stellar.toml (Figure Certificate Company): accounts, contact details, currency metadata, redemption instructions, validators. No supply, NAV, net assets, auditor, custodian, report date or token ratio. NETWORK_PASSPHRASE is configuration, not labeled.",
+  "items": []
+}

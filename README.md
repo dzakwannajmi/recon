@@ -93,6 +93,8 @@ Pipeline commands, also from `frontend/`:
 | `npm run check:assets` | Read-only mainnet check of every asset in `data/assets.csv` -> `data/checks/DATE.json` |
 | `npm run snapshot:docs` | Fetch and hash issuer documents -> `data/snapshots/` |
 | `npm run extract:claims` | LLM extraction with quote check -> `data/claims/` (`--reverify` runs offline) |
+| `npm run benchmark` | Compare two Gemini configs on the same extraction windows -> `data/benchmark/runs/` (`--dry-run` shows the estimate; `--windows`, `--list-models`) |
+| `npm run benchmark:score` | Score benchmark runs against the gold set -> `data/benchmark/scores.json` (no network, no LLM) |
 | `npm run review:queue` | List extractions that need a human look -> `data/review/queue.json` |
 | `npm run import:review` | Import reviewed proposals through the quote verifier (no LLM) |
 | `npm run examine` | Examination run -> `data/examinations/DATE.json` |

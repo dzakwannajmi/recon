@@ -78,6 +78,28 @@ describe("parseAmount: digits inside alphanumeric codes", () => {
     }
   });
 
+  it("does not turn period or tranche labels into amounts once a code was skipped", () => {
+    for (const text of ["Q3 2026", "H1 2026", "Tranche A2 2027", "Class A1 Notes 500", "USDY2 1"]) {
+      expect(parseAmount(text), text).toBeNull();
+    }
+    expect(parseAmount("Class A1 Notes $500")).toBe(500);
+    expect(parseAmount("Q3 USD 5 million")).toBe(5_000_000);
+  });
+
+  it("requires a currency code to stand alone", () => {
+    for (const text of ["BB1USD5", "-USD5", "_USD5", "USD1-Token", "USDC2", "USD5x", "USD1 holders"]) {
+      expect(parseAmount(text, "en"), text).toBeNull();
+    }
+    expect(parseAmount("EUR5M", "en")).toBe(5_000_000);
+    expect(parseAmount("USD1,000", "en")).toBe(1000);
+  });
+
+  it("detects codes in decomposed (NFD) text and fails closed on lowercase currency", () => {
+    expect(parseAmount("Cafe\u0301" + "1")).toBeNull();
+    expect(parseAmount("BB1".normalize("NFD") + " supply: 2,667,360 tokens")).toBe(2_667_360);
+    expect(parseAmount("usd5")).toBeNull(); // CURRENCY_CODES is case-sensitive: fail closed
+  });
+
   it("skips code digits but still reads a separate, unambiguous number", () => {
     // BB1 is skipped; 2,667,360 is the only number left and "tokens" is a unit word.
     expect(parseAmount("BB1 supply: 2,667,360 tokens")).toBe(2_667_360);

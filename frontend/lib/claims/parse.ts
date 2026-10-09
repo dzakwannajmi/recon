@@ -89,15 +89,38 @@ const UNIT_WORD = new RegExp(`^(${CURRENCY_CODE_LIST.join("|")}|shares?|tokens?|
 
 const NUMBER = /\d[\d.,  ']*\d|\d/g;
 
+/** Currency codes that may be glued to a number ("USD1,000", "EUR5M"). USDC is a live ticker, so "USDC2" is a code. */
+const GLUED_CURRENCY = new Set(CURRENCY_CODE_LIST.filter((c) => c !== "USDC"));
+/** A glued currency must stand alone: not after a digit, letter, "-" or "_" ("BB1USD5", "-USD5"). */
+const NOT_STANDALONE_BEFORE = /[-\u2212\u2013\u2014_\d\p{L}\p{M}]$/u;
+
 /**
  * True when a number match is part of an alphanumeric code ("BB1", "USDY2",
  * ISIN "US0378331005"): its first digit directly follows a letter. The only
- * exception is a stand-alone currency code right before it ("USD1,000", "EUR5M").
+ * exception is a stand-alone currency code right before it ("USD1,000", "EUR5M"),
+ * which is not followed by a word or "-letter" other than a scale either ("USD1-Token" is a ticker).
+ * Combining marks count as letters, so decomposed (NFD) text cannot slip through.
  */
-function isCodeDigits(text: string, start: number) {
-  const letters = /\p{L}+$/u.exec(text.slice(0, start))?.[0];
+function isCodeDigits(text: string, start: number, end: number) {
+  const before = text.slice(0, start);
+  const letters = /[\p{L}\p{M}]+$/u.exec(before)?.[0];
   if (!letters) return false;
-  return !CURRENCY_CODES.test(letters);
+  const code = letters.normalize("NFD").replace(/\p{M}/gu, "");
+  if (!GLUED_CURRENCY.has(code) || code !== letters) return true;
+  if (NOT_STANDALONE_BEFORE.test(before.slice(0, before.length - letters.length))) return true;
+  const after = text.slice(end);
+  // "USD1-Token", "USD1 holders": a ticker. Only a scale may follow ("EUR5M", "USD5 million").
+  return /^\s*-?\p{L}/u.test(after) && !ATTACHED_SCALE.some(([re]) => re.test(after)) && spacedScale(after, null) === null;
+}
+
+/** After a code was skipped, the remaining number must itself look like an amount (symbol, currency, scale, or unit). */
+function hasAmountMarker(before: string, after: string, locale: Locale) {
+  if (/[$\u20ac\u00a3]\s*$/.test(before)) return true;
+  const cur = /(?:^|[^\p{L}\p{M}])([A-Z]{3,4})\s*$/u.exec(before)?.[1];
+  if (cur && CURRENCY_CODES.test(cur)) return true;
+  if (ATTACHED_SCALE.some(([re]) => re.test(after)) || spacedScale(after, locale) !== null) return true;
+  const word = /^\s*([\p{L}]+)/u.exec(after)?.[1];
+  return !!word && UNIT_WORD.test(word) && !/^(of|per|each|je|jeweils)$/i.test(word);
 }
 
 /**
@@ -107,7 +130,8 @@ function isCodeDigits(text: string, start: number) {
  * scale or a currency code.
  */
 export function parseAmount(text: string, locale: Locale = null): number | null {
-  const numbers = [...text.matchAll(NUMBER)].filter((m) => !isCodeDigits(text, m.index!));
+  const all = [...text.matchAll(NUMBER)];
+  const numbers = all.filter((m) => !isCodeDigits(text, m.index!, m.index! + m[0].length));
   if (numbers.length !== 1) return null;
   const [match] = numbers;
   const start = match.index!;
@@ -116,6 +140,9 @@ export function parseAmount(text: string, locale: Locale = null): number | null 
   if (/[-−(][\s$€£]*$/.test(before) || /[.,]$/.test(before)) return null;
   if (/^\s*%/.test(after) || /^\s*\)/.test(after)) return null;
   if (/^[\u00b2\u00b3\u00b9\u2070-\u2079]/.test(after)) return null; // "10⁶": an exponent or footnote glued to the number
+
+  // A code was skipped ("Q3 2026", "Tranche A2 2027"): the leftover number needs an amount marker.
+  if (all.length > numbers.length && !hasAmountMarker(before, after, locale)) return null;
 
   const base = parseNumberToken(match[0], locale);
   if (base === null) return null;

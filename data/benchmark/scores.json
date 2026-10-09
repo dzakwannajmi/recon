@@ -156,38 +156,66 @@
         }
       },
       "prompt_version": "claims-v3",
-      "response_models": [],
-      "documents_with_run": 10,
-      "documents_scored": 4,
-      "proposals": 5,
-      "verified": 4,
+      "response_models": [
+        "gemini-3.7-flash"
+      ],
+      "documents_with_run": 15,
+      "documents_scored": 15,
+      "proposals": 33,
+      "verified": 18,
       "dropped_by_reason": {
-        "field_gate": 1
+        "field_gate": 10,
+        "quote_too_short": 2
       },
-      "tp": 2,
-      "fp": 2,
-      "fn": 0,
+      "tp": 15,
+      "fp": 3,
+      "fn": 15,
       "precision": {
-        "value": 0.5,
-        "low": 0.15,
-        "high": 0.85,
-        "n": 4
+        "value": 0.8333,
+        "low": 0.6078,
+        "high": 0.9416,
+        "n": 18
       },
       "recall": {
-        "value": 1,
-        "low": 0.3424,
-        "high": 1,
-        "n": 2
+        "value": 0.5,
+        "low": 0.3315,
+        "high": 0.6685,
+        "n": 30
       },
-      "f1": 0.6667,
+      "f1": 0.625,
       "by_field": {
         "custodian": {
           "tp": 2,
           "fp": 1,
+          "fn": 3
+        },
+        "max_issuance": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        "nav_per_unit": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        "net_assets": {
+          "tp": 1,
+          "fp": 0,
           "fn": 0
         },
         "networks": {
-          "tp": 0,
+          "tp": 3,
+          "fp": 1,
+          "fn": 11
+        },
+        "report_date": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 1
+        },
+        "token_unit_ratio": {
+          "tp": 4,
           "fp": 1,
           "fn": 0
         }
@@ -198,62 +226,52 @@
         "items": []
       },
       "tokens": {
-        "calls": 4,
-        "reasoning_reported": 4,
+        "calls": 15,
+        "reasoning_reported": 15,
         "sum": {
-          "input": 12112,
-          "output": 396,
+          "input": 51251,
+          "output": 2469,
           "reasoning": 0,
-          "total": 12508
+          "total": 53720
         },
         "mean_per_document": {
-          "input": 3028,
-          "output": 99,
+          "input": 3417,
+          "output": 165,
           "reasoning": 0,
-          "total": 3127
+          "total": 3581
         }
       },
       "latency": {
-        "median_ms": 14264,
-        "p90_ms": 52736,
+        "median_ms": 5206,
+        "p90_ms": 23868,
         "max_ms": 52736
       },
-      "errors": 6,
+      "errors": 0,
       "retried_documents": 3,
-      "failed_documents": [
-        {
-          "doc_id": "072b341b345b2842",
-          "error": "AI_APICallError HTTP 429 RESOURCE_EXHAUSTED",
-          "attempts": 2
-        },
-        {
-          "doc_id": "44fb278467bf1522",
-          "error": "Failed after 3 attempts. Last error: AI_APICallError: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
-          "attempts": 1
-        },
-        {
-          "doc_id": "49bce52c98afb1e7",
-          "error": "Failed after 3 attempts. Last error: AI_APICallError: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/ge",
-          "attempts": 2
-        },
-        {
-          "doc_id": "4d405468cd284a9c",
-          "error": "Failed after 3 attempts. Last error: AI_APICallError: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/ge",
-          "attempts": 2
-        },
-        {
-          "doc_id": "9693d960cc14a12a",
-          "error": "Failed after 3 attempts. Last error: AI_APICallError: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
-          "attempts": 1
-        },
-        {
-          "doc_id": "f5141a838562238f",
-          "error": "Failed after 3 attempts. Last error: AI_APICallError: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
-          "attempts": 1
-        }
-      ],
+      "failed_documents": [],
       "stale_runs": [],
       "per_document": [
+        {
+          "doc_id": "072b341b345b2842",
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 2,
+          "verified": 1,
+          "dropped": {
+            "field_gate": 1
+          },
+          "by_field": {
+            "nav_per_unit": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            }
+          },
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
         {
           "doc_id": "195c66f44c26ff3c",
           "tp": 0,
@@ -263,6 +281,232 @@
           "verified": 0,
           "dropped": {},
           "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "44fb278467bf1522",
+          "tp": 1,
+          "fp": 0,
+          "fn": 11,
+          "proposals": 4,
+          "verified": 1,
+          "dropped": {
+            "quote_too_short": 2,
+            "field_gate": 1
+          },
+          "by_field": {
+            "net_assets": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "networks": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 11
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Aptos",
+              "value_text": "Aptos",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Arbitrum",
+              "value_text": "Arbitrum",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "BNB Chain",
+              "value_text": "BNB Chain",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Ethereum",
+              "value_text": "Ethereum",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Mantle",
+              "value_text": "Mantle",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Noble",
+              "value_text": "Noble",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Sei",
+              "value_text": "Sei",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Solana",
+              "value_text": "Solana",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Stellar",
+              "value_text": "Stellar",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Sui",
+              "value_text": "Sui",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Tempo",
+              "value_text": "Tempo",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "48bfe4f3d97b634c",
+          "tp": 3,
+          "fp": 0,
+          "fn": 1,
+          "proposals": 6,
+          "verified": 3,
+          "dropped": {
+            "field_gate": 1
+          },
+          "by_field": {
+            "max_issuance": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "networks": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "report_date": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 1
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "report_date",
+              "asset": "ISSUER:bitbondsto.com",
+              "value": "2018-10-31",
+              "value_text": "October 31, 2018",
+              "as_of": "2018-10-31",
+              "quote": "Total ASSETS 25,000.00 Total LIABILITIES 25,000.00\nInterim balance as of October 31, 2018"
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "49bce52c98afb1e7",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "4d405468cd284a9c",
+          "tp": 2,
+          "fp": 1,
+          "fn": 0,
+          "proposals": 4,
+          "verified": 3,
+          "dropped": {},
+          "by_field": {
+            "max_issuance": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "networks": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "token_unit_ratio": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            }
+          },
+          "fp_items": [
+            {
+              "field": "token_unit_ratio",
+              "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+              "value": 1,
+              "value_text": "ein BB1-Token",
+              "as_of": null,
+              "quote": "Für jede emittierte Schuldverschreibung wird ein BB1-Token von der Emittentin an den Anleger herausgegeben."
+            }
+          ],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "4db948f22a0a48fe",
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 4,
+          "verified": 4,
+          "dropped": {},
+          "by_field": {
+            "token_unit_ratio": {
+              "tp": 4,
+              "fp": 0,
+              "fn": 0
+            }
+          },
           "fp_items": [],
           "fn_items": [],
           "fp_matching_blocked": []
@@ -296,6 +540,45 @@
           "fp_matching_blocked": []
         },
         {
+          "doc_id": "7baed7519f48736b",
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 3,
+          "verified": 2,
+          "dropped": {
+            "field_gate": 1
+          },
+          "by_field": {
+            "nav_per_unit": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "networks": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            }
+          },
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "9693d960cc14a12a",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
           "doc_id": "9b9c7ae01493707d",
           "tp": 0,
           "fp": 0,
@@ -305,6 +588,19 @@
           "dropped": {
             "field_gate": 1
           },
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "be02311d2bbd9223",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
           "by_field": {},
           "fp_items": [],
           "fn_items": [],
@@ -336,6 +632,65 @@
             }
           ],
           "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "c8d07d3a92081206",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "f5141a838562238f",
+          "tp": 0,
+          "fp": 0,
+          "fn": 3,
+          "proposals": 5,
+          "verified": 0,
+          "dropped": {
+            "field_gate": 5
+          },
+          "by_field": {
+            "custodian": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 3
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "B3",
+              "value_text": "B3",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            },
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "BBVA",
+              "value_text": "BBVA",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            },
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "Shinhan",
+              "value_text": "Shinhan",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            }
+          ],
           "fp_matching_blocked": []
         }
       ]
@@ -2220,83 +2575,91 @@
   },
   "head_to_head": {
     "documents": [
+      "072b341b345b2842",
       "195c66f44c26ff3c",
+      "44fb278467bf1522",
+      "49bce52c98afb1e7",
+      "4db948f22a0a48fe",
       "71033ba712b3d810",
+      "9693d960cc14a12a",
       "9b9c7ae01493707d",
-      "c1d4edf59b2a917b"
+      "be02311d2bbd9223",
+      "c1d4edf59b2a917b",
+      "c8d07d3a92081206",
+      "f5141a838562238f"
     ],
     "configs": {
       "flash": {
-        "tp": 2,
+        "tp": 8,
         "fp": 2,
-        "fn": 0,
+        "fn": 14,
         "precision": {
-          "value": 0.5,
-          "low": 0.15,
-          "high": 0.85,
-          "n": 4
+          "value": 0.8,
+          "low": 0.4902,
+          "high": 0.9433,
+          "n": 10
         },
         "recall": {
-          "value": 1,
-          "low": 0.3424,
-          "high": 1,
-          "n": 2
+          "value": 0.3636,
+          "low": 0.1973,
+          "high": 0.5705,
+          "n": 22
         },
-        "f1": 0.6667
+        "f1": 0.5
       },
       "flash-lite": {
-        "tp": 0,
+        "tp": 5,
         "fp": 1,
-        "fn": 2,
+        "fn": 17,
         "precision": {
-          "value": 0,
-          "low": 0,
-          "high": 0.7935,
-          "n": 1
+          "value": 0.8333,
+          "low": 0.4365,
+          "high": 0.9699,
+          "n": 6
         },
         "recall": {
-          "value": 0,
-          "low": 0,
-          "high": 0.6576,
-          "n": 2
+          "value": 0.2273,
+          "low": 0.1012,
+          "high": 0.4344,
+          "n": 22
         },
-        "f1": 0
+        "f1": 0.3571
       },
       "gpt-oss": {
-        "tp": 0,
-        "fp": 1,
-        "fn": 2,
+        "tp": 1,
+        "fp": 2,
+        "fn": 21,
         "precision": {
-          "value": 0,
-          "low": 0,
-          "high": 0.7935,
-          "n": 1
+          "value": 0.3333,
+          "low": 0.0615,
+          "high": 0.7923,
+          "n": 3
         },
         "recall": {
-          "value": 0,
-          "low": 0,
-          "high": 0.6576,
-          "n": 2
+          "value": 0.0455,
+          "low": 0.0081,
+          "high": 0.218,
+          "n": 22
         },
-        "f1": 0
+        "f1": 0.08
       },
       "nemotron": {
-        "tp": 0,
-        "fp": 5,
-        "fn": 2,
+        "tp": 4,
+        "fp": 9,
+        "fn": 18,
         "precision": {
-          "value": 0,
-          "low": 0,
-          "high": 0.4345,
-          "n": 5
+          "value": 0.3077,
+          "low": 0.1268,
+          "high": 0.5763,
+          "n": 13
         },
         "recall": {
-          "value": 0,
-          "low": 0,
-          "high": 0.6576,
-          "n": 2
+          "value": 0.1818,
+          "low": 0.0731,
+          "high": 0.3852,
+          "n": 22
         },
-        "f1": 0
+        "f1": 0.2286
       }
     }
   },

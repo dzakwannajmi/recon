@@ -53,7 +53,7 @@ export const tools: Tool[] = [
   {
     name: "list_assets",
     description:
-      "List every asset in the tracked universe (non-stablecoin RWAs on Stellar mainnet): code, issuer, organization, type, official home domain, and the stored status (OK / WARNING / CRITICAL, or null if none is stored) with the date it is as of. Stored data, no live reads. Use it to see which assets exist or to find an issuer.",
+      "List every asset in the tracked universe (non-stablecoin RWAs on Stellar mainnet): code, issuer, organization, type, home domain (from stellar.toml), and the stored status (OK / WARNING / CRITICAL, or null if none is stored) with the date it is as of. Stored data, no live reads. Use it to see which assets exist or to find an issuer.",
     parameters: { type: "object", properties: {} },
     run: async () => {
       let status = null;

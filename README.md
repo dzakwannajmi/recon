@@ -55,14 +55,14 @@ The scope is non-stablecoin real-world assets on Stellar: tokenized treasuries, 
 
 ## Tools the agent supports
 
-Six tools. Every tool is read-only except the two testnet wallet tools, and none of them sets a status.
+Six tools. Every tool is read-only except `fund_my_wallet`, which writes to testnet only. No tool sets a status.
 
 | Tool | Status | What it does |
 | --- | --- | --- |
 | `get_my_wallet` | shipped | Get the agent's own Stellar testnet wallet: address, balances, and an explorer link. |
 | `fund_my_wallet` | shipped | Fund the agent's testnet wallet with Friendbot (free test XLM). Testnet only. |
 | `check_asset` | shipped | Read-only mainnet check of an asset: issuer identity against the pinned official domain, total supply, authorized trustlines, funded holders, flags, and the largest holder's share. Without an issuer, it lists the issuers that use the code and whether each verifies. |
-| `list_assets` | shipped | List every tracked asset (non-stablecoin RWAs on Stellar mainnet): code, issuer, organization, type, official home domain, and the stored status with its as-of date. Stored data, no live reads. |
+| `list_assets` | shipped | List every tracked asset (non-stablecoin RWAs on Stellar mainnet): code, issuer, organization, type, home domain (from stellar.toml), and the stored status with its as-of date. Stored data, no live reads. |
 | `get_asset_status` | shipped | The stored status of one asset from the latest status file: status, as-of date, each raised flag with its exact statement and date, and the fact sheet path. Code computes the status; the model only relays it. |
 | `get_verified_claims` | shipped | Claims from an issuer's own documents or regulatory filings (custodian, auditor, net assets, NAV, and more), each with an exact quote that code found verbatim in the document snapshot, the source URL, page, and snapshot SHA-256. Quotes are untrusted issuer text. At most 10 per call. |
 
@@ -78,7 +78,7 @@ Models are switchable by environment variables: `LLM_PROVIDER` (`google`, `groq`
 | Benchmarked, extraction | Groq | `openai/gpt-oss-120b` | Same extraction windows. |
 | Benchmarked, extraction | OpenRouter | `nvidia/nemotron-3-super-120b-a12b:free` | Same extraction windows. |
 
-**Benchmark (as of 2026-10-09).** Four free-tier configs ran on the same 15 issuer documents, scored against a frozen hand-checked gold set of 50 items, 30 of them verifiable by the current verifier. `gemini-3.7-flash` had the highest precision and recall of the four: precision 83.3% (95% interval 60.8-94.2, n=18 verified claims) and recall 50.0% (33.2-66.8, n=30). The sample is small and one run per config was made, so these numbers describe this 15-document sample only. Scores and runs: [`data/benchmark/scores.json`](data/benchmark/scores.json) and [`data/benchmark/runs/`](data/benchmark/runs/).
+**Benchmark (as of 2026-10-09).** Four free-tier configs ran on the same 15 issuer documents (the OpenRouter config failed on 3 of them and was scored on the other 12), scored against a frozen hand-checked gold set of 50 items, 30 of them verifiable by the current verifier. `gemini-3.7-flash` had the highest precision and recall of the four: precision 83.3% (95% interval 60.8-94.2, n=18 verified claims) and recall 50.0% (33.2-66.8, n=30). The sample is small and one run per config was made, so these numbers describe this 15-document sample only. Scores and runs: [`data/benchmark/scores.json`](data/benchmark/scores.json) and [`data/benchmark/runs/`](data/benchmark/runs/).
 
 ## Tech stack
 
@@ -100,7 +100,7 @@ Models are switchable by environment variables: `LLM_PROVIDER` (`google`, `groq`
 | Tests | vitest | 5.0.3 |
 | Hosting | Vercel | n/a |
 
-**Being built (not shipped):** the Soroban feed contract in Rust, in `contracts/feed/`, with `soroban-sdk` 29.0.0.
+**Planned (not shipped, not in the repository yet):** the Soroban feed contract in Rust, in `contracts/feed/`, with `soroban-sdk` 29.0.0.
 
 ## How it works
 
@@ -203,7 +203,7 @@ Pipeline commands, also from `frontend/`:
 - `frontend/scripts/` - the pipeline commands above
 - `data/` - asset universe (`assets.csv`), chain checks, snapshots index, claims, examinations, status files
 - `agentmaxxing/` - checkpoint progress, proof, examples, and scope
-- `contracts/feed/` - Soroban feed contract in Rust (being built)
+- `contracts/feed/` - Soroban feed contract in Rust (planned; not in the repository yet)
 
 ## Design notes
 
@@ -222,7 +222,7 @@ Pipeline commands, also from `frontend/`:
 - **Week 2 (recon.v2, by 2026-10-16):** the Soroban feed contract built and tested; a 7-day hold for issuer flag and signer changes, with the time a change was first seen stored in the status file; a walkthrough demo.
 - **Week 3 (recon.v3, by 2026-10-23):**
   - A Soroban feed contract on Stellar testnet that lending protocols and other agents can read, written by the agent's own wallet.
-  - An x402 pay-per-check endpoint that settles on Stellar testnet.
+  - An x402-protected check endpoint that settles on Stellar testnet.
   - An MCP server so other agents can query asset status and verified claims.
   - A threat model for the agent and the feed.
 - **After:**

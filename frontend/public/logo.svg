@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 204 64" width="204" height="64" fill="none" role="img" aria-label="Recon">
+  <g stroke="#0d9488" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="32" cy="32" r="18"/>
+    <path d="M32 6v12M32 46v12M6 32h12M46 32h12"/>
+    <!-- Wordmark drawn as strokes (no font needed): R e c o n -->
+    <path d="M70 44V18H78a7 7 0 0 1 0 14H70M78 32L86 44"/>
+    <path d="M95 35H113A9 9 0 1 0 110.4 41.4"/>
+    <path d="M136.4 28.6A9 9 0 1 0 136.4 41.4"/>
+    <circle cx="156" cy="35" r="9"/>
+    <path d="M178 26V44M178 35A8 8 0 0 1 194 35V44"/>
+  </g>
+  <circle cx="32" cy="32" r="5" fill="#0d9488"/>
+</svg>

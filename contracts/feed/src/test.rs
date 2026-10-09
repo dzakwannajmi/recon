@@ -290,6 +290,40 @@ fn t3_publish_one_and_get() {
     assert_eq!(fx.client().assets(), svec![&fx.env, a]);
 }
 
+/// The example in spec 3.2: USTRY on 2026-10-08 (WARNING, FLAG_CHANGE and SIGNER_CHANGE
+/// held, change seen at the check time). The key is the mainnet SAC contract ID.
+#[test]
+fn t3_spec_example_ustry() {
+    let fx = Fx::new();
+    let ustry = Address::from_str(
+        &fx.env,
+        "CBLV4ATSIWU67CFSQU2NVRKINQIKUZ2ODSZBUJTJ43VJVRSBTZYOPNUR",
+    );
+    let as_of = 1_791_423_259u64;
+    fx.env.ledger().set_timestamp(as_of + 5);
+    let u = Update {
+        asset: ustry.clone(),
+        status: 1,
+        flags: 24,
+        evidence_hash: fx.hash(0xab),
+        as_of,
+        issuer_change_seen_at: as_of,
+    };
+    assert_eq!(fx.publish(core::slice::from_ref(&u)), 1);
+    let e = fx.entry(&ustry).unwrap();
+    assert_eq!((e.status, e.flags, e.as_of), (1, 24, as_of));
+    assert_eq!(e.issuer_change_seen_at, as_of);
+    // BB1-style (256) and BENJI-style (128) masks are accepted shapes too.
+    let other = fx.addr();
+    for (i, flags) in [256u32, 128].into_iter().enumerate() {
+        let v = Update {
+            flags,
+            ..fx.upd(&other, 2, as_of + i as u64 + 1)
+        };
+        assert_eq!(fx.publish(&[v]), 1);
+    }
+}
+
 #[test]
 fn t4_publish_max_batch() {
     let fx = Fx::new();
@@ -546,11 +580,12 @@ fn t10_a_new_proposal_overwrites_the_old_one() {
 #[test]
 fn t11_upgrade_is_admin_only() {
     let fx = Fx::bare();
-    let hash = fx.hash(9);
+    // A real uploaded Wasm, so that only the missing admin auth can stop the call.
+    let wasm = built_wasm();
+    let hash = fx.env.deployer().upload_contract_wasm(wasm.as_slice());
+    let before = fx.id.executable();
     let random = fx.addr();
 
-    // No auth, the publisher, and a random address all fail at auth, before the
-    // hash is looked at.
     assert_auth_error(fx.client().try_upgrade(&hash));
     assert_eq!(fx.env.events().all().events().len(), 0);
     for who in [fx.publisher.clone(), random] {
@@ -558,6 +593,7 @@ fn t11_upgrade_is_admin_only() {
         assert_auth_error(fx.client().try_upgrade(&hash));
         assert_eq!(fx.env.events().all().events().len(), 0);
     }
+    assert_eq!(fx.id.executable(), before, "executable unchanged");
 }
 
 fn built_wasm() -> StdVec<u8> {

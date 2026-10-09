@@ -10,7 +10,7 @@ use soroban_sdk::{
         MockAuthInvoke,
     },
     vec as svec,
-    xdr::{Limits, ScVal, WriteXdr},
+    xdr::{ContractEventBody, Limits, ScSymbol, ScVal, WriteXdr},
     ConversionError, Event as _, Executable, IntoVal, InvokeError, Symbol, TryFromVal, Val,
 };
 use std::{format, vec, vec::Vec as StdVec};
@@ -405,7 +405,20 @@ fn t7_entry_updated_events_in_order() {
     ];
     fx.publish(&ups);
     let want: StdVec<_> = ups.iter().map(|u| fx.entry_updated(u)).collect();
-    assert_eq!(fx.env.events().all(), want);
+    let all = fx.env.events().all();
+    assert_eq!(all, want);
+
+    // Not circular: the raw topics are what RPC `getEvents` filters on
+    // (`["entry_updated", "*", u32]`), so a rename of the struct must fail here.
+    for (event, u) in all.events().iter().zip(&ups) {
+        let ContractEventBody::V0(body) = &event.body;
+        let want_topics: StdVec<ScVal> = vec![
+            ScVal::Symbol(ScSymbol("entry_updated".try_into().unwrap())),
+            ScVal::try_from_val(&fx.env, &u.asset.to_val()).unwrap(),
+            ScVal::U32(u.status),
+        ];
+        assert_eq!(body.topics.to_vec(), want_topics);
+    }
 }
 
 // ------------------------------------------------------------------- Auth

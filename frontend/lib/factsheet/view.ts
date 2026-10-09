@@ -3,9 +3,8 @@
  * came from the data (statements, reasons, quotes, URLs) is passed through
  * verbatim; this file only decides how to show it.
  */
-import type { AssetStatus } from "../flags/status";
 import { isIsoDay, type EvidenceRef } from "../flags/types";
-import type { StatusFile } from "./load";
+import type { LoadedAsset, StatusFile } from "./load";
 
 /** The URL if it parses and is http(s); otherwise null (shown as plain text, never as a link). */
 export function safeHttpUrl(s: string | null | undefined): string | null {
@@ -26,7 +25,7 @@ export function fmt(template: string, vars: Record<string, string | number>): st
 }
 
 /** The one asset with this exact code; null if there is none or more than one (ambiguous). */
-export function findAsset(status: Pick<StatusFile, "assets">, code: string): AssetStatus | null {
+export function findAsset(status: Pick<StatusFile, "assets">, code: string): LoadedAsset | null {
   const hits = status.assets.filter((a) => a.asset_code === code);
   return hits.length === 1 ? hits[0] : null;
 }
@@ -93,7 +92,7 @@ export function explorerLinks(code: string, issuer: string): { horizon: string; 
 export const bitmaskBinary = (mask: number, bits = 9) => (mask >>> 0).toString(2).padStart(bits, "0").slice(-bits);
 
 /** Counts shown in the status summary sentence. */
-export function counts(a: AssetStatus) {
+export function counts(a: LoadedAsset) {
   return { raised: a.raised.length, clear: a.clear.length, not_evaluated: a.not_evaluated.length };
 }
 

@@ -1,6 +1,6 @@
 /**
- * Status from evaluations (D-035). Pure: the same evaluations and reviews
- * always give the same status, bitmask, and evidence hash (no run time in it).
+ * Status from evaluations (D-035, D-038, D-039). Pure: the same evaluations, reviews and
+ * context always give the same status, bitmask, and evidence hash (no run time in it).
  * Only code computes status; a document-derived CRITICAL counts as WARNING
  * until an operator confirms it by review_key.
  */
@@ -8,9 +8,11 @@ import { z } from "zod";
 import { sha256Hex } from "../documents/store";
 import type { UniverseAsset } from "../chain/universe";
 import {
-  FLAG_BITS, FLAG_ORDER, STATUS_CODES,
+  FEED_SCHEMA, FLAG_BITS, FLAG_ORDER, STATUS_CODES, isIsoTime,
   type ClearEvaluation, type Evaluation, type FlagName, type NotEvaluated, type RaisedEvaluation, type Severity, type StatusName,
 } from "./types";
+
+export { FEED_SCHEMA };
 
 export type ReviewState = "not_needed" | "pending" | "confirmed" | "rejected";
 
@@ -47,10 +49,19 @@ export type AssetStatus = {
   issuer: string;
   issuer_org: string;
   asset_type: string;
+  /** The feed key: the mainnet token contract address (SAC) of this asset (D-039). */
+  sac_contract_id: string;
   /** null = not published (no chain check). */
   status: StatusName | null;
   status_code: 0 | 1 | 2 | null;
+  /**
+   * The chain read the status rests on: the later of identity.checkedAt and facts.checkedAt of the
+   * current checks row (the identity read is cached per issuer). Null when there is no chain check.
+   */
+  checked_at: string | null;
   flags_bitmask: number;
+  /** checkedAt of the check that first showed the latest issuer flag, signer or threshold change; null if none was seen (D-038). Never cleared by the hold window. */
+  issuer_change_seen_at: string | null;
   evidence_hash: string;
   raised: ReviewedFlag[];
   clear: ClearEvaluation[];
@@ -112,8 +123,47 @@ function assertOnePerFlag(key: string, evaluations: readonly Evaluation[]) {
   if (!ok) throw new Error(`${key}: expected exactly one evaluation for each of ${FLAG_ORDER.length} flags, got ${seen.length} (${seen.join(", ") || "none"})`);
 }
 
+/** The status-file fields that are hashed with every asset (spec 3.4). `generated_at` (run time) is not one of them. */
+export type FileFields = { feed_schema: number; rules_version: string; inputs: unknown };
+
+/** What the status script knows about one asset besides its evaluations. */
+export type AssetContext = FileFields & {
+  sac_contract_id: string;
+  checked_at: string | null;
+  issuer_change_seen_at: string | null;
+};
+
+export type HashedAsset = Pick<
+  AssetStatus,
+  "asset" | "sac_contract_id" | "checked_at" | "status" | "flags_bitmask" | "issuer_change_seen_at" | "raised" | "clear" | "not_evaluated"
+>;
+
+/**
+ * The one evidence_hash implementation (spec 3.4): SHA-256 of the canonical JSON of the file
+ * fields and the asset's conclusion. The W3.2 publisher and verifier call this same function.
+ */
+export function assetEvidenceHash(file: FileFields, a: HashedAsset): string {
+  return sha256Hex(canonicalJson({
+    feed_schema: file.feed_schema,
+    rules_version: file.rules_version,
+    asset: a.asset,
+    sac_contract_id: a.sac_contract_id,
+    checked_at: a.checked_at,
+    status: a.status,
+    flags_bitmask: a.flags_bitmask,
+    issuer_change_seen_at: a.issuer_change_seen_at,
+    raised: a.raised,
+    clear: a.clear,
+    not_evaluated: a.not_evaluated,
+    inputs: file.inputs,
+  }));
+}
+
+/** Bits 3 and 4 (FLAG_CHANGE, SIGNER_CHANGE): the contract needs a change time with them. */
+const CHANGE_MASK = (1 << FLAG_BITS.FLAG_CHANGE) | (1 << FLAG_BITS.SIGNER_CHANGE);
+
 /** One asset's status from its nine evaluations (exactly one per flag). */
-export function assetStatus(asset: UniverseAsset, evaluations: readonly Evaluation[], reviews: readonly Review[]): AssetStatus {
+export function assetStatus(asset: UniverseAsset, evaluations: readonly Evaluation[], reviews: readonly Review[], ctx: AssetContext): AssetStatus {
   const key = `${asset.asset_code}:${asset.issuer}`;
   assertOnePerFlag(key, evaluations);
   const raisedList = byBit(evaluations.filter((e): e is RaisedEvaluation => e.outcome === "raised").map((e) => review(key, e, reviews)));
@@ -125,10 +175,24 @@ export function assetStatus(asset: UniverseAsset, evaluations: readonly Evaluati
     : raisedList.some((r) => r.effective_severity === "CRITICAL") ? "CRITICAL" : raisedList.length > 0 ? "WARNING" : "OK";
   // Nothing is published for an unpublished asset, so no bits either (its raised flags stay listed).
   const flags_bitmask = !status ? 0 : raisedList.reduce((mask, r) => mask | (1 << FLAG_BITS[r.flag]), 0);
-  const evidence_hash = sha256Hex(canonicalJson({ asset: key, status, flags_bitmask, raised: raisedList, clear: clearList, not_evaluated: notEvaluatedList }));
+  // Invariants the feed contract also checks: stop the run here instead of writing a file that can't be published.
+  if (status) {
+    if (!ctx.checked_at) throw new Error(`${key}: a published status needs checked_at`);
+    if (!isIsoTime(ctx.checked_at)) throw new Error(`${key}: checked_at is not a valid ISO time: ${ctx.checked_at}`);
+    if (ctx.issuer_change_seen_at && !isIsoTime(ctx.issuer_change_seen_at)) throw new Error(`${key}: issuer_change_seen_at is not a valid ISO time: ${ctx.issuer_change_seen_at}`);
+    if ((flags_bitmask & CHANGE_MASK) !== 0 && !ctx.issuer_change_seen_at) throw new Error(`${key}: FLAG_CHANGE or SIGNER_CHANGE is raised but issuer_change_seen_at is null`);
+    if (ctx.issuer_change_seen_at && Date.parse(ctx.issuer_change_seen_at) > Date.parse(ctx.checked_at)) {
+      throw new Error(`${key}: issuer_change_seen_at ${ctx.issuer_change_seen_at} is later than checked_at ${ctx.checked_at}`);
+    }
+  }
+  const body: HashedAsset = {
+    asset: key, sac_contract_id: ctx.sac_contract_id, checked_at: ctx.checked_at, status, flags_bitmask,
+    issuer_change_seen_at: ctx.issuer_change_seen_at, raised: raisedList, clear: clearList, not_evaluated: notEvaluatedList,
+  };
   return {
     asset: key, asset_code: asset.asset_code, issuer: asset.issuer, issuer_org: asset.issuer_org, asset_type: asset.asset_type,
-    status, status_code: status ? STATUS_CODES[status] : null, flags_bitmask, evidence_hash,
+    sac_contract_id: ctx.sac_contract_id, status, status_code: status ? STATUS_CODES[status] : null,
+    checked_at: ctx.checked_at, flags_bitmask, issuer_change_seen_at: ctx.issuer_change_seen_at, evidence_hash: assetEvidenceHash(ctx, body),
     raised: raisedList, clear: clearList, not_evaluated: notEvaluatedList,
   };
 }

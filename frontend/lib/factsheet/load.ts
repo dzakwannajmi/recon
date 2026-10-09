@@ -54,6 +54,10 @@ const assetSchema = z.object({
   status: z.enum(["OK", "WARNING", "CRITICAL"]).nullable(),
   flags_bitmask: z.number().int().min(0),
   evidence_hash: z.string(),
+  // Feed fields (D-038, D-039): absent in status files written before flags-v2.
+  sac_contract_id: z.string().optional(),
+  checked_at: nullableString,
+  issuer_change_seen_at: nullableString,
   raised: z.array(raisedSchema),
   clear: z.array(clearSchema),
   not_evaluated: z.array(notEvaluatedSchema),
@@ -65,13 +69,17 @@ const inputSchema = z.object({
   checked_at: z.string().optional(),
 }).loose().nullable();
 
+const historyEntrySchema = z.object({ path: z.string(), sha256: z.string(), checked_at: z.string().optional() }).loose();
+
 const statusSchema = z.object({
   generated_at: z.string(),
   as_of: z.string(),
+  feed_schema: z.number().int().optional(),
   rules_version: z.string(),
   inputs: z.object({
     checks: inputSchema,
     previous_checks: inputSchema,
+    checks_history: z.array(historyEntrySchema).optional(),
     examinations: inputSchema,
   }).loose(),
   bits: z.record(z.string(), z.number()),
@@ -81,15 +89,24 @@ const statusSchema = z.object({
 }).loose();
 
 export type StatusInput = { path: string; sha256: string; checked_at?: string } | null;
+/** One asset of a status file. The feed fields are optional: files written before flags-v2 do not have them. */
+export type LoadedAsset = Omit<AssetStatus, "sac_contract_id" | "checked_at" | "issuer_change_seen_at"> &
+  Partial<Pick<AssetStatus, "sac_contract_id" | "checked_at" | "issuer_change_seen_at">>;
 export type StatusFile = {
   generated_at: string;
   as_of: string;
+  feed_schema?: number;
   rules_version: string;
-  inputs: { checks: StatusInput; previous_checks: StatusInput; examinations: StatusInput };
+  inputs: {
+    checks: StatusInput;
+    previous_checks: StatusInput;
+    checks_history?: { path: string; sha256: string; checked_at?: string }[];
+    examinations: StatusInput;
+  };
   bits: Record<string, number>;
   status_codes: Record<string, number>;
   summary: Record<string, number>;
-  assets: AssetStatus[];
+  assets: LoadedAsset[];
 };
 export type LoadedStatus = { file: string; status: StatusFile };
 

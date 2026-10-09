@@ -1,7 +1,8 @@
 {
-  "generated_at": "2026-10-08T12:42:47.260Z",
+  "generated_at": "2026-10-09T08:51:28.246Z",
   "as_of": "2026-10-08",
-  "rules_version": "flags-v1",
+  "feed_schema": 1,
+  "rules_version": "flags-v2",
   "inputs": {
     "checks": {
       "path": "data/checks/2026-10-08.json",
@@ -13,6 +14,18 @@
       "sha256": "152229d2464d4c04290cf12a0ad37adde559c1dc2077cc32d574d9a1d63cfdd1",
       "checked_at": "2026-10-06T09:26:43.232Z"
     },
+    "checks_history": [
+      {
+        "path": "data/checks/2026-10-06.json",
+        "sha256": "152229d2464d4c04290cf12a0ad37adde559c1dc2077cc32d574d9a1d63cfdd1",
+        "checked_at": "2026-10-06T09:26:43.232Z"
+      },
+      {
+        "path": "data/checks/2026-10-08.json",
+        "sha256": "1e2b36db652b6458804fcc4d72af9cad15739b392ed539a99a05f4abc2c7e73f",
+        "checked_at": "2026-10-08T01:34:10.993Z"
+      }
+    ],
     "examinations": {
       "path": "data/examinations/2026-10-08.json",
       "sha256": "fc97ad08d428f5232a99f6c93c171ee3d91681d2a480c21bd3fe37ce46314756",
@@ -62,10 +75,13 @@
       "issuer": "GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
       "issuer_org": "Franklin Templeton",
       "asset_type": "fund",
+      "sac_contract_id": "CCDSDPD7FXB74PFB2SYCHGQRWLXQRYRTQSPCVSRJ7FAOLOUGWEYAXQ7A",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:11.007Z",
       "flags_bitmask": 0,
-      "evidence_hash": "4100092b42d163a811a50f221ae5fd1d0e2970348c5a8324cbbd9ed585a2cb25",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "ac9e38c3e952025b3ea6b9d2aad8cb4005b9f51236205831cb04a50cf38b97b5",
       "raised": [],
       "clear": [
         {
@@ -121,7 +137,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -137,7 +153,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -196,10 +212,13 @@
       "issuer": "GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
       "issuer_org": "Franklin Templeton",
       "asset_type": "fund",
+      "sac_contract_id": "CAZGJD4BG6RLFQIAGPDPSX3IR73CBSVDEIBUDQGDZ3RCGGSOYSVBDSM7",
       "status": "WARNING",
       "status_code": 1,
+      "checked_at": "2026-10-08T01:34:14.468Z",
       "flags_bitmask": 128,
-      "evidence_hash": "8823ec593e7b177a2bb2ff9a6ec8a5c7693514d969292f5e89fc18235360a370",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "0fd914df5ebfffef9b23a0b4ffcf4e6926ee70c18628e26a0067c5a3df570b3d",
       "raised": [
         {
           "flag": "NO_PUBLIC_DOCS",
@@ -247,7 +266,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -263,7 +282,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -318,10 +337,13 @@
       "issuer": "GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
       "issuer_org": "Franklin Templeton",
       "asset_type": "fund",
+      "sac_contract_id": "CBEFW4IKKVB5KAX7QJAOHZUY77X5M6TRHE7ER6V75WESMAG7SSJBWP4R",
       "status": "WARNING",
       "status_code": 1,
+      "checked_at": "2026-10-08T01:34:15.805Z",
       "flags_bitmask": 128,
-      "evidence_hash": "7cefc5efa088758ba200ee91afd29126094976377c10660936da7de157a23c69",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "38dcc2dff8ce1891083a698163f49cbc677b0ed4913810f6b31b32634176627f",
       "raised": [
         {
           "flag": "NO_PUBLIC_DOCS",
@@ -369,7 +391,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -385,7 +407,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -440,10 +462,13 @@
       "issuer": "GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
       "issuer_org": "Franklin Templeton",
       "asset_type": "fund",
+      "sac_contract_id": "CA4JGI47NZ4DYZT6SIXFJU4TVJPKC7QHYQXLKUZ2C7BT3ZX4ZXHO6YIK",
       "status": "WARNING",
       "status_code": 1,
+      "checked_at": "2026-10-08T01:34:16.978Z",
       "flags_bitmask": 128,
-      "evidence_hash": "363cdd7073325df1dccfc86546163b74995ccb72d19863f440ebf0b9595207df",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "09653cc06830bd32fc23dfe7d502d81d078ff7273efc81c7fc4eee26b2d0bd93",
       "raised": [
         {
           "flag": "NO_PUBLIC_DOCS",
@@ -491,7 +516,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -507,7 +532,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -562,10 +587,13 @@
       "issuer": "GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
       "issuer_org": "Ondo Finance",
       "asset_type": "yield-bearing",
+      "sac_contract_id": "CB3YA656OYIHU57657I5KGSBRHE5I3OZU4VFC22PYAOANFZHEWNYGAGP",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:18.319Z",
       "flags_bitmask": 0,
-      "evidence_hash": "719e5ce3ef31350fb0373914c0f82f8a265ff5cb87cb477122f29f19b291136d",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "40338f69950722f36cd4cf42309546c77815c7178159e18f77513566d806fd00",
       "raised": [],
       "clear": [
         {
@@ -593,7 +621,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -609,7 +637,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -684,16 +712,19 @@
       "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
       "issuer_org": "Etherfuse",
       "asset_type": "bond",
+      "sac_contract_id": "CBLV4ATSIWU67CFSQU2NVRKINQIKUZ2ODSZBUJTJ43VJVRSBTZYOPNUR",
       "status": "WARNING",
       "status_code": 1,
+      "checked_at": "2026-10-08T01:34:19.579Z",
       "flags_bitmask": 24,
-      "evidence_hash": "2ec970844e852f63e20d0c644c72c783b859182d21ea7d51cce061b793d5d5a2",
+      "issuer_change_seen_at": "2026-10-08T01:34:19.579Z",
+      "evidence_hash": "a481142e1e5f02360ec8e1a307b629a8357aa004d2c9125872bb0829c51286e2",
       "raised": [
         {
           "flag": "FLAG_CHANGE",
           "outcome": "raised",
           "severity": "WARNING",
-          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true.",
+          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true. Held through 2026-10-15 (7 days after the change was first seen).",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -714,7 +745,7 @@
           "flag": "SIGNER_CHANGE",
           "outcome": "raised",
           "severity": "WARNING",
-          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6.",
+          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6. Held through 2026-10-15 (7 days after the change was first seen).",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -861,16 +892,19 @@
       "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
       "issuer_org": "Etherfuse",
       "asset_type": "bond",
+      "sac_contract_id": "CD6M4R2322BYCY2LNWM74PEBQAQ63SA3DUJLI3L4225U4ZVCLMSCBCIS",
       "status": "WARNING",
       "status_code": 1,
+      "checked_at": "2026-10-08T01:34:21.021Z",
       "flags_bitmask": 24,
-      "evidence_hash": "f441841da971e0ad18e243b18b69b3d6dfa472b57e94b0e0c6939459d3c0c295",
+      "issuer_change_seen_at": "2026-10-08T01:34:21.021Z",
+      "evidence_hash": "409dcf901371c6972a15907268f4f8ca014ef8edc46f3cbb9d5f2951fd8929d4",
       "raised": [
         {
           "flag": "FLAG_CHANGE",
           "outcome": "raised",
           "severity": "WARNING",
-          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true.",
+          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true. Held through 2026-10-15 (7 days after the change was first seen).",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -891,7 +925,7 @@
           "flag": "SIGNER_CHANGE",
           "outcome": "raised",
           "severity": "WARNING",
-          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6.",
+          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6. Held through 2026-10-15 (7 days after the change was first seen).",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1038,16 +1072,19 @@
       "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
       "issuer_org": "Etherfuse",
       "asset_type": "bond",
+      "sac_contract_id": "CCHXOH2JGL6KBO5VOHR6WD4ZQXI6CFMJ5F65XVSZ6P47Y7KVZSQIPN6J",
       "status": "WARNING",
       "status_code": 1,
+      "checked_at": "2026-10-08T01:34:22.203Z",
       "flags_bitmask": 24,
-      "evidence_hash": "b2e6bad2381cc915485cc1dbcd10bc96b3301b74204b59316aa6329ff4301d22",
+      "issuer_change_seen_at": "2026-10-08T01:34:22.203Z",
+      "evidence_hash": "80c2f3eba4bcdd5d0bc1fc922391fcce42d01b627b820b4221b65c137f410832",
       "raised": [
         {
           "flag": "FLAG_CHANGE",
           "outcome": "raised",
           "severity": "WARNING",
-          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true.",
+          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true. Held through 2026-10-15 (7 days after the change was first seen).",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1068,7 +1105,7 @@
           "flag": "SIGNER_CHANGE",
           "outcome": "raised",
           "severity": "WARNING",
-          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6.",
+          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6. Held through 2026-10-15 (7 days after the change was first seen).",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1215,16 +1252,19 @@
       "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
       "issuer_org": "Etherfuse",
       "asset_type": "bond",
+      "sac_contract_id": "CBAECV6UVDS6ZKPMC63MUYY4V7Q3KTHR7NLUFGVVGK7K3AQT475QTETP",
       "status": "WARNING",
       "status_code": 1,
+      "checked_at": "2026-10-08T01:34:23.371Z",
       "flags_bitmask": 24,
-      "evidence_hash": "030f54e0dd54f3d3f8510c56deb6b31f5dbff2dcf6a06ad4466bce38f9ea56e2",
+      "issuer_change_seen_at": "2026-10-08T01:34:23.371Z",
+      "evidence_hash": "46352beff04ade394afc085c59e853f6eeae94f5afdce5aacb932e6d4313206e",
       "raised": [
         {
           "flag": "FLAG_CHANGE",
           "outcome": "raised",
           "severity": "WARNING",
-          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true.",
+          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true. Held through 2026-10-15 (7 days after the change was first seen).",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1245,7 +1285,7 @@
           "flag": "SIGNER_CHANGE",
           "outcome": "raised",
           "severity": "WARNING",
-          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6.",
+          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6. Held through 2026-10-15 (7 days after the change was first seen).",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1392,16 +1432,19 @@
       "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
       "issuer_org": "Etherfuse",
       "asset_type": "bond",
+      "sac_contract_id": "CCQNEBGX5RJQGNLQ25C67DZLOSNM4NFQBANUS3ASALF2X552BSIQ6XCE",
       "status": "WARNING",
       "status_code": 1,
+      "checked_at": "2026-10-08T01:34:24.703Z",
       "flags_bitmask": 24,
-      "evidence_hash": "112814c035d2014fdf04adf7ccd3742ae5e6c15daaae953f45745d221ee77f4a",
+      "issuer_change_seen_at": "2026-10-08T01:34:24.703Z",
+      "evidence_hash": "1beb9a3c4c7c593f9b67395b7878787e29b80dc080b2407a8f6237f8bc593367",
       "raised": [
         {
           "flag": "FLAG_CHANGE",
           "outcome": "raised",
           "severity": "WARNING",
-          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true.",
+          "statement": "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true. Held through 2026-10-15 (7 days after the change was first seen).",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1422,7 +1465,7 @@
           "flag": "SIGNER_CHANGE",
           "outcome": "raised",
           "severity": "WARNING",
-          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6.",
+          "statement": "Issuer signers or thresholds changed between checks on 2026-10-06 and 2026-10-08: added GAEN…4ELZ(weight 2); added GAQW…4UHG(weight 2); added GAWR…3VIP(weight 2); added GBRQ…EQFF(weight 2); added GBY2…ANVV(weight 2); GCRY…MYWC weight 1 → 5; low threshold 0 → 5; medium threshold 0 → 5; high threshold 0 → 6. Held through 2026-10-15 (7 days after the change was first seen).",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1569,10 +1612,13 @@
       "issuer": "GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "commodity",
+      "sac_contract_id": "CDQULNXLNTST3ERDKI2UXFUL64WGVJA4INLSYZCQLBI5KHQ4PSLFJI5S",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:25.897Z",
       "flags_bitmask": 0,
-      "evidence_hash": "3b831dea0b90a8070bd7a94bf25fed6033f3bb3ff54f83602c00f0aae15abec1",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "04118c24f3868f8d9e21d88fe90589a084eafe46bc8b31dff057cfe5cb867651",
       "raised": [],
       "clear": [
         {
@@ -1600,7 +1646,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1616,7 +1662,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1685,10 +1731,13 @@
       "issuer": "GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CCDI4CNUSRI2UYQ2F44VVUB47WNYQL552SQLL5KT6JQHDTTOS4PAWQ5G",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:27.820Z",
       "flags_bitmask": 0,
-      "evidence_hash": "069e8980b1e4978df3f2012b2b8eae1c530e1d0d3183e95fcc816c6a52fbb7dc",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "ad981d565d195020aaf4fa85ddfc6b61503b236ffb205023f2d7cec58459d990",
       "raised": [],
       "clear": [
         {
@@ -1732,7 +1781,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1748,7 +1797,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1812,10 +1861,13 @@
       "issuer": "GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CATVJYIVZMI3FFCFLNNBUSR7UGLIOCMJRZJ5YZU4LOVWKPTC4VSQ2IQG",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:29.000Z",
       "flags_bitmask": 0,
-      "evidence_hash": "de91286650dff83c21985b33821a34849ea4e73c909b82864c57e8bb4d453e8d",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "049c96c58b0c83c97520f193033aeb45ddf083761d6b60f60c82d6a20ae62a9d",
       "raised": [],
       "clear": [
         {
@@ -1859,7 +1911,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1875,7 +1927,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -1939,10 +1991,13 @@
       "issuer": "GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CBZ63YIHU3OOSP2JW3CHMXJ67T3Z3IU3NRSSJ4M53GFDIRR4YXKCEE36",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:30.195Z",
       "flags_bitmask": 0,
-      "evidence_hash": "1fb7ba7b47e9b49b03b5d481a04fadc8f6fe99e8950117da7917f6596e4c07b3",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "887586ad2c9a72ce8c563e825a0420ae9550fdac7f7e61a51956822be7f8cbed",
       "raised": [],
       "clear": [
         {
@@ -1986,7 +2041,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2002,7 +2057,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2066,10 +2121,13 @@
       "issuer": "GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CACJVBOTJ22N224NILIACP6FM75XE5JXIV2PGWYIXJ5R3GW3YD5VVFVS",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:31.381Z",
       "flags_bitmask": 0,
-      "evidence_hash": "7eb64ff4e393618295205118b4561e5eb2076bcf6e06c4ecc2ba31b2145b8652",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "fabe01d3610580b627f7b8b527ecddcfb18916f90594635cbb494d2cab60e8f2",
       "raised": [],
       "clear": [
         {
@@ -2113,7 +2171,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2129,7 +2187,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2193,10 +2251,13 @@
       "issuer": "GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CAIDESHFY4QU4I7FNNROV2ADPFZCWMB3VDMLBT5DZYEKWGOLT4ODNS6I",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:32.579Z",
       "flags_bitmask": 0,
-      "evidence_hash": "f37885000129c40af9a42bed603120ac12f0a8866e38db9c6991a1ff65eb6079",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "06adc30b5c58f0c9d5d7da02c11bd36fec34555a2c60ba8d331993d1e3027fb0",
       "raised": [],
       "clear": [
         {
@@ -2240,7 +2301,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2256,7 +2317,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2320,10 +2381,13 @@
       "issuer": "GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CCZ6ZWEO3KEA6PHTK56C6MEOHPVPBWZ7C3YUXR6SMBROPIEVXWICRY2L",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:33.781Z",
       "flags_bitmask": 0,
-      "evidence_hash": "529057a8769cba561c0dad0ca8b31275c3ca2ae64671f3c23aac924823a81169",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "46ee9f3844c8259c6cfcc1fc06687d97f727f5a7698b1b8b664aa59e15967004",
       "raised": [],
       "clear": [
         {
@@ -2367,7 +2431,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2383,7 +2447,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2447,10 +2511,13 @@
       "issuer": "GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CC5XKPSET6QVWPL7EFUA7KXO6XLWPWXJKAGJC24MXW7EYVXQLUBV4OM5",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:34.959Z",
       "flags_bitmask": 0,
-      "evidence_hash": "f6e6d5f28703c375503da3b1ebdc7008202da54a6f68076b0742e6886c34a8d3",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "593d82f3746dec2b6454e5b2ec25130a69c60c2d06a236f4e123ac203f37e096",
       "raised": [],
       "clear": [
         {
@@ -2494,7 +2561,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2510,7 +2577,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2574,10 +2641,13 @@
       "issuer": "GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CBBIDGSNGX43W6AEN32UFSLRTSM64MLNCXAHFCJV6PQYR5E6LV4IHPSS",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:36.145Z",
       "flags_bitmask": 0,
-      "evidence_hash": "fea3a4c7bcccb37d5cb42b739e4e47942aa1dcb347ce4426b9b3974a9cc687d4",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "b0378c24f2a10f7c998d8c4e3c43406a51762003648ca286dd62a4e4363117d0",
       "raised": [],
       "clear": [
         {
@@ -2621,7 +2691,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2637,7 +2707,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2701,10 +2771,13 @@
       "issuer": "GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CBQDK4Y3B2RYUSXE6JYYTHB6AIW655FPGE4OW7A2BWDZXZ5RALQ3UK3P",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:37.345Z",
       "flags_bitmask": 0,
-      "evidence_hash": "84aaa9504cfd4205914493a5b16c219540abbd89fb8d66b585a036cf29785412",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "af1bdaeb4883d5d2cc0399eedd563fbf2433c55f8bf3aca2af41e8aed4ccb8b5",
       "raised": [],
       "clear": [
         {
@@ -2748,7 +2821,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2764,7 +2837,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2828,10 +2901,13 @@
       "issuer": "GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CBVCBEMVSVH73W7HZZHEMFYSYNF2ALRUFNSATHF2WXENW33BGF5FSTFR",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:38.556Z",
       "flags_bitmask": 0,
-      "evidence_hash": "4e6a735b0c647394e489bfadfed85f2150a723ad3e212a7fee2290b156482dfe",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "0e0fae2711392d9ff05d1bb382104ef7bd6f5ac4e3536999eb20eb75c64088cd",
       "raised": [],
       "clear": [
         {
@@ -2875,7 +2951,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2891,7 +2967,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -2955,10 +3031,13 @@
       "issuer": "GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CDBYSQCKN644WWEJBPYDDTF2V5BDSJKC2EXVIEKLGHQSMKILY4IO2NCD",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:39.727Z",
       "flags_bitmask": 0,
-      "evidence_hash": "1fe863e45711484b4292d301919838e7d2a54222c4e5e07f3aa0682921554cca",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "873c02f321d272e0fb091763d1fd67f2281f533a502b6e60399e7544d6fed3cf",
       "raised": [],
       "clear": [
         {
@@ -3002,7 +3081,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3018,7 +3097,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3082,10 +3161,13 @@
       "issuer": "GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CCP7YZJWB7C4MIHA7L23OVKUXUXQ3WVFEBOCIYPNIN4LSQPCA26IA6XW",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:40.911Z",
       "flags_bitmask": 0,
-      "evidence_hash": "f567be8ef36b1344013356d74cc4142a0f4464085d162ff146b14af9df9f7339",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "0294b0cfad8db86e8165404dedcffab79b6df354edd62ea82dad42550fae6578",
       "raised": [],
       "clear": [
         {
@@ -3129,7 +3211,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3145,7 +3227,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3209,10 +3291,13 @@
       "issuer": "GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CCYPD6HRLXCXOT3ZSUJ4HYYBC7MLAYI7E3QEN4IC7H7FNB4PFDMQLHWL",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:42.091Z",
       "flags_bitmask": 0,
-      "evidence_hash": "b5e0c9e0e5b6b5ee3ed9094869fc5b1c98b4bfc8f6edec9a389e074790090818",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "a095ca7e894099a4130909b6665a8cc6e98a8322ab79e6b70d7da4e955e16170",
       "raised": [],
       "clear": [
         {
@@ -3256,7 +3341,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3272,7 +3357,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3336,10 +3421,13 @@
       "issuer": "GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
       "issuer_org": "WisdomTree, Inc.",
       "asset_type": "fund",
+      "sac_contract_id": "CAK3GBT7P6ADHBRK3LH3VODDY4HYLYYXAP6PEH436FYID2VJKPKND64L",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:43.272Z",
       "flags_bitmask": 0,
-      "evidence_hash": "1048e3fc4e46f56d5ca484e4a409b4c5b6b4ec88b7daf8a1e7f90593bf0897aa",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "739d6dd18dbb88fbd57b7ccfef5f77fcc7ba370f6c0c06cdff96bdf441161cd6",
       "raised": [],
       "clear": [
         {
@@ -3383,7 +3471,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3399,7 +3487,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3463,10 +3551,13 @@
       "issuer": "GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
       "issuer_org": "Bitbond Finance GmbH",
       "asset_type": "bond",
+      "sac_contract_id": "CA6EZRSYJDDGN2W6IQPBTT624I6VIS7SS6OR6GPJQOOQT7GRKK5UTDRL",
       "status": "WARNING",
       "status_code": 1,
+      "checked_at": "2026-10-08T01:34:44.456Z",
       "flags_bitmask": 256,
-      "evidence_hash": "fede243bcbfe400af6a2f2c94de807d19431ce8e492bc2269b62df2427775cae",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "62a47a2563ec997ab189cafe1edfdf5bc009431884dcac0ca99fc00a188e4578",
       "raised": [
         {
           "flag": "TOML_INCONSISTENT",
@@ -3536,7 +3627,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3552,7 +3643,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3610,10 +3701,13 @@
       "issuer": "GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
       "issuer_org": "Figure Certificate Company",
       "asset_type": "yield-bearing",
+      "sac_contract_id": "CALI5NJUXWSDKW4FUUQEAHTRD4IY6EQ4BIA6YGPMABRNXMXH7WWCC7Q6",
       "status": "OK",
       "status_code": 0,
+      "checked_at": "2026-10-08T01:34:46.593Z",
       "flags_bitmask": 0,
-      "evidence_hash": "2b58938f7dacb4cce6c922731f96359998e587af867fdae91e5dad4c9ae02959",
+      "issuer_change_seen_at": null,
+      "evidence_hash": "eac6a4d6e32210b25ae5ef6a46a4a3b6b322e4d9b9c0f81845c4681ea5c99548",
       "raised": [],
       "clear": [
         {
@@ -3641,7 +3735,7 @@
         {
           "flag": "FLAG_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer authorization flags are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {
@@ -3657,7 +3751,7 @@
         {
           "flag": "SIGNER_CHANGE",
           "outcome": "clear",
-          "reason": "The issuer signers and thresholds are the same on 2026-10-06 and 2026-10-08.",
+          "reason": "The issuer signers and thresholds are the same in all 2 checks from 2026-10-06 to 2026-10-08.",
           "as_of": "2026-10-08",
           "evidence": [
             {

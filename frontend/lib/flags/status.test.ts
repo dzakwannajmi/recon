@@ -1,10 +1,18 @@
 import { describe, expect, it } from "vitest";
 import type { UniverseAsset } from "../chain/universe";
 import { ISSUER, KEY } from "./fixtures";
-import { NO_REVIEW_CRITICAL, assetStatus, canonicalJson, parseReviews, reviewKey, type Review } from "./status";
+import { NO_REVIEW_CRITICAL, assetEvidenceHash, assetStatus as statusOf, canonicalJson, parseReviews, reviewKey, type AssetContext, type Review } from "./status";
 import { FLAG_BITS, FLAG_ORDER, STATUS_CODES, clear, notEvaluated, raised, type Evaluation, type EvidenceRef, type RaisedEvaluation } from "./types";
 
 const asset = { asset_code: "BB1", issuer: ISSUER, issuer_org: "Bit Bond", asset_type: "bond" } as UniverseAsset;
+const SAC = "CBLV4ATSIWU67CFSQU2NVRKINQIKUZ2ODSZBUJTJ43VJVRSBTZYOPNUR";
+const INPUTS = { checks: { path: "data/checks/2026-10-08.json", sha256: "aa", checked_at: "2026-10-08T01:34:10.993Z" }, claims: { path: "data/claims/claims.json", sha256: "bb" } };
+/** Context with a change time set, so tests that raise FLAG_CHANGE publish. */
+const CTX: AssetContext = {
+  feed_schema: 1, rules_version: "flags-v2", inputs: INPUTS, sac_contract_id: SAC,
+  checked_at: "2026-10-08T01:34:19.579Z", issuer_change_seen_at: "2026-10-08T01:34:19.579Z",
+};
+const assetStatus = (a: UniverseAsset, e: readonly Evaluation[], r: readonly Review[], ctx: AssetContext = CTX) => statusOf(a, e, r, ctx);
 const doc = (quote = "q1", sha = "sha-a"): EvidenceRef[] => [{ kind: "source_fact", ref: sha, snapshot_sha256: sha, quote }];
 
 /** All nine flags clear, with overrides. */
@@ -182,5 +190,88 @@ describe("types", () => {
   it("builds results with the documented shape", () => {
     const r: RaisedEvaluation = raised("FLAG_CHANGE", "WARNING", "s", "d", [], { a: 1 });
     expect(r).toEqual({ flag: "FLAG_CHANGE", outcome: "raised", severity: "WARNING", statement: "s", as_of: "d", evidence: [], extra: { a: 1 } });
+  });
+});
+
+describe("feed fields", () => {
+  it("passes sac_contract_id, checked_at and issuer_change_seen_at through", () => {
+    const s = assetStatus(asset, evals(), []);
+    expect(s).toMatchObject({ sac_contract_id: SAC, checked_at: CTX.checked_at, issuer_change_seen_at: CTX.issuer_change_seen_at });
+    const none = assetStatus(asset, evals(), [], { ...CTX, issuer_change_seen_at: null });
+    expect(none.issuer_change_seen_at).toBeNull();
+  });
+
+  it("refuses to publish a status that the feed contract would reject", () => {
+    const changed = evals({ SIGNER_CHANGE: raised("SIGNER_CHANGE", "WARNING", "x", "d", []) });
+    expect(() => assetStatus(asset, changed, [], { ...CTX, issuer_change_seen_at: null })).toThrow(/issuer_change_seen_at is null/);
+    expect(() => assetStatus(asset, evals(), [], { ...CTX, checked_at: null })).toThrow(/needs checked_at/);
+    expect(() => assetStatus(asset, evals(), [], { ...CTX, issuer_change_seen_at: "2026-10-08T01:34:19.580Z" })).toThrow(/later than checked_at/);
+    // a time that only looks like a date makes the guard fail closed instead of comparing NaN
+    expect(() => assetStatus(asset, evals(), [], { ...CTX, checked_at: "2026-10-08Tjunk" })).toThrow(/checked_at is not a valid ISO time/);
+    expect(() => assetStatus(asset, evals(), [], { ...CTX, issuer_change_seen_at: "2026-10-08Tjunk" })).toThrow(/issuer_change_seen_at is not a valid ISO time/);
+    // an unpublished asset has no such constraints
+    const unpublished = evals({ ISSUER_IDENTITY: notEvaluated("ISSUER_IDENTITY", "no check") });
+    expect(assetStatus(asset, unpublished, [], { ...CTX, checked_at: null, issuer_change_seen_at: null })).toMatchObject({ status: null, checked_at: null });
+  });
+});
+
+describe("assetEvidenceHash (spec 3.4)", () => {
+  const file = { feed_schema: 1, rules_version: "flags-v2", inputs: INPUTS };
+  const hashed = () => {
+    const s = assetStatus(asset, evals({ FLAG_CHANGE: raised("FLAG_CHANGE", "WARNING", "x", "2026-10-08", []) }), []);
+    return {
+      file,
+      a: { asset: s.asset, sac_contract_id: s.sac_contract_id, checked_at: s.checked_at, status: s.status, flags_bitmask: s.flags_bitmask, issuer_change_seen_at: s.issuer_change_seen_at, raised: s.raised, clear: s.clear, not_evaluated: s.not_evaluated },
+      hash: s.evidence_hash,
+    };
+  };
+
+  it("is the stored evidence_hash and is reproducible from the status file fields alone", () => {
+    const { file: f, a, hash } = hashed();
+    expect(assetEvidenceHash(f, a)).toBe(hash);
+    // a round trip through JSON (what the file does) gives the same hash
+    expect(assetEvidenceHash(JSON.parse(JSON.stringify(f)), JSON.parse(JSON.stringify(a)))).toBe(hash);
+  });
+
+  it("changes when any one hashed field changes", () => {
+    const { file: f, a, hash } = hashed();
+    const variants: [string, () => string][] = [
+      ["feed_schema", () => assetEvidenceHash({ ...f, feed_schema: 2 }, a)],
+      ["rules_version", () => assetEvidenceHash({ ...f, rules_version: "flags-v3" }, a)],
+      ["inputs sha256", () => assetEvidenceHash({ ...f, inputs: { ...INPUTS, checks: { ...INPUTS.checks, sha256: "ab" } } }, a)],
+      ["inputs path", () => assetEvidenceHash({ ...f, inputs: { ...INPUTS, claims: { ...INPUTS.claims, path: "data/claims/other.json" } } }, a)],
+      ["asset", () => assetEvidenceHash(f, { ...a, asset: "BB2:G" })],
+      ["sac_contract_id", () => assetEvidenceHash(f, { ...a, sac_contract_id: "CAZGJD4BG6RLFQIAGPDPSX3IR73CBSVDEIBUDQGDZ3RCGGSOYSVBDSM7" })],
+      ["checked_at", () => assetEvidenceHash(f, { ...a, checked_at: "2026-10-08T01:34:19.580Z" })],
+      ["status", () => assetEvidenceHash(f, { ...a, status: "CRITICAL" })],
+      ["flags_bitmask", () => assetEvidenceHash(f, { ...a, flags_bitmask: a.flags_bitmask | 1 })],
+      ["issuer_change_seen_at", () => assetEvidenceHash(f, { ...a, issuer_change_seen_at: null })],
+      ["raised", () => assetEvidenceHash(f, { ...a, raised: [] })],
+      ["clear", () => assetEvidenceHash(f, { ...a, clear: a.clear.slice(1) })],
+      ["not_evaluated", () => assetEvidenceHash(f, { ...a, not_evaluated: [notEvaluated("LARGE_MINT_BURN", "x")] })],
+    ];
+    for (const [name, fn] of variants) expect(fn(), name).not.toBe(hash);
+    expect(new Set(variants.map(([, fn]) => fn())).size).toBe(variants.length);
+  });
+
+  it("does not depend on the order of the evaluations, nor on key order in the inputs", () => {
+    const a = assetStatus(asset, [...evals()].reverse(), []).evidence_hash;
+    expect(a).toBe(assetStatus(asset, evals(), []).evidence_hash);
+    const reordered = { claims: INPUTS.claims, checks: { checked_at: INPUTS.checks.checked_at, sha256: INPUTS.checks.sha256, path: INPUTS.checks.path } };
+    expect(assetStatus(asset, evals(), [], { ...CTX, inputs: reordered }).evidence_hash).toBe(a);
+  });
+
+  it("matches a fixed golden value, so the formula can't drift silently", () => {
+    const golden = assetEvidenceHash(
+      { feed_schema: 1, rules_version: "flags-v2", inputs: { checks: { path: "data/checks/2026-10-08.json", sha256: "aa" } } },
+      {
+        asset: `BB1:${ISSUER}`, sac_contract_id: SAC, checked_at: "2026-10-08T01:34:19.579Z", status: "WARNING", flags_bitmask: 8,
+        issuer_change_seen_at: "2026-10-08T01:34:19.579Z",
+        raised: [{ flag: "FLAG_CHANGE", outcome: "raised", severity: "WARNING", statement: "s", as_of: "2026-10-08", evidence: [], document_derived: false, review: "not_needed", review_key: null, effective_severity: "WARNING" }],
+        clear: [], not_evaluated: [],
+      },
+    );
+    // computed with an independent canonicalizer (sorted keys, no whitespace) over the object of spec 3.4
+    expect(golden).toBe("fddd63c85d576f5446cc15d3d797a6c3ad0146bb328e4d3ba421b0643649b6aa");
   });
 });

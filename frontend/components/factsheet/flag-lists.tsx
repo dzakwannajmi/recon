@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import type { AssetStatus, ReviewedFlag } from "@/lib/flags/status";
+import type { LoadedAsset } from "@/lib/factsheet/load";
+import type { ReviewedFlag } from "@/lib/flags/status";
 import type { FactSheetCopy } from "@/lib/factsheet/copy-types";
 import { cn } from "@/lib/utils";
 import { fmt } from "@/lib/factsheet/view";
@@ -33,7 +34,7 @@ const Section = ({ title, intro, children }: { title: string; intro?: string; ch
   </section>
 );
 
-export function RaisedSection({ copy, asset }: { copy: FactSheetCopy; asset: AssetStatus }) {
+export function RaisedSection({ copy, asset }: { copy: FactSheetCopy; asset: LoadedAsset }) {
   return (
     <Section title={copy.sections.raisedTitle} intro={copy.sections.raisedIntro}>
       {asset.raised.length === 0 ? (
@@ -62,7 +63,7 @@ export function RaisedSection({ copy, asset }: { copy: FactSheetCopy; asset: Ass
   );
 }
 
-export function ClearSection({ copy, asset }: { copy: FactSheetCopy; asset: AssetStatus }) {
+export function ClearSection({ copy, asset }: { copy: FactSheetCopy; asset: LoadedAsset }) {
   if (asset.clear.length === 0) return null;
   return (
     <Section title={copy.sections.clearTitle} intro={copy.sections.clearIntro}>
@@ -80,7 +81,7 @@ export function ClearSection({ copy, asset }: { copy: FactSheetCopy; asset: Asse
   );
 }
 
-export function NotEvaluatedSection({ copy, asset }: { copy: FactSheetCopy; asset: AssetStatus }) {
+export function NotEvaluatedSection({ copy, asset }: { copy: FactSheetCopy; asset: LoadedAsset }) {
   if (asset.not_evaluated.length === 0) return null;
   return (
     <Section title={copy.sections.notEvaluatedTitle} intro={copy.sections.notEvaluatedIntro}>

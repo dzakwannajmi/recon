@@ -100,7 +100,7 @@ Models are switchable by environment variables: `LLM_PROVIDER` (`google`, `groq`
 | Tests | vitest | 5.0.3 |
 | Hosting | Vercel | n/a |
 
-**Planned (not shipped, not in the repository yet):** the Soroban feed contract in Rust, in `contracts/feed/`, with `soroban-sdk` 29.0.0.
+**Built and tested, not deployed yet:** the Soroban feed contract in Rust, in `contracts/feed/`, with `soroban-sdk` 29.0.0 and stellar-cli 28.1.0. The testnet deploy comes in Week 3.
 
 ## How it works
 
@@ -203,7 +203,7 @@ Pipeline commands, also from `frontend/`:
 - `frontend/scripts/` - the pipeline commands above
 - `data/` - asset universe (`assets.csv`), chain checks, snapshots index, claims, examinations, status files
 - `agentmaxxing/` - checkpoint progress, proof, examples, and scope
-- `contracts/feed/` - Soroban feed contract in Rust (planned; not in the repository yet)
+- `contracts/feed/` - Soroban feed contract in Rust, with tests (not deployed yet)
 
 ## Design notes
 

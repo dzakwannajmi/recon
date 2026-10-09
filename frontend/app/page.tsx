@@ -24,7 +24,10 @@ import { cn } from "@/lib/utils";
 
 type Step = { tool: string; args: unknown; result: any; error?: boolean };
 type Message = { role: "user" | "agent"; text: string; steps?: Step[]; error?: boolean };
-type Status = { hasApiKey: boolean; model: string; tools: { name: string; description: string }[] };
+/** Display names for the provider ids the status endpoint returns. */
+const PROVIDER_NAMES: Record<string, string> = { google: "Gemini", groq: "Groq", openrouter: "OpenRouter" };
+
+type Status = { hasApiKey: boolean; provider?: string; keyEnv?: string | null; model: string; tools: { name: string; description: string }[] };
 type WalletInfo = { address: string | null; balance?: string };
 
 const EXAMPLES = ["Check USTRY on Stellar mainnet", "What's in your wallet?", "Fund your wallet on testnet", "What can you check for me?"];
@@ -118,13 +121,15 @@ export default function Home() {
               <SectionTitle num="01" title="Setup" />
             </CardHeader>
             <CardContent className="flex flex-col">
-              <SetupStep number={1} title="Add your Gemini API key" done={ready}>
+              <SetupStep number={1} title={`Add your ${PROVIDER_NAMES[status?.provider ?? "google"] ?? status?.provider} API key`} done={ready}>
                 {status && !ready && (
                   <p className="text-muted-foreground">
-                    Paste it into <Code>.env</Code> as <Code>GEMINI_API_KEY</Code>, then restart <Code>npm run dev</Code>.{" "}
-                    <a className="text-primary underline underline-offset-4" href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">
-                      Get a free key
-                    </a>
+                    Paste it into <Code>.env</Code> as <Code>{status.keyEnv ?? "GEMINI_API_KEY"}</Code>, then restart <Code>npm run dev</Code>.{" "}
+                    {(!status.provider || status.provider === "google") && (
+                      <a className="text-primary underline underline-offset-4" href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">
+                        Get a free key
+                      </a>
+                    )}
                   </p>
                 )}
                 {ready && <p className="text-muted-foreground">Connected.</p>}
@@ -191,7 +196,7 @@ export default function Home() {
                     <p className="text-2xl font-bold tracking-tight uppercase">Ask your agent something</p>
                     <p className="mt-1 text-muted-foreground">
                       {!ready
-                        ? "Add your Gemini API key to start."
+                        ? "Add your API key to start."
                         : wallet && !wallet.address
                           ? "Tip: create the wallet first so the agent can use it."
                           : "Pick an example to start."}
@@ -250,7 +255,7 @@ export default function Home() {
                 <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder={ready ? "ask your agent something..." : "add your Gemini API key to start"}
+                  placeholder={ready ? "ask your agent something..." : "add your API key to start"}
                   disabled={!ready}
                   className="h-11 border-0 bg-transparent font-mono focus-visible:ring-0 disabled:bg-transparent disabled:opacity-100 dark:bg-transparent dark:disabled:bg-transparent"
                 />

@@ -1,0 +1,57 @@
+{
+  "id": "c1d4edf59b2a917b",
+  "doc_key": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+  "source_url": "https://cdn.figure.com/docs/markets/fcc-prospectus.pdf",
+  "text_sha256": "230d054ffa9b5a96de5967cdaf65ddea6f49205c94561b0a149b75fbaa9a9eed",
+  "window": {
+    "labels": [
+      "page 2",
+      "page 6",
+      "page 9",
+      "page 13",
+      "page 26",
+      "page 31",
+      "page 34",
+      "page 38",
+      "page 50"
+    ],
+    "chars": 23968
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "FCC prospectus window (pages 2, 6, 9, 13, 26, 31, 34, 38, 50 of 54). Provenance (current primary network) and two custodians are stated; Solana/Stellar/Avalanche/Sui are 'may also use'. No NAV, supply, auditor, or report date in the window. Custodian items agree with the W2.7 operator-reviewed claims (page 13); the operator-reviewed network (page 27) and auditor/report date (page 53) are outside the window.",
+  "items": [
+    {
+      "field": "networks",
+      "asset_code": "YLDS",
+      "value_text": "Provenance Blockchain",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "FCC currently uses the Provenance Blockchain as the primary public blockchain",
+      "page": null,
+      "comment": "Verifier-blocked by design: this sentence appears 4 times in the prospectus, and every longer unique span contains \"may\", which the networks gate rejects.",
+      "origin": "reader"
+    },
+    {
+      "field": "custodian",
+      "asset_code": "YLDS",
+      "value_text": "UMB Bank N.A.",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements.",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "custodian",
+      "asset_code": "YLDS",
+      "value_text": "Flagstar Bank, N.A.",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements.",
+      "page": null,
+      "origin": "reader"
+    }
+  ]
+}

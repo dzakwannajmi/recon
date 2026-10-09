@@ -1,0 +1,28 @@
+{
+  "id": "9b9c7ae01493707d",
+  "doc_key": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255|BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+  "source_url": "https://bitbondsto.com/.well-known/stellar.toml",
+  "text_sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+  "window": {
+    "labels": [
+      "part 1"
+    ],
+    "chars": 1849
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "Bitbond stellar.toml for BB1. Only the fixed supply of 2,667,360 tokens is a v1 fact (max_issuance). The 1.00 EUR par value is a nominal value.",
+  "items": [
+    {
+      "field": "max_issuance",
+      "asset_code": "BB1",
+      "value_text": "2,667,360",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "fixed_number=\"2,667,360\"",
+      "page": null,
+      "origin": "reader"
+    }
+  ]
+}

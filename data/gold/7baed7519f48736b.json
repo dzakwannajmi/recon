@@ -1,0 +1,53 @@
+{
+  "id": "7baed7519f48736b",
+  "doc_key": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+  "source_url": "https://www.ylds.com/",
+  "text_sha256": "67bbfdb612ff73492d91e503309d7c4c48660a383933549afda7f847797a1806",
+  "window": {
+    "labels": [
+      "part 1",
+      "part 2",
+      "part 3",
+      "part 4",
+      "part 5"
+    ],
+    "chars": 14258
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "ylds.com homepage. Auditor only as an unnamed Big Four firm; yields and market cap masked; Stellar only in a logo strip; 'As of May 2026' belongs to interest payable.",
+  "items": [
+    {
+      "field": "networks",
+      "asset_code": "YLDS",
+      "value_text": "Provenance",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "YLDS is issued through FCC on the Provenance Blockchain, a public, permissionless L1 blockchain built for financial services businesses.",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "nav_per_unit",
+      "asset_code": "YLDS",
+      "value_text": "$0.01",
+      "unit": "USD",
+      "as_of_text": null,
+      "quote": "It maintains a $0.01 NAV and accrues ~% daily to holders",
+      "page": null,
+      "comment": "Kept: YLDS keeps its NAV at $0.01 by design and pays yield as interest, so $0.01 is the current NAV per unit, stated as a NAV. Different from the W2.7 removal of \"$0.01/certificate\" (a face value).",
+      "origin": "reader"
+    },
+    {
+      "field": "token_unit_ratio",
+      "asset_code": "YLDS",
+      "value_text": "1",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "1 YLDS = 1 Certificate = $0.01 NAV (e.g., 100 YLDS = $1.00 NAV)",
+      "page": null,
+      "origin": "reader"
+    }
+  ]
+}

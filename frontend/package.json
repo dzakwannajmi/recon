@@ -12,6 +12,8 @@
     "map:sec": "tsx --env-file-if-exists=.env scripts/map-sec.ts",
     "snapshot:docs": "tsx --env-file-if-exists=.env scripts/snapshot-docs.ts",
     "extract:claims": "tsx --env-file-if-exists=.env scripts/extract-claims.ts",
+    "benchmark": "tsx --env-file-if-exists=.env scripts/benchmark.ts",
+    "benchmark:score": "tsx scripts/benchmark-score.ts",
     "review:queue": "tsx scripts/review-queue.ts",
     "import:review": "tsx scripts/import-review.ts",
     "examine": "tsx --env-file-if-exists=.env scripts/examine.ts",
@@ -19,6 +21,8 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.88",
+    "@ai-sdk/groq": "^4.0.59",
+    "@ai-sdk/openai-compatible": "^3.0.67",
     "@base-ui/react": "^1.8.0",
     "@stellar/stellar-sdk": "^17.2.1",
     "ai": "^7.0.128",

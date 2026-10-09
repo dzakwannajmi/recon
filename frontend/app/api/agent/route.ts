@@ -1,5 +1,5 @@
 import { MODEL, runAgent, type ChatMessage } from "@/agent/agent";
-import { BudgetExceededError, PROVIDER, budgetLeft, hasApiKey } from "@/agent/llm";
+import { BudgetExceededError, PROVIDER, apiKeyEnvName, budgetLeft, hasApiKey } from "@/agent/llm";
 import { tools } from "@/agent/tools";
 import { WalletError } from "@/agent/wallet";
 import { positiveInt } from "@/lib/env";
@@ -44,6 +44,7 @@ export async function GET() {
   return Response.json({
     hasApiKey: hasApiKey(),
     provider: PROVIDER,
+    keyEnv: apiKeyEnvName(PROVIDER),
     model: MODEL,
     budgetLeft: budgetLeft(),
     tools: tools.map((t) => ({ name: t.name, description: t.description })),
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
   if (!hasApiKey()) {
     const error = process.env.VERCEL
       ? "The demo has no LLM key configured yet."
-      : "Add GEMINI_API_KEY to frontend/.env, then restart `npm run dev`.";
+      : `Add ${apiKeyEnvName(PROVIDER) ?? "an API key for LLM_PROVIDER"} to frontend/.env, then restart \`npm run dev\`.`;
     return Response.json({ error }, { status: 500 });
   }
   if (rateLimited(req)) {

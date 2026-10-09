@@ -1,0 +1,31 @@
+{
+  "id": "072b341b345b2842",
+  "doc_key": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+  "source_url": "https://ondo.finance/",
+  "text_sha256": "1763cdee59b81736de664fd64c2faed453404e4fef55de278f099ae93c5b7bcb",
+  "window": {
+    "labels": [
+      "part 1",
+      "part 2",
+      "part 3"
+    ],
+    "chars": 6444
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "Ondo Finance homepage. Only the USDY price is a v1 fact. TVL figures are not net assets; custodian and audit mentions name no party; no networks listed.",
+  "items": [
+    {
+      "field": "nav_per_unit",
+      "asset_code": "USDY",
+      "value_text": "$1.1487",
+      "unit": "USD",
+      "as_of_text": null,
+      "quote": "USDY's Return\nUS Treasury Bill's Return\nPrice\n$1.1487",
+      "page": null,
+      "comment": "Adjudication: quote extended back to the USDY heading so the asset is named (the reader quote fails attribution).",
+      "origin": "reader"
+    }
+  ]
+}

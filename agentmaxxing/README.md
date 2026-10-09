@@ -6,7 +6,7 @@ This folder is for Rise In Agentmaxxing reviewers. It collects what Recon does t
 
 | Checkpoint | Due | What is required | Status | Links |
 | --- | --- | --- | --- | --- |
-| CP1 | 2026-10-09 | Working agent link, repo link, short description, note on what we learned, at least one meaningful commit | In progress | Live demo: https://recon-agent-opal.vercel.app. Repo: [root README](../README.md). Learned note: [progress.md](progress.md#week-1-what-we-learned). Commits: [PRs 1 to 9](progress.md) |
+| CP1 | 2026-10-09 | Working agent link, repo link, short description, note on what we learned, at least one meaningful commit | Submitted 2026-10-08 | Live demo: https://recon-agent-opal.vercel.app. Repo: [root README](../README.md). Learned note: [progress.md](progress.md#week-1-what-we-learned). Commits: [PRs 1 to 9](progress.md) |
 | CP2 | 2026-10-16 | Working version of the agent, repo link, demo or walkthrough | Not started | Walkthrough link to be added |
 | CP3 (final) | 2026-10-23 | Crypto-enabled agent (the agent has a wallet and uses it), repo link, video of the crypto functionality | Not started | Testnet transaction hashes and video link to be added |
 

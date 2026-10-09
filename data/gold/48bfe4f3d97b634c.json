@@ -1,0 +1,94 @@
+{
+  "id": "48bfe4f3d97b634c",
+  "doc_key": "b6e802e66c624445342ff685d18116fd18d31eab600720c0834aa6d960e83ca3|BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+  "source_url": "https://www.bitbondsto.com/files/bitbond-sto-prospectus.pdf",
+  "text_sha256": "d3254bd1783428de497971662835b9632819a41e5650c1d03c0bdb407cfd92da",
+  "window": {
+    "labels": [
+      "page 4",
+      "page 6",
+      "page 10",
+      "page 29",
+      "page 30",
+      "page 38",
+      "page 48",
+      "page 50",
+      "page 54",
+      "page 55",
+      "page 58",
+      "page 59",
+      "page 60",
+      "page 63",
+      "page 70"
+    ],
+    "chars": 23998
+  },
+  "labeled_by": "review-reader (Claude Sonnet 5.5), independent of Gemini output",
+  "checked_by": "orchestrator (Claude Opus 5.5)",
+  "labeled_at": "2026-10-08",
+  "note": "Bitbond Finance GmbH 2018 prospectus window (BB1 on Stellar). No auditor named in the window text (audit reports are images), no units outstanding, NAV or net assets; EUR 1 per token is a nominal value.",
+  "items": [
+    {
+      "field": "max_issuance",
+      "asset_code": "BB1",
+      "value_text": "EUR 100,000,000.00",
+      "unit": "EUR",
+      "as_of_text": null,
+      "quote": "The Issuer issues this series of token-based bonds for a total nominal amount of EUR 100,000,000.00 (in words",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "max_issuance",
+      "asset_code": "BB1",
+      "value_text": "100,000,000",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "As part of a public offering, the Issuer will issue 100,000,000 token-based bonds with a nominal amount of EUR 1",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "networks",
+      "asset_code": "BB1",
+      "value_text": "Stellar",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "BB1-Token are based on the Stellar Blockchain and represent the rights arising from the bond.",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "ISSUER",
+      "value_text": "July 13, 2018",
+      "unit": null,
+      "as_of_text": "July 13, 2018",
+      "quote": "The issuer has prepared an Opening Balance Sheet as of July 13, 2018, pursuant to the principles of the German",
+      "page": null,
+      "origin": "reader"
+    },
+    {
+      "field": "report_date",
+      "asset_code": "ISSUER",
+      "value_text": "October 31, 2018",
+      "unit": null,
+      "as_of_text": "October 31, 2018",
+      "quote": "Total ASSETS 25,000.00 Total LIABILITIES 25,000.00\nInterim balance as of October 31, 2018",
+      "page": null,
+      "comment": "Adjudication: quote replaced with the interim balance-sheet heading, extended back one line to be unique (the reader quote fails the report_date gate).",
+      "origin": "reader"
+    },
+    {
+      "field": "token_unit_ratio",
+      "asset_code": "BB1",
+      "value_text": "equal to the number of bonds issued",
+      "unit": null,
+      "as_of_text": null,
+      "quote": "The Issuer will generate a number of BB1-Tokens equal to the number of bonds issued.",
+      "page": null,
+      "origin": "adjudication",
+      "comment": "Added at adjudication: one token per bond (the reader missed it). The next sentence, \"One BB1-Token corresponds to EUR 1\", is a face value and is not this fact."
+    }
+  ]
+}

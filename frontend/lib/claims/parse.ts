@@ -52,7 +52,9 @@ export function parseNumberToken(token: string, locale: Locale = null): number |
   return normalized === null ? null : Number(normalized);
 }
 
-const CURRENCY_CODES = /^(USD|EUR|GBP|CHF|JPY|MXN|BRL|KRW|SGD|HKD|CAD|AUD|USDC)$/;
+/** ISO-style currency codes (plus USDC) that may sit beside an amount. One list for the unit guard and the code guard. */
+const CURRENCY_CODE_LIST = ["USD", "EUR", "GBP", "CHF", "JPY", "MXN", "BRL", "KRW", "SGD", "HKD", "CAD", "AUD", "USDC"];
+const CURRENCY_CODES = new RegExp(`^(${CURRENCY_CODE_LIST.join("|")})$`);
 
 /** Scale written right after the number, inside the span. Single letters are case-sensitive; words are not. */
 const ATTACHED_SCALE: [RegExp, number][] = [
@@ -83,9 +85,20 @@ export function followsScale(text: string) {
 }
 
 /** Words that may follow a number in an amount span without changing its value. */
-const UNIT_WORD = /^(USD|EUR|GBP|CHF|JPY|MXN|BRL|KRW|SGD|HKD|CAD|AUD|USDC|shares?|tokens?|units?|bonds?|notes?|certificates?|stück|anteile?|schuldverschreibungen|wertpapiere|ounces?|oz|holders?|investors?|of|per|each|je|jeweils)$/i;
+const UNIT_WORD = new RegExp(`^(${CURRENCY_CODE_LIST.join("|")}|shares?|tokens?|units?|bonds?|notes?|certificates?|stück|anteile?|schuldverschreibungen|wertpapiere|ounces?|oz|holders?|investors?|of|per|each|je|jeweils)$`, "i");
 
 const NUMBER = /\d[\d.,  ']*\d|\d/g;
+
+/**
+ * True when a number match is part of an alphanumeric code ("BB1", "USDY2",
+ * ISIN "US0378331005"): its first digit directly follows a letter. The only
+ * exception is a stand-alone currency code right before it ("USD1,000", "EUR5M").
+ */
+function isCodeDigits(text: string, start: number) {
+  const letters = /\p{L}+$/u.exec(text.slice(0, start))?.[0];
+  if (!letters) return false;
+  return !CURRENCY_CODES.test(letters);
+}
 
 /**
  * An amount span such as "$522,773,589.63", "USD 1.2 billion", "€ 3,5 Mio.",
@@ -94,7 +107,7 @@ const NUMBER = /\d[\d.,  ']*\d|\d/g;
  * scale or a currency code.
  */
 export function parseAmount(text: string, locale: Locale = null): number | null {
-  const numbers = [...text.matchAll(NUMBER)];
+  const numbers = [...text.matchAll(NUMBER)].filter((m) => !isCodeDigits(text, m.index!));
   if (numbers.length !== 1) return null;
   const [match] = numbers;
   const start = match.index!;

@@ -71,6 +71,26 @@ describe("parseAmount", () => {
   });
 });
 
+describe("parseAmount: digits inside alphanumeric codes", () => {
+  it("never reads the digits of a code (BB1, USDY2, ISIN) as the amount", () => {
+    for (const text of ["Ein BB1-Token", "1 BB1-Token", "USDY2", "US0378331005", "DE000A3G1234", "xUSD5", "BB1,000"]) {
+      expect(parseAmount(text), text).toBeNull();
+    }
+  });
+
+  it("skips code digits but still reads a separate, unambiguous number", () => {
+    // BB1 is skipped; 2,667,360 is the only number left and "tokens" is a unit word.
+    expect(parseAmount("BB1 supply: 2,667,360 tokens")).toBe(2_667_360);
+    expect(parseAmount("BB1 supply: 2,667,360 tokens", "en")).not.toBe(1);
+  });
+
+  it("treats digits right after a stand-alone currency code as a normal number", () => {
+    expect(parseAmount("USD1,000", "en")).toBe(1000);
+    expect(parseAmount("EUR5M")).toBe(5_000_000);
+    expect(parseAmount("USD 1,000", "en")).toBe(1000);
+  });
+});
+
 describe("parseDate", () => {
   it("reads common English, German, and numeric formats", () => {
     expect(parseDate("August 31, 2026")).toBe("2026-08-31");

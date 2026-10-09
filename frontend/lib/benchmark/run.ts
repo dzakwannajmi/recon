@@ -9,6 +9,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { z } from "zod";
 import { BudgetExceededError, type TokenUsage } from "../../agent/llm";
+import { describeError } from "../llm-errors";
 import { CLAIM_FIELDS, extractionSchema, type ProposedClaim } from "../claims/fields";
 import { EXTRACTION_INSTRUCTIONS, PROMPT_VERSION, buildPrompt } from "../claims/prompt";
 import { MAX_CHARS_PER_DOCUMENT } from "../claims/select";
@@ -20,6 +21,8 @@ export const BENCH_DIR = process.env.BENCHMARK_DIR || path.join(process.cwd(), "
 export type RunRecord = {
   key: string;
   config: string;
+  /** Absent in records written before other providers were added: those are google runs. */
+  provider?: string;
   doc_id: string;
   doc_key: string;
   source_url: string;
@@ -47,37 +50,32 @@ export type Generate = (input: {
   schema: z.ZodType<{ claims: unknown[] }>;
 }) => Promise<{ output: { claims: unknown[] }; usage: TokenUsage; responseModel?: string | null }>;
 
-/** Everything that changes what the model sees or how it is set up, so a changed config never reuses an old run. */
+/**
+ * Everything that changes what the model sees or how it is set up, so a changed config never reuses an old run.
+ * `provider` (when not google) and `maxOutputTokens` (when set) are appended only then, so the keys of the
+ * original google configs stay what they were and their stored runs are not redone.
+ */
 export function runKey(config: BenchConfig, doc: Pick<BenchDoc, "doc_key" | "assets">) {
-  const parts = [
+  const parts: unknown[] = [
     config.name, config.model, config.providerOptions, PROMPT_VERSION, EXTRACTION_INSTRUCTIONS, Object.keys(CLAIM_FIELDS), MAX_CHARS_PER_DOCUMENT, doc.doc_key, doc.assets,
   ];
+  if (config.provider !== "google") parts.push({ provider: config.provider });
+  if (config.maxOutputTokens !== undefined) parts.push({ maxOutputTokens: config.maxOutputTokens });
   return createHash("sha256").update(JSON.stringify(parts)).digest("hex").slice(0, 32);
 }
 
-/** Rate limit, overload, or timeout: worth one retry after a wait. */
+/**
+ * Rate limit, overload, or timeout: worth one retry after a wait. Not 413 (one request larger than the
+ * tokens-per-minute cap: Groq sends it with code `rate_limit_exceeded`, so the status is checked before
+ * the text) and not 402 (no credit): waiting does not help.
+ */
 export function isTransient(err: unknown) {
   if (err instanceof BudgetExceededError) return false;
   const status = (err as { statusCode?: number } | null)?.statusCode;
+  if (status === 413 || status === 402) return false;
   if (status === 429 || status === 503) return true;
   const text = err instanceof Error ? `${err.name} ${err.message}` : String(err);
   return /\b(429|503)\b|rate.?limit|quota|resource.?exhausted|unavailable|overloaded|time.?out|timed out|abort/i.test(text);
-}
-
-/**
- * What is stored for a failed call: the error name plus the HTTP status and a
- * short provider code, never the message (it can echo request details), with
- * the API key redacted if it ever shows up.
- */
-export function describeError(err: unknown) {
-  if (!(err instanceof Error)) return "non-Error thrown";
-  const e = err as Error & { statusCode?: unknown; code?: unknown; data?: { error?: { status?: unknown } } };
-  const short = (v: unknown) => (typeof v === "string" && /^[A-Za-z0-9_.-]{2,40}$/.test(v) ? v : null);
-  const parts = [err.name, typeof e.statusCode === "number" ? `HTTP ${e.statusCode}` : null, short(e.data?.error?.status) ?? short(e.code)].filter(Boolean);
-  let text = parts.join(" ");
-  const key = process.env.GEMINI_API_KEY;
-  if (key) text = text.split(key).join("[redacted]");
-  return text.slice(0, 120);
 }
 
 export const estimateTokens = (doc: BenchDoc, outputTokens: number) => Math.ceil((doc.window_chars + EXTRACTION_INSTRUCTIONS.length) / 3.5) + outputTokens;
@@ -147,7 +145,7 @@ export async function runBenchmark(opts: RunOptions) {
     if (opts.dryRun) continue;
 
     const record: RunRecord = {
-      key, config: config.name, doc_id: doc.id, doc_key: doc.doc_key, source_url: doc.url, text_sha256: doc.text_sha256, model: config.model,
+      key, config: config.name, provider: config.provider, doc_id: doc.id, doc_key: doc.doc_key, source_url: doc.url, text_sha256: doc.text_sha256, model: config.model,
       provider_options: config.providerOptions, prompt_version: PROMPT_VERSION, chunks_sent: doc.chunks.length, chars_sent: doc.window_chars,
       proposals: [], usage: null, latency_ms: null, attempts: 0, error: null, at: now(),
     };

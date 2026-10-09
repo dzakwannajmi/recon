@@ -74,6 +74,8 @@ export type ExtractionRun = {
   tokens: number | null;
   /** Set when the LLM call failed; the run is not retried unless forced. */
   error: string | null;
+  /** Absent in runs stored before other providers were added: those are google runs. */
+  provider?: string;
   model: string;
   prompt_version: string;
   at: string;

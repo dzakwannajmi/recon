@@ -312,11 +312,12 @@ export function score(input: ScoreInput) {
       if (gold) scored.set(r.doc_id, scoreDoc(env, r, gold, goldBlocked.get(r.doc_id) ?? []));
     }
     const distinct = (pick: (r: RunRecord) => unknown) => [...new Set(current.filter((r) => r.error === null).map((r) => JSON.stringify(pick(r))))].map((x) => JSON.parse(x));
+    const providers = distinct((r) => r.provider ?? "google"); // records written before providers existed are google runs
     const models = distinct((r) => r.model);
     const options = distinct((r) => r.provider_options);
     const promptVersions = distinct((r) => r.prompt_version);
-    if (models.length > 1 || options.length > 1 || promptVersions.length > 1) {
-      throw new Error(`Config "${name}" has runs with different models, provider options, or prompt versions; re-run with --force so they agree.`);
+    if (providers.length > 1 || models.length > 1 || options.length > 1 || promptVersions.length > 1) {
+      throw new Error(`Config "${name}" has runs with different models, providers, provider options, or prompt versions; re-run with --force so they agree.`);
     }
     scoredByConfig[name] = scored;
     const docs = [...scored.values()];
@@ -330,6 +331,7 @@ export function score(input: ScoreInput) {
       }
     }
     return {
+      provider: (providers[0] as string | undefined) ?? null,
       model: (models[0] as string | undefined) ?? null,
       provider_options: options[0] ?? null,
       prompt_version: (promptVersions[0] as string | undefined) ?? null,

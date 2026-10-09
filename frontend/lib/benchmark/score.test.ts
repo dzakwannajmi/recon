@@ -253,6 +253,15 @@ describe("score", () => {
     ).toThrow(/different models/);
   });
 
+  it("treats a run record without a provider as google, and reports the provider", () => {
+    const s = score({ docs, gold, expectedKey, reviewedClaims: [], runs: { a: [run("a", "d1", [])], b: [run("b", "d1", [], { provider: "groq" })] } });
+    expect(s.configs.a.provider).toBe("google");
+    expect(s.configs.b.provider).toBe("groq");
+    expect(() =>
+      score({ docs, gold, expectedKey, reviewedClaims: [], runs: { a: [run("a", "d1", []), run("a", "d2", [], { provider: "groq" })] } }),
+    ).toThrow(/different models, providers/);
+  });
+
   it("flags false positives that equal a verifier-blocked gold item, outside the headline numbers", () => {
     const s = score({
       docs, gold, expectedKey, reviewedClaims: [],

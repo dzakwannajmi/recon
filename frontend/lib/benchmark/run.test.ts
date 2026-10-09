@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { BudgetExceededError } from "../../agent/llm";
-import type { BenchConfig } from "./configs";
+import { CONFIGS, type BenchConfig } from "./configs";
 import type { BenchDoc } from "./docs";
-import { describeError, estimateTokens, isTransient, runBenchmark, runKey, type Generate, type RunRecord } from "./run";
+import { estimateTokens, isTransient, runBenchmark, runKey, type Generate, type RunRecord } from "./run";
 
-const config: BenchConfig = { name: "flash", model: "gemini-x", providerOptions: { google: { thinkingConfig: { thinkingLevel: "low" } } } };
+const config: BenchConfig = { name: "flash", provider: "google", model: "gemini-x", providerOptions: { google: { thinkingConfig: { thinkingLevel: "low" } } } };
 
 const doc = (id: string, chars = 3500, chunks = 1): BenchDoc =>
   ({
@@ -39,6 +39,20 @@ function world(generate: Generate) {
 
 describe("runKey", () => {
   const d = doc("a");
+  it("keeps the keys of the google configs as they were before providers existed (stored runs must not re-run)", () => {
+    // Computed with the key function before `provider` and `maxOutputTokens` were added.
+    const fixture = { doc_key: "https://example.com/doc|A:1", assets: [{ code: "AAA", name: "Alpha" }] };
+    const key = (name: string) => runKey(CONFIGS.find((c) => c.name === name)!, fixture);
+    expect(key("flash-lite")).toBe("9d0361f24f21b3e419ca14468755106e");
+    expect(key("flash")).toBe("09a4d88f4ec7e74a9423e411f78d78ee");
+  });
+  it("changes with a non-google provider and with a set output cap, not with an absent one", () => {
+    const base = runKey(config, d);
+    expect(runKey({ ...config, provider: "groq" }, d)).not.toBe(base);
+    expect(runKey({ ...config, provider: "groq" }, d)).not.toBe(runKey({ ...config, provider: "openrouter" }, d));
+    expect(runKey({ ...config, maxOutputTokens: 2048 }, d)).not.toBe(base);
+    expect(runKey({ ...config, maxOutputTokens: undefined }, d)).toBe(base);
+  });
   it("is stable and 32 hex characters", () => {
     expect(runKey(config, d)).toBe(runKey({ ...config }, doc("a")));
     expect(runKey(config, d)).toMatch(/^[0-9a-f]{32}$/);
@@ -59,7 +73,17 @@ describe("isTransient", () => {
     expect(isTransient(new Error("503 Service Unavailable"))).toBe(true);
     expect(isTransient(new Error("The operation timed out"))).toBe(true);
     expect(isTransient(new Error("Invalid JSON response"))).toBe(false);
+    expect(isTransient(Object.assign(new Error("x"), { statusCode: 503 }))).toBe(true);
     expect(isTransient(new BudgetExceededError("Today's LLM budget is used up. Try again tomorrow."))).toBe(false);
+  });
+});
+
+describe("isTransient, not retryable statuses", () => {
+  it("does not retry 413 (request over the per-minute token cap, even when Groq words it as a rate limit) or 402", () => {
+    const tooBig = Object.assign(new Error("Request too large for model: rate_limit_exceeded, tokens per minute (TPM)"), { statusCode: 413, data: { error: { code: "rate_limit_exceeded" } } });
+    expect(isTransient(tooBig)).toBe(false);
+    expect(isTransient(Object.assign(new Error("Insufficient credits"), { statusCode: 402 }))).toBe(false);
+    expect(isTransient(Object.assign(new Error("rate limit"), { statusCode: 429 }))).toBe(true); // a real rate limit still retries
   });
 });
 
@@ -71,7 +95,7 @@ describe("runBenchmark", () => {
     expect(w.saves.map((s) => s.length)).toEqual([1, 2, 3]);
     expect(w.sleeps).toEqual([6000, 6000]); // gap counted from the end of the previous call
     const last = w.saves[2];
-    expect(last[0]).toMatchObject({ config: "flash", doc_id: "a", model: "gemini-x", attempts: 1, error: null, usage, latency_ms: 100, chunks_sent: 1, chars_sent: 3500 });
+    expect(last[0]).toMatchObject({ config: "flash", provider: "google", doc_id: "a", model: "gemini-x", attempts: 1, error: null, usage, latency_ms: 100, chunks_sent: 1, chars_sent: 3500 });
     expect(last[0].key).toBe(runKey(config, doc("a")));
   });
 
@@ -124,6 +148,20 @@ describe("runBenchmark", () => {
     expect(summary.failed).toBe(1);
     expect(w.calls).toHaveLength(2);
     expect(w.saves[0][0]).toMatchObject({ attempts: 2, error: "Error HTTP 503" });
+  });
+
+  it("records the provider, and does not retry a 413 or 402: one call, error kept", async () => {
+    const groq: BenchConfig = { ...config, name: "g", provider: "groq" };
+    for (const [statusCode, text] of [[413, "Error HTTP 413 rate_limit_exceeded"], [402, "Error HTTP 402"]] as const) {
+      const w = world(async () => {
+        throw Object.assign(new Error("Request too large: rate_limit_exceeded"), { statusCode, ...(statusCode === 413 ? { data: { error: { code: "rate_limit_exceeded" } } } : {}) });
+      });
+      const summary = await runBenchmark(w.opts({ config: groq, docs: [doc("a")] }));
+      expect(w.calls).toHaveLength(1);
+      expect(w.sleeps).toEqual([]);
+      expect(summary.failed).toBe(1);
+      expect(w.saves[0][0]).toMatchObject({ provider: "groq", attempts: 1, error: text });
+    }
   });
 
   it("does not retry a non-transient error", async () => {
@@ -191,23 +229,5 @@ describe("runBenchmark", () => {
     expect(summary.failed).toBe(1);
     expect(bad.saves).toHaveLength(0); // nothing overwritten
     expect(logs.some((l) => l.includes("keeping the earlier successful run"))).toBe(true);
-  });
-});
-
-describe("describeError", () => {
-  it("stores the name, HTTP status, and a short provider code, never the message", () => {
-    const err = Object.assign(new Error("secret request detail"), { name: "AI_APICallError", statusCode: 429, data: { error: { status: "RESOURCE_EXHAUSTED" } } });
-    expect(describeError(err)).toBe("AI_APICallError HTTP 429 RESOURCE_EXHAUSTED");
-    expect(describeError(new Error("x"))).toBe("Error");
-    expect(describeError("boom")).toBe("non-Error thrown");
-  });
-
-  it("redacts the API key if it ever appears", () => {
-    process.env.GEMINI_API_KEY = "test-key-123";
-    try {
-      expect(describeError(Object.assign(new Error("x"), { name: "Err-test-key-123" }))).toBe("Err-[redacted]");
-    } finally {
-      delete process.env.GEMINI_API_KEY;
-    }
   });
 });

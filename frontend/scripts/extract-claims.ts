@@ -10,18 +10,20 @@
  * --force     ignore earlier runs (including failed ones) for the same config
  *
  * Batch extraction shares the app's daily token budget; it stops while
- * LLM_APP_RESERVE_TOKENS (default 50,000) would still be left for chat.
+ * LLM_APP_RESERVE_TOKENS (default 50,000) would still be left for chat (only when
+ * LLM_EXTRACT_PROVIDER is the chat provider; other providers have their own quota).
  */
-import { createHash } from "node:crypto";
-import { EXTRACT_MODEL as MODEL, budgetLeft, generateStructured } from "../agent/llm";
+import { EXTRACT_MODEL as MODEL, EXTRACT_PROVIDER, PROVIDER, assertExtractConfig, budgetLeft, generateStructured } from "../agent/llm";
 import { loadUniverse } from "../lib/chain/universe";
 import { SnapshotStore, type SnapshotRecord } from "../lib/documents/store";
 import { positiveInt } from "../lib/env";
+import { describeError } from "../lib/llm-errors";
 import { buildClaims } from "../lib/claims/claim";
 import { createContextFactory } from "../lib/claims/context";
-import { CLAIM_FIELDS, extractionSchema, type ProposedClaim } from "../lib/claims/fields";
+import { extractionConfigKey } from "../lib/claims/config-key";
+import { extractionSchema, type ProposedClaim } from "../lib/claims/fields";
 import { EXTRACTION_INSTRUCTIONS, PROMPT_VERSION, buildPrompt } from "../lib/claims/prompt";
-import { MAX_CHARS_PER_DOCUMENT, selectChunks } from "../lib/claims/select";
+import { selectChunks } from "../lib/claims/select";
 import { ClaimStore, docKey, type ExtractionRun } from "../lib/claims/store";
 import { verifyClaim, type AssetRef, type VerifyContext } from "../lib/claims/verify";
 
@@ -36,13 +38,11 @@ const option = (name: string) => {
   return i === -1 ? undefined : args[i + 1];
 };
 
-/** Everything that changes what the LLM sees, so a changed config never reuses an old run. */
-function configKey(doc: string, assets: AssetRef[]) {
-  const config = JSON.stringify([PROMPT_VERSION, EXTRACTION_INSTRUCTIONS, Object.keys(CLAIM_FIELDS), MAX_CHARS_PER_DOCUMENT, MODEL, doc, assets]);
-  return createHash("sha256").update(config).digest("hex").slice(0, 32);
-}
+/** Tokens kept for the chat app apply only when extraction shares the chat provider's quota. */
+const RESERVE = EXTRACT_PROVIDER === PROVIDER ? APP_RESERVE : 0;
 
 async function main() {
+  assertExtractConfig();
   const dryRun = flag("--dry-run");
   const reverify = flag("--reverify");
   const force = flag("--force");
@@ -106,7 +106,7 @@ async function main() {
     }
     const { ctx, text } = prepared;
     const doc = docKey(record.sha256, record.assets);
-    const key = configKey(doc, ctx.assets);
+    const key = extractionConfigKey({ provider: EXTRACT_PROVIDER, model: MODEL, doc, assets: ctx.assets });
     if (!force && store.hasRun(key)) continue;
 
     const extraTerms = ctx.assets.flatMap((a) => [a.code, a.name ?? ""]);
@@ -119,11 +119,11 @@ async function main() {
     const run: ExtractionRun = {
       key, doc_key: doc, snapshot_sha256: record.sha256, text_sha256: record.text!.sha256, source_url: record.url,
       chunks_sent: selection.chunks.length, chars_sent: selection.chars, proposals: [], verified: 0, dropped: 0, tokens: 0, error: null,
-      model: MODEL, prompt_version: PROMPT_VERSION, at: now,
+      provider: EXTRACT_PROVIDER, model: MODEL, prompt_version: PROMPT_VERSION, at: now,
     };
     if (selection.chunks.length > 0) {
-      if (budgetLeft() - APP_RESERVE < estimate) {
-        console.log(`    stopping: ${budgetLeft()} tokens left today and ${APP_RESERVE} are kept for the app; this document may need ${estimate}`);
+      if (budgetLeft(EXTRACT_PROVIDER) - RESERVE < estimate) {
+        console.log(`    stopping: ${budgetLeft(EXTRACT_PROVIDER)} tokens left today and ${RESERVE} are kept for the app; this document may need ${estimate}`);
         break;
       }
       try {
@@ -136,7 +136,7 @@ async function main() {
         run.proposals = result.output.claims as ProposedClaim[];
         run.tokens = result.tokens;
       } catch (err) {
-        run.error = err instanceof Error ? err.message.slice(0, 200) : String(err);
+        run.error = describeError(err);
         run.tokens = null;
         console.log(`    LLM error (${run.error}); recorded, not retried without --force`);
       }
@@ -152,7 +152,7 @@ async function main() {
     for (const c of store.claims) byField.set(c.field, (byField.get(c.field) ?? 0) + 1);
     const assetsWithClaims = new Set(store.claims.flatMap((c) => (c.asset.startsWith("ISSUER:") ? [] : [c.asset])));
     console.log(`\n${store.claims.length} verified claims stored (${[...byField].map(([f, n]) => `${f} ${n}`).join(", ")}).`);
-    console.log(`${assetsWithClaims.size}/${universe.length} assets have at least one verified asset-level claim. ${budgetLeft()} LLM tokens left today.`);
+    console.log(`${assetsWithClaims.size}/${universe.length} assets have at least one verified asset-level claim. ${budgetLeft(EXTRACT_PROVIDER)} LLM tokens left today.`);
   }
 }
 

@@ -1,5 +1,5 @@
 /**
- * Gemini extraction benchmark (W2.6). Same documents, same extraction window,
+ * Extraction benchmark (W2.6): Gemini, Groq, and OpenRouter configs. Same documents, same extraction window,
  * same prompt and schema as `extract:claims`; the output never touches
  * data/claims/. Scoring is a separate step: `npm run benchmark:score`.
  *
@@ -8,7 +8,7 @@
  *   npm run benchmark -- --config <name> [--doc <id>] [--limit N] [--gap SECONDS] [--force] [--dry-run]
  */
 import path from "node:path";
-import { budgetLeft, generateStructured } from "../agent/llm";
+import { PROVIDER, budgetLeft, generateStructured, hasApiKey } from "../agent/llm";
 import { CONFIGS } from "../lib/benchmark/configs";
 import { OUTPUT_TOKENS, prepareDocs, writeWindows } from "../lib/benchmark/docs";
 import { flashModels, listModels } from "../lib/benchmark/models";
@@ -61,24 +61,29 @@ async function main() {
   const config = CONFIGS.find((c) => c.name === name);
   if (!config) throw new Error(`Pass --config <${CONFIGS.map((c) => c.name).join("|")}>, --windows, or --list-models.`);
   const only = option("--doc");
-  const selected = only ? docs.filter((d) => d.id === only) : docs;
-  if (only && selected.length === 0) throw new Error(`No candidate document has id ${only}.`);
+  if (flag("--doc") && (!only || only.startsWith("--"))) throw new Error("--doc needs an id or prefix.");
+  // --doc takes the full id or a unique prefix (the review queue shows 16 characters).
+  const selected = only ? docs.filter((d) => d.id.startsWith(only)) : docs;
+  if (only && selected.length !== 1) throw new Error(`${selected.length === 0 ? "No candidate document has" : "More than one candidate document starts with"} id ${only}.`);
 
   const file = path.join(BENCH_DIR, "runs", `${config.name}.json`);
   const dry = flag("--dry-run");
-  if (!dry && !process.env.GEMINI_API_KEY) throw new Error("GEMINI_API_KEY is not set (put it in frontend/.env). Nothing was run.");
+  if (!dry && !hasApiKey(config.provider)) throw new Error(`The API key for provider "${config.provider}" is not set (put it in frontend/.env). Nothing was run.`);
+  const outputTokens = config.maxOutputTokens ?? OUTPUT_TOKENS;
   const summary = await runBenchmark({
     config, docs: selected, runs: readRuns(file), force: flag("--force"), limit: Number(option("--limit") ?? Infinity), dryRun: dry,
-    budgetLeft, appReserve: APP_RESERVE, outputTokens: OUTPUT_TOKENS, minGapMs: positiveSeconds(option("--gap") ?? String(DEFAULT_GAP_S)) * 1000, retryWaitMs: RETRY_WAIT_MS,
+    // The chat reserve only applies to the chat provider's quota.
+    budgetLeft: () => budgetLeft(config.provider), appReserve: config.provider === PROVIDER ? APP_RESERVE : 0,
+    outputTokens, minGapMs: positiveSeconds(option("--gap") ?? String(DEFAULT_GAP_S)) * 1000, retryWaitMs: RETRY_WAIT_MS,
     generate: ({ instructions, prompt, schema }) =>
-      generateStructured({ instructions, prompt, schema, maxOutputTokens: OUTPUT_TOKENS, model: config.model, providerOptions: config.providerOptions, maxRetries: 0 }),
+      generateStructured({ instructions, prompt, schema, maxOutputTokens: outputTokens, provider: config.provider, model: config.model, providerOptions: config.providerOptions, maxRetries: 0 }),
     save: (runs) => writeRuns(file, runs),
     log: (line) => console.log(line),
   });
   console.log(
-    `\n${config.name} (${config.model}): ${dry ? "dry run, " : ""}${summary.ran} run, ${summary.skipped} skipped (already done), ${summary.failed} failed` +
+    `\n${config.name} (${config.provider}/${config.model}): ${dry ? "dry run, " : ""}${summary.ran} run, ${summary.skipped} skipped (already done), ${summary.failed} failed` +
       `${summary.stoppedForBudget ? ", stopped for budget" : ""}. ` +
-      `${dry ? `Estimated up to ~${summary.estimatedTokens} tokens (input estimate plus the ${OUTPUT_TOKENS}-token output cap per call; thinking tokens count inside the cap). ` : ""}${budgetLeft()} LLM tokens left today.`,
+      `${dry ? `Estimated up to ~${summary.estimatedTokens} tokens (input estimate plus the ${outputTokens}-token output cap per call; thinking tokens count inside the cap). ` : ""}${budgetLeft(config.provider)} LLM tokens left today.`,
   );
 }
 

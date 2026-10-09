@@ -9,7 +9,7 @@
  */
 import type { AssetFacts } from "../chain/asset";
 import type { AssetFlags } from "../chain/horizon";
-import { chainRef, clear, day, isIsoDay, notEvaluated, raised, type ChecksRow, type Evaluation, type EvidenceRef } from "./types";
+import { chainRef, clear, day, isIsoTime, notEvaluated, raised, type ChecksRow, type Evaluation, type EvidenceRef } from "./types";
 
 /** A change stays raised (WARNING) until this many days after the day it was first seen. */
 export const CHANGE_HOLD_DAYS = 7;
@@ -90,7 +90,7 @@ export type ChangeEvent = { from: ChecksRow; to: ChecksRow; seenAt: string; chan
 
 /** A row the comparison can use: not failed, has the needed facts and a real check time. */
 const usable = (kind: Kind, r: ChecksRow | undefined): r is ChecksRow & { facts: AssetFacts } =>
-  !!r && !r.error && !!r.facts && kind.need(r.facts) && isIsoDay(day(r.facts.checkedAt));
+  !!r && !r.error && !!r.facts && kind.need(r.facts) && isIsoTime(r.facts.checkedAt);
 
 /**
  * The only event computation: every pair of neighbouring usable rows that differs is one
@@ -112,7 +112,7 @@ function decide(kind: Kind, series: ChecksSeries): Evaluation {
   if (!current) return notEvaluated(flag, "No chain check for this asset in the current checks file");
   if (current.error || !current.facts) return notEvaluated(flag, "The current chain check failed or has no on-chain facts");
   if (!kind.need(current.facts)) return notEvaluated(flag, `The current chain check has no ${kind.what}`);
-  if (!isIsoDay(day(current.facts.checkedAt))) return notEvaluated(flag, "The current chain check has no valid check time");
+  if (!isIsoTime(current.facts.checkedAt)) return notEvaluated(flag, "The current chain check has no valid check time");
   const { rows, events } = changeEvents(kind, series);
   if (rows.length < 2) return notEvaluated(flag, "No previous chain check for this asset to compare with");
 

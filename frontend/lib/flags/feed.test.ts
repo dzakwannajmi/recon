@@ -27,8 +27,11 @@ describe("chainCheckedAt (S6)", () => {
     expect(chainCheckedAt(row({ identity: undefined, facts: undefined }))).toBeNull();
   });
 
-  it("ignores a time that is not a real date", () => {
+  it("ignores a time that is not a full ISO time, even when its first 10 characters are a real date", () => {
     expect(chainCheckedAt(row({ identity: identity({ checkedAt: "garbage" }), facts: facts({ checkedAt: "2026-10-08T02:00:00.000Z" }) }))).toBe("2026-10-08T02:00:00.000Z");
+    expect(chainCheckedAt(row({ identity: identity({ checkedAt: "2026-10-08Tjunk" }), facts: facts({ checkedAt: "2026-10-08T02:00:00.000Z" }) }))).toBe("2026-10-08T02:00:00.000Z");
+    expect(chainCheckedAt(row({ identity: identity({ checkedAt: "2026-10-08Tjunk" }), facts: facts({ checkedAt: "2026-10-08Tjunk" }) }))).toBeNull();
+    expect(chainCheckedAt(row({ identity: identity({ checkedAt: "2026-10-08" }), facts: undefined }))).toBeNull();
   });
 });
 

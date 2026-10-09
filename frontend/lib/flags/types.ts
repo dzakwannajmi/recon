@@ -78,6 +78,11 @@ export function isIsoDay(s: string): boolean {
   return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s;
 }
 
+/** A full ISO time in the canonical form `YYYY-MM-DDTHH:mm:ss.sssZ` (what `toISOString` writes); anything looser is rejected. */
+export function isIsoTime(t: unknown): t is string {
+  return typeof t === "string" && Number.isFinite(Date.parse(t)) && new Date(t).toISOString() === t;
+}
+
 export const raised = (
   flag: FlagName, severity: Severity, statement: string, as_of: string, evidence: EvidenceRef[], extra?: Record<string, unknown>,
 ): RaisedEvaluation => ({ flag, outcome: "raised", severity, statement, as_of, evidence, ...(extra ? { extra } : {}) });

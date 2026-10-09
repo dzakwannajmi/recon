@@ -6,7 +6,7 @@ import { sacContractId } from "../chain/asset";
 import type { UniverseAsset } from "../chain/universe";
 import { issuerChangeSeenAt, type ChecksSeries } from "./changes";
 import type { AssetContext, FileFields } from "./status";
-import { day, isIsoDay, type ChecksRow } from "./types";
+import { isIsoTime, type ChecksRow } from "./types";
 
 /**
  * The chain read a status rests on: the later of identity.checkedAt and facts.checkedAt of the row.
@@ -15,7 +15,7 @@ import { day, isIsoDay, type ChecksRow } from "./types";
  */
 export function chainCheckedAt(row: ChecksRow | undefined): string | null {
   if (!row || row.error) return null;
-  const times = [row.identity?.checkedAt, row.facts?.checkedAt].filter((t): t is string => typeof t === "string" && isIsoDay(day(t)));
+  const times = [row.identity?.checkedAt, row.facts?.checkedAt].filter((t): t is string => isIsoTime(t));
   if (times.length === 0) return null;
   return times.reduce((best, t) => (Date.parse(t) > Date.parse(best) ? t : best));
 }

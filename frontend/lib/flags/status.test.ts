@@ -206,6 +206,9 @@ describe("feed fields", () => {
     expect(() => assetStatus(asset, changed, [], { ...CTX, issuer_change_seen_at: null })).toThrow(/issuer_change_seen_at is null/);
     expect(() => assetStatus(asset, evals(), [], { ...CTX, checked_at: null })).toThrow(/needs checked_at/);
     expect(() => assetStatus(asset, evals(), [], { ...CTX, issuer_change_seen_at: "2026-10-08T01:34:19.580Z" })).toThrow(/later than checked_at/);
+    // a time that only looks like a date makes the guard fail closed instead of comparing NaN
+    expect(() => assetStatus(asset, evals(), [], { ...CTX, checked_at: "2026-10-08Tjunk" })).toThrow(/checked_at is not a valid ISO time/);
+    expect(() => assetStatus(asset, evals(), [], { ...CTX, issuer_change_seen_at: "2026-10-08Tjunk" })).toThrow(/issuer_change_seen_at is not a valid ISO time/);
     // an unpublished asset has no such constraints
     const unpublished = evals({ ISSUER_IDENTITY: notEvaluated("ISSUER_IDENTITY", "no check") });
     expect(assetStatus(asset, unpublished, [], { ...CTX, checked_at: null, issuer_change_seen_at: null })).toMatchObject({ status: null, checked_at: null });

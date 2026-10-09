@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { AssetFacts } from "../chain/asset";
 import { CHANGE_HOLD_DAYS, flagFlagChange, flagSignerChange, issuerChangeSeenAt, type ChecksSeries } from "./changes";
 import { facts, identity, row } from "./fixtures";
@@ -86,11 +86,28 @@ describe("flagFlagChange: hold window (S1)", () => {
     expect(flagFlagChange(afterChange("2026-10-16", "2026-11-30")).outcome).toBe("clear");
   });
 
-  it("uses the check time, not the run time: the same checks give the same result whatever the deciders are asked later", () => {
-    const series = afterChange("2026-10-15");
-    expect(flagFlagChange.length).toBe(1);
-    expect(flagFlagChange(series)).toEqual(flagFlagChange(series));
-    expect(flagFlagChange(series).outcome).toBe("raised");
+  it("uses the check time, not the run time: a system clock far in the future changes nothing", () => {
+    const series = afterChange("2026-10-15"); // change seen 2026-10-08, current check 2026-10-15
+    const before = flagFlagChange(series);
+    vi.useFakeTimers();
+    try {
+      vi.setSystemTime(new Date("2027-06-01"));
+      const after = flagFlagChange(series);
+      expect(after.outcome).toBe("raised");
+      expect(after).toEqual(before);
+      expect(flagSignerChange(afterChange("2026-10-15")).outcome).toBe("clear");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("treats a time that is not a full ISO time as unusable", () => {
+    const junk = "2026-10-08Tjunk";
+    expect(flagFlagChange([prev({ flags: OPEN }), cur({ flags: NEXT, checkedAt: junk })])).toMatchObject({ outcome: "not_evaluated", reason: "The current chain check has no valid check time" });
+    // a bad middle row is skipped, like a failed one
+    expect(flagFlagChange([prev({ flags: OPEN }), at("2026-10-07", { flags: NEXT, checkedAt: junk }), cur({ flags: OPEN })]).outcome).toBe("clear");
+    expect(issuerChangeSeenAt([prev({ flags: OPEN }), cur({ flags: NEXT, checkedAt: junk })])).toBeNull();
+    expect(issuerChangeSeenAt([prev({ flags: OPEN }), cur({ flags: NEXT, checkedAt: "2026-10-08" }), at("2026-10-09", { flags: NEXT })])).toBe("2026-10-09T01:00:00.000Z");
   });
 
   it("counts calendar days in UTC, not hours", () => {
@@ -256,10 +273,11 @@ describe("issuerChangeSeenAt (S4)", () => {
         if (e.outcome !== "raised") continue;
         raisedCases++;
         expect(seen).not.toBeNull();
-        // the statement names the day the decider's latest change was seen; the feed's change time is never earlier
-        const seenDay = /and (\d{4}-\d{2}-\d{2}):/.exec(e.statement)?.[1];
-        expect(seenDay).toBeDefined();
-        expect(seen!.slice(0, 10) >= seenDay!).toBe(true);
+        // the decider's change time is the checkedAt of its evidence's second row (the check that first showed the change)
+        const file = e.evidence[1].ref.split("#")[0];
+        const seenRow = series.find((r) => r?.file === file);
+        expect(seenRow?.facts?.checkedAt).toBeDefined();
+        expect(Date.parse(seen!)).toBeGreaterThanOrEqual(Date.parse(seenRow!.facts!.checkedAt));
       }
     }
     expect(raisedCases).toBeGreaterThan(20);

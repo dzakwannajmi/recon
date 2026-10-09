@@ -87,7 +87,7 @@ describe("wording", () => {
       base({ checks: [row({ identity: identity({ status: "domain_mismatch", reason: "The home_domain is not the pinned official domain (as of 2026-10-08)" }) })] }),
       base({ checks: [row({ identity: undefined, facts: undefined, error: "timeout" })] }),
       base({
-        earlierChecks: [[row({ facts: facts({ checkedAt: "2026-10-06T00:00:00Z" }) })]],
+        earlierChecks: [[row({ facts: facts({ checkedAt: "2026-10-06T00:00:00.000Z" }) })]],
         checks: [row({ facts: facts({ flags: { auth_required: true, auth_revocable: true, auth_immutable: false, auth_clawback_enabled: true }, issuerThresholds: { low: 1, medium: 1, high: 1 } }) })],
         examinations: { file: "data/examinations/2026-10-08.json", checks: [check()] },
         snapshots: [toml],

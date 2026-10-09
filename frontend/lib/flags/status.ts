@@ -8,7 +8,7 @@ import { z } from "zod";
 import { sha256Hex } from "../documents/store";
 import type { UniverseAsset } from "../chain/universe";
 import {
-  FEED_SCHEMA, FLAG_BITS, FLAG_ORDER, STATUS_CODES,
+  FEED_SCHEMA, FLAG_BITS, FLAG_ORDER, STATUS_CODES, isIsoTime,
   type ClearEvaluation, type Evaluation, type FlagName, type NotEvaluated, type RaisedEvaluation, type Severity, type StatusName,
 } from "./types";
 
@@ -178,6 +178,8 @@ export function assetStatus(asset: UniverseAsset, evaluations: readonly Evaluati
   // Invariants the feed contract also checks: stop the run here instead of writing a file that can't be published.
   if (status) {
     if (!ctx.checked_at) throw new Error(`${key}: a published status needs checked_at`);
+    if (!isIsoTime(ctx.checked_at)) throw new Error(`${key}: checked_at is not a valid ISO time: ${ctx.checked_at}`);
+    if (ctx.issuer_change_seen_at && !isIsoTime(ctx.issuer_change_seen_at)) throw new Error(`${key}: issuer_change_seen_at is not a valid ISO time: ${ctx.issuer_change_seen_at}`);
     if ((flags_bitmask & CHANGE_MASK) !== 0 && !ctx.issuer_change_seen_at) throw new Error(`${key}: FLAG_CHANGE or SIGNER_CHANGE is raised but issuer_change_seen_at is null`);
     if (ctx.issuer_change_seen_at && Date.parse(ctx.issuer_change_seen_at) > Date.parse(ctx.checked_at)) {
       throw new Error(`${key}: issuer_change_seen_at ${ctx.issuer_change_seen_at} is later than checked_at ${ctx.checked_at}`);

@@ -86,6 +86,17 @@ describe("parseAmount: digits inside alphanumeric codes", () => {
     expect(parseAmount("Q3 USD 5 million")).toBe(5_000_000);
   });
 
+  it("needs a currency before a year-like number once a code was skipped", () => {
+    const years = ["Q3 2026 tokens", "Q3 2026 shares", "Class A1 2027 units", "Tranche A2 2027 tokens", "Q4 2026 USD", "Q3 2026 million", "Series B2 2026 million"];
+    for (const text of years) {
+      for (const locale of [null, "en", "de"] as const) expect(parseAmount(text, locale), `${text} (${locale})`).toBeNull();
+    }
+    expect(parseAmount("Q3 USD 2026")).toBe(2026);
+    expect(parseAmount("BB1 supply: 2,667,360 tokens")).toBe(2_667_360);
+    expect(parseAmount("BB1 1 token")).toBe(1);
+    expect(parseAmount("Year 2026 shares")).toBe(2026); // no code skipped: unchanged from before
+  });
+
   it("requires a currency code to stand alone", () => {
     for (const text of ["BB1USD5", "-USD5", "_USD5", "USD1-Token", "USDC2", "USD5x", "USD1 holders"]) {
       expect(parseAmount(text, "en"), text).toBeNull();

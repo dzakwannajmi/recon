@@ -113,11 +113,15 @@ function isCodeDigits(text: string, start: number, end: number) {
   return /^\s*-?\p{L}/u.test(after) && !ATTACHED_SCALE.some(([re]) => re.test(after)) && spacedScale(after, null) === null;
 }
 
-/** After a code was skipped, the remaining number must itself look like an amount (symbol, currency, scale, or unit). */
-function hasAmountMarker(before: string, after: string, locale: Locale) {
+/**
+ * After a code was skipped, the remaining number must itself look like an amount (symbol, currency, scale, or unit).
+ * A bare year-like integer needs the currency before it: "Q3 2026 tokens" and "Series B2 2026 million" are not amounts.
+ */
+function hasAmountMarker(number: string, before: string, after: string, locale: Locale) {
   if (/[$\u20ac\u00a3]\s*$/.test(before)) return true;
   const cur = /(?:^|[^\p{L}\p{M}])([A-Z]{3,4})\s*$/u.exec(before)?.[1];
   if (cur && CURRENCY_CODES.test(cur)) return true;
+  if (/^(19\d\d|20\d\d|2100)$/.test(number)) return false;
   if (ATTACHED_SCALE.some(([re]) => re.test(after)) || spacedScale(after, locale) !== null) return true;
   const word = /^\s*([\p{L}]+)/u.exec(after)?.[1];
   return !!word && UNIT_WORD.test(word) && !/^(of|per|each|je|jeweils)$/i.test(word);
@@ -142,7 +146,7 @@ export function parseAmount(text: string, locale: Locale = null): number | null 
   if (/^[\u00b2\u00b3\u00b9\u2070-\u2079]/.test(after)) return null; // "10⁶": an exponent or footnote glued to the number
 
   // A code was skipped ("Q3 2026", "Tranche A2 2027"): the leftover number needs an amount marker.
-  if (all.length > numbers.length && !hasAmountMarker(before, after, locale)) return null;
+  if (all.length > numbers.length && !hasAmountMarker(match[0], before, after, locale)) return null;
 
   const base = parseNumberToken(match[0], locale);
   if (base === null) return null;

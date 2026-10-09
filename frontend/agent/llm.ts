@@ -29,7 +29,8 @@ export const EXTRACT_PROVIDER = process.env.LLM_EXTRACT_PROVIDER || PROVIDER;
 /**
  * The W2.6 benchmark pick for batch extraction (O-001, see internal/metrics.md): best precision and
  * recall of the four free-tier configs. Pinned to a version string, not a -latest alias, so the
- * measured model is the one that runs. Thinking level as benchmarked.
+ * measured model is the one that runs. Thinking level as benchmarked. The extraction cache key
+ * holds provider and model only, so a change to the thinking level also needs a PROMPT_VERSION bump.
  */
 const EXTRACT_PICK = { provider: "google", model: "gemini-3.7-flash", providerOptions: { google: { thinkingConfig: { thinkingLevel: "low" } } } };
 /** LLM_EXTRACT_MODEL, else the benchmark pick on google, else the chat model. */

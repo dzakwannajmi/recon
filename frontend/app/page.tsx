@@ -24,6 +24,9 @@ import { cn } from "@/lib/utils";
 
 type Step = { tool: string; args: unknown; result: any; error?: boolean };
 type Message = { role: "user" | "agent"; text: string; steps?: Step[]; error?: boolean };
+/** Display names for the provider ids the status endpoint returns. */
+const PROVIDER_NAMES: Record<string, string> = { google: "Gemini", groq: "Groq", openrouter: "OpenRouter" };
+
 type Status = { hasApiKey: boolean; provider?: string; keyEnv?: string | null; model: string; tools: { name: string; description: string }[] };
 type WalletInfo = { address: string | null; balance?: string };
 
@@ -118,7 +121,7 @@ export default function Home() {
               <SectionTitle num="01" title="Setup" />
             </CardHeader>
             <CardContent className="flex flex-col">
-              <SetupStep number={1} title={`Add your ${status?.provider && status.provider !== "google" ? status.provider : "Gemini"} API key`} done={ready}>
+              <SetupStep number={1} title={`Add your ${PROVIDER_NAMES[status?.provider ?? "google"] ?? status?.provider} API key`} done={ready}>
                 {status && !ready && (
                   <p className="text-muted-foreground">
                     Paste it into <Code>.env</Code> as <Code>{status.keyEnv ?? "GEMINI_API_KEY"}</Code>, then restart <Code>npm run dev</Code>.{" "}

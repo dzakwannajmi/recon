@@ -98,7 +98,9 @@ export default function Home() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Label>
             <img src="/risein-logo.svg" alt="Rise In" className="mr-3 h-5 w-auto" />
-            <span className="text-foreground">/ Agentmaxxing</span>&nbsp;Recon
+            <span className="text-foreground">/ Agentmaxxing</span>&nbsp;
+            <img src="/logo-mark.svg" alt="" className="mx-1 h-5 w-5" />
+            Recon
           </Label>
           {status && <Label>Model: {status.model}</Label>}
         </div>

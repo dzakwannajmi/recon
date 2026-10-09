@@ -11,7 +11,7 @@ import { Networks } from "@stellar/stellar-sdk";
 import { createFeedClient, createRpc, feedRpcUrl } from "../lib/feed/client";
 import { loadDeployment } from "../lib/feed/deployment";
 import { parseStatusFile } from "../lib/feed/encode";
-import { formatVerifyTable, verifyFile } from "../lib/feed/verify";
+import { formatVerifyTable, verifyFile, verifyRoles } from "../lib/feed/verify";
 
 const REPO_ROOT = path.join(process.cwd(), "..");
 const USAGE = "Usage: npm run feed:verify -- --status data/status/YYYY-MM-DD.json";
@@ -28,7 +28,8 @@ async function main() {
   const client = createFeedClient({ rpc: createRpc(feedRpcUrl()), contractId: deployment.contract_id });
   const passphrase = await client.passphrase();
   if (passphrase !== Networks.TESTNET) throw new Error(`The RPC reports a network that is not testnet ("${passphrase}")`);
-  const rows = await verifyFile(file, client);
+  const roles = verifyRoles(await client.readRoles(), deployment, file.feed_schema);
+  const rows = [...roles, ...(await verifyFile(file, client))];
   console.log(formatVerifyTable(rows));
   if (rows.some((r) => !r.ok)) process.exit(1);
 }

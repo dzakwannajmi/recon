@@ -47,7 +47,8 @@ export function contractErrorCode(text: string): number | null {
   return m ? Number(m[1]) : null;
 }
 
-export type FeedErrorKind = "contract" | "simulation" | "rejected" | "failed" | "timeout";
+/** `timeout` and `unknown` mean the transaction may still land: its hash is in `txHash`. */
+export type FeedErrorKind = "contract" | "simulation" | "rejected" | "failed" | "timeout" | "unknown";
 
 /** A failed feed call. `code` and `errorName` are set when the contract itself rejected the call. */
 export class FeedError extends Error {
@@ -56,6 +57,8 @@ export class FeedError extends Error {
     readonly kind: FeedErrorKind,
     readonly code: number | null = null,
     readonly txHash: string | null = null,
+    /** Set when the transaction is confirmed on chain (SUCCESS) even though the call is reported as an error. */
+    readonly ledger: number | null = null,
   ) {
     super(message);
     this.name = "FeedError";

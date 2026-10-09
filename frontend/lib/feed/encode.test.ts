@@ -177,7 +177,7 @@ describe("Entry decoding", () => {
 
 describe("contract error codes", () => {
   it("maps all 17 codes to the names in lib.rs, with the same numbers", () => {
-    const src = fs.readFileSync(path.join(process.cwd(), "..", "contracts", "feed", "src", "lib.rs"), "utf8");
+    const src = fs.readFileSync(path.join(process.cwd(), "..", "contracts", "feed", "src", "errors.rs"), "utf8");
     const body = /pub enum FeedError \{([\s\S]*?)\}/.exec(src)![1];
     const fromRust = Object.fromEntries([...body.matchAll(/(\w+)\s*=\s*(\d+)/g)].map((m) => [Number(m[2]), m[1]]));
     expect(Object.keys(fromRust)).toHaveLength(17);

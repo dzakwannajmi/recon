@@ -3,7 +3,9 @@
  * read every key, then compare version, status, flags, evidence hash, `as_of`, and change time.
  * Read only: simulation, no signing. Node runtime only (golden rule 1).
  */
-import type { FeedClient } from "./client";
+import { FEED_SCHEMA } from "../flags/types";
+import type { Deployment } from "./deployment";
+import type { FeedReader, Roles } from "./reader";
 import { entryMatches, fileFieldsOf, toUpdate, type Entry, type StatusFile, type Update } from "./encode";
 
 export type VerifyRow = {
@@ -20,7 +22,7 @@ export type VerifyRow = {
 const assetCode = (asset: string) => asset.split(":")[0];
 
 /** Entry versus file for each published asset (status not null). Assets with `status: null` are not in the feed. */
-export async function verifyFile(file: StatusFile, client: FeedClient): Promise<VerifyRow[]> {
+export async function verifyFile(file: StatusFile, client: Pick<FeedReader, "readEntries">): Promise<VerifyRow[]> {
   const fields = fileFieldsOf(file);
   const rows: VerifyRow[] = [];
   const expected: { asset: string; update: Update }[] = [];
@@ -44,6 +46,20 @@ export async function verifyFile(file: StatusFile, client: FeedClient): Promise<
     });
   });
   return rows;
+}
+
+/** The contract's roles and schema against deployment.json and this code; any difference is a row that fails. */
+export function verifyRoles(roles: Roles, deployment: Deployment, fileSchema: number): VerifyRow[] {
+  const row = (code: string, onChain: string, expected: string): VerifyRow => ({
+    code, asset: code, status: "-", flags: 0, as_of: "-", ledger: null, ok: onChain === expected,
+    diffs: onChain === expected ? [] : [`${code}() is ${onChain}, expected ${expected}`],
+  });
+  return [
+    row("schema", String(roles.schema), String(FEED_SCHEMA)),
+    row("file_schema", String(fileSchema), String(roles.schema)),
+    row("publisher", roles.publisher, deployment.publisher),
+    row("admin", roles.admin, deployment.admin),
+  ];
 }
 
 /** A compact fixed-width table, one line per asset, then the totals. */

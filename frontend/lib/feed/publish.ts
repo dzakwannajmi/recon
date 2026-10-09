@@ -12,6 +12,7 @@ import { Networks, type Keypair } from "@stellar/stellar-sdk";
 import { sha256Hex } from "../documents/store";
 import { FEED_SCHEMA } from "../flags/types";
 import type { FeedClient } from "./client";
+import { assertTestnetRpcUrl } from "./reader";
 import type { Deployment } from "./deployment";
 import { FeedError, MAX_BATCH, fileFieldsOf, parseStatusFile, toUpdate, checkIntegrity, type Update, type StatusFile } from "./encode";
 import { formatVerifyTable, verifyFile, type VerifyRow } from "./verify";
@@ -45,7 +46,15 @@ export function shellGit(repoRoot: string): Git {
         return false;
       }
     },
-    isModified: (rel) => run(["status", "--porcelain", "--", rel]).trim() !== "",
+    // Modified in the tree or index (porcelain), or the file's content is not what HEAD holds (hash comparison).
+    isModified(rel) {
+      if (run(["status", "--porcelain", "--", rel]).trim() !== "") return true;
+      try {
+        return run(["hash-object", "--", rel]).trim() !== run(["rev-parse", `HEAD:${rel}`]).trim();
+      } catch {
+        return true;
+      }
+    },
     head: () => run(["rev-parse", "HEAD"]).trim(),
   };
 }
@@ -56,21 +65,27 @@ export type LogRecord = {
   network: "testnet";
   contract_id: string;
   tx_hash: string;
-  ledger: number;
+  /** null only when `outcome` is "unknown". */
+  ledger: number | null;
   status_file: string;
   status_sha256: string;
   commit: string;
   assets: LogAsset[];
+  /** Present only on a transaction that was sent but never confirmed: look it up by hash before publishing again. */
+  outcome?: "unknown";
 };
+
+/** The log as a list; a file that is not a JSON array throws. A missing file is an empty log. */
+export function readLogFile(file: string): unknown[] {
+  if (!fs.existsSync(file)) return [];
+  const parsed: unknown = JSON.parse(fs.readFileSync(file, "utf8"));
+  if (!Array.isArray(parsed)) throw new Error("data/feed/log.json must be a JSON array");
+  return parsed;
+}
 
 /** Append one record to the log (a JSON array), writing atomically. */
 export function appendLogFile(file: string, record: LogRecord): void {
-  let list: unknown[] = [];
-  if (fs.existsSync(file)) {
-    const parsed: unknown = JSON.parse(fs.readFileSync(file, "utf8"));
-    if (!Array.isArray(parsed)) throw new Error("data/feed/log.json must be a JSON array");
-    list = parsed;
-  }
+  const list = readLogFile(file);
   list.push(record);
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const tmp = `${file}.${process.pid}.tmp`;
@@ -101,6 +116,8 @@ export type PublishDeps = {
   /** Contents of a repo-relative file. */
   readFile(relPath: string): string;
   appendLog(record: LogRecord): void;
+  /** Throws if the log cannot be read or appended to; called once before the first send. */
+  checkLog(): void;
   now(): Date;
   out(line: string): void;
 };
@@ -112,6 +129,8 @@ export type PublishSummary = {
   skipped: string[];
   unpublished: string[];
   txHashes: string[];
+  /** Transactions that were sent but never confirmed. Look each up before publishing again. */
+  unknownTxHashes: string[];
   failure: FeedError | null;
   verify: VerifyRow[] | null;
   /** True when nothing failed and the final verify (if any) has no mismatch. */
@@ -128,7 +147,12 @@ export async function runPublish(opts: PublishOptions, deps: PublishDeps): Promi
 
   // 1. Network: testnet in the deployment record, an https RPC, and the testnet passphrase.
   if (deployment.network !== "testnet") throw new PreconditionError(1, `deployment.json says network "${String(deployment.network)}"; only testnet is allowed`);
-  if (new URL(deps.rpcUrl).protocol !== "https:") throw new PreconditionError(1, "the RPC URL must use https");
+  try {
+    assertTestnetRpcUrl(deps.rpcUrl);
+  } catch (err) {
+    throw new PreconditionError(1, err instanceof Error ? err.message : String(err));
+  }
+  out(`RPC ${deps.rpcUrl}`);
   const passphrase = await client.passphrase();
   if (passphrase !== Networks.TESTNET) throw new PreconditionError(1, `the RPC reports a network that is not testnet ("${passphrase}")`);
 
@@ -213,7 +237,7 @@ export async function runPublish(opts: PublishOptions, deps: PublishDeps): Promi
 
   out(`${file.assets.length} assets in ${opts.statusPath}: ${toSend.length} to publish, ${skipped.length} already published, ${unpublished.length} unpublished (status null)`);
   const summary: PublishSummary = {
-    dryRun: opts.dryRun, published: [], skipped, unpublished, txHashes: [], failure: null, verify: null, ok: true,
+    dryRun: opts.dryRun, published: [], skipped, unpublished, txHashes: [], unknownTxHashes: [], failure: null, verify: null, ok: true,
   };
 
   // 7. Batches of at most batchSize, one at a time. Stop at the first real failure.
@@ -221,7 +245,23 @@ export async function runPublish(opts: PublishOptions, deps: PublishDeps): Promi
   if (!opts.dryRun && batches.length > 0) {
     const balance = await client.balanceStroops(publisherKey);
     if (balance < MIN_BALANCE_STROOPS) throw new PreconditionError(7, `the publisher has ${balance} stroops; fund it with Friendbot first`);
+    try {
+      deps.checkLog();
+    } catch (err) {
+      throw new PreconditionError(7, `data/feed/log.json is not usable, so nothing was sent: ${err instanceof Error ? err.message : String(err)}`);
+    }
   }
+  /** 8. Log each transaction as soon as it is known, so a later failure never loses it. `ledger` null = sent, outcome unknown. */
+  const logBatch = (batch: typeof updates, txHash: string, ledger: number | null) =>
+    deps.appendLog({
+      at: deps.now().toISOString(), network: "testnet", contract_id: deployment.contract_id, tx_hash: txHash, ledger,
+      status_file: opts.statusPath, status_sha256: sha256Hex(text), commit,
+      assets: batch.map((b) => ({
+        asset: b.asset, sac_contract_id: b.update.asset, status: b.update.status, flags: b.update.flags,
+        evidence_hash: b.update.evidence_hash, as_of: Number(b.update.as_of),
+      })),
+      ...(ledger === null ? { outcome: "unknown" as const } : {}),
+    });
   for (const [n, batch] of batches.entries()) {
     const label = `batch ${n + 1}/${batches.length} (${batch.length} entries)`;
     try {
@@ -234,15 +274,7 @@ export async function runPublish(opts: PublishOptions, deps: PublishDeps): Promi
         out(`${label}: tx ${res.txHash} in ledger ${res.ledger}`);
         summary.published.push(...batch.map((b) => b.asset));
         summary.txHashes.push(res.txHash);
-        // 8. Log each transaction as soon as it is confirmed, so a later failure never loses it.
-        deps.appendLog({
-          at: deps.now().toISOString(), network: "testnet", contract_id: deployment.contract_id, tx_hash: res.txHash, ledger: res.ledger,
-          status_file: opts.statusPath, status_sha256: sha256Hex(text), commit,
-          assets: batch.map((b) => ({
-            asset: b.asset, sac_contract_id: b.update.asset, status: b.update.status, flags: b.update.flags,
-            evidence_hash: b.update.evidence_hash, as_of: Number(b.update.as_of),
-          })),
-        });
+        logBatch(batch, res.txHash, res.ledger);
       }
     } catch (err) {
       if (!(err instanceof FeedError)) throw err;
@@ -250,6 +282,16 @@ export async function runPublish(opts: PublishOptions, deps: PublishDeps): Promi
       summary.ok = false;
       out(`${label}: FAILED ${err.message}${err.txHash ? ` (tx ${err.txHash})` : ""}`);
       if (!opts.dryRun) {
+        if (err.txHash && err.ledger !== null) {
+          // Confirmed on chain although the call reports a problem: record it first.
+          summary.published.push(...batch.map((b) => b.asset));
+          summary.txHashes.push(err.txHash);
+          logBatch(batch, err.txHash, err.ledger);
+        } else if (err.txHash && (err.kind === "timeout" || err.kind === "unknown")) {
+          summary.unknownTxHashes.push(err.txHash);
+          logBatch(batch, err.txHash, null);
+          out(`OUTCOME UNKNOWN for tx ${err.txHash}: look it up on the explorer, and run feed:verify, before publishing again.`);
+        }
         out(`Stopped. Sent so far: ${summary.published.length} entries in ${summary.txHashes.length} transactions.`);
         return summary;
       }

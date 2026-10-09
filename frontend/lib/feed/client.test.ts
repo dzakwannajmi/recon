@@ -1,6 +1,7 @@
 import { Account, Address, Networks, SorobanDataBuilder, nativeToScVal, rpc, xdr, type Transaction } from "@stellar/stellar-sdk";
 import { describe, expect, it } from "vitest";
-import { DEFAULT_RPC_URL, createFeedClient, feedRpcUrl, type FeedRpc } from "./client";
+import { DEFAULT_POLL_TIMEOUT_MS, MAX_FEE_STROOPS, createFeedClient } from "./client";
+import { DEFAULT_RPC_URL, assertTestnetRpcUrl, feedRpcUrl, type FeedRpc } from "./reader";
 import { FeedError, type Entry, type Update } from "./encode";
 import { DEPLOYMENT, PUBLISHER, loadStatus, updatesOf } from "./testkit";
 
@@ -60,11 +61,17 @@ describe("feedRpcUrl", () => {
   it("defaults to the public testnet RPC and can be overridden", () => {
     expect(feedRpcUrl({})).toBe(DEFAULT_RPC_URL);
     expect(DEFAULT_RPC_URL).toBe("https://soroban-testnet.stellar.org");
-    expect(feedRpcUrl({ FEED_RPC_URL: "https://rpc.example.test/x" })).toBe("https://rpc.example.test/x");
+    expect(feedRpcUrl({ FEED_RPC_URL: "https://rpc.example.test/x", FEED_RPC_ALLOW_HOSTS: "rpc.example.test" })).toBe("https://rpc.example.test/x");
     expect(feedRpcUrl({ FEED_RPC_URL: "  " })).toBe(DEFAULT_RPC_URL);
   });
+  it("accepts only allowlisted testnet hosts, case-insensitively", () => {
+    expect(() => assertTestnetRpcUrl("https://SOROBAN-TESTNET.stellar.org/")).not.toThrow();
+    expect(() => assertTestnetRpcUrl("https://mainnet.sorobanrpc.com", {})).toThrow(/not on the testnet allowlist/);
+    expect(() => assertTestnetRpcUrl("https://soroban-testnet.stellar.org.evil.test", {})).toThrow(/allowlist/);
+    expect(() => feedRpcUrl({ FEED_RPC_URL: "https://rpc.example.test/x" })).toThrow(/allowlist/);
+  });
   it("refuses http and garbage", () => {
-    expect(() => feedRpcUrl({ FEED_RPC_URL: "http://localhost:8000" })).toThrow(/https/);
+    expect(() => feedRpcUrl({ FEED_RPC_URL: "http://soroban-testnet.stellar.org" })).toThrow(/https/);
     expect(() => feedRpcUrl({ FEED_RPC_URL: "nope" })).toThrow(/not a valid URL/);
   });
 });
@@ -150,7 +157,8 @@ describe("simulatePublish (dry run)", () => {
 
 describe("publishBatch", () => {
   const updates = updatesOf(loadStatus()).slice(0, 3);
-  const hash = "ab".repeat(32);
+  /** The hash the client computed before sending: it is the one on the transaction the mock received. */
+  const sentHash = (r: Mock) => Buffer.from(r.sent[0].hash()).toString("hex");
 
   it("builds, simulates, assembles, signs with the publisher, sends, and polls until SUCCESS", async () => {
     const r = mockRpc({
@@ -158,7 +166,8 @@ describe("publishBatch", () => {
       get: (_h, poll) => (poll < 3 ? notFound() : ok(3, 4242)),
     });
     const res = await client(r).publishBatch(updates, PUBLISHER);
-    expect(res).toEqual({ txHash: hash, ledger: 4242, written: 3 });
+    expect(res).toEqual({ txHash: sentHash(r), ledger: 4242, written: 3 });
+    expect(sentHash(r)).toMatch(/^[0-9a-f]{64}$/);
     expect(r.polls).toBe(3);
     expect(r.sent).toHaveLength(1);
     const tx = r.sent[0];
@@ -189,7 +198,7 @@ describe("publishBatch", () => {
       simulate: () => success(nativeToScVal(3, { type: "u32" })),
       send: () => ({ status: "ERROR", hash, latestLedger: 1, latestLedgerCloseTime: 1 }) as rpc.Api.SendTransactionResponse,
     });
-    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "rejected", txHash: hash });
+    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "rejected", txHash: sentHash(r) });
   });
 
   it("reports a transaction that failed on chain", async () => {
@@ -197,7 +206,7 @@ describe("publishBatch", () => {
       simulate: () => success(nativeToScVal(3, { type: "u32" })),
       get: () => ({ status: rpc.Api.GetTransactionStatus.FAILED }) as rpc.Api.GetFailedTransactionResponse,
     });
-    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "failed", txHash: hash });
+    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "failed", txHash: sentHash(r), ledger: null });
   });
 
   it("times out when the transaction never appears, naming the hash", async () => {
@@ -205,14 +214,59 @@ describe("publishBatch", () => {
     const r = mockRpc({ simulate: () => success(nativeToScVal(3, { type: "u32" })), get: () => notFound() });
     const err = await client(r, { now: () => clock, sleep: async (ms) => void (clock += ms), pollTimeoutMs: 5000, pollIntervalMs: 1000 })
       .publishBatch(updates, PUBLISHER).catch((e) => e);
-    expect(err).toMatchObject({ kind: "timeout", txHash: hash });
+    expect(err).toMatchObject({ kind: "timeout", txHash: sentHash(r) });
     expect(r.polls).toBeGreaterThan(2);
     expect(r.polls).toBeLessThan(10);
   });
 
-  it("fails if the contract wrote a different number of entries", async () => {
-    const r = mockRpc({ simulate: () => success(nativeToScVal(3, { type: "u32" })), get: () => ok(2) });
-    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "failed" });
+  it("fails if the contract wrote a different number of entries, and says the transaction is on chain", async () => {
+    const r = mockRpc({ simulate: () => success(nativeToScVal(3, { type: "u32" })), get: () => ok(2, 555) });
+    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "failed", txHash: sentHash(r), ledger: 555 });
+  });
+
+  it("a SUCCESS without a return value is still confirmed on chain (hash and ledger on the error)", async () => {
+    const noValue = { status: rpc.Api.GetTransactionStatus.SUCCESS, ledger: 600 } as unknown as rpc.Api.GetSuccessfulTransactionResponse;
+    const r = mockRpc({ simulate: () => success(nativeToScVal(3, { type: "u32" })), get: () => noValue });
+    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "failed", txHash: sentHash(r), ledger: 600 });
+  });
+
+  it("keeps the hash when sendTransaction itself throws (the transaction may have been accepted)", async () => {
+    const r = mockRpc({ simulate: () => success(nativeToScVal(3, { type: "u32" })) });
+    r.sendTransaction = async (tx) => { r.sent.push(tx); throw new Error("socket hang up"); };
+    const err = await client(r).publishBatch(updates, PUBLISHER).catch((e) => e);
+    expect(err).toBeInstanceOf(FeedError);
+    expect(err).toMatchObject({ kind: "unknown", txHash: sentHash(r), ledger: null });
+    expect(err.message).toContain("socket hang up");
+  });
+
+  it("keeps polling through transient getTransaction errors and succeeds", async () => {
+    const r = mockRpc({
+      simulate: () => success(nativeToScVal(3, { type: "u32" })),
+      get: (_h, poll) => { if (poll < 3) throw new Error("503 Service Unavailable"); return ok(3, 9); },
+    });
+    expect(await client(r).publishBatch(updates, PUBLISHER)).toMatchObject({ ledger: 9, written: 3 });
+    expect(r.polls).toBe(3);
+  });
+
+  it("times out with the hash and the last RPC error when getTransaction keeps failing", async () => {
+    let clock = 0;
+    const r = mockRpc({ simulate: () => success(nativeToScVal(3, { type: "u32" })), get: () => { throw new Error("connection reset"); } });
+    const err = await client(r, { now: () => clock, sleep: async (ms) => void (clock += ms), pollTimeoutMs: 3000, pollIntervalMs: 1000 })
+      .publishBatch(updates, PUBLISHER).catch((e) => e);
+    expect(err).toMatchObject({ kind: "timeout", txHash: sentHash(r) });
+    expect(err.message).toContain("connection reset");
+  });
+
+  it("waits at least the transaction's validity plus 15 s by default", () => {
+    expect(DEFAULT_POLL_TIMEOUT_MS).toBeGreaterThanOrEqual(120 * 1000 + 15_000);
+  });
+
+  it("refuses to sign a transaction whose fee is above the cap", async () => {
+    const r = mockRpc({ simulate: () => ({ ...success(nativeToScVal(3, { type: "u32" })), minResourceFee: String(MAX_FEE_STROOPS + 1n) }) });
+    const err = await client(r).publishBatch(updates, PUBLISHER).catch((e) => e);
+    expect(err).toBeInstanceOf(FeedError);
+    expect(err.message).toMatch(/above the cap/);
+    expect(r.sent).toHaveLength(0);
   });
 });
 

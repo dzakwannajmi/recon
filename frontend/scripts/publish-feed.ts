@@ -14,7 +14,7 @@ import { getAgentKeypair } from "../agent/wallet";
 import { createFeedClient, createRpc, feedRpcUrl } from "../lib/feed/client";
 import { LOG_FILE, loadDeployment } from "../lib/feed/deployment";
 import { MAX_BATCH } from "../lib/feed/encode";
-import { PreconditionError, appendLogFile, runPublish, shellGit } from "../lib/feed/publish";
+import { PreconditionError, appendLogFile, readLogFile, runPublish, shellGit } from "../lib/feed/publish";
 
 const REPO_ROOT = path.join(process.cwd(), "..");
 const USAGE = `Usage: npm run feed:publish -- --status data/status/YYYY-MM-DD.json [--dry-run] [--batch-size N]
@@ -61,6 +61,7 @@ async function main() {
     git: shellGit(REPO_ROOT),
     readFile: (rel) => fs.readFileSync(path.join(REPO_ROOT, rel), "utf8"),
     appendLog: (record) => appendLogFile(LOG_FILE, record),
+    checkLog: () => void readLogFile(LOG_FILE),
     now: () => new Date(),
     out: (line) => console.log(line),
   });

@@ -10,6 +10,10 @@ describe("deployment.json", () => {
     expect(parseDeployment(DEPLOYMENT)).toEqual(DEPLOYMENT);
   });
 
+  it("accepts the committed data/feed/deployment.json", () => {
+    expect(loadDeployment()).toMatchObject({ network: "testnet", contract_id: "CA7EM3I32XOCWMXA2U5TQWWBCQ32N4ARTRQWUQPDYFPFQZDL4D5MVYIO", sdk: "29.0.0" });
+  });
+
   it("refuses any network but testnet", () => {
     expect(() => parseDeployment({ ...DEPLOYMENT, network: "mainnet" })).toThrow(/network/);
     expect(() => parseDeployment({ ...DEPLOYMENT, network: "public" })).toThrow(/network/);

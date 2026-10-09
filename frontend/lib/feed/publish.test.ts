@@ -8,7 +8,7 @@ import { sha256Hex } from "../documents/store";
 import { FeedError, fileFieldsOf, parseStatusFile } from "./encode";
 import { PreconditionError, appendLogFile, chunk, runPublish, shellGit, type PublishDeps, type PublishOptions, type LogRecord } from "./publish";
 import { DEPLOYMENT, OTHER, PUBLISHER, STATUS_REL, collect, fakeFeed, fakeGit, loadStatus, loadStatusJson, loadStatusText, logs, updatesOf, withUnpublished } from "./testkit";
-import { formatVerifyTable, verifyFile } from "./verify";
+import { formatVerifyTable, verifyFile, verifyRoles } from "./verify";
 
 const FIXED_NOW = new Date("2026-10-10T09:00:00.000Z");
 const OPTS: PublishOptions = { statusPath: STATUS_REL, dryRun: false, batchSize: 25 };
@@ -20,7 +20,7 @@ function setup(over: Partial<PublishDeps> = {}, text: string = loadStatusText())
   const { records, appendLog } = logs();
   const deps: PublishDeps = {
     deployment: DEPLOYMENT, rpcUrl: "https://soroban-testnet.stellar.org", client: feed, keypair: PUBLISHER, git: fakeGit(),
-    readFile: () => text, appendLog, now: () => FIXED_NOW, out, ...over,
+    readFile: () => text, appendLog, checkLog: () => {}, now: () => FIXED_NOW, out, ...over,
   };
   return { feed, deps, lines, records };
 }
@@ -102,6 +102,15 @@ describe("precondition 1: network", () => {
     expect(err).toMatchObject({ precondition: 1 });
     expect(err.message).toMatch(/not testnet/);
     expect(feed.calls.publishBatch).toHaveLength(0);
+  });
+
+  it("refuses an RPC host that is not on the testnet allowlist, and prints the RPC URL it uses", async () => {
+    const bad = setup({ rpcUrl: "https://mainnet.sorobanrpc.com" });
+    expect(await refusal(OPTS, bad.deps)).toMatchObject({ precondition: 1 });
+    expect(bad.feed.calls.publishBatch).toHaveLength(0);
+    const good = setup();
+    await runPublish(OPTS, good.deps);
+    expect(good.lines).toContain("RPC https://soroban-testnet.stellar.org");
   });
 
   it("refuses a deployment record that is not testnet, and a non-https RPC URL", async () => {
@@ -315,6 +324,66 @@ describe("precondition 7: batches", () => {
     expect(lines.join("\n")).toContain("Stopped. Sent so far: 10 entries in 1 transactions.");
   });
 
+  it("logs a transaction whose outcome is unknown, with its hash, and stops", async () => {
+    const hash = "cd".repeat(32);
+    const { feed, deps, records, lines } = setup();
+    feed.failBatch = { n: 2, error: new FeedError("timed out", "timeout", null, hash) };
+    const summary = await runPublish({ ...OPTS, batchSize: 10 }, deps);
+    expect(feed.calls.publishBatch).toHaveLength(2);
+    expect(summary.unknownTxHashes).toEqual([hash]);
+    expect(summary.published).toHaveLength(10); // the unknown batch is not counted as published
+    expect(records).toHaveLength(2);
+    expect(records[0]).not.toHaveProperty("outcome");
+    expect(records[1]).toMatchObject({ tx_hash: hash, ledger: null, outcome: "unknown", status_file: STATUS_REL });
+    expect(records[1].assets).toHaveLength(10);
+    expect(lines.join("\n")).toContain(`OUTCOME UNKNOWN for tx ${hash}`);
+    expect(summary.ok).toBe(false);
+  });
+
+  it("logs a send error that carries a hash the same way", async () => {
+    const hash = "ef".repeat(32);
+    const { feed, deps, records } = setup();
+    feed.failBatch = { n: 1, error: new FeedError("send failed", "unknown", null, hash) };
+    await runPublish(OPTS, deps);
+    expect(records).toEqual([expect.objectContaining({ tx_hash: hash, ledger: null, outcome: "unknown" })]);
+  });
+
+  it("logs a transaction that is confirmed on chain even though the call reports a problem", async () => {
+    const hash = "12".repeat(32);
+    const { feed, deps, records, lines } = setup();
+    feed.failBatch = { n: 1, error: new FeedError("odd return value", "failed", null, hash, 777) };
+    const summary = await runPublish({ ...OPTS, batchSize: 10 }, deps);
+    expect(feed.calls.publishBatch).toHaveLength(1); // stopped
+    expect(records).toHaveLength(1);
+    expect(records[0]).toMatchObject({ tx_hash: hash, ledger: 777 });
+    expect(records[0]).not.toHaveProperty("outcome");
+    expect(summary.txHashes).toEqual([hash]);
+    expect(summary.published).toHaveLength(10);
+    expect(lines.join("\n")).toContain("Stopped.");
+  });
+
+  it("does not log a transaction that was rejected or failed (no state change)", async () => {
+    const { feed, deps, records } = setup();
+    feed.failBatch = { n: 1, error: new FeedError("failed on chain", "failed", null, "34".repeat(32)) };
+    await runPublish(OPTS, deps);
+    expect(records).toHaveLength(0);
+  });
+
+  it("checks the log once before the first send and refuses if it is unusable", async () => {
+    let checks = 0;
+    const ok = setup({ checkLog: () => void checks++ });
+    await runPublish(OPTS, ok.deps);
+    expect(checks).toBe(1);
+    const bad = setup({ checkLog: () => { throw new Error("data/feed/log.json must be a JSON array"); } });
+    const err = await refusal(OPTS, bad.deps);
+    expect(err).toMatchObject({ precondition: 7 });
+    expect(err.message).toMatch(/nothing was sent/);
+    expect(bad.feed.calls.publishBatch).toHaveLength(0);
+    let dryChecks = 0;
+    await runPublish({ ...OPTS, dryRun: true }, setup({ checkLog: () => void dryChecks++ }).deps);
+    expect(dryChecks).toBe(0);
+  });
+
   it("refuses a real run when the publisher has no XLM, before sending", async () => {
     const { feed, deps } = setup();
     feed.balance = 1n;
@@ -383,6 +452,14 @@ describe("verify", () => {
     expect(rows.find((r) => !r.ok)!.diffs[0]).toMatch(/recomputed hash/);
   });
 
+  it("roles: schema, publisher and admin must match deployment.json and the file", () => {
+    const roles = { admin: DEPLOYMENT.admin, publisher: DEPLOYMENT.publisher, schema: 1 };
+    expect(verifyRoles(roles, DEPLOYMENT, 1).every((r) => r.ok)).toBe(true);
+    const bad = verifyRoles({ ...roles, publisher: OTHER.publicKey(), schema: 2 }, DEPLOYMENT, 1);
+    expect(bad.filter((r) => !r.ok).map((r) => r.code).sort()).toEqual(["file_schema", "publisher", "schema"]);
+    expect(formatVerifyTable(bad)).toContain("publisher() is");
+  });
+
   it("leaves unpublished assets out", async () => {
     const feed = fakeFeed();
     const file = parseStatusFile(withUnpublished(loadStatusJson(), "GOLD"));
@@ -435,5 +512,21 @@ describe("shellGit", () => {
     fs.appendFileSync(path.join(dir, "data/status/2026-10-08.json"), "\n");
     expect(sg.isModified("data/status/2026-10-08.json")).toBe(true);
     expect(sg.head()).toMatch(/^[0-9a-f]{40}$/);
+  });
+
+  it("catches a changed file that git status hides (assume-unchanged), by comparing hashes with HEAD", () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "feedgit-"));
+    dirs.push(dir);
+    const git = (...args: string[]) => execFileSync("git", ["-C", dir, "-c", "user.name=t", "-c", "user.email=t@example.test", ...args], { stdio: "pipe" });
+    git("init", "-q");
+    fs.mkdirSync(path.join(dir, "data", "status"), { recursive: true });
+    const rel = "data/status/2026-10-08.json";
+    fs.writeFileSync(path.join(dir, rel), "{}\n");
+    git("add", rel);
+    git("commit", "-q", "-m", "x");
+    git("update-index", "--assume-unchanged", rel);
+    fs.writeFileSync(path.join(dir, rel), '{"edited":true}\n');
+    expect(execFileSync("git", ["-C", dir, "status", "--porcelain", "--", rel], { encoding: "utf8" }).trim()).toBe(""); // git status is fooled
+    expect(shellGit(dir).isModified(rel)).toBe(true);
   });
 });

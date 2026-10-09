@@ -54,8 +54,11 @@ const ok = (n: number, ledger = 777): rpc.Api.GetSuccessfulTransactionResponse =
   ({ status: rpc.Api.GetTransactionStatus.SUCCESS, ledger, returnValue: nativeToScVal(n, { type: "u32" }) }) as unknown as rpc.Api.GetSuccessfulTransactionResponse;
 const notFound = (): rpc.Api.GetMissingTransactionResponse => ({ status: rpc.Api.GetTransactionStatus.NOT_FOUND }) as rpc.Api.GetMissingTransactionResponse;
 
-const client = (r: FeedRpc, extra: Partial<Parameters<typeof createFeedClient>[0]> = {}) =>
-  createFeedClient({ rpc: r, contractId: DEPLOYMENT.contract_id, sleep: async () => {}, pollIntervalMs: 1, ...extra });
+/** A fake clock that only `sleep` advances, so a polling loop that never ends fails fast instead of waiting for real time. */
+const client = (r: FeedRpc, extra: Partial<Parameters<typeof createFeedClient>[0]> = {}) => {
+  let clock = 0;
+  return createFeedClient({ rpc: r, contractId: DEPLOYMENT.contract_id, now: () => clock, sleep: async (ms) => void (clock += ms), pollIntervalMs: 1000, ...extra });
+};
 
 describe("feedRpcUrl", () => {
   it("defaults to the public testnet RPC and can be overridden", () => {
@@ -196,9 +199,10 @@ describe("publishBatch", () => {
   it("reports a refused send", async () => {
     const r = mockRpc({
       simulate: () => success(nativeToScVal(3, { type: "u32" })),
-      send: () => ({ status: "ERROR", hash, latestLedger: 1, latestLedgerCloseTime: 1 }) as rpc.Api.SendTransactionResponse,
+      send: () => ({ status: "ERROR", hash: "ab".repeat(32), latestLedger: 1, latestLedgerCloseTime: 1 }) as rpc.Api.SendTransactionResponse,
     });
-    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "rejected", txHash: sentHash(r) });
+    const err = await client(r).publishBatch(updates, PUBLISHER).catch((e) => e);
+    expect(err).toMatchObject({ kind: "rejected", txHash: sentHash(r) });
   });
 
   it("reports a transaction that failed on chain", async () => {
@@ -206,7 +210,8 @@ describe("publishBatch", () => {
       simulate: () => success(nativeToScVal(3, { type: "u32" })),
       get: () => ({ status: rpc.Api.GetTransactionStatus.FAILED }) as rpc.Api.GetFailedTransactionResponse,
     });
-    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "failed", txHash: sentHash(r), ledger: null });
+    const err = await client(r).publishBatch(updates, PUBLISHER).catch((e) => e);
+    expect(err).toMatchObject({ kind: "failed", txHash: sentHash(r), ledger: null });
   });
 
   it("times out when the transaction never appears, naming the hash", async () => {
@@ -221,13 +226,15 @@ describe("publishBatch", () => {
 
   it("fails if the contract wrote a different number of entries, and says the transaction is on chain", async () => {
     const r = mockRpc({ simulate: () => success(nativeToScVal(3, { type: "u32" })), get: () => ok(2, 555) });
-    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "failed", txHash: sentHash(r), ledger: 555 });
+    const err = await client(r).publishBatch(updates, PUBLISHER).catch((e) => e);
+    expect(err).toMatchObject({ kind: "failed", txHash: sentHash(r), ledger: 555 });
   });
 
   it("a SUCCESS without a return value is still confirmed on chain (hash and ledger on the error)", async () => {
     const noValue = { status: rpc.Api.GetTransactionStatus.SUCCESS, ledger: 600 } as unknown as rpc.Api.GetSuccessfulTransactionResponse;
     const r = mockRpc({ simulate: () => success(nativeToScVal(3, { type: "u32" })), get: () => noValue });
-    await expect(client(r).publishBatch(updates, PUBLISHER)).rejects.toMatchObject({ kind: "failed", txHash: sentHash(r), ledger: 600 });
+    const err = await client(r).publishBatch(updates, PUBLISHER).catch((e) => e);
+    expect(err).toMatchObject({ kind: "failed", txHash: sentHash(r), ledger: 600 });
   });
 
   it("keeps the hash when sendTransaction itself throws (the transaction may have been accepted)", async () => {
@@ -262,7 +269,8 @@ describe("publishBatch", () => {
   });
 
   it("refuses to sign a transaction whose fee is above the cap", async () => {
-    const r = mockRpc({ simulate: () => ({ ...success(nativeToScVal(3, { type: "u32" })), minResourceFee: String(MAX_FEE_STROOPS + 1n) }) });
+    const expensive = { ...success(nativeToScVal(3, { type: "u32" })), transactionData: new SorobanDataBuilder().setResourceFee(MAX_FEE_STROOPS + 1n) };
+    const r = mockRpc({ simulate: () => expensive });
     const err = await client(r).publishBatch(updates, PUBLISHER).catch((e) => e);
     expect(err).toBeInstanceOf(FeedError);
     expect(err.message).toMatch(/above the cap/);

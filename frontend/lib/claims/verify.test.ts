@@ -84,6 +84,24 @@ describe("verifyClaim", () => {
     expect(r.ok && r.result.value).toBe(1_200_000_000);
   });
 
+  it("drops an amount whose value span is only a code with digits (BB1-Token)", () => {
+    const line = "Ein BB1-Token entspricht einem Anteil am Fonds.";
+    const c = ctx({ text: line, normalized: normalizeForMatch(line), locale: "de" });
+    expect(verifyClaim(claim({ field: "token_unit_ratio", quote: line, value_text: "BB1-Token", unit: null, as_of_text: null }), c)).toEqual({
+      ok: false,
+      reason: "value_unparseable",
+    });
+  });
+
+  it("drops a period label (Q3 2026) offered as a token ratio", () => {
+    const line = "Each BENJI token launches in Q3 2026 on Stellar.";
+    const c = ctx({ text: line, normalized: normalizeForMatch(line) });
+    expect(verifyClaim(claim({ field: "token_unit_ratio", quote: line, value_text: "Q3 2026", unit: null, as_of_text: null }), c)).toEqual({
+      ok: false,
+      reason: "value_unparseable",
+    });
+  });
+
   it("refuses quotes that do not read like the field", () => {
     const quote = "As of August 31, 2026, the Fund's net assets were $522,773,589.63.";
     expect(verifyClaim(claim({ quote, field: "custodian", value_text: "Fund", as_of_text: null }), ctx())).toEqual({ ok: false, reason: "field_gate" });

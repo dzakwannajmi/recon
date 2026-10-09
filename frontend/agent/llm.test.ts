@@ -67,6 +67,18 @@ describe("providers and keys", () => {
     expect((await load({ LLM_PROVIDER: "groq", LLM_EXTRACT_PROVIDER: "openrouter" })).EXTRACT_PROVIDER).toBe("openrouter");
   });
 
+  it("EXTRACT_MODEL defaults to the W2.6 pick on google, with its thinking level only while that model is in use", async () => {
+    const pick = await load({ LLM_MODEL: "gemini-flash-lite-latest", LLM_EXTRACT_MODEL: "" });
+    expect(pick.EXTRACT_MODEL).toBe("gemini-3.7-flash");
+    expect(pick.EXTRACT_PROVIDER_OPTIONS).toEqual({ google: { thinkingConfig: { thinkingLevel: "low" } } });
+    const override = await load({ LLM_EXTRACT_MODEL: "gemini-flash-lite-latest" });
+    expect(override.EXTRACT_MODEL).toBe("gemini-flash-lite-latest");
+    expect(override.EXTRACT_PROVIDER_OPTIONS).toBeUndefined();
+    const groq = await load({ LLM_PROVIDER: "groq", LLM_MODEL: "openai/gpt-oss-120b", LLM_EXTRACT_MODEL: "" });
+    expect(groq.EXTRACT_MODEL).toBe("openai/gpt-oss-120b");
+    expect(groq.EXTRACT_PROVIDER_OPTIONS).toBeUndefined();
+  });
+
   it("assertExtractConfig throws when extraction is on another provider without LLM_EXTRACT_MODEL", async () => {
     await expect(load({ LLM_PROVIDER: "google", LLM_EXTRACT_PROVIDER: "groq", LLM_EXTRACT_MODEL: "" }).then((l) => l.assertExtractConfig())).rejects.toThrow(/LLM_EXTRACT_MODEL must be set/);
     await expect(load({ LLM_PROVIDER: "google", LLM_EXTRACT_PROVIDER: "groq", LLM_EXTRACT_MODEL: "openai/gpt-oss-120b" }).then((l) => l.assertExtractConfig())).resolves.toBeUndefined();

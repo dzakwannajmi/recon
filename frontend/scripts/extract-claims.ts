@@ -13,7 +13,7 @@
  * LLM_APP_RESERVE_TOKENS (default 50,000) would still be left for chat (only when
  * LLM_EXTRACT_PROVIDER is the chat provider; other providers have their own quota).
  */
-import { EXTRACT_MODEL as MODEL, EXTRACT_PROVIDER, PROVIDER, assertExtractConfig, budgetLeft, generateStructured } from "../agent/llm";
+import { EXTRACT_MODEL as MODEL, EXTRACT_PROVIDER, EXTRACT_PROVIDER_OPTIONS, PROVIDER, assertExtractConfig, budgetLeft, generateStructured } from "../agent/llm";
 import { loadUniverse } from "../lib/chain/universe";
 import { SnapshotStore, type SnapshotRecord } from "../lib/documents/store";
 import { positiveInt } from "../lib/env";
@@ -132,6 +132,7 @@ async function main() {
           prompt: buildPrompt({ url: record.url, kind: record.text!.kind, assets: ctx.assets, chunks: selection.chunks }),
           schema: extractionSchema(ctx.assets.map((a) => a.code) as [string, ...string[]]),
           maxOutputTokens: OUTPUT_TOKENS,
+          providerOptions: EXTRACT_PROVIDER_OPTIONS,
         });
         run.proposals = result.output.claims as ProposedClaim[];
         run.tokens = result.tokens;

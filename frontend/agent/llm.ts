@@ -26,8 +26,17 @@ export const PROVIDER = process.env.LLM_PROVIDER || "google";
 export const MODEL = process.env.LLM_MODEL || "gemini-flash-latest";
 /** Batch extraction can use a different provider (the W2.6 benchmark compares google, groq, and openrouter). */
 export const EXTRACT_PROVIDER = process.env.LLM_EXTRACT_PROVIDER || PROVIDER;
-/** Batch extraction can use a different (e.g. faster) model; the W2.6 benchmark picks the final one. */
-export const EXTRACT_MODEL = process.env.LLM_EXTRACT_MODEL || MODEL;
+/**
+ * The W2.6 benchmark pick for batch extraction (O-001, see internal/metrics.md): best precision and
+ * recall of the four free-tier configs. Pinned to a version string, not a -latest alias, so the
+ * measured model is the one that runs. Thinking level as benchmarked.
+ */
+const EXTRACT_PICK = { provider: "google", model: "gemini-3.7-flash", providerOptions: { google: { thinkingConfig: { thinkingLevel: "low" } } } };
+/** LLM_EXTRACT_MODEL, else the benchmark pick on google, else the chat model. */
+export const EXTRACT_MODEL = process.env.LLM_EXTRACT_MODEL || (EXTRACT_PROVIDER === EXTRACT_PICK.provider ? EXTRACT_PICK.model : MODEL);
+/** The benchmarked provider options, only while the pinned model is the one in use. */
+export const EXTRACT_PROVIDER_OPTIONS: ProviderOptions | undefined =
+  EXTRACT_PROVIDER === EXTRACT_PICK.provider && EXTRACT_MODEL === EXTRACT_PICK.model ? EXTRACT_PICK.providerOptions : undefined;
 
 const DAILY_TOKEN_BUDGET = positiveInt("LLM_DAILY_TOKEN_BUDGET", 200_000);
 const MAX_OUTPUT_TOKENS = positiveInt("LLM_MAX_OUTPUT_TOKENS", 1024);

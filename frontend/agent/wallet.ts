@@ -47,6 +47,14 @@ function requireKeypair() {
   return keypair;
 }
 
+/**
+ * The signing keypair, for the feed publisher script only (`scripts/publish-feed.ts`, testnet).
+ * Nothing under `agent/` or `app/` may call this (a test enforces it). The caller must never print it.
+ */
+export function getAgentKeypair(): Keypair | null {
+  return loadKeypair();
+}
+
 export function getWalletAddress() {
   return loadKeypair()?.publicKey() ?? null;
 }

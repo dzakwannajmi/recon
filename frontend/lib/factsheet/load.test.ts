@@ -43,6 +43,28 @@ describe("loadStatus", () => {
     expect(loaded.status.assets).toHaveLength(1);
     expect(loaded.status.assets[0].asset_code).toBe("ABC");
   });
+  it("accepts the old shape (flags-v1: no feed fields, no checks_history) and the new shape (S9)", () => {
+    const old = loadStatus(write("old-shape", valid)).status;
+    expect(old.assets[0].sac_contract_id).toBeUndefined();
+    expect(old.feed_schema).toBeUndefined();
+    expect(old.inputs.checks_history).toBeUndefined();
+
+    const history = [
+      { path: "data/checks/2026-10-06.json", sha256: "b", checked_at: "2026-10-06T09:00:00.000Z" },
+      { path: "data/checks/2026-10-08.json", sha256: "a", checked_at: "2026-10-08T01:34:10.993Z" },
+    ];
+    const next = {
+      ...valid, feed_schema: 1, rules_version: "flags-v2",
+      inputs: { ...valid.inputs, previous_checks: history[0], checks_history: history },
+      assets: [{ ...asset, sac_contract_id: "CBLV4ATSIWU67CFSQU2NVRKINQIKUZ2ODSZBUJTJ43VJVRSBTZYOPNUR", checked_at: "2026-10-08T01:34:19.579Z", issuer_change_seen_at: null }],
+    };
+    const loaded = loadStatus(write("new-shape", next)).status;
+    expect(loaded.feed_schema).toBe(1);
+    expect(loaded.inputs.checks_history).toHaveLength(2);
+    expect(loaded.assets[0]).toMatchObject({ sac_contract_id: expect.stringMatching(/^C/), checked_at: "2026-10-08T01:34:19.579Z", issuer_change_seen_at: null });
+    // a wrongly typed feed field is still rejected
+    expect(() => loadStatus(write("bad-feed-field", { ...next, assets: [{ ...next.assets[0], sac_contract_id: 5 }] }))).toThrow(/invalid/);
+  });
   it("throws a clear error when there is no file", () => {
     expect(() => loadStatus(path.join(tmp, "missing"))).toThrow(/No data\/status/);
   });

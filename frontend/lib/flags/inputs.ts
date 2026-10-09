@@ -46,6 +46,9 @@ export function parseAsOf(argv: readonly string[], today = new Date().toISOStrin
   return value;
 }
 
+/** The same dated files, oldest first (the order of a checks history: the current file is last). */
+export const datedFilesOldestFirst = (names: readonly string[], asOf: string): string[] => datedFiles(names, asOf).reverse();
+
 /** From the file names of a folder, the dated ones (YYYY-MM-DD.json) up to and including as-of, newest first. */
 export function datedFiles(names: readonly string[], asOf: string): string[] {
   return names

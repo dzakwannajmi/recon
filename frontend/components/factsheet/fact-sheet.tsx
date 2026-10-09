@@ -1,8 +1,7 @@
 import { COPY } from "@/lib/factsheet/copy";
 import type { AssetType, Lang } from "@/lib/factsheet/copy-types";
-import type { StatusFile } from "@/lib/factsheet/load";
+import type { LoadedAsset, StatusFile } from "@/lib/factsheet/load";
 import { bitmaskBinary, counts, explorerLinks, fmt, formatTimestamp, inputDate } from "@/lib/factsheet/view";
-import type { AssetStatus } from "@/lib/flags/status";
 import { StatusBadge } from "./badges";
 import { ClearSection, NotEvaluatedSection, RaisedSection } from "./flag-lists";
 import { LangSwitch } from "./lang-switch";
@@ -38,7 +37,7 @@ function Input({ label, input }: { label: string; input: StatusFile["inputs"]["c
 }
 
 /** The whole fact sheet body for one asset. Server component; everything comes from the status file. */
-export function FactSheet({ lang, asset, status }: { lang: Lang; asset: AssetStatus; status: StatusFile }) {
+export function FactSheet({ lang, asset, status }: { lang: Lang; asset: LoadedAsset; status: StatusFile }) {
   const copy = COPY[lang];
   const c = counts(asset);
   const links = explorerLinks(asset.asset_code, asset.issuer);

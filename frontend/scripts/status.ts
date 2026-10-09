@@ -6,7 +6,7 @@
  *   npm run status [-- --as-of YYYY-MM-DD]
  *
  * Reads (repo-relative to data/):
- *   checks/YYYY-MM-DD.json         newest dated <= as-of (current) and the one before it (previous)
+ *   checks/YYYY-MM-DD.json         every file dated <= as-of, oldest first; the newest is the current one (D-038 hold window)
  *   examinations/YYYY-MM-DD.json   newest dated <= as-of
  *   claims/claims.json, claims/sources.json, snapshots/index.json
  *   review/flags.json              optional operator confirmations
@@ -19,10 +19,11 @@ import type { Claim } from "../lib/claims/store";
 import { sha256Hex, type SnapshotRecord } from "../lib/documents/store";
 import type { CheckResult } from "../lib/examine/checks";
 import type { StoredSourceFact } from "../lib/examine/sources";
-import { evaluateAsset } from "../lib/flags/evaluate";
-import { datedFiles, parseAsOf } from "../lib/flags/inputs";
+import { evaluateAsset, seriesFor } from "../lib/flags/evaluate";
+import { assetContext } from "../lib/flags/feed";
+import { datedFiles, datedFilesOldestFirst, parseAsOf } from "../lib/flags/inputs";
 import { assetStatus, parseReviews, type AssetStatus, type Review } from "../lib/flags/status";
-import { FLAG_BITS, RULES_VERSION, STATUS_CODES, type ChecksRow } from "../lib/flags/types";
+import { FEED_SCHEMA, FLAG_BITS, RULES_VERSION, STATUS_CODES, type ChecksRow } from "../lib/flags/types";
 
 const DATA = path.join(process.cwd(), "..", "data");
 
@@ -33,10 +34,11 @@ function writeJson(file: string, data: unknown) {
   fs.renameSync(tmp, file);
 }
 
-/** The dated files of a folder up to as-of, newest first, as `folder/YYYY-MM-DD.json`. */
-function datedFilesIn(folder: string, asOf: string) {
+/** The dated files of a folder up to as-of, newest first (or oldest first), as `folder/YYYY-MM-DD.json`. */
+function datedFilesIn(folder: string, asOf: string, order: "newest" | "oldest" = "newest") {
   const dir = path.join(DATA, folder);
-  return datedFiles(fs.existsSync(dir) ? fs.readdirSync(dir) : [], asOf).map((name) => `${folder}/${name}`);
+  const names = fs.existsSync(dir) ? fs.readdirSync(dir) : [];
+  return (order === "newest" ? datedFiles(names, asOf) : datedFilesOldestFirst(names, asOf)).map((name) => `${folder}/${name}`);
 }
 
 type Input = { path: string; sha256: string };
@@ -53,10 +55,12 @@ function main() {
   const universe = loadUniverse();
   if (universe.length === 0) throw new Error("data/assets.csv is missing or empty");
 
-  const [checksFile, previousFile] = datedFilesIn("checks", asOf);
-  if (!checksFile) throw new Error(`No data/checks/YYYY-MM-DD.json dated on or before ${asOf}. Run: npm run check:assets`);
-  const checks = readInput<{ checked_at: string; results: Omit<ChecksRow, "file">[] }>(checksFile);
-  const previous = previousFile ? readInput<{ checked_at: string; results: Omit<ChecksRow, "file">[] }>(previousFile) : null;
+  // Every checks file up to as-of, oldest first; the last one is the current file.
+  const historyFiles = datedFilesIn("checks", asOf, "oldest");
+  if (historyFiles.length === 0) throw new Error(`No data/checks/YYYY-MM-DD.json dated on or before ${asOf}. Run: npm run check:assets`);
+  const history = historyFiles.map((file) => ({ file, ...readInput<{ checked_at: string; results: Omit<ChecksRow, "file">[] }>(file) }));
+  const checks = history[history.length - 1];
+  const previous = history.length > 1 ? history[history.length - 2] : null;
 
   const [examFile] = datedFilesIn("examinations", asOf);
   const exam = examFile ? readInput<{ checked_at: string; checks: CheckResult[] }>(examFile) : null;
@@ -69,15 +73,30 @@ function main() {
 
   const run = {
     asOf,
-    checks: toRows(checksFile, checks.value.results),
-    previousChecks: previous && previousFile ? toRows(previousFile, previous.value.results) : null,
+    checks: toRows(checks.file, checks.value.results),
+    earlierChecks: history.slice(0, -1).map((h) => toRows(h.file, h.value.results)),
     examinations: exam && examFile ? { file: `data/${examFile}`, checks: exam.value.checks } : null,
     claims: claims.value,
     sources: sources.value,
     snapshots: snapshots.value,
   };
 
-  const assets: AssetStatus[] = universe.map((asset) => assetStatus(asset, evaluateAsset(asset, run), reviewList));
+  const withTime = (i: { input: Input; value: { checked_at: string } }) => ({ ...i.input, checked_at: i.value.checked_at });
+  const inputs = {
+    checks: withTime(checks),
+    previous_checks: previous ? withTime(previous) : null,
+    checks_history: history.map(withTime),
+    examinations: exam ? withTime(exam) : null,
+    claims: claims.input,
+    sources: sources.input,
+    snapshots: snapshots.input,
+    reviews: reviews ? reviews.input : null,
+  };
+  const fileFields = { feed_schema: FEED_SCHEMA, rules_version: RULES_VERSION, inputs };
+
+  const assets: AssetStatus[] = universe.map((asset) =>
+    assetStatus(asset, evaluateAsset(asset, run), reviewList, assetContext(asset, seriesFor(asset, run), fileFields)),
+  );
 
   const summary = {
     OK: assets.filter((a) => a.status === "OK").length,
@@ -87,20 +106,12 @@ function main() {
     pending_review: assets.reduce((n, a) => n + a.raised.filter((r) => r.review === "pending").length, 0),
   };
 
-  const withTime = (i: { input: Input; value: { checked_at: string } }) => ({ ...i.input, checked_at: i.value.checked_at });
   writeJson(path.join(DATA, "status", `${asOf}.json`), {
     generated_at: new Date().toISOString(),
     as_of: asOf,
+    feed_schema: FEED_SCHEMA,
     rules_version: RULES_VERSION,
-    inputs: {
-      checks: withTime(checks),
-      previous_checks: previous ? withTime(previous) : null,
-      examinations: exam ? withTime(exam) : null,
-      claims: claims.input,
-      sources: sources.input,
-      snapshots: snapshots.input,
-      reviews: reviews ? reviews.input : null,
-    },
+    inputs,
     bits: FLAG_BITS,
     status_codes: STATUS_CODES,
     summary,

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { Claim } from "../claims/store";
 import type { StoredSourceFact } from "../examine/sources";
 import { KEY, check, row, snapshot } from "./fixtures";
-import { datedFiles, examChecksFor, parseAsOf, reportDatesFor, rowFor } from "./inputs";
+import { datedFiles, datedFilesOldestFirst, examChecksFor, parseAsOf, reportDatesFor, rowFor } from "./inputs";
 import { isIsoDay } from "./types";
 
 const fact = (over: Partial<StoredSourceFact> = {}): StoredSourceFact => ({
@@ -71,6 +71,16 @@ describe("datedFiles", () => {
   it("returns nothing when no file is dated on or before as-of", () => {
     expect(datedFiles(names, "2020-01-01")).toEqual([]);
     expect(datedFiles([], "2026-10-08")).toEqual([]);
+  });
+});
+
+describe("datedFilesOldestFirst (S8)", () => {
+  const names = ["2026-10-08.json", "2026-10-06.json", "2026-10-09.json", "notes.txt", "2026-10-05.json.tmp", "2026-02-30.json", "2026-09-01.json"];
+
+  it("returns every dated file up to as-of, oldest first, the current file last", () => {
+    expect(datedFilesOldestFirst(names, "2026-10-08")).toEqual(["2026-09-01.json", "2026-10-06.json", "2026-10-08.json"]);
+    expect(datedFilesOldestFirst(names, "2026-10-31")).toEqual(["2026-09-01.json", "2026-10-06.json", "2026-10-08.json", "2026-10-09.json"]);
+    expect(datedFilesOldestFirst(names, "2020-01-01")).toEqual([]);
   });
 });
 

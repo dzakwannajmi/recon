@@ -1,5 +1,5 @@
 /**
- * Flag rules v1 (decision D-035): shared types. Every flag ends as `raised`,
+ * Flag rules (decisions D-035, D-038): shared types. Every flag ends as `raised`,
  * `clear`, or `not_evaluated`; missing inputs are never guessed. Deciders are
  * pure functions over the stored run files (no network, no LLM).
  */
@@ -20,7 +20,10 @@ export const FLAG_BITS = {
 export const STATUS_CODES = { OK: 0, WARNING: 1, CRITICAL: 2 } as const;
 export type StatusName = keyof typeof STATUS_CODES;
 
-export const RULES_VERSION = "flags-v1";
+export const RULES_VERSION = "flags-v2";
+
+/** Layout of the feed entry and of its evidence hash (D-039). Bump together with the contract's SCHEMA. */
+export const FEED_SCHEMA = 1;
 
 /** Flags in feed bit order. */
 export const FLAG_ORDER = (Object.keys(FLAG_BITS) as FlagName[]).sort((a, b) => FLAG_BITS[a] - FLAG_BITS[b]);

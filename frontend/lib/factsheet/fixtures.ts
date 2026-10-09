@@ -1,7 +1,7 @@
 /** Small hand-made status objects for the fact sheet tests (so they don't depend on the live data file). */
 import type { ClearEvaluation, EvidenceRef } from "../flags/types";
-import type { AssetStatus, ReviewedFlag } from "../flags/status";
-import type { StatusFile } from "./load";
+import type { ReviewedFlag } from "../flags/status";
+import type { LoadedAsset, StatusFile } from "./load";
 
 export const ISSUER = "GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5";
 export const HASH = "95d9a389e3797514144c8adaac6b77829e24bac80d15431eafeadf2c60dc8ac7";
@@ -30,7 +30,7 @@ export function clearFlag(over: Partial<ClearEvaluation> = {}): ClearEvaluation 
   return { flag: "ISSUER_IDENTITY", outcome: "clear", reason: "Issuer listed in stellar.toml.", as_of: "2026-10-08", evidence: [EV.chain], ...over };
 }
 
-export function asset(over: Partial<AssetStatus> = {}): AssetStatus {
+export function asset(over: Partial<LoadedAsset> = {}): LoadedAsset {
   return {
     asset: `AAA:${ISSUER}`, asset_code: "AAA", issuer: ISSUER, issuer_org: "Org One", asset_type: "fund", status: "OK", status_code: 0,
     flags_bitmask: 0, evidence_hash: "ab".repeat(32), raised: [], clear: [clearFlag()],
@@ -38,7 +38,7 @@ export function asset(over: Partial<AssetStatus> = {}): AssetStatus {
   };
 }
 
-export function statusFile(assets: AssetStatus[]): StatusFile {
+export function statusFile(assets: LoadedAsset[]): StatusFile {
   return {
     generated_at: "2026-10-08T01:48:49.859Z", as_of: "2026-10-08", rules_version: "flags-test",
     inputs: {

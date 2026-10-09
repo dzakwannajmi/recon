@@ -17,8 +17,8 @@ export { DEFAULT_RPC_URL, createRpc, feedRpcUrl, type FeedRpc, type Roles } from
 /** The transaction is valid for TX_TIMEOUT_SECONDS; wait that long plus a margin before calling the outcome unknown. */
 export const DEFAULT_POLL_TIMEOUT_MS = TX_TIMEOUT_SECONDS * 1000 + 15_000;
 const DEFAULT_POLL_INTERVAL_MS = 1_500;
-/** Stroops. A fee above this is refused (10 XLM): a bad simulation must not drain the publisher. */
-export const MAX_FEE_STROOPS = 100_000_000n;
+/** Stroops. A fee above this is refused (30 XLM; a 25-entry publish simulates at about 12.8 XLM, mostly rent): a bad simulation must not drain the publisher. */
+export const MAX_FEE_STROOPS = 300_000_000n;
 
 export type PublishResult = { txHash: string; ledger: number; written: number };
 export type SimulationResult = { written: number; minResourceFee: string };

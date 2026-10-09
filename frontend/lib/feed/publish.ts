@@ -18,7 +18,7 @@ import { FeedError, MAX_BATCH, fileFieldsOf, parseStatusFile, toUpdate, checkInt
 import { formatVerifyTable, verifyFile, type VerifyRow } from "./verify";
 
 /** The publisher needs XLM for fees and rent; below this it stops with a clear message. */
-export const MIN_BALANCE_STROOPS = 50_000_000n; // 5 XLM
+export const MIN_BALANCE_STROOPS = 400_000_000n; // 40 XLM: two batches cost about 14 XLM, mostly rent
 
 /** A precondition from spec 8.1 failed: nothing was sent. */
 export class PreconditionError extends Error {

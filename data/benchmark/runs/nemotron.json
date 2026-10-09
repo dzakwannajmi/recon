@@ -1,0 +1,707 @@
+[
+  {
+    "key": "fda12017b225bfede0cc31f02debfa9e",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "072b341b345b2842",
+    "doc_key": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+    "source_url": "https://ondo.finance/",
+    "text_sha256": "1763cdee59b81736de664fd64c2faed453404e4fef55de278f099ae93c5b7bcb",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 3,
+    "chars_sent": 6444,
+    "proposals": [],
+    "usage": {
+      "input": 2540,
+      "output": 450,
+      "reasoning": 442,
+      "total": 2990
+    },
+    "latency_ms": 3908,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:04:04.222Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "ac0ffe7828058eede9c1629655b1a71a",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "195c66f44c26ff3c",
+    "doc_key": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+    "source_url": "https://etherfuse.com/.well-known/stellar.toml",
+    "text_sha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 3,
+    "chars_sent": 7098,
+    "proposals": [
+      {
+        "field": "networks",
+        "asset_code": "ISSUER",
+        "value_text": "Public Global Stellar Network ; September 2015",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "NETWORK_PASSPHRASE = \"Public Global Stellar Network ; September 2015\"",
+        "page": null
+      }
+    ],
+    "usage": {
+      "input": 3144,
+      "output": 979,
+      "reasoning": 893,
+      "total": 4123
+    },
+    "latency_ms": 9123,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:03:45.098Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "62cb39d351bfb8a3c46c7887f5a97f5e",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "44fb278467bf1522",
+    "doc_key": "59a231da526c87e044535606679ac46149b404ef8222341d78c4ca994ca8beb6|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+    "source_url": "https://ondo.finance/usdy",
+    "text_sha256": "540491dc4e072019e32fd8abf7c87f722acf2ab6af8ec558146b3048f100d07f",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 5,
+    "chars_sent": 14443,
+    "proposals": [
+      {
+        "field": "net_assets",
+        "asset_code": "USDY",
+        "value_text": "$2.32B",
+        "unit": "USD",
+        "as_of_text": null,
+        "quote": "Value of Underlying Assets $2.32B",
+        "page": null
+      },
+      {
+        "field": "nav_per_unit",
+        "asset_code": "USDY",
+        "value_text": "$1.1487",
+        "unit": "USD",
+        "as_of_text": null,
+        "quote": "Buy USDY $1.1487 +$0.0001 today",
+        "page": null
+      },
+      {
+        "field": "report_date",
+        "asset_code": "USDY",
+        "value_text": "October 2, 2026 7:59:59pm EDT",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "As of October 2, 2026 7:59:59pm EDT",
+        "page": null
+      },
+      {
+        "field": "networks",
+        "asset_code": "USDY",
+        "value_text": "Stellar",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "Available Networks Ethereum, Mantle, Solana, Sui, Aptos, Noble, Arbitrum, Stellar, Sei, Tempo, BNB Chain",
+        "page": null
+      }
+    ],
+    "usage": {
+      "input": 4373,
+      "output": 2148,
+      "reasoning": 1848,
+      "total": 6521
+    },
+    "latency_ms": 26045,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:04:18.131Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "5d0ebffd3ee5c4eeeef4d2b55ae66309",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "48bfe4f3d97b634c",
+    "doc_key": "b6e802e66c624445342ff685d18116fd18d31eab600720c0834aa6d960e83ca3|BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+    "source_url": "https://www.bitbondsto.com/files/bitbond-sto-prospectus.pdf",
+    "text_sha256": "d3254bd1783428de497971662835b9632819a41e5650c1d03c0bdb407cfd92da",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 15,
+    "chars_sent": 23998,
+    "proposals": [],
+    "usage": null,
+    "latency_ms": 39983,
+    "attempts": 1,
+    "error": "AI_NoOutputGeneratedError",
+    "at": "2026-10-09T03:06:00.206Z"
+  },
+  {
+    "key": "08dd26652ae8fa171d7997a7f4b90978",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "49bce52c98afb1e7",
+    "doc_key": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156|CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45,EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6,FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6,GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ,LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D,MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ,SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM,TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R,TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD,WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6,WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH,WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG,WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P,WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF,WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+    "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+    "text_sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 6,
+    "chars_sent": 16196,
+    "proposals": [
+      {
+        "field": "networks",
+        "asset_code": "ISSUER",
+        "value_text": "Public Global Stellar Network ; September 2015",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "NETWORK_PASSPHRASE=\"Public Global Stellar Network ; September 2015\"",
+        "page": null
+      },
+      {
+        "field": "custodian",
+        "asset_code": "GOLD",
+        "value_text": "independent gold custodian",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "Each WisdomTree Gold Token serves as a document of title to physical gold, with secure storage of physical gold at an independent gold custodian and transparency into the actual gold bars held at the custodian.",
+        "page": null
+      }
+    ],
+    "usage": {
+      "input": 6204,
+      "output": 1738,
+      "reasoning": 1562,
+      "total": 7942
+    },
+    "latency_ms": 14519,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:04:54.176Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "f447da5cfc71e57733a3893de2921118",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "4d405468cd284a9c",
+    "doc_key": "cf83d61cdc9752b752a58b7be44de16eb09eda99d6aba0f29445243af40e8e4a|BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+    "source_url": "https://www.bitbondsto.com/files/bitbond-sto-prospectus-de.pdf",
+    "text_sha256": "35f35db74e4d5f08b17be282a0f36b8b9aa73444aa440ab3af497cd73d4d162f",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 7,
+    "chars_sent": 23777,
+    "proposals": [],
+    "usage": null,
+    "latency_ms": 31508,
+    "attempts": 1,
+    "error": "AI_NoOutputGeneratedError",
+    "at": "2026-10-09T03:05:18.696Z"
+  },
+  {
+    "key": "451a186db89de21015077f4b985ba6db",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "4db948f22a0a48fe",
+    "doc_key": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5|BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5,gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP,grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ,sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+    "source_url": "https://www.franklintempleton.com/.well-known/stellar.toml",
+    "text_sha256": "6ade77b46f9a398443fa02d64a37371eae93312b34649acbe64860d30f4b6cc5",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 2,
+    "chars_sent": 4272,
+    "proposals": [
+      {
+        "field": "token_unit_ratio",
+        "asset_code": "BENJI",
+        "value_text": "1",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "desc=\"1 BENJI token corresponds to 1 share of the fund.\"",
+        "page": null
+      },
+      {
+        "field": "token_unit_ratio",
+        "asset_code": "gBENJI",
+        "value_text": "1",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "desc=\"1 gBENJI token corresponds to 1 share of the fund.\"",
+        "page": null
+      },
+      {
+        "field": "token_unit_ratio",
+        "asset_code": "grBENJI",
+        "value_text": "1",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "desc=\"1 grBENJI token corresponds to 1 share of the fund.\"",
+        "page": null
+      },
+      {
+        "field": "token_unit_ratio",
+        "asset_code": "sgBENJI",
+        "value_text": "1",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "desc=\"1 sgBENJI token corresponds to 1 share of the fund.\"",
+        "page": null
+      },
+      {
+        "field": "networks",
+        "asset_code": "ISSUER",
+        "value_text": "Public Global Stellar Network ; September 2015",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "NETWORK_PASSPHRASE=\"Public Global Stellar Network ; September 2015\"",
+        "page": null
+      }
+    ],
+    "usage": {
+      "input": 2500,
+      "output": 2000,
+      "reasoning": 1649,
+      "total": 4500
+    },
+    "latency_ms": 18494,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:06:50.188Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "4a31b5015d879ea22209751a66de2348",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "71033ba712b3d810",
+    "doc_key": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+    "source_url": "https://app.etherfuse.com/legal/compliance-and-audits",
+    "text_sha256": "1e39e9e467c9bab8b54f8d0d7dcb33f56e6109467c1629db0018b9806626d70b",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 1,
+    "chars_sent": 2572,
+    "proposals": [
+      {
+        "field": "auditor",
+        "asset_code": "ISSUER",
+        "value_text": "independent third parties",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "Proof of Reserves audits are performed by independent third parties to ensure the validity of our publicly reported holdings.",
+        "page": null
+      },
+      {
+        "field": "auditor",
+        "asset_code": "ISSUER",
+        "value_text": "OtterSec",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "A Rust program audit was successfully performed by OtterSec to ensure the security of our smart contracts on the Solana blockchain.",
+        "page": null
+      },
+      {
+        "field": "auditor",
+        "asset_code": "ISSUER",
+        "value_text": "BHR ENW México Group, S. C.",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "The results of an anti-money laundering audit performed by BHR ENW México Group, S. C.",
+        "page": null
+      }
+    ],
+    "usage": {
+      "input": 1349,
+      "output": 1357,
+      "reasoning": 1133,
+      "total": 2706
+    },
+    "latency_ms": 20632,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:01:05.576Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "e4e2cc94d9cca18889a4d27661637a2a",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "7baed7519f48736b",
+    "doc_key": "9ab4da09ba29fe9b971843ebdf417af27febd2ab08a05c7400fc5cb2ecb6c571|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+    "source_url": "https://www.ylds.com/",
+    "text_sha256": "67bbfdb612ff73492d91e503309d7c4c48660a383933549afda7f847797a1806",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 5,
+    "chars_sent": 14258,
+    "proposals": [],
+    "usage": null,
+    "latency_ms": 40588,
+    "attempts": 1,
+    "error": "AI_NoObjectGeneratedError",
+    "at": "2026-10-09T03:07:36.117Z"
+  },
+  {
+    "key": "148967eef5ffccfdd86b33c3f60407e2",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "9693d960cc14a12a",
+    "doc_key": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+    "source_url": "https://ondo.finance/.well-known/stellar.toml",
+    "text_sha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 1,
+    "chars_sent": 831,
+    "proposals": [],
+    "usage": {
+      "input": 1083,
+      "output": 902,
+      "reasoning": 894,
+      "total": 1985
+    },
+    "latency_ms": 9718,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:00:04.897Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "1609d82be798c2281d1d642d35a52df6",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "9b9c7ae01493707d",
+    "doc_key": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255|BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+    "source_url": "https://bitbondsto.com/.well-known/stellar.toml",
+    "text_sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 1,
+    "chars_sent": 1849,
+    "proposals": [
+      {
+        "field": "units_outstanding",
+        "asset_code": "BB1",
+        "value_text": "2,667,360",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "fixed_number=\"2,667,360\"",
+        "page": null
+      }
+    ],
+    "usage": {
+      "input": 1437,
+      "output": 4096,
+      "reasoning": 4021,
+      "total": 5533
+    },
+    "latency_ms": 39618,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:01:26.217Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "3ce632ae804c7e941f0ffb142daaf92d",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "be02311d2bbd9223",
+    "doc_key": "3149a2caca84bf87aeb1cd332ebaec2a699e8405cc0c3c85660c8cd70b8c0301|GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+    "source_url": "https://www.wisdomtreeprime.com/attestations/",
+    "text_sha256": "0a3a388634ffcbf2f3f934a52c1975a4aed5330f7d0f200cfed8986b776b86d3",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 1,
+    "chars_sent": 2092,
+    "proposals": [],
+    "usage": {
+      "input": 1410,
+      "output": 809,
+      "reasoning": 801,
+      "total": 2219
+    },
+    "latency_ms": 7434,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:07:18.682Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "b493a59a51075a10aaf7d5cca442aa78",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "c1d4edf59b2a917b",
+    "doc_key": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+    "source_url": "https://cdn.figure.com/docs/markets/fcc-prospectus.pdf",
+    "text_sha256": "230d054ffa9b5a96de5967cdaf65ddea6f49205c94561b0a149b75fbaa9a9eed",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 9,
+    "chars_sent": 23968,
+    "proposals": [
+      {
+        "field": "networks",
+        "asset_code": "YLDS",
+        "value_text": "Provenance Blockchain",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "FCC currently uses the Provenance Blockchain as the primary public blockchain and purchasers of Certificates may initially hold their wallets on the Provenance Blockchain.",
+        "page": 13
+      },
+      {
+        "field": "networks",
+        "asset_code": "YLDS",
+        "value_text": "Solana",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "However, FCC may also use the Solana, Stellar, Avalanche, Sui and other approved blockchains.",
+        "page": 13
+      },
+      {
+        "field": "networks",
+        "asset_code": "YLDS",
+        "value_text": "Stellar",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "However, FCC may also use the Solana, Stellar, Avalanche, Sui and other approved blockchains.",
+        "page": 13
+      },
+      {
+        "field": "networks",
+        "asset_code": "YLDS",
+        "value_text": "Avalanche",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "However, FCC may also use the Solana, Stellar, Avalanche, Sui and other approved blockchains.",
+        "page": 13
+      },
+      {
+        "field": "networks",
+        "asset_code": "YLDS",
+        "value_text": "Sui",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "However, FCC may also use the Solana, Stellar, Avalanche, Sui and other approved blockchains.",
+        "page": 13
+      },
+      {
+        "field": "custodian",
+        "asset_code": "ISSUER",
+        "value_text": "UMB Bank N.A. and Flagstar Bank, N.A.",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements.",
+        "page": 13
+      }
+    ],
+    "usage": {
+      "input": 6300,
+      "output": 2456,
+      "reasoning": 1979,
+      "total": 8756
+    },
+    "latency_ms": 21231,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:02:15.829Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "9c12996b1dd945e59d8456e513778f79",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "c8d07d3a92081206",
+    "doc_key": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+    "source_url": "https://www.ylds.com/.well-known/stellar.toml",
+    "text_sha256": "b78cf5e4c9b9931b9ebc3800ded32e0bc4135fe39da814fc12d46f0afe3d5c81",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 1,
+    "chars_sent": 2628,
+    "proposals": [
+      {
+        "field": "networks",
+        "asset_code": "YLDS",
+        "value_text": "Public Global Stellar Network ; September 2015",
+        "unit": null,
+        "as_of_text": "September 2015",
+        "quote": "NETWORK_PASSPHRASE = \"Public Global Stellar Network ; September 2015\"",
+        "page": null
+      }
+    ],
+    "usage": {
+      "input": 1751,
+      "output": 1089,
+      "reasoning": 997,
+      "total": 2840
+    },
+    "latency_ms": 18400,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:08:26.707Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  },
+  {
+    "key": "ed7669110b65d43132571285962bbd26",
+    "config": "nemotron",
+    "provider": "openrouter",
+    "doc_id": "f5141a838562238f",
+    "doc_key": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+    "source_url": "https://etherfuse.com/",
+    "text_sha256": "36d470c1feddf1c30f6962736129e569089cbe32cb33fc1deb9906e86a258a5c",
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "provider_options": {
+      "openrouter": {
+        "reasoning": {
+          "effort": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 1,
+    "chars_sent": 2999,
+    "proposals": [
+      {
+        "field": "networks",
+        "asset_code": "ISSUER",
+        "value_text": "Stellar",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "Built to operate where\nglobal users already are.\nStellar",
+        "page": null
+      },
+      {
+        "field": "custodian",
+        "asset_code": "ISSUER",
+        "value_text": "BBVA, Shinhan, B3, and more",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "BBVA, Shinhan, B3, and more",
+        "page": null
+      },
+      {
+        "field": "auditor",
+        "asset_code": "ISSUER",
+        "value_text": "OtterSec and Highland Security",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "OtterSec and Highland Security",
+        "page": null
+      }
+    ],
+    "usage": {
+      "input": 1553,
+      "output": 3716,
+      "reasoning": 3521,
+      "total": 5269
+    },
+    "latency_ms": 48038,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-09T03:02:47.060Z",
+    "response_model": "nvidia/nemotron-3-super-120b-a12b:free"
+  }
+]

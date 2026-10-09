@@ -1,0 +1,320 @@
+[
+  {
+    "key": "c17c28bba127e3fd668fe13b9fa4cf12",
+    "config": "flash",
+    "doc_id": "072b341b345b2842",
+    "doc_key": "3d41524cc3c83ec58b460f2d5b21bf592d279b236ffad7c160bbea65e59ebddd|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+    "source_url": "https://ondo.finance/",
+    "text_sha256": "1763cdee59b81736de664fd64c2faed453404e4fef55de278f099ae93c5b7bcb",
+    "model": "gemini-3.7-flash",
+    "provider_options": {
+      "google": {
+        "thinkingConfig": {
+          "thinkingLevel": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 3,
+    "chars_sent": 6444,
+    "proposals": [],
+    "usage": null,
+    "latency_ms": 417,
+    "attempts": 2,
+    "error": "AI_APICallError HTTP 429 RESOURCE_EXHAUSTED",
+    "at": "2026-10-08T13:44:28.577Z"
+  },
+  {
+    "key": "cbfe4b096c0149f28d6932efc1cb2d53",
+    "config": "flash",
+    "doc_id": "195c66f44c26ff3c",
+    "doc_key": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+    "source_url": "https://etherfuse.com/.well-known/stellar.toml",
+    "text_sha256": "f9b923ae30b0abf176c6abb9acf8787c6251221e6dfb480263a8501b44b85afe",
+    "model": "gemini-3.7-flash",
+    "provider_options": {
+      "google": {
+        "thinkingConfig": {
+          "thinkingLevel": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 3,
+    "chars_sent": 7098,
+    "proposals": [],
+    "usage": {
+      "input": 3149,
+      "output": 5,
+      "reasoning": 0,
+      "total": 3154
+    },
+    "latency_ms": 6150,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-08T13:39:51.485Z"
+  },
+  {
+    "key": "2bf2dd6bc648443ddbb8c4bbff7d9dde",
+    "config": "flash",
+    "doc_id": "44fb278467bf1522",
+    "doc_key": "59a231da526c87e044535606679ac46149b404ef8222341d78c4ca994ca8beb6|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+    "source_url": "https://ondo.finance/usdy",
+    "text_sha256": "540491dc4e072019e32fd8abf7c87f722acf2ab6af8ec558146b3048f100d07f",
+    "model": "gemini-3.7-flash",
+    "provider_options": {
+      "google": {
+        "thinkingConfig": {
+          "thinkingLevel": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 5,
+    "chars_sent": 14443,
+    "proposals": [],
+    "usage": null,
+    "latency_ms": 12992,
+    "attempts": 1,
+    "error": "Failed after 3 attempts. Last error: AI_APICallError: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "at": "2026-10-08T13:40:55.692Z"
+  },
+  {
+    "key": "8a4256fd024870d00dd385997ab0feb9",
+    "config": "flash",
+    "doc_id": "49bce52c98afb1e7",
+    "doc_key": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156|CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45,EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6,FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6,GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ,LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D,MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ,SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM,TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R,TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD,WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6,WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH,WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG,WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P,WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF,WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+    "source_url": "https://stellar.wisdomtree.com/.well-known/stellar.toml",
+    "text_sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
+    "model": "gemini-3.7-flash",
+    "provider_options": {
+      "google": {
+        "thinkingConfig": {
+          "thinkingLevel": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 6,
+    "chars_sent": 16196,
+    "proposals": [],
+    "usage": null,
+    "latency_ms": 12024,
+    "attempts": 2,
+    "error": "Failed after 3 attempts. Last error: AI_APICallError: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/ge",
+    "at": "2026-10-08T13:41:14.684Z"
+  },
+  {
+    "key": "8a89a70961705a9de547cc93ed2f9b5a",
+    "config": "flash",
+    "doc_id": "4d405468cd284a9c",
+    "doc_key": "cf83d61cdc9752b752a58b7be44de16eb09eda99d6aba0f29445243af40e8e4a|BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+    "source_url": "https://www.bitbondsto.com/files/bitbond-sto-prospectus-de.pdf",
+    "text_sha256": "35f35db74e4d5f08b17be282a0f36b8b9aa73444aa440ab3af497cd73d4d162f",
+    "model": "gemini-3.7-flash",
+    "provider_options": {
+      "google": {
+        "thinkingConfig": {
+          "thinkingLevel": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 7,
+    "chars_sent": 23777,
+    "proposals": [],
+    "usage": null,
+    "latency_ms": 7178,
+    "attempts": 2,
+    "error": "Failed after 3 attempts. Last error: AI_APICallError: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/ge",
+    "at": "2026-10-08T13:42:14.751Z"
+  },
+  {
+    "key": "9913c88836c6415eb5e9d90aa131e3a9",
+    "config": "flash",
+    "doc_id": "71033ba712b3d810",
+    "doc_key": "5662b0435a376a51621271c891f6577c1b7824d81729a574666625422b1dfdc1|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+    "source_url": "https://app.etherfuse.com/legal/compliance-and-audits",
+    "text_sha256": "1e39e9e467c9bab8b54f8d0d7dcb33f56e6109467c1629db0018b9806626d70b",
+    "model": "gemini-3.7-flash",
+    "provider_options": {
+      "google": {
+        "thinkingConfig": {
+          "thinkingLevel": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 1,
+    "chars_sent": 2572,
+    "proposals": [
+      {
+        "field": "networks",
+        "asset_code": "ISSUER",
+        "value_text": "Solana",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "A Rust program audit was successfully performed by OtterSec to ensure the security of our smart contracts on the Solana blockchain.",
+        "page": null
+      }
+    ],
+    "usage": {
+      "input": 1317,
+      "output": 102,
+      "reasoning": 0,
+      "total": 1419
+    },
+    "latency_ms": 52736,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-08T13:37:50.705Z"
+  },
+  {
+    "key": "681a99d4806fdebd07183b1e5b3a092f",
+    "config": "flash",
+    "doc_id": "9693d960cc14a12a",
+    "doc_key": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c|USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+    "source_url": "https://ondo.finance/.well-known/stellar.toml",
+    "text_sha256": "61ab7f80e5f7e700b5d64cfd895642f5ac3712ff8d132d2d2c701531097ece0c",
+    "model": "gemini-3.7-flash",
+    "provider_options": {
+      "google": {
+        "thinkingConfig": {
+          "thinkingLevel": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 1,
+    "chars_sent": 831,
+    "proposals": [],
+    "usage": null,
+    "latency_ms": 11399,
+    "attempts": 1,
+    "error": "Failed after 3 attempts. Last error: AI_APICallError: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "at": "2026-10-08T13:40:38.293Z"
+  },
+  {
+    "key": "6881fef7f722d368751ad8a7192b84d7",
+    "config": "flash",
+    "doc_id": "9b9c7ae01493707d",
+    "doc_key": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255|BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+    "source_url": "https://bitbondsto.com/.well-known/stellar.toml",
+    "text_sha256": "5083c99f75f91ff45ebff544b05341016160b1e3befe03dd3e707553e2504255",
+    "model": "gemini-3.7-flash",
+    "provider_options": {
+      "google": {
+        "thinkingConfig": {
+          "thinkingLevel": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 1,
+    "chars_sent": 1849,
+    "proposals": [
+      {
+        "field": "units_outstanding",
+        "asset_code": "BB1",
+        "value_text": "2,667,360",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "fixed_number=\"2,667,360\"",
+        "page": null
+      }
+    ],
+    "usage": {
+      "input": 1461,
+      "output": 73,
+      "reasoning": 0,
+      "total": 1534
+    },
+    "latency_ms": 16836,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-08T13:38:43.443Z"
+  },
+  {
+    "key": "5d459182c6ec22e41369c9d10814a47b",
+    "config": "flash",
+    "doc_id": "c1d4edf59b2a917b",
+    "doc_key": "7f0d17109a0d4e9fe938f20e94d6a5766aeb204f12551001402e04d3f2682140|YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+    "source_url": "https://cdn.figure.com/docs/markets/fcc-prospectus.pdf",
+    "text_sha256": "230d054ffa9b5a96de5967cdaf65ddea6f49205c94561b0a149b75fbaa9a9eed",
+    "model": "gemini-3.7-flash",
+    "provider_options": {
+      "google": {
+        "thinkingConfig": {
+          "thinkingLevel": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 9,
+    "chars_sent": 23968,
+    "proposals": [
+      {
+        "field": "custodian",
+        "asset_code": "ISSUER",
+        "value_text": "UMB Bank N.A.",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements.",
+        "page": 13
+      },
+      {
+        "field": "custodian",
+        "asset_code": "ISSUER",
+        "value_text": "Flagstar Bank, N.A.",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements.",
+        "page": 13
+      },
+      {
+        "field": "custodian",
+        "asset_code": "ISSUER",
+        "value_text": "UMB",
+        "unit": null,
+        "as_of_text": null,
+        "quote": "Under the Custody Agreement, UMB holds FCC’s assets in custody for the benefit of FCC.",
+        "page": 50
+      }
+    ],
+    "usage": {
+      "input": 6185,
+      "output": 216,
+      "reasoning": 0,
+      "total": 6401
+    },
+    "latency_ms": 11692,
+    "attempts": 1,
+    "error": null,
+    "at": "2026-10-08T13:39:06.290Z"
+  },
+  {
+    "key": "97aaa5338133be37af8e8352813e5789",
+    "config": "flash",
+    "doc_id": "f5141a838562238f",
+    "doc_key": "72d08f4f56d6255ff198499bc62d0c817f0fa167e7c5c2ef9ddb6b60ad01bca4|EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC,USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+    "source_url": "https://etherfuse.com/",
+    "text_sha256": "36d470c1feddf1c30f6962736129e569089cbe32cb33fc1deb9906e86a258a5c",
+    "model": "gemini-3.7-flash",
+    "provider_options": {
+      "google": {
+        "thinkingConfig": {
+          "thinkingLevel": "low"
+        }
+      }
+    },
+    "prompt_version": "claims-v3",
+    "chunks_sent": 1,
+    "chars_sent": 2999,
+    "proposals": [],
+    "usage": null,
+    "latency_ms": 21509,
+    "attempts": 1,
+    "error": "Failed after 3 attempts. Last error: AI_APICallError: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "at": "2026-10-08T13:39:23.974Z"
+  }
+]

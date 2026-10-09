@@ -1,0 +1,2421 @@
+{
+  "gold": {
+    "documents": 15,
+    "items": 50,
+    "verifiable": 30,
+    "by_origin": {
+      "adjudication": 1,
+      "reader": 49
+    },
+    "verifier_blocked": 18,
+    "verifier_blocked_by_reason": {
+      "field_gate": 3,
+      "quote_ambiguous": 1,
+      "value_unparseable": 14
+    },
+    "blocked_items": [
+      {
+        "doc_id": "44fb278467bf1522",
+        "field": "nav_per_unit",
+        "asset_code": "USDY",
+        "value_text": "$1.1487",
+        "reason": "field_gate"
+      },
+      {
+        "doc_id": "48bfe4f3d97b634c",
+        "field": "token_unit_ratio",
+        "asset_code": "BB1",
+        "value_text": "equal to the number of bonds issued",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "4d405468cd284a9c",
+        "field": "token_unit_ratio",
+        "asset_code": "BB1",
+        "value_text": "ein",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "7baed7519f48736b",
+        "field": "token_unit_ratio",
+        "asset_code": "YLDS",
+        "value_text": "1",
+        "reason": "field_gate"
+      },
+      {
+        "doc_id": "9b9c7ae01493707d",
+        "field": "max_issuance",
+        "asset_code": "BB1",
+        "value_text": "2,667,360",
+        "reason": "field_gate"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "August 2026",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "July 2026",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "June 2026",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "May 2026",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "April 2026",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "March 2026",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "February 2026",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "January 2026",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "December 2025",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "November 2025",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "October 2025",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "field": "report_date",
+        "asset_code": "GOLD",
+        "value_text": "September 2025",
+        "reason": "value_unparseable"
+      },
+      {
+        "doc_id": "c1d4edf59b2a917b",
+        "field": "networks",
+        "asset_code": "YLDS",
+        "value_text": "Provenance Blockchain",
+        "reason": "quote_ambiguous"
+      }
+    ],
+    "stale_gold": []
+  },
+  "documents_without_gold": [],
+  "configs": {
+    "flash": {
+      "provider": "google",
+      "model": "gemini-3.7-flash",
+      "provider_options": {
+        "google": {
+          "thinkingConfig": {
+            "thinkingLevel": "low"
+          }
+        }
+      },
+      "prompt_version": "claims-v3",
+      "response_models": [],
+      "documents_with_run": 10,
+      "documents_scored": 4,
+      "proposals": 5,
+      "verified": 4,
+      "dropped_by_reason": {
+        "field_gate": 1
+      },
+      "tp": 2,
+      "fp": 2,
+      "fn": 0,
+      "precision": {
+        "value": 0.5,
+        "low": 0.15,
+        "high": 0.85,
+        "n": 4
+      },
+      "recall": {
+        "value": 1,
+        "low": 0.3424,
+        "high": 1,
+        "n": 2
+      },
+      "f1": 0.6667,
+      "by_field": {
+        "custodian": {
+          "tp": 2,
+          "fp": 1,
+          "fn": 0
+        },
+        "networks": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 0
+        }
+      },
+      "fp_matching_blocked_gold": {
+        "count": 0,
+        "note": "Diagnostic only: false positives that equal a gold item the verifier blocked. Not part of the headline numbers.",
+        "items": []
+      },
+      "tokens": {
+        "calls": 4,
+        "reasoning_reported": 4,
+        "sum": {
+          "input": 12112,
+          "output": 396,
+          "reasoning": 0,
+          "total": 12508
+        },
+        "mean_per_document": {
+          "input": 3028,
+          "output": 99,
+          "reasoning": 0,
+          "total": 3127
+        }
+      },
+      "latency": {
+        "median_ms": 14264,
+        "p90_ms": 52736,
+        "max_ms": 52736
+      },
+      "errors": 6,
+      "retried_documents": 3,
+      "failed_documents": [
+        {
+          "doc_id": "072b341b345b2842",
+          "error": "AI_APICallError HTTP 429 RESOURCE_EXHAUSTED",
+          "attempts": 2
+        },
+        {
+          "doc_id": "44fb278467bf1522",
+          "error": "Failed after 3 attempts. Last error: AI_APICallError: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+          "attempts": 1
+        },
+        {
+          "doc_id": "49bce52c98afb1e7",
+          "error": "Failed after 3 attempts. Last error: AI_APICallError: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/ge",
+          "attempts": 2
+        },
+        {
+          "doc_id": "4d405468cd284a9c",
+          "error": "Failed after 3 attempts. Last error: AI_APICallError: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/ge",
+          "attempts": 2
+        },
+        {
+          "doc_id": "9693d960cc14a12a",
+          "error": "Failed after 3 attempts. Last error: AI_APICallError: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+          "attempts": 1
+        },
+        {
+          "doc_id": "f5141a838562238f",
+          "error": "Failed after 3 attempts. Last error: AI_APICallError: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+          "attempts": 1
+        }
+      ],
+      "stale_runs": [],
+      "per_document": [
+        {
+          "doc_id": "195c66f44c26ff3c",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "71033ba712b3d810",
+          "tp": 0,
+          "fp": 1,
+          "fn": 0,
+          "proposals": 1,
+          "verified": 1,
+          "dropped": {},
+          "by_field": {
+            "networks": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            }
+          },
+          "fp_items": [
+            {
+              "field": "networks",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "Solana",
+              "value_text": "Solana",
+              "as_of": null,
+              "quote": "A Rust program audit was successfully performed by OtterSec to ensure the security of our smart contracts on the Solana blockchain."
+            }
+          ],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "9b9c7ae01493707d",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 1,
+          "verified": 0,
+          "dropped": {
+            "field_gate": 1
+          },
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "c1d4edf59b2a917b",
+          "tp": 2,
+          "fp": 1,
+          "fn": 0,
+          "proposals": 3,
+          "verified": 3,
+          "dropped": {},
+          "by_field": {
+            "custodian": {
+              "tp": 2,
+              "fp": 1,
+              "fn": 0
+            }
+          },
+          "fp_items": [
+            {
+              "field": "custodian",
+              "asset": "ISSUER:ylds.com",
+              "value": "UMB",
+              "value_text": "UMB",
+              "as_of": null,
+              "quote": "Under the Custody Agreement, UMB holds FCC’s assets in custody for the benefit of FCC."
+            }
+          ],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        }
+      ]
+    },
+    "flash-lite": {
+      "provider": "google",
+      "model": "gemini-3.5-flash-lite",
+      "provider_options": {
+        "google": {
+          "thinkingConfig": {
+            "thinkingLevel": "minimal"
+          }
+        }
+      },
+      "prompt_version": "claims-v3",
+      "response_models": [],
+      "documents_with_run": 15,
+      "documents_scored": 15,
+      "proposals": 32,
+      "verified": 11,
+      "dropped_by_reason": {
+        "as_of_not_in_quote": 1,
+        "attribution_unverified": 1,
+        "field_gate": 8,
+        "quote_ambiguous": 4,
+        "quote_too_short": 6
+      },
+      "tp": 8,
+      "fp": 3,
+      "fn": 22,
+      "precision": {
+        "value": 0.7273,
+        "low": 0.4343,
+        "high": 0.9025,
+        "n": 11
+      },
+      "recall": {
+        "value": 0.2667,
+        "low": 0.1418,
+        "high": 0.4445,
+        "n": 30
+      },
+      "f1": 0.3902,
+      "by_field": {
+        "custodian": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 5
+        },
+        "max_issuance": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0
+        },
+        "nav_per_unit": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 2
+        },
+        "net_assets": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1
+        },
+        "networks": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 12
+        },
+        "report_date": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 2
+        },
+        "token_unit_ratio": {
+          "tp": 4,
+          "fp": 2,
+          "fn": 0
+        }
+      },
+      "fp_matching_blocked_gold": {
+        "count": 0,
+        "note": "Diagnostic only: false positives that equal a gold item the verifier blocked. Not part of the headline numbers.",
+        "items": []
+      },
+      "tokens": {
+        "calls": 15,
+        "reasoning_reported": 15,
+        "sum": {
+          "input": 51211,
+          "output": 3121,
+          "reasoning": 0,
+          "total": 54332
+        },
+        "mean_per_document": {
+          "input": 3414,
+          "output": 208,
+          "reasoning": 0,
+          "total": 3622
+        }
+      },
+      "latency": {
+        "median_ms": 2006,
+        "p90_ms": 2752,
+        "max_ms": 2775
+      },
+      "errors": 0,
+      "retried_documents": 0,
+      "failed_documents": [],
+      "stale_runs": [],
+      "per_document": [
+        {
+          "doc_id": "072b341b345b2842",
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "proposals": 2,
+          "verified": 0,
+          "dropped": {
+            "field_gate": 1,
+            "attribution_unverified": 1
+          },
+          "by_field": {
+            "nav_per_unit": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "nav_per_unit",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": 1.1487,
+              "value_text": "$1.1487",
+              "as_of": null,
+              "quote": "USDY's Return\nUS Treasury Bill's Return\nPrice\n$1.1487"
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "195c66f44c26ff3c",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "44fb278467bf1522",
+          "tp": 1,
+          "fp": 0,
+          "fn": 11,
+          "proposals": 2,
+          "verified": 1,
+          "dropped": {
+            "as_of_not_in_quote": 1
+          },
+          "by_field": {
+            "networks": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 10
+            },
+            "net_assets": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "net_assets",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": 2320000000,
+              "value_text": "$2.32B",
+              "as_of": null,
+              "quote": "Value of Underlying Assets4\n$2.32B"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Aptos",
+              "value_text": "Aptos",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Arbitrum",
+              "value_text": "Arbitrum",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "BNB Chain",
+              "value_text": "BNB Chain",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Ethereum",
+              "value_text": "Ethereum",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Mantle",
+              "value_text": "Mantle",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Noble",
+              "value_text": "Noble",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Sei",
+              "value_text": "Sei",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Solana",
+              "value_text": "Solana",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Sui",
+              "value_text": "Sui",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Tempo",
+              "value_text": "Tempo",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "48bfe4f3d97b634c",
+          "tp": 2,
+          "fp": 1,
+          "fn": 2,
+          "proposals": 3,
+          "verified": 3,
+          "dropped": {},
+          "by_field": {
+            "max_issuance": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "networks": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "token_unit_ratio": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            },
+            "report_date": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 2
+            }
+          },
+          "fp_items": [
+            {
+              "field": "token_unit_ratio",
+              "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+              "value": 1,
+              "value_text": "1",
+              "as_of": null,
+              "quote": "The Issuer will generate a number of BB1-Tokens equal to the number of bonds issued. One BB1-Token corresponds to EUR 1 of the issued bonds."
+            }
+          ],
+          "fn_items": [
+            {
+              "field": "report_date",
+              "asset": "ISSUER:bitbondsto.com",
+              "value": "2018-07-13",
+              "value_text": "July 13, 2018",
+              "as_of": "2018-07-13",
+              "quote": "The issuer has prepared an Opening Balance Sheet as of July 13, 2018, pursuant to the principles of the German"
+            },
+            {
+              "field": "report_date",
+              "asset": "ISSUER:bitbondsto.com",
+              "value": "2018-10-31",
+              "value_text": "October 31, 2018",
+              "as_of": "2018-10-31",
+              "quote": "Total ASSETS 25,000.00 Total LIABILITIES 25,000.00\nInterim balance as of October 31, 2018"
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "49bce52c98afb1e7",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 1,
+          "verified": 0,
+          "dropped": {
+            "field_gate": 1
+          },
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "4d405468cd284a9c",
+          "tp": 1,
+          "fp": 1,
+          "fn": 1,
+          "proposals": 4,
+          "verified": 2,
+          "dropped": {
+            "quote_ambiguous": 1
+          },
+          "by_field": {
+            "max_issuance": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "token_unit_ratio": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            },
+            "networks": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            }
+          },
+          "fp_items": [
+            {
+              "field": "token_unit_ratio",
+              "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+              "value": 1,
+              "value_text": "Ein BB1-Token",
+              "as_of": null,
+              "quote": "Ein BB1-Token entspricht EUR 1 der gezeichneten Schuldverschreibung."
+            }
+          ],
+          "fn_items": [
+            {
+              "field": "networks",
+              "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+              "value": "Stellar",
+              "value_text": "Stellar",
+              "as_of": null,
+              "quote": "BB1-Token basieren auf der Stellar Blockchain und repräsentieren die Rechte aus der Schuldverschreibung."
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "4db948f22a0a48fe",
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 4,
+          "verified": 4,
+          "dropped": {},
+          "by_field": {
+            "token_unit_ratio": {
+              "tp": 4,
+              "fp": 0,
+              "fn": 0
+            }
+          },
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "71033ba712b3d810",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "7baed7519f48736b",
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "proposals": 4,
+          "verified": 0,
+          "dropped": {
+            "quote_too_short": 1,
+            "quote_ambiguous": 3
+          },
+          "by_field": {
+            "nav_per_unit": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            },
+            "networks": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "nav_per_unit",
+              "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+              "value": 0.01,
+              "value_text": "$0.01",
+              "as_of": null,
+              "quote": "It maintains a $0.01 NAV and accrues ~% daily to holders"
+            },
+            {
+              "field": "networks",
+              "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+              "value": "Provenance",
+              "value_text": "Provenance",
+              "as_of": null,
+              "quote": "YLDS is issued through FCC on the Provenance Blockchain, a public, permissionless L1 blockchain built for financial services businesses."
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "9693d960cc14a12a",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "9b9c7ae01493707d",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 1,
+          "verified": 0,
+          "dropped": {
+            "field_gate": 1
+          },
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "be02311d2bbd9223",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "c1d4edf59b2a917b",
+          "tp": 0,
+          "fp": 1,
+          "fn": 2,
+          "proposals": 1,
+          "verified": 1,
+          "dropped": {},
+          "by_field": {
+            "custodian": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 2
+            }
+          },
+          "fp_items": [
+            {
+              "field": "custodian",
+              "asset": "ISSUER:ylds.com",
+              "value": "UMB Bank N.A. and Flagstar Bank, N.A.",
+              "value_text": "UMB Bank N.A. and Flagstar Bank, N.A.",
+              "as_of": null,
+              "quote": "Custodian\nUMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements."
+            }
+          ],
+          "fn_items": [
+            {
+              "field": "custodian",
+              "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+              "value": "Flagstar Bank, N.A.",
+              "value_text": "Flagstar Bank, N.A.",
+              "as_of": null,
+              "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements."
+            },
+            {
+              "field": "custodian",
+              "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+              "value": "UMB Bank N.A.",
+              "value_text": "UMB Bank N.A.",
+              "as_of": null,
+              "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements."
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "c8d07d3a92081206",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "f5141a838562238f",
+          "tp": 0,
+          "fp": 0,
+          "fn": 3,
+          "proposals": 10,
+          "verified": 0,
+          "dropped": {
+            "quote_too_short": 5,
+            "field_gate": 5
+          },
+          "by_field": {
+            "custodian": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 3
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "B3",
+              "value_text": "B3",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            },
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "BBVA",
+              "value_text": "BBVA",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            },
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "Shinhan",
+              "value_text": "Shinhan",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            }
+          ],
+          "fp_matching_blocked": []
+        }
+      ]
+    },
+    "gpt-oss": {
+      "provider": "groq",
+      "model": "openai/gpt-oss-120b",
+      "provider_options": {
+        "groq": {
+          "reasoningEffort": "low"
+        }
+      },
+      "prompt_version": "claims-v3",
+      "response_models": [
+        "openai/gpt-oss-120b"
+      ],
+      "documents_with_run": 15,
+      "documents_scored": 15,
+      "proposals": 29,
+      "verified": 10,
+      "dropped_by_reason": {
+        "as_of_not_in_quote": 1,
+        "field_gate": 4,
+        "quote_ambiguous": 4,
+        "quote_not_found": 4,
+        "quote_too_short": 4,
+        "value_unparseable": 2
+      },
+      "tp": 5,
+      "fp": 5,
+      "fn": 25,
+      "precision": {
+        "value": 0.5,
+        "low": 0.2366,
+        "high": 0.7634,
+        "n": 10
+      },
+      "recall": {
+        "value": 0.1667,
+        "low": 0.0734,
+        "high": 0.3356,
+        "n": 30
+      },
+      "f1": 0.25,
+      "by_field": {
+        "auditor": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 0
+        },
+        "custodian": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 5
+        },
+        "max_issuance": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 1
+        },
+        "nav_per_unit": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 1
+        },
+        "net_assets": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1
+        },
+        "networks": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 11
+        },
+        "report_date": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 2
+        },
+        "token_unit_ratio": {
+          "tp": 0,
+          "fp": 2,
+          "fn": 4
+        }
+      },
+      "fp_matching_blocked_gold": {
+        "count": 0,
+        "note": "Diagnostic only: false positives that equal a gold item the verifier blocked. Not part of the headline numbers.",
+        "items": []
+      },
+      "tokens": {
+        "calls": 15,
+        "reasoning_reported": 15,
+        "sum": {
+          "input": 51622,
+          "output": 4795,
+          "reasoning": 2070,
+          "total": 56417
+        },
+        "mean_per_document": {
+          "input": 3441,
+          "output": 320,
+          "reasoning": 138,
+          "total": 3761
+        }
+      },
+      "latency": {
+        "median_ms": 1286,
+        "p90_ms": 2575,
+        "max_ms": 2608
+      },
+      "errors": 0,
+      "retried_documents": 0,
+      "failed_documents": [],
+      "stale_runs": [],
+      "per_document": [
+        {
+          "doc_id": "072b341b345b2842",
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "proposals": 3,
+          "verified": 0,
+          "dropped": {
+            "quote_too_short": 2,
+            "field_gate": 1
+          },
+          "by_field": {
+            "nav_per_unit": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "nav_per_unit",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": 1.1487,
+              "value_text": "$1.1487",
+              "as_of": null,
+              "quote": "USDY's Return\nUS Treasury Bill's Return\nPrice\n$1.1487"
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "195c66f44c26ff3c",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "44fb278467bf1522",
+          "tp": 1,
+          "fp": 1,
+          "fn": 11,
+          "proposals": 4,
+          "verified": 2,
+          "dropped": {
+            "quote_not_found": 1,
+            "as_of_not_in_quote": 1
+          },
+          "by_field": {
+            "networks": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 10
+            },
+            "report_date": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            },
+            "net_assets": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            }
+          },
+          "fp_items": [
+            {
+              "field": "report_date",
+              "asset": "ISSUER:ondo.finance",
+              "value": "2026-10-02",
+              "value_text": "October 2, 2026 7:59:59pm EDT",
+              "as_of": "2026-10-02",
+              "quote": "As of October 2, 2026 7:59:59pm EDT"
+            }
+          ],
+          "fn_items": [
+            {
+              "field": "net_assets",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": 2320000000,
+              "value_text": "$2.32B",
+              "as_of": null,
+              "quote": "Value of Underlying Assets4\n$2.32B"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Aptos",
+              "value_text": "Aptos",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Arbitrum",
+              "value_text": "Arbitrum",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "BNB Chain",
+              "value_text": "BNB Chain",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Ethereum",
+              "value_text": "Ethereum",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Mantle",
+              "value_text": "Mantle",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Noble",
+              "value_text": "Noble",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Sei",
+              "value_text": "Sei",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Solana",
+              "value_text": "Solana",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Sui",
+              "value_text": "Sui",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Tempo",
+              "value_text": "Tempo",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "48bfe4f3d97b634c",
+          "tp": 2,
+          "fp": 2,
+          "fn": 2,
+          "proposals": 7,
+          "verified": 4,
+          "dropped": {
+            "quote_not_found": 3
+          },
+          "by_field": {
+            "max_issuance": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "networks": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "token_unit_ratio": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            },
+            "auditor": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            },
+            "report_date": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 2
+            }
+          },
+          "fp_items": [
+            {
+              "field": "token_unit_ratio",
+              "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+              "value": 1,
+              "value_text": "1",
+              "as_of": null,
+              "quote": "One BB1-Token corresponds to EUR 1 of the issued bonds."
+            },
+            {
+              "field": "auditor",
+              "asset": "ISSUER:bitbondsto.com",
+              "value": "unqualified audit opinion",
+              "value_text": "unqualified audit\nopinion",
+              "as_of": null,
+              "quote": "The Opening Balance Sheet was audited. The auditor issued an unqualified audit opinion."
+            }
+          ],
+          "fn_items": [
+            {
+              "field": "report_date",
+              "asset": "ISSUER:bitbondsto.com",
+              "value": "2018-07-13",
+              "value_text": "July 13, 2018",
+              "as_of": "2018-07-13",
+              "quote": "The issuer has prepared an Opening Balance Sheet as of July 13, 2018, pursuant to the principles of the German"
+            },
+            {
+              "field": "report_date",
+              "asset": "ISSUER:bitbondsto.com",
+              "value": "2018-10-31",
+              "value_text": "October 31, 2018",
+              "as_of": "2018-10-31",
+              "quote": "Total ASSETS 25,000.00 Total LIABILITIES 25,000.00\nInterim balance as of October 31, 2018"
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "49bce52c98afb1e7",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 1,
+          "verified": 0,
+          "dropped": {
+            "field_gate": 1
+          },
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "4d405468cd284a9c",
+          "tp": 0,
+          "fp": 1,
+          "fn": 2,
+          "proposals": 3,
+          "verified": 1,
+          "dropped": {
+            "value_unparseable": 1,
+            "quote_ambiguous": 1
+          },
+          "by_field": {
+            "token_unit_ratio": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            },
+            "max_issuance": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            },
+            "networks": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            }
+          },
+          "fp_items": [
+            {
+              "field": "token_unit_ratio",
+              "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+              "value": 1,
+              "value_text": "1",
+              "as_of": null,
+              "quote": "Ein BB1-Token entspricht EUR 1 der gezeichneten Schuldverschreibung."
+            }
+          ],
+          "fn_items": [
+            {
+              "field": "max_issuance",
+              "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+              "value": 100000000,
+              "value_text": "100.000.000",
+              "as_of": null,
+              "quote": "Im Rahmen eines öffentlichen Angebots werden 100.000.000 tokenbasierte Schuldverschreibungen mit einem Nennbetrag von jeweils EUR 1"
+            },
+            {
+              "field": "networks",
+              "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+              "value": "Stellar",
+              "value_text": "Stellar",
+              "as_of": null,
+              "quote": "BB1-Token basieren auf der Stellar Blockchain und repräsentieren die Rechte aus der Schuldverschreibung."
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "4db948f22a0a48fe",
+          "tp": 0,
+          "fp": 0,
+          "fn": 4,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {
+            "token_unit_ratio": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 4
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "token_unit_ratio",
+              "asset": "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+              "value": 1,
+              "value_text": "1",
+              "as_of": null,
+              "quote": "desc=\"1 BENJI token corresponds to 1 share of the fund.\""
+            },
+            {
+              "field": "token_unit_ratio",
+              "asset": "gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+              "value": 1,
+              "value_text": "1",
+              "as_of": null,
+              "quote": "desc=\"1 gBENJI token corresponds to 1 share of the fund.\""
+            },
+            {
+              "field": "token_unit_ratio",
+              "asset": "grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+              "value": 1,
+              "value_text": "1",
+              "as_of": null,
+              "quote": "desc=\"1 grBENJI token corresponds to 1 share of the fund.\""
+            },
+            {
+              "field": "token_unit_ratio",
+              "asset": "sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+              "value": 1,
+              "value_text": "1",
+              "as_of": null,
+              "quote": "desc=\"1 sgBENJI token corresponds to 1 share of the fund.\""
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "71033ba712b3d810",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 1,
+          "verified": 0,
+          "dropped": {
+            "field_gate": 1
+          },
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "7baed7519f48736b",
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 8,
+          "verified": 2,
+          "dropped": {
+            "value_unparseable": 1,
+            "quote_ambiguous": 3,
+            "quote_too_short": 2
+          },
+          "by_field": {
+            "nav_per_unit": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "networks": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            }
+          },
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "9693d960cc14a12a",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "9b9c7ae01493707d",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 1,
+          "verified": 0,
+          "dropped": {
+            "field_gate": 1
+          },
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "be02311d2bbd9223",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "c1d4edf59b2a917b",
+          "tp": 0,
+          "fp": 1,
+          "fn": 2,
+          "proposals": 1,
+          "verified": 1,
+          "dropped": {},
+          "by_field": {
+            "custodian": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 2
+            }
+          },
+          "fp_items": [
+            {
+              "field": "custodian",
+              "asset": "ISSUER:ylds.com",
+              "value": "UMB Bank N.A. and Flagstar Bank, N.A.",
+              "value_text": "UMB Bank N.A. and Flagstar Bank, N.A.",
+              "as_of": null,
+              "quote": "Custodian UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements."
+            }
+          ],
+          "fn_items": [
+            {
+              "field": "custodian",
+              "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+              "value": "Flagstar Bank, N.A.",
+              "value_text": "Flagstar Bank, N.A.",
+              "as_of": null,
+              "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements."
+            },
+            {
+              "field": "custodian",
+              "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+              "value": "UMB Bank N.A.",
+              "value_text": "UMB Bank N.A.",
+              "as_of": null,
+              "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements."
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "c8d07d3a92081206",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "f5141a838562238f",
+          "tp": 0,
+          "fp": 0,
+          "fn": 3,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {
+            "custodian": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 3
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "B3",
+              "value_text": "B3",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            },
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "BBVA",
+              "value_text": "BBVA",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            },
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "Shinhan",
+              "value_text": "Shinhan",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            }
+          ],
+          "fp_matching_blocked": []
+        }
+      ]
+    },
+    "nemotron": {
+      "provider": "openrouter",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "provider_options": {
+        "openrouter": {
+          "reasoning": {
+            "effort": "low"
+          }
+        }
+      },
+      "prompt_version": "claims-v3",
+      "response_models": [
+        "nvidia/nemotron-3-super-120b-a12b:free"
+      ],
+      "documents_with_run": 15,
+      "documents_scored": 12,
+      "proposals": 26,
+      "verified": 13,
+      "dropped_by_reason": {
+        "as_of_unparseable": 1,
+        "field_gate": 9,
+        "quote_ambiguous": 1,
+        "quote_not_found": 2
+      },
+      "tp": 4,
+      "fp": 9,
+      "fn": 18,
+      "precision": {
+        "value": 0.3077,
+        "low": 0.1268,
+        "high": 0.5763,
+        "n": 13
+      },
+      "recall": {
+        "value": 0.1818,
+        "low": 0.0731,
+        "high": 0.3852,
+        "n": 22
+      },
+      "f1": 0.2286,
+      "by_field": {
+        "auditor": {
+          "tp": 0,
+          "fp": 3,
+          "fn": 0
+        },
+        "custodian": {
+          "tp": 0,
+          "fp": 2,
+          "fn": 5
+        },
+        "nav_per_unit": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1
+        },
+        "net_assets": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1
+        },
+        "networks": {
+          "tp": 0,
+          "fp": 3,
+          "fn": 11
+        },
+        "report_date": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 0
+        },
+        "token_unit_ratio": {
+          "tp": 4,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "fp_matching_blocked_gold": {
+        "count": 0,
+        "note": "Diagnostic only: false positives that equal a gold item the verifier blocked. Not part of the headline numbers.",
+        "items": []
+      },
+      "tokens": {
+        "calls": 12,
+        "reasoning_reported": 12,
+        "sum": {
+          "input": 33644,
+          "output": 21740,
+          "reasoning": 19740,
+          "total": 55384
+        },
+        "mean_per_document": {
+          "input": 2804,
+          "output": 1812,
+          "reasoning": 1645,
+          "total": 4615
+        }
+      },
+      "latency": {
+        "median_ms": 18447,
+        "p90_ms": 39618,
+        "max_ms": 48038
+      },
+      "errors": 3,
+      "retried_documents": 0,
+      "failed_documents": [
+        {
+          "doc_id": "48bfe4f3d97b634c",
+          "error": "AI_NoOutputGeneratedError",
+          "attempts": 1
+        },
+        {
+          "doc_id": "4d405468cd284a9c",
+          "error": "AI_NoOutputGeneratedError",
+          "attempts": 1
+        },
+        {
+          "doc_id": "7baed7519f48736b",
+          "error": "AI_NoObjectGeneratedError",
+          "attempts": 1
+        }
+      ],
+      "stale_runs": [],
+      "per_document": [
+        {
+          "doc_id": "072b341b345b2842",
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {
+            "nav_per_unit": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "nav_per_unit",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": 1.1487,
+              "value_text": "$1.1487",
+              "as_of": null,
+              "quote": "USDY's Return\nUS Treasury Bill's Return\nPrice\n$1.1487"
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "195c66f44c26ff3c",
+          "tp": 0,
+          "fp": 1,
+          "fn": 0,
+          "proposals": 1,
+          "verified": 1,
+          "dropped": {},
+          "by_field": {
+            "networks": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            }
+          },
+          "fp_items": [
+            {
+              "field": "networks",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "Public Global Stellar Network ; September 2015",
+              "value_text": "Public Global Stellar Network ; September 2015",
+              "as_of": null,
+              "quote": "NETWORK_PASSPHRASE = \"Public Global Stellar Network ; September 2015\""
+            }
+          ],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "44fb278467bf1522",
+          "tp": 0,
+          "fp": 1,
+          "fn": 12,
+          "proposals": 4,
+          "verified": 1,
+          "dropped": {
+            "quote_not_found": 2,
+            "field_gate": 1
+          },
+          "by_field": {
+            "report_date": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            },
+            "net_assets": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 1
+            },
+            "networks": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 11
+            }
+          },
+          "fp_items": [
+            {
+              "field": "report_date",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "2026-10-02",
+              "value_text": "October 2, 2026 7:59:59pm EDT",
+              "as_of": null,
+              "quote": "As of October 2, 2026 7:59:59pm EDT"
+            }
+          ],
+          "fn_items": [
+            {
+              "field": "net_assets",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": 2320000000,
+              "value_text": "$2.32B",
+              "as_of": null,
+              "quote": "Value of Underlying Assets4\n$2.32B"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Aptos",
+              "value_text": "Aptos",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Arbitrum",
+              "value_text": "Arbitrum",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "BNB Chain",
+              "value_text": "BNB Chain",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Ethereum",
+              "value_text": "Ethereum",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Mantle",
+              "value_text": "Mantle",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Noble",
+              "value_text": "Noble",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Sei",
+              "value_text": "Sei",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Solana",
+              "value_text": "Solana",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Stellar",
+              "value_text": "Stellar",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Sui",
+              "value_text": "Sui",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            },
+            {
+              "field": "networks",
+              "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+              "value": "Tempo",
+              "value_text": "Tempo",
+              "as_of": null,
+              "quote": "Available Networks\nEthereum\n,\nMantle\n,\nSolana\n,\nSui\n,\nAptos\n,\nNoble\n,\nArbitrum\n,\nStellar\n,\nSei\n,\nTempo\n,\nBNB Chain"
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "49bce52c98afb1e7",
+          "tp": 0,
+          "fp": 2,
+          "fn": 0,
+          "proposals": 2,
+          "verified": 2,
+          "dropped": {},
+          "by_field": {
+            "custodian": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            },
+            "networks": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            }
+          },
+          "fp_items": [
+            {
+              "field": "custodian",
+              "asset": "GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+              "value": "independent gold custodian",
+              "value_text": "independent gold custodian",
+              "as_of": null,
+              "quote": "Each WisdomTree Gold Token serves as a document of title to physical gold, with secure storage of physical gold at an independent gold custodian and transparency into the actual gold bars held at the custodian."
+            },
+            {
+              "field": "networks",
+              "asset": "ISSUER:wisdomtree.com",
+              "value": "Public Global Stellar Network ; September 2015",
+              "value_text": "Public Global Stellar Network ; September 2015",
+              "as_of": null,
+              "quote": "NETWORK_PASSPHRASE=\"Public Global Stellar Network ; September 2015\""
+            }
+          ],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "4db948f22a0a48fe",
+          "tp": 4,
+          "fp": 1,
+          "fn": 0,
+          "proposals": 5,
+          "verified": 5,
+          "dropped": {},
+          "by_field": {
+            "token_unit_ratio": {
+              "tp": 4,
+              "fp": 0,
+              "fn": 0
+            },
+            "networks": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 0
+            }
+          },
+          "fp_items": [
+            {
+              "field": "networks",
+              "asset": "ISSUER:franklintempleton.com",
+              "value": "Public Global Stellar Network ; September 2015",
+              "value_text": "Public Global Stellar Network ; September 2015",
+              "as_of": null,
+              "quote": "NETWORK_PASSPHRASE=\"Public Global Stellar Network ; September 2015\""
+            }
+          ],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "71033ba712b3d810",
+          "tp": 0,
+          "fp": 3,
+          "fn": 0,
+          "proposals": 3,
+          "verified": 3,
+          "dropped": {},
+          "by_field": {
+            "auditor": {
+              "tp": 0,
+              "fp": 3,
+              "fn": 0
+            }
+          },
+          "fp_items": [
+            {
+              "field": "auditor",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "BHR ENW México Group, S. C.",
+              "value_text": "BHR ENW México Group, S. C.",
+              "as_of": null,
+              "quote": "The results of an anti-money laundering audit performed by BHR ENW México Group, S. C."
+            },
+            {
+              "field": "auditor",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "independent third parties",
+              "value_text": "independent third parties",
+              "as_of": null,
+              "quote": "Proof of Reserves audits are performed by independent third parties to ensure the validity of our publicly reported holdings."
+            },
+            {
+              "field": "auditor",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "OtterSec",
+              "value_text": "OtterSec",
+              "as_of": null,
+              "quote": "A Rust program audit was successfully performed by OtterSec to ensure the security of our smart contracts on the Solana blockchain."
+            }
+          ],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "9693d960cc14a12a",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "9b9c7ae01493707d",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 1,
+          "verified": 0,
+          "dropped": {
+            "field_gate": 1
+          },
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "be02311d2bbd9223",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 0,
+          "verified": 0,
+          "dropped": {},
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "c1d4edf59b2a917b",
+          "tp": 0,
+          "fp": 1,
+          "fn": 2,
+          "proposals": 6,
+          "verified": 1,
+          "dropped": {
+            "quote_ambiguous": 1,
+            "field_gate": 4
+          },
+          "by_field": {
+            "custodian": {
+              "tp": 0,
+              "fp": 1,
+              "fn": 2
+            }
+          },
+          "fp_items": [
+            {
+              "field": "custodian",
+              "asset": "ISSUER:ylds.com",
+              "value": "UMB Bank N.A. and Flagstar Bank, N.A.",
+              "value_text": "UMB Bank N.A. and Flagstar Bank, N.A.",
+              "as_of": null,
+              "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements."
+            }
+          ],
+          "fn_items": [
+            {
+              "field": "custodian",
+              "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+              "value": "Flagstar Bank, N.A.",
+              "value_text": "Flagstar Bank, N.A.",
+              "as_of": null,
+              "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements."
+            },
+            {
+              "field": "custodian",
+              "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+              "value": "UMB Bank N.A.",
+              "value_text": "UMB Bank N.A.",
+              "as_of": null,
+              "quote": "UMB Bank N.A. and Flagstar Bank, N.A., each a Member FDIC, are the custodians of FCC’s assets pursuant to custody agreements."
+            }
+          ],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "c8d07d3a92081206",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "proposals": 1,
+          "verified": 0,
+          "dropped": {
+            "as_of_unparseable": 1
+          },
+          "by_field": {},
+          "fp_items": [],
+          "fn_items": [],
+          "fp_matching_blocked": []
+        },
+        {
+          "doc_id": "f5141a838562238f",
+          "tp": 0,
+          "fp": 0,
+          "fn": 3,
+          "proposals": 3,
+          "verified": 0,
+          "dropped": {
+            "field_gate": 3
+          },
+          "by_field": {
+            "custodian": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 3
+            }
+          },
+          "fp_items": [],
+          "fn_items": [
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "B3",
+              "value_text": "B3",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            },
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "BBVA",
+              "value_text": "BBVA",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            },
+            {
+              "field": "custodian",
+              "asset": "ISSUER:etherfuse.com",
+              "value": "Shinhan",
+              "value_text": "Shinhan",
+              "as_of": null,
+              "quote": "Regulated Custodians BBVA, Shinhan, B3, and more"
+            }
+          ],
+          "fp_matching_blocked": []
+        }
+      ]
+    }
+  },
+  "head_to_head": {
+    "documents": [
+      "195c66f44c26ff3c",
+      "71033ba712b3d810",
+      "9b9c7ae01493707d",
+      "c1d4edf59b2a917b"
+    ],
+    "configs": {
+      "flash": {
+        "tp": 2,
+        "fp": 2,
+        "fn": 0,
+        "precision": {
+          "value": 0.5,
+          "low": 0.15,
+          "high": 0.85,
+          "n": 4
+        },
+        "recall": {
+          "value": 1,
+          "low": 0.3424,
+          "high": 1,
+          "n": 2
+        },
+        "f1": 0.6667
+      },
+      "flash-lite": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 2,
+        "precision": {
+          "value": 0,
+          "low": 0,
+          "high": 0.7935,
+          "n": 1
+        },
+        "recall": {
+          "value": 0,
+          "low": 0,
+          "high": 0.6576,
+          "n": 2
+        },
+        "f1": 0
+      },
+      "gpt-oss": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 2,
+        "precision": {
+          "value": 0,
+          "low": 0,
+          "high": 0.7935,
+          "n": 1
+        },
+        "recall": {
+          "value": 0,
+          "low": 0,
+          "high": 0.6576,
+          "n": 2
+        },
+        "f1": 0
+      },
+      "nemotron": {
+        "tp": 0,
+        "fp": 5,
+        "fn": 2,
+        "precision": {
+          "value": 0,
+          "low": 0,
+          "high": 0.4345,
+          "n": 5
+        },
+        "recall": {
+          "value": 0,
+          "low": 0,
+          "high": 0.6576,
+          "n": 2
+        },
+        "f1": 0
+      }
+    }
+  },
+  "window": {
+    "operator_reviewed_claims": 8,
+    "inside": 5,
+    "outside": 3,
+    "without_document": 0,
+    "outside_items": [
+      {
+        "doc_id": "c1d4edf59b2a917b",
+        "field": "auditor",
+        "asset": "ISSUER:ylds.com",
+        "value_text": "KPMG LLP"
+      },
+      {
+        "doc_id": "c1d4edf59b2a917b",
+        "field": "report_date",
+        "asset": "ISSUER:ylds.com",
+        "value_text": "December 31, 2025"
+      },
+      {
+        "doc_id": "c1d4edf59b2a917b",
+        "field": "networks",
+        "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+        "value_text": "Provenance Blockchain"
+      }
+    ],
+    "coverage": [
+      {
+        "doc_id": "072b341b345b2842",
+        "window_chars": 6444,
+        "full_chars": 6446,
+        "ratio": 0.9997
+      },
+      {
+        "doc_id": "195c66f44c26ff3c",
+        "window_chars": 7098,
+        "full_chars": 7100,
+        "ratio": 0.9997
+      },
+      {
+        "doc_id": "44fb278467bf1522",
+        "window_chars": 14443,
+        "full_chars": 14478,
+        "ratio": 0.9976
+      },
+      {
+        "doc_id": "48bfe4f3d97b634c",
+        "window_chars": 23998,
+        "full_chars": 202609,
+        "ratio": 0.1184
+      },
+      {
+        "doc_id": "49bce52c98afb1e7",
+        "window_chars": 16196,
+        "full_chars": 16201,
+        "ratio": 0.9997
+      },
+      {
+        "doc_id": "4d405468cd284a9c",
+        "window_chars": 23777,
+        "full_chars": 250605,
+        "ratio": 0.0949
+      },
+      {
+        "doc_id": "4db948f22a0a48fe",
+        "window_chars": 4272,
+        "full_chars": 4274,
+        "ratio": 0.9995
+      },
+      {
+        "doc_id": "71033ba712b3d810",
+        "window_chars": 2572,
+        "full_chars": 2572,
+        "ratio": 1
+      },
+      {
+        "doc_id": "7baed7519f48736b",
+        "window_chars": 14258,
+        "full_chars": 14262,
+        "ratio": 0.9997
+      },
+      {
+        "doc_id": "9693d960cc14a12a",
+        "window_chars": 831,
+        "full_chars": 831,
+        "ratio": 1
+      },
+      {
+        "doc_id": "9b9c7ae01493707d",
+        "window_chars": 1849,
+        "full_chars": 1850,
+        "ratio": 0.9995
+      },
+      {
+        "doc_id": "be02311d2bbd9223",
+        "window_chars": 2092,
+        "full_chars": 2092,
+        "ratio": 1
+      },
+      {
+        "doc_id": "c1d4edf59b2a917b",
+        "window_chars": 23968,
+        "full_chars": 184633,
+        "ratio": 0.1298
+      },
+      {
+        "doc_id": "c8d07d3a92081206",
+        "window_chars": 2628,
+        "full_chars": 2629,
+        "ratio": 0.9996
+      },
+      {
+        "doc_id": "f5141a838562238f",
+        "window_chars": 2999,
+        "full_chars": 3337,
+        "ratio": 0.8987
+      }
+    ]
+  }
+}

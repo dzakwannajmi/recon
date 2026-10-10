@@ -34,7 +34,14 @@ function cut(text: string, max: number) {
   return chars.length <= max ? null : chars.slice(0, max).join("");
 }
 
-export function projectClaims(claims: Claim[], universe: UniverseAsset[], code: string, issuer?: string, field?: string) {
+export type MatchedClaim = { claim: Claim; about: "asset" | "issuer" };
+
+/**
+ * The stored claims that apply to an asset code (and issuer, if given), the asset's own claims first (stable order).
+ * Issuer-level facts (stored as ISSUER:<official domain>) apply when the asset's pinned official domain matches.
+ * Shared by the chat tool and the check routes. A pure filter: it computes nothing.
+ */
+export function claimsFor(claims: Claim[], universe: UniverseAsset[], code: string, issuer?: string, field?: string): MatchedClaim[] {
   const domains = new Set(universe.filter((u) => u.asset_code === code && (!issuer || u.issuer === issuer)).map((u) => u.official_domain).filter(Boolean));
   const isIssuerLevel = (c: Claim) => c.asset.startsWith("ISSUER:");
   const own = (c: Claim) => {
@@ -42,12 +49,16 @@ export function projectClaims(claims: Claim[], universe: UniverseAsset[], code: 
     const [claimCode, claimIssuer] = c.asset.split(":");
     return claimCode === code && (!issuer || claimIssuer === issuer);
   };
-  // Issuer-level facts (stored as ISSUER:<official domain>) apply when the asset's pinned official domain matches.
   const sameOrg = (c: Claim) => isIssuerLevel(c) && domains.has(c.asset.slice("ISSUER:".length));
-  const matching = claims
+  return claims
     .filter((c) => (own(c) || sameOrg(c)) && (!field || c.field === field))
-    .sort((a, b) => Number(sameOrg(a)) - Number(sameOrg(b))); // stable: the asset's own claims first
-  const shown = matching.slice(0, MAX_CLAIMS).map((c) => {
+    .sort((a, b) => Number(sameOrg(a)) - Number(sameOrg(b))) // stable: the asset's own claims first
+    .map((claim) => ({ claim, about: sameOrg(claim) ? ("issuer" as const) : ("asset" as const) }));
+}
+
+export function projectClaims(claims: Claim[], universe: UniverseAsset[], code: string, issuer?: string, field?: string) {
+  const matching = claimsFor(claims, universe, code, issuer, field);
+  const shown = matching.slice(0, MAX_CLAIMS).map(({ claim: c, about }) => {
     const short = cut(c.quote, MAX_QUOTE_CHARS);
     return {
       field: c.field,
@@ -60,7 +71,7 @@ export function projectClaims(claims: Claim[], universe: UniverseAsset[], code: 
       snapshot_sha256: c.snapshot_sha256,
       source_class: c.source_class,
       field_source: c.field_source,
-      about: sameOrg(c) ? ("issuer" as const) : ("asset" as const),
+      about,
     };
   });
   return {

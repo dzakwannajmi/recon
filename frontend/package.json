@@ -20,7 +20,8 @@
     "status": "tsx scripts/status.ts",
     "feed:publish": "tsx --env-file-if-exists=.env scripts/publish-feed.ts",
     "feed:verify": "tsx --env-file-if-exists=.env scripts/verify-feed.ts",
-    "check:paid": "tsx scripts/paid-check.ts"
+    "check:paid": "tsx scripts/paid-check.ts",
+    "mcp:probe": "tsx scripts/mcp-probe.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.88",

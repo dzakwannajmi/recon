@@ -19,7 +19,8 @@
     "examine": "tsx --env-file-if-exists=.env scripts/examine.ts",
     "status": "tsx scripts/status.ts",
     "feed:publish": "tsx --env-file-if-exists=.env scripts/publish-feed.ts",
-    "feed:verify": "tsx --env-file-if-exists=.env scripts/verify-feed.ts"
+    "feed:verify": "tsx --env-file-if-exists=.env scripts/verify-feed.ts",
+    "check:paid": "tsx scripts/paid-check.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.88",
@@ -27,6 +28,9 @@
     "@ai-sdk/openai-compatible": "^3.0.67",
     "@base-ui/react": "^1.8.0",
     "@stellar/stellar-sdk": "^17.2.1",
+    "@x402/core": "2.28.0",
+    "@x402/next": "2.28.0",
+    "@x402/stellar": "2.28.0",
     "ai": "^7.0.128",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.4.0",

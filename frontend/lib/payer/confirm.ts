@@ -24,7 +24,7 @@ export type HorizonOperation = {
   asset_balance_changes?: BalanceChange[];
 };
 
-export type HorizonTransaction = { hash?: string; successful?: boolean; ledger?: number };
+export type HorizonTransaction = { hash?: string; successful?: boolean; ledger?: number; created_at?: string };
 
 /** The testnet USDC transfers an operation list reports (credit_alphanum4 USDC from the pinned issuer, type transfer). */
 export function usdcTransfers(ops: readonly HorizonOperation[]): BalanceChange[] {

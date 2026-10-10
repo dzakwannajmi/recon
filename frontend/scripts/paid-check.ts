@@ -19,7 +19,9 @@ import { loadDeployment } from "../lib/feed/deployment";
 import { NETWORK } from "../lib/gateway/payment-config";
 import { USAGE, parseArgs, type CliArgs } from "../lib/payer/args";
 import { confirmTransfer, paymentsSince, type Confirmation, type HorizonOperation, type HorizonTransaction } from "../lib/payer/confirm";
+import { DETAIL_SCHEMA } from "../lib/gateway/detail";
 import { stellarChildEnv } from "../lib/payer/env";
+import { NOT_SHOWN, safeBool, safeValue } from "../lib/payer/safe";
 import { exitCode, newRunState, stoppedSentence } from "../lib/payer/outcome";
 import { USDC_CODE, USDC_TESTNET_ISSUER, acceptRequirements, decimalToBase, refusePayer, refuseReason } from "../lib/payer/policy";
 
@@ -139,8 +141,12 @@ async function session(args: CliArgs): Promise<void> {
   const query = `asset_code=${encodeURIComponent(args.asset)}${args.issuer ? `&issuer=${encodeURIComponent(args.issuer)}` : ""}`;
   const free = await fetchJson<{ status?: string | null; as_of?: string; raised_flags?: { code: string }[]; asset?: { issuer?: string } }>(`${args.baseUrl}/api/check?${query}`);
   if (free.status !== 200 || !free.body) throw new Stop(`The free summary answered ${free.status}`);
-  say(`Free summary: status ${free.body.status ?? "none"}, as of ${free.body.as_of}, raised flags: ${(free.body.raised_flags ?? []).map((f) => f.code).join(", ") || "none"}`);
-  const detailUrl = `${args.baseUrl}/api/check/detail?asset_code=${encodeURIComponent(args.asset)}&issuer=${encodeURIComponent(args.issuer ?? free.body.asset?.issuer ?? "")}`;
+  // Everything the server sends is shown only through safeValue: a hostile --base-url must not put prose or control codes on the terminal.
+  const flagCodes = Array.isArray(free.body.raised_flags) ? free.body.raised_flags.slice(0, 20).map((f) => safeValue(f?.code)) : [];
+  say(`Free summary: status ${free.body.status === null ? "none" : safeValue(free.body.status)}, as of ${safeValue(free.body.as_of)}, raised flags: ${flagCodes.join(", ") || "none"}`);
+  const issuerForDetail = args.issuer ?? free.body.asset?.issuer;
+  if (typeof issuerForDetail !== "string" || !StrKey.isValidEd25519PublicKey(issuerForDetail)) throw new Stop("The free summary gave no valid issuer; pass --issuer");
+  const detailUrl = `${args.baseUrl}/api/check/detail?asset_code=${encodeURIComponent(args.asset)}&issuer=${encodeURIComponent(issuerForDetail)}`;
 
   // 6. The unpaid request must be a 402 whose requirements are exactly what we expect.
   stage = "the unpaid request";
@@ -183,18 +189,18 @@ async function session(args: CliArgs): Promise<void> {
 
   if (paid && bytes && settle && txHash) {
     state.delivered = true;
-    let schema: string | undefined;
-    let matches = "unknown";
+    let schema = NOT_SHOWN;
+    let matches: string = "unknown";
     try {
-      const body = JSON.parse(bytes.toString("utf8")) as { schema?: string; feed?: { onchain?: { matches?: boolean | null } } };
-      schema = body.schema;
-      matches = String(body.feed?.onchain?.matches);
+      const body = JSON.parse(bytes.toString("utf8")) as { schema?: unknown; feed?: { onchain?: { matches?: unknown } } };
+      schema = body.schema === DETAIL_SCHEMA ? DETAIL_SCHEMA : NOT_SHOWN; // our own constant, never the server's text
+      matches = safeBool(body.feed?.onchain?.matches);
     } catch {
       // the settlement is what matters; a body we cannot read is reported as unknown
     }
     say(`Paid response 200. Settlement tx ${txHash}`);
     say(`Explorer: ${EXPLORER}/${txHash}`);
-    say(`Payer ${settle.payer ?? payer}, network ${settle.network}`);
+    say(`Payer ${safeValue(settle.payer ?? payer)}, network ${safeValue(settle.network)}`);
     say(`Body sha256 ${createHash("sha256").update(bytes).digest("hex")}, ${bytes.length} bytes, schema ${schema}, feed.onchain.matches ${matches}`);
 
     // 9. Confirm on Horizon testnet. It can take a few seconds to show up.
@@ -231,29 +237,34 @@ async function session(args: CliArgs): Promise<void> {
     // 10. Optional: the same payment again must be refused and must not move money.
     if (args.replayCheck) {
       stage = "the replay check";
-      state.replay = "error";
-      const again = await fetch(detailUrl, { headers: signature, signal: AbortSignal.timeout(PAID_TIMEOUT_MS) });
-      if (again.status === 200) {
-        state.replay = "not_refused";
-        console.error("The replayed payment was NOT refused");
-        return;
-      }
-      let reason = "no reason given";
+      // The first payment is already confirmed. If the replay check itself cannot finish, that is "unknown" (exit 2), never "not settled".
+      state.replay = "unknown";
       try {
-        reason = String(http.getPaymentRequiredResponse((n) => again.headers.get(n), undefined).error ?? reason).slice(0, 80);
+        const again = await fetch(detailUrl, { headers: signature, signal: AbortSignal.timeout(PAID_TIMEOUT_MS) });
+        if (again.status === 200) {
+          state.replay = "not_refused";
+          console.error("The replayed payment was NOT refused");
+          return;
+        }
+        let reason = NOT_SHOWN;
+        try {
+          reason = safeValue(http.getPaymentRequiredResponse((n) => again.headers.get(n), undefined).error);
+        } catch {
+          reason = "no reason given"; // a non-402 refusal has no PAYMENT-REQUIRED header
+        }
+        say(`Replay refused: status ${again.status}, reason ${reason}`);
+        await sleep(REPLAY_WAIT_MS);
+        const hashes = paymentsSince(await payerOperations(payer), { payer, payTo, since: startedAt });
+        if (hashes.length !== 1) {
+          state.replay = "second_transfer";
+          console.error(`Expected exactly one transfer since the start, found ${hashes.length}`);
+          return;
+        }
+        state.replay = "refused";
+        say("No second transfer appeared after the replay");
       } catch {
-        // a non-402 refusal has no PAYMENT-REQUIRED header
+        console.error("The replay check could not finish. The first payment is confirmed; check the receiving account for a second transfer.");
       }
-      say(`Replay refused: status ${again.status}, reason ${reason}`);
-      await sleep(REPLAY_WAIT_MS);
-      const hashes = paymentsSince(await payerOperations(payer), { payer, payTo, since: startedAt });
-      if (hashes.length !== 1) {
-        state.replay = "second_transfer";
-        console.error(`Expected exactly one transfer since the start, found ${hashes.length}`);
-        return;
-      }
-      state.replay = "refused";
-      say("No second transfer appeared after the replay");
     }
     return;
   }

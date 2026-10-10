@@ -16,7 +16,8 @@ describe("exitCode", () => {
     expect(exitCode(state({ ...paid, replay: "refused" }))).toBe(0);
     expect(exitCode(state({ ...paid, replay: "not_refused" }))).toBe(3);
     expect(exitCode(state({ ...paid, replay: "second_transfer" }))).toBe(3);
-    expect(exitCode(state({ ...paid, replay: "error" }))).toBe(3);
+    // The replay check itself failing to finish never reports "not settled" for a payment that was confirmed.
+    expect(exitCode(state({ ...paid, replay: "unknown" }))).toBe(2);
   });
 
   it("delivered but contradicted by the chain is 3, and delivered but not readable on chain is 2", () => {

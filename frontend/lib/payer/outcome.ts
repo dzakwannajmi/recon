@@ -12,8 +12,11 @@ export type RunState = {
   confirmation: "confirmed" | "mismatch" | "unreadable" | "pending";
   /** When nothing was delivered: did the chain poll find a transfer, find none, or fail? */
   chain: "found" | "none" | "unknown" | "pending";
-  /** The optional replay check. */
-  replay: "not_run" | "refused" | "not_refused" | "second_transfer" | "error";
+  /**
+   * The optional replay check. "unknown" means the check itself could not finish (the request or the chain read
+   * threw); the first payment was already confirmed, so that is never reported as "not settled".
+   */
+  replay: "not_run" | "refused" | "not_refused" | "second_transfer" | "unknown";
 };
 
 export const newRunState = (): RunState => ({ paidSent: false, delivered: false, confirmation: "pending", chain: "pending", replay: "not_run" });
@@ -25,7 +28,8 @@ export function exitCode(s: RunState): ExitCode {
   if (s.delivered) {
     if (s.confirmation === "mismatch") return 3;
     if (s.confirmation !== "confirmed") return 2; // the response came, but the chain was not read: possibly paid
-    return s.replay === "not_refused" || s.replay === "second_transfer" || s.replay === "error" ? 3 : 0;
+    if (s.replay === "unknown") return 2; // paid and confirmed, but the replay check could not finish: check by hand
+    return s.replay === "not_refused" || s.replay === "second_transfer" ? 3 : 0;
   }
   // No settled response. Only a chain poll that found nothing proves that nothing moved.
   return s.chain === "none" ? 3 : 2;

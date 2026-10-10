@@ -60,7 +60,7 @@ describe("confirmTransfer (L2)", () => {
   });
 });
 
-// A real x402 settlement from public Horizon testnet (2026-10-10), trimmed. See the _about field of the file.
+// The shape of a real x402 settlement from public Horizon testnet (2026-10-10), trimmed, with the amounts replaced by fake values. See the _about field of the file.
 describe("a real Horizon testnet settlement", () => {
   const fx = fixture as unknown as {
     transaction: HorizonTransaction & { source_account: string };

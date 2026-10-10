@@ -1,5 +1,5 @@
 {
-  "_about": "Public Stellar testnet data, fetched 2026-10-10 from horizon-testnet.stellar.org: one x402 settlement made by the facilitator (GC6CSXBV...YN3K), trimmed to the fields lib/payer/confirm.ts reads. Source URLs: /transactions/{hash}, /transactions/{hash}/operations, /accounts/{payer}/operations?order=desc&limit=10.",
+  "_about": "Public Stellar testnet data, fetched 2026-10-10 from horizon-testnet.stellar.org: one x402 settlement made by the facilitator (GC6CSXBV...YN3K), trimmed to the fields lib/payer/confirm.ts reads. Source URLs: /transactions/{hash}, /transactions/{hash}/operations, /accounts/{payer}/operations?order=desc&limit=10. The transfer amounts were replaced with clearly fake values (the settlement uses the test sentinel); everything else is unchanged public on-chain data.",
   "transaction": {
     "id": "c96d641e38a4dad8c1c9aa66eb539550d5447800cd7e417495aeca14f704b10d",
     "hash": "c96d641e38a4dad8c1c9aa66eb539550d5447800cd7e417495aeca14f704b10d",
@@ -30,7 +30,7 @@
               "type": "transfer",
               "from": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
               "to": "GAWSYBSG7GQYH77SRM7MPFMWMPUBCFBLQRYCDAEGELP6IFIUGSNYL5V7",
-              "amount": "0.0100000"
+              "amount": "0.0004242"
             }
           ]
         }
@@ -57,7 +57,7 @@
               "type": "transfer",
               "from": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
               "to": "GAWSYBSG7GQYH77SRM7MPFMWMPUBCFBLQRYCDAEGELP6IFIUGSNYL5V7",
-              "amount": "2.0013826"
+              "amount": "0.0004243"
             }
           ]
         },
@@ -78,7 +78,7 @@
               "type": "transfer",
               "from": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
               "to": "GAWSYBSG7GQYH77SRM7MPFMWMPUBCFBLQRYCDAEGELP6IFIUGSNYL5V7",
-              "amount": "25.0013816"
+              "amount": "0.0004244"
             }
           ]
         },
@@ -110,7 +110,7 @@
               "type": "transfer",
               "from": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
               "to": "GAWSYBSG7GQYH77SRM7MPFMWMPUBCFBLQRYCDAEGELP6IFIUGSNYL5V7",
-              "amount": "0.0100000"
+              "amount": "0.0004242"
             }
           ]
         }

@@ -73,7 +73,9 @@ export function reachable(roots: string[], g: Graph): Set<string> {
 export function packageSpecifiers(files: Iterable<string>, g: Graph): Set<string> {
   const out = new Set<string>();
   for (const file of files) {
-    for (const spec of specifiers(g.read(file))) {
+    // Comments are not imports ("... import from lib/flags" in a doc comment is prose).
+    const code = g.read(file).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:"'`\\])\/\/.*$/gm, "$1");
+    for (const spec of specifiers(code)) {
       if (spec.startsWith("./") || spec.startsWith("../") || spec.startsWith("@/")) continue;
       out.add(spec);
     }

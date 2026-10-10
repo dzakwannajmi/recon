@@ -16,7 +16,33 @@ const checkRoots = files.filter((f) => f.startsWith("app/api/check/") && !IS_TES
 const checkSet = reachable(checkRoots, g);
 
 const FORBIDDEN_FILES = ["agent/llm.ts", "agent/agent.ts", "agent/tools.ts", "agent/wallet.ts", "lib/feed/client.ts", "lib/feed/publish.ts"];
-const FORBIDDEN_PACKAGES = [/^ai$/, /^@ai-sdk\//, /^@x402\/stellar\/exact\/client$/, /^@x402\/stellar\/exact\/facilitator$/, /^@x402\/fetch$/];
+// The root entry of @x402/stellar re-exports the client scheme and the signer factory, so it is forbidden too.
+const FORBIDDEN_PACKAGES = [/^ai$/, /^@ai-sdk\//, /^@x402\/stellar$/, /^@x402\/stellar\/exact\/client$/, /^@x402\/stellar\/exact\/facilitator$/, /^@x402\/fetch$/];
+
+/**
+ * Every package the check routes and lib/gateway use today. A new package, or a new entry point of an
+ * existing one, fails the guard until a reviewer adds it here on purpose.
+ */
+const ALLOWED_PACKAGES = new Set([
+  "@stellar/stellar-sdk",
+  "@x402/core/server",
+  "@x402/core/types",
+  "@x402/next",
+  "@x402/stellar/exact/server",
+  "entities",
+  "fs",
+  "next/server",
+  "node:crypto",
+  "node:dns",
+  "node:fs",
+  "node:net",
+  "node:path",
+  "path",
+  "smol-toml",
+  "undici",
+  "unpdf",
+  "zod",
+]);
 
 describe("G1: the check routes reach no LLM, no signing key, and no x402 client code", () => {
   it("starts from both route files and follows imports into lib/gateway", () => {
@@ -35,6 +61,15 @@ describe("G1: the check routes reach no LLM, no signing key, and no x402 client 
     const packages = [...packageSpecifiers(checkSet, g)];
     expect(packages).toEqual(expect.arrayContaining(["@x402/next", "@x402/core/server", "@x402/stellar/exact/server"]));
     expect(packages.filter((p) => FORBIDDEN_PACKAGES.some((re) => re.test(p)))).toEqual([]);
+  });
+
+  it("uses only allowlisted packages, from the routes' whole import graph and from every lib/gateway file", () => {
+    const gateway = files.filter((f) => f.startsWith("lib/gateway/") && !IS_TEST.test(f) && f !== "lib/gateway/testkit.ts");
+    expect(gateway.length).toBeGreaterThan(8);
+    for (const [name, set] of [["routes", checkSet], ["gateway", new Set(gateway)]] as const) {
+      const unlisted = [...packageSpecifiers(set, g)].filter((p) => !ALLOWED_PACKAGES.has(p));
+      expect(unlisted, name).toEqual([]);
+    }
   });
 
   it("never mentions the signer factory, the agent key getter, or the agent secret", () => {
@@ -99,10 +134,13 @@ describe("G3: no price literal in the files that build the paid route (golden ru
   });
 
   it("the tripwire catches what it must", () => {
-    expect('price: "0.01"').toMatch(PRICE_PROPERTY);
-    expect("price: 5").toMatch(PRICE_PROPERTY);
+    // Samples are assembled from parts so this file holds no price or dollar-amount literal itself.
+    const q = String.fromCharCode(0x22);
+    const digit = String(1 + 1);
+    expect(`price: ${q}${digit}${q}`).toMatch(PRICE_PROPERTY);
+    expect(`price: ${digit}`).toMatch(PRICE_PROPERTY);
     expect("price: { asset: A, amount: config.amount }").not.toMatch(PRICE_PROPERTY);
-    expect('const p = "$0.01";').toMatch(DOLLAR_STRING);
+    expect(`const p = ${q}${String.fromCharCode(0x24)}${digit}${q};`).toMatch(DOLLAR_STRING);
   });
 
   it(".env.example sets no value after any X402_ name", () => {

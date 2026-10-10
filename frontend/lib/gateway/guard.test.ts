@@ -8,7 +8,7 @@
 import fs from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
-import { IS_TEST, ROOT, packageSpecifiers, reachable, realGraph, type Graph } from "../testing/import-graph";
+import { IS_TEST, ROOT, packageSpecifiers, packageSpecifiersOfSource, reachable, realGraph, type Graph } from "../testing/import-graph";
 
 const g = realGraph();
 const files = [...g.index.values()];
@@ -91,6 +91,37 @@ describe("G1: the check routes reach no LLM, no signing key, and no x402 client 
       read: () => 'import x from "@x402/stellar/exact/client"; import y from "./b"; const z = await import("ai"); import fs from "node:fs";',
     };
     expect([...packageSpecifiers(["agent/a.ts"], mem)].sort()).toEqual(["@x402/stellar/exact/client", "ai", "node:fs"]);
+  });
+});
+
+describe("packageSpecifiersOfSource cannot be fooled by strings or comments", () => {
+  const BAD = "@x402/stellar/exact/client";
+
+  it("sees an import after a string that contains two slashes", () => {
+    expect(packageSpecifiersOfSource(`export const s = "a//b"; export const m = async () => import("${BAD}");`)).toEqual([BAD]);
+  });
+
+  it("sees an import after a glob string followed later by a block comment", () => {
+    const src = ['const g = "data/status/*.json";', `const m = async () => import("${BAD}");`, "/** doc */", "export const x = 1;"].join("\n");
+    expect(packageSpecifiersOfSource(src)).toEqual([BAD]);
+  });
+
+  it("sees static, dynamic, re-export, side-effect, and require forms, and skips relative and alias imports", () => {
+    const src = [
+      'import a from "pkg-a";',
+      'import type { T } from "@scope/pkg-b/sub";',
+      'export * from "pkg-c";',
+      'import "pkg-d";',
+      'const e = await import("pkg-e");',
+      'const f = require("pkg-f");',
+      'import r from "./local"; import p from "../up"; import al from "@/lib/x";',
+    ].join("\n");
+    expect(packageSpecifiersOfSource(src).sort()).toEqual(["@scope/pkg-b/sub", "pkg-a", "pkg-c", "pkg-d", "pkg-e", "pkg-f"]);
+  });
+
+  it("does not report prose in comments or strings that only look like imports", () => {
+    const src = ['// import x from "not-a-package"', '/* import("also-not") */', 'const s = "import y from \'nor-this\'";'].join("\n");
+    expect(packageSpecifiersOfSource(src)).toEqual([]);
   });
 });
 

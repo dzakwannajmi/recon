@@ -4,6 +4,7 @@
  */
 import fs from "fs";
 import path from "path";
+import ts from "typescript";
 
 export const ROOT = process.cwd();
 export const EXTENSIONS = [".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"];
@@ -72,15 +73,19 @@ export function reachable(roots: string[], g: Graph): Set<string> {
  */
 export function packageSpecifiers(files: Iterable<string>, g: Graph): Set<string> {
   const out = new Set<string>();
-  for (const file of files) {
-    // Comments are not imports ("... import from lib/flags" in a doc comment is prose).
-    const code = g.read(file).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:"'`\\])\/\/.*$/gm, "$1");
-    for (const spec of specifiers(code)) {
-      if (spec.startsWith("./") || spec.startsWith("../") || spec.startsWith("@/")) continue;
-      out.add(spec);
-    }
-  }
+  for (const file of files) for (const spec of packageSpecifiersOfSource(g.read(file))) out.add(spec);
   return out;
+}
+
+/**
+ * The package specifiers of one source text. It uses the TypeScript scanner (`ts.preProcessFile`), which
+ * understands strings, comments, template literals, `import ... from`, `export ... from`, `import()` and
+ * `require()`. Stripping comments with a regex is not safe: a string like "a//b" or a glob like "x/*.json"
+ * can hide a real import. Relative and `@/` imports are left out.
+ */
+export function packageSpecifiersOfSource(source: string): string[] {
+  const info = ts.preProcessFile(source, true, true);
+  return info.importedFiles.map((f) => f.fileName).filter((spec) => !spec.startsWith("./") && !spec.startsWith("../") && !spec.startsWith("@/") && spec !== "." && spec !== "..");
 }
 
 export const realGraph = (): Graph => {

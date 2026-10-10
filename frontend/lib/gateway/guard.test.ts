@@ -3,7 +3,8 @@
  *  - G1: no LLM, no signing key, and no x402 client code is reachable from app/api/check/**,
  *        and nothing under agent/ or app/ reaches the payer helpers or the paywall.
  *  - G2: the payer CLI and its helpers never touch the agent wallet.
- *  - G3: a tripwire for revenue (rule 7): no price literal in the files that build the paid route.
+ *  - G3: a tripwire for revenue (rule 7): no price literal in the files that build the paid route or the MCP endpoint.
+ *  - G4: the MCP endpoint reaches no paywall, feed client, LLM, payer, or x402 client code, and adds one package.
  */
 import fs from "fs";
 import path from "path";
@@ -78,10 +79,11 @@ describe("G1: the check routes reach no LLM, no signing key, and no x402 client 
   });
 
   it("nothing under agent/ or app/ (the chat and the wallet routes included) reaches the payer helpers, the paywall, or the paid deps", () => {
-    const roots = files.filter((f) => /^(agent|app)\//.test(f) && !IS_TEST.test(f) && !f.startsWith("app/api/check/"));
+    // The MCP route has its own block (G4): it legitimately reaches the pure gateway files.
+    const roots = files.filter((f) => /^(agent|app)\//.test(f) && !IS_TEST.test(f) && !f.startsWith("app/api/check/") && !f.startsWith("app/api/mcp/"));
     const set = reachable(roots, g);
     expect(roots).toContain("agent/tools.ts");
-    expect([...set].filter((f) => f.startsWith("lib/payer/") || f.startsWith("lib/gateway/"))).toEqual([]);
+    expect([...set].filter((f) => f.startsWith("lib/payer/") || f.startsWith("lib/gateway/") || f.startsWith("lib/mcp/"))).toEqual([]);
     expect(set.has("scripts/paid-check.ts")).toBe(false);
   });
 
@@ -125,6 +127,89 @@ describe("packageSpecifiersOfSource cannot be fooled by strings or comments", ()
   });
 });
 
+describe("G4: the MCP endpoint is free and read-only (golden rules 1, 7, 8, 11)", () => {
+  const mcpRoots = files.filter((f) => f.startsWith("app/api/mcp/") && !IS_TEST.test(f));
+  const mcpSet = reachable(mcpRoots, g);
+
+  /** The packages the MCP route reaches today: the check routes' stored-file readers plus the MCP server library. */
+  const MCP_ALLOWED_PACKAGES = new Set([
+    "@modelcontextprotocol/server",
+    "@stellar/stellar-sdk",
+    "@x402/stellar/exact/server",
+    "entities",
+    "fs",
+    "next/server",
+    "node:crypto",
+    "node:dns",
+    "node:fs",
+    "node:net",
+    "node:path",
+    "path",
+    "smol-toml",
+    "undici",
+    "unpdf",
+    "zod",
+  ]);
+  const MCP_FORBIDDEN_PACKAGES = [
+    /^ai$/,
+    /^@ai-sdk\//,
+    /^@x402\/next$/,
+    /^@x402\/core/,
+    /^@x402\/stellar$/,
+    /\/exact\/client$/,
+    /\/exact\/facilitator$/,
+    /^@x402\/fetch$/,
+    /^@modelcontextprotocol\/sdk/,
+    /^@modelcontextprotocol\/client/,
+    /^@modelcontextprotocol\/node/,
+    /^@modelcontextprotocol\/core/,
+    /^@modelcontextprotocol\/server\//,
+    /^mcp-handler$/,
+  ];
+
+  it("starts from the route and reaches the wrapper and the server", () => {
+    expect(mcpRoots).toEqual(["app/api/mcp/route.ts"]);
+    expect(mcpSet.has("lib/mcp/http.ts")).toBe(true);
+    expect(mcpSet.has("lib/mcp/server.ts")).toBe(true);
+  });
+
+  it("reaches no paywall, paid deps, handlers, feed client, publisher, agent, payer, or script", () => {
+    for (const f of ["handlers", "deps", "deps-paid", "detail", "paywall"]) expect(mcpSet.has(`lib/gateway/${f}.ts`), f).toBe(false);
+    for (const f of ["reader", "client", "publish"]) expect(mcpSet.has(`lib/feed/${f}.ts`), f).toBe(false);
+    expect([...mcpSet].filter((f) => f.startsWith("agent/") || f.startsWith("lib/payer/") || f.startsWith("scripts/"))).toEqual([]);
+  });
+
+  it("uses only allowlisted packages, and none of the forbidden ones", () => {
+    const packages = [...packageSpecifiers(mcpSet, g)];
+    expect(packages).toContain("@modelcontextprotocol/server");
+    expect(packages.filter((p) => !MCP_ALLOWED_PACKAGES.has(p))).toEqual([]);
+    expect(packages.filter((p) => MCP_FORBIDDEN_PACKAGES.some((re) => re.test(p)))).toEqual([]);
+  });
+
+  it("the only file that imports an x402 package is the payment configuration", () => {
+    const hits = [...mcpSet].filter((f) => [...packageSpecifiers([f], g)].some((p) => p.startsWith("@x402/")));
+    expect(hits).toEqual(["lib/gateway/payment-config.ts"]);
+  });
+
+  it("never mentions the signer factory, the agent key getter, or the agent secret", () => {
+    const hits = [...mcpSet].filter((f) => /createEd25519Signer|getAgentKeypair|AGENT_SECRET_KEY|\.agent-wallet/i.test(g.read(f)));
+    expect(hits).toEqual([]);
+  });
+
+  it("no lib/mcp file imports the check-route handlers, deps, detail, or paywall", () => {
+    const mcpFiles = files.filter((f) => f.startsWith("lib/mcp/") && !IS_TEST.test(f));
+    expect(mcpFiles.length).toBeGreaterThan(8);
+    for (const f of mcpFiles) expect(g.read(f), f).not.toMatch(/gateway\/(handlers|deps|deps-paid|detail|paywall)["']/);
+  });
+
+  it("the MCP client library is a development dependency: only scripts and tests import it", () => {
+    const offenders = files.filter(
+      (f) => /^(app|agent|lib|components)\//.test(f) && !IS_TEST.test(f) && [...packageSpecifiers([f], g)].some((p) => p.startsWith("@modelcontextprotocol/client")),
+    );
+    expect(offenders).toEqual([]);
+  });
+});
+
 describe("G2: the payer CLI and helpers never touch the agent wallet", () => {
   const payerFiles = [...files.filter((f) => f.startsWith("lib/payer/") && !IS_TEST.test(f)), "scripts/paid-check.ts"];
 
@@ -145,15 +230,17 @@ describe("G2: the payer CLI and helpers never touch the agent wallet", () => {
 describe("G3: no price literal in the files that build the paid route (golden rule 7)", () => {
   const scanned = files.filter(
     (f) =>
-      (f.startsWith("lib/gateway/") || f.startsWith("app/api/check/") || f.startsWith("lib/payer/") || f === "scripts/paid-check.ts") &&
+      (f.startsWith("lib/gateway/") || f.startsWith("app/api/check/") || f.startsWith("lib/payer/") || f.startsWith("lib/mcp/") || f.startsWith("app/api/mcp/") || f === "scripts/paid-check.ts") &&
       f !== "lib/gateway/guard.test.ts",
   );
   const PRICE_PROPERTY = /\bprice\s*:\s*(["'`]|-?\d)/;
   const DOLLAR_STRING = /["'`]\$\d/;
 
-  it("scans the gateway, the check routes, the payer helpers, and the CLI", () => {
+  it("scans the gateway, the check routes, the MCP endpoint, the payer helpers, and the CLI", () => {
     expect(scanned.length).toBeGreaterThan(15);
     expect(scanned).toContain("lib/gateway/paywall.ts");
+    expect(scanned).toContain("lib/mcp/http.ts");
+    expect(scanned).toContain("app/api/mcp/route.ts");
   });
 
   it("finds no `price:` followed by a string or number literal, and no dollar-amount string", () => {

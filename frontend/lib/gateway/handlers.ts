@@ -8,14 +8,14 @@
  * anywhere outside the wrapper answers 500 and touches no payment.
  */
 import type { NextRequest, NextResponse } from "next/server";
-import { ERROR_MESSAGES, SCOPE_NOTE, type ErrorCode } from "./copy";
+import { ERROR_MESSAGES, type ErrorCode } from "./copy";
 import type { GatewayData } from "./data";
 import { MAX_DETAIL_BYTES, buildDetail, type EntryReader, type OnchainCache } from "./detail";
 import { jsonResponse, jsonTextResponse, toJsonText } from "./json";
 import { MAX_PAYMENT_HEADER_BYTES, paymentConfig, type Env, type PaymentConfig } from "./payment-config";
 import type { Logger } from "./paywall";
 import { RETRY_AFTER_SECONDS, type RateLimiter } from "./rate-limit";
-import { parseQuery, resolveAsset, type Query, type Resolution } from "./resolve";
+import { parseQuery, resolutionErrorBody, resolveAsset, type Query, type ResolutionFailure } from "./resolve";
 import { buildSummary } from "./summary";
 
 export const SUMMARY_CACHE_CONTROL = "public, max-age=300, s-maxage=3600";
@@ -76,14 +76,9 @@ const internalError = (where: string, e: unknown) => {
 };
 
 /** The error response for a resolution that is not `found`. */
-function resolutionError(r: Exclude<Resolution, { kind: "found" }>) {
-  if (r.kind === "ambiguous_asset") return errorResponse("ambiguous_asset", 409, { issuers: r.issuers });
-  return errorResponse("not_tracked", 404, {
-    reason: r.reason,
-    scope: SCOPE_NOTE,
-    ...(r.tracked_issuers ? { tracked_issuers: r.tracked_issuers } : {}),
-    ...(r.did_you_mean ? { did_you_mean: r.did_you_mean } : {}),
-  });
+function resolutionError(r: ResolutionFailure) {
+  const body = resolutionErrorBody(r);
+  return errorResponse(body.error, body.error === "ambiguous_asset" ? 409 : 404, body.extras);
 }
 
 // ---------------------------------------------------------------- free summary

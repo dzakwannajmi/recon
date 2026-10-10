@@ -5,15 +5,31 @@
 import { StrKey } from "@stellar/stellar-sdk";
 import type { UniverseAsset } from "../chain/universe";
 import type { LoadedAsset } from "../factsheet/load";
+import { SCOPE_NOTE } from "./copy";
 
 export const MAX_PARAM_CHARS = 64;
-const ASSET_CODE = /^[A-Za-z0-9]{1,12}$/;
+export const ASSET_CODE_PATTERN = /^[A-Za-z0-9]{1,12}$/;
+export const ISSUER_PATTERN = /^G[A-Z2-7]{55}$/;
 const ALLOWED_PARAMS = new Set(["asset_code", "issuer"]);
 
 /** Stablecoins are out of scope (golden rule 5). Exact case, as the codes appear on chain. */
 export const OUT_OF_SCOPE_STABLECOINS: readonly string[] = ["USDC", "EURC", "PYUSD", "USDGLO", "CETES", "MEXe"];
 
 export type Query = { asset_code: string; issuer?: string };
+
+/**
+ * The same checks for a query that did not come from a URL (the MCP tools): a bad asset code (case-sensitive),
+ * a value over 64 characters, or an issuer that is not a checksum-valid account address gives null.
+ * An empty issuer is not "absent": it fails.
+ */
+export function validateQuery(input: { asset_code: string; issuer?: string | undefined }): Query | null {
+  const code = input.asset_code;
+  if (typeof code !== "string" || code.length > MAX_PARAM_CHARS || !ASSET_CODE_PATTERN.test(code)) return null;
+  const issuer = input.issuer;
+  if (issuer === undefined) return { asset_code: code };
+  if (typeof issuer !== "string" || issuer.length > MAX_PARAM_CHARS) return null;
+  return StrKey.isValidEd25519PublicKey(issuer) ? { asset_code: code, issuer } : null;
+}
 
 /**
  * The validated query, or null when it is not valid: an unknown or repeated parameter, a value over
@@ -26,10 +42,9 @@ export function parseQuery(params: URLSearchParams): Query | null {
     seen.add(key);
   }
   const code = params.get("asset_code");
-  if (code === null || !ASSET_CODE.test(code)) return null;
+  if (code === null) return null;
   const issuer = params.get("issuer");
-  if (issuer === null) return { asset_code: code };
-  return StrKey.isValidEd25519PublicKey(issuer) ? { asset_code: code, issuer } : null;
+  return validateQuery(issuer === null ? { asset_code: code } : { asset_code: code, issuer });
 }
 
 export type IssuerRef = { issuer: string; issuer_org: string; official_domain: string | null };
@@ -63,4 +78,25 @@ export function resolveAsset(query: Query, status: { assets: readonly LoadedAsse
   if (same.length > 1) return { kind: "ambiguous_asset", issuers: same.map((a) => issuerRef(a, universe)) };
   const only = same[0];
   return { kind: "found", asset: only, row: universe.find((u) => u.asset_code === only.asset_code && u.issuer === only.issuer) ?? null, codeIsUnique: true };
+}
+
+export type ResolutionFailure = Exclude<Resolution, { kind: "found" }>;
+
+/**
+ * The error code and the extra fields of a resolution that is not `found`, the same for `/api/check` and the MCP tools.
+ * The message sentence comes from the caller (ERROR_MESSAGES), so this file stays free of copy.
+ */
+export function resolutionErrorBody(r: ResolutionFailure):
+  | { error: "ambiguous_asset"; extras: { issuers: IssuerRef[] } }
+  | { error: "not_tracked"; extras: { reason: NotTrackedReason; scope: string; tracked_issuers?: IssuerRef[]; did_you_mean?: string[] } } {
+  if (r.kind === "ambiguous_asset") return { error: "ambiguous_asset", extras: { issuers: r.issuers } };
+  return {
+    error: "not_tracked",
+    extras: {
+      reason: r.reason,
+      scope: SCOPE_NOTE,
+      ...(r.tracked_issuers ? { tracked_issuers: r.tracked_issuers } : {}),
+      ...(r.did_you_mean ? { did_you_mean: r.did_you_mean } : {}),
+    },
+  };
 }

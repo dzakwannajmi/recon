@@ -16,6 +16,8 @@ export type BalanceChange = {
 
 export type HorizonOperation = {
   type?: string;
+  /** For an x402 settlement this is the facilitator, not the payer. */
+  source_account?: string;
   transaction_hash?: string;
   transaction_successful?: boolean;
   created_at?: string;

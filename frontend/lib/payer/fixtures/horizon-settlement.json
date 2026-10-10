@@ -1,0 +1,120 @@
+{
+  "_about": "Public Stellar testnet data, fetched 2026-10-10 from horizon-testnet.stellar.org: one x402 settlement made by the facilitator (GC6CSXBV...YN3K), trimmed to the fields lib/payer/confirm.ts reads. Source URLs: /transactions/{hash}, /transactions/{hash}/operations, /accounts/{payer}/operations?order=desc&limit=10.",
+  "transaction": {
+    "id": "c96d641e38a4dad8c1c9aa66eb539550d5447800cd7e417495aeca14f704b10d",
+    "hash": "c96d641e38a4dad8c1c9aa66eb539550d5447800cd7e417495aeca14f704b10d",
+    "successful": true,
+    "ledger": 5116597,
+    "created_at": "2026-10-10T04:29:32Z",
+    "source_account": "GC6CSXBV4C6RL3HEDTW57KXYXSSXKAWKGYDEOSATXM3XNKXSR2VRYN3K",
+    "fee_account": "GC5OLUZ4WANPN6VT7YGTK2SRMZG762KOVKJXHWIO4K57UBASO2FMNRET",
+    "operation_count": 1
+  },
+  "operations": {
+    "_embedded": {
+      "records": [
+        {
+          "id": "21975616781856769",
+          "type": "invoke_host_function",
+          "type_i": 24,
+          "source_account": "GC6CSXBV4C6RL3HEDTW57KXYXSSXKAWKGYDEOSATXM3XNKXSR2VRYN3K",
+          "created_at": "2026-10-10T04:29:32Z",
+          "transaction_hash": "c96d641e38a4dad8c1c9aa66eb539550d5447800cd7e417495aeca14f704b10d",
+          "transaction_successful": true,
+          "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+          "asset_balance_changes": [
+            {
+              "asset_type": "credit_alphanum4",
+              "asset_code": "USDC",
+              "asset_issuer": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+              "type": "transfer",
+              "from": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
+              "to": "GAWSYBSG7GQYH77SRM7MPFMWMPUBCFBLQRYCDAEGELP6IFIUGSNYL5V7",
+              "amount": "0.0100000"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "payer_operations": {
+    "_embedded": {
+      "records": [
+        {
+          "id": "21975642551664641",
+          "type": "invoke_host_function",
+          "type_i": 24,
+          "source_account": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
+          "created_at": "2026-10-10T04:30:02Z",
+          "transaction_hash": "f4c10abf8ac14166616f015685904b89484dca9eece178e733d9f3183ea88c30",
+          "transaction_successful": true,
+          "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+          "asset_balance_changes": [
+            {
+              "asset_type": "credit_alphanum4",
+              "asset_code": "USDC",
+              "asset_issuer": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+              "type": "transfer",
+              "from": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
+              "to": "GAWSYBSG7GQYH77SRM7MPFMWMPUBCFBLQRYCDAEGELP6IFIUGSNYL5V7",
+              "amount": "2.0013826"
+            }
+          ]
+        },
+        {
+          "id": "21975633961705473",
+          "type": "invoke_host_function",
+          "type_i": 24,
+          "source_account": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
+          "created_at": "2026-10-10T04:29:52Z",
+          "transaction_hash": "4b1311c5f7bc56d35de6c5b4846fbb0bb839071b5861052e6ab2fa195961255f",
+          "transaction_successful": true,
+          "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+          "asset_balance_changes": [
+            {
+              "asset_type": "credit_alphanum4",
+              "asset_code": "USDC",
+              "asset_issuer": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+              "type": "transfer",
+              "from": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
+              "to": "GAWSYBSG7GQYH77SRM7MPFMWMPUBCFBLQRYCDAEGELP6IFIUGSNYL5V7",
+              "amount": "25.0013816"
+            }
+          ]
+        },
+        {
+          "id": "21975625371795457",
+          "type": "invoke_host_function",
+          "type_i": 24,
+          "source_account": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
+          "created_at": "2026-10-10T04:29:42Z",
+          "transaction_hash": "bea09c58907f472727e4f3946b4a770c997ead09b481babe3dded2ebaaa172b5",
+          "transaction_successful": true,
+          "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+          "asset_balance_changes": null
+        },
+        {
+          "id": "21975616781856769",
+          "type": "invoke_host_function",
+          "type_i": 24,
+          "source_account": "GC6CSXBV4C6RL3HEDTW57KXYXSSXKAWKGYDEOSATXM3XNKXSR2VRYN3K",
+          "created_at": "2026-10-10T04:29:32Z",
+          "transaction_hash": "c96d641e38a4dad8c1c9aa66eb539550d5447800cd7e417495aeca14f704b10d",
+          "transaction_successful": true,
+          "function": "HostFunctionTypeHostFunctionTypeInvokeContract",
+          "asset_balance_changes": [
+            {
+              "asset_type": "credit_alphanum4",
+              "asset_code": "USDC",
+              "asset_issuer": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5",
+              "type": "transfer",
+              "from": "GD5IVVMFVFDMYE67RVBT5PHNQZS52N7ZEBJPHB6FK6RDWL4L7OYFFB3X",
+              "to": "GAWSYBSG7GQYH77SRM7MPFMWMPUBCFBLQRYCDAEGELP6IFIUGSNYL5V7",
+              "amount": "0.0100000"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

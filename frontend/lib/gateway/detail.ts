@@ -14,6 +14,9 @@ import { FLAG_BITS, FLAG_ORDER } from "../flags/types";
 import { CHECKS_UNAVAILABLE_REASON, ISSUER_ACCOUNTS_NOTE, NOTICE, UNTRUSTED_NOTE } from "./copy";
 import type { GatewayData } from "./data";
 import { FEED_NETWORK } from "./summary";
+import { cutCodePoints } from "./text";
+
+export { cutCodePoints };
 
 export const DETAIL_SCHEMA = "check-detail/1";
 export const MAX_DETAIL_BYTES = 64 * 1024;
@@ -35,12 +38,6 @@ export class IntegrityError extends Error {
 
 /** A bigint as a JSON number when safe, else as a string (the same rule as the response writer). */
 const jsonInt = (v: bigint): number | string => (v <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(v) : v.toString());
-
-/** The first `max` code points; `truncated` says whether anything was cut (never splits a surrogate pair). */
-export function cutCodePoints(text: string, max: number): { text: string; truncated: boolean } {
-  const chars = Array.from(text);
-  return chars.length <= max ? { text, truncated: false } : { text: chars.slice(0, max).join(""), truncated: true };
-}
 
 // ---------------------------------------------------------------- the feed entry on chain
 

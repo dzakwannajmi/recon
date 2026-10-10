@@ -15,7 +15,8 @@ export function createServerFactory(deps: ToolDeps): () => McpServer {
   return () => {
     const server = new McpServer(
       { ...SERVER_INFO },
-      { instructions: SERVER_INSTRUCTIONS, maxToolInputElements: MAX_TOOL_INPUT_ELEMENTS },
+      // The tool list never changes and no stream stays open, so listChanged is off.
+      { instructions: SERVER_INSTRUCTIONS, maxToolInputElements: MAX_TOOL_INPUT_ELEMENTS, capabilities: { tools: { listChanged: false } } },
     );
     server.registerTool(
       "check_asset",

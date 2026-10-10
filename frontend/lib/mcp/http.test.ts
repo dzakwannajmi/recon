@@ -105,6 +105,13 @@ describe("M9: HTTP wrapper", () => {
     expect(h.mcpCalls()).toBe(0);
   });
 
+  it("a declared Content-Length over the cap is 413 before the body is read, whatever the body", async () => {
+    const h = harness();
+    const res = await handleMcp(post("{}", { "content-length": "70000" }), h.deps);
+    expect(res.status).toBe(413);
+    expect(h.mcpCalls()).toBe(0);
+  });
+
   it("a body at exactly the cap is read", async () => {
     const text = await readBoundedText(post("y".repeat(MAX_BODY_BYTES)), MAX_BODY_BYTES);
     expect(text).toHaveLength(MAX_BODY_BYTES);
@@ -170,6 +177,25 @@ describe("M9: HTTP wrapper", () => {
     const modern = await handleMcp(post(listTools, { ...MODERN, "mcp-method": "tools/list" }), h.deps);
     expect(modern.status).toBe(200);
     expect(modern.headers.get("content-type")).toContain("application/json");
+  });
+
+  it("a successful tools/list carries nosniff and no-store", async () => {
+    const h = harness();
+    const res = await handleMcp(post(listTools, { ...MODERN, "mcp-method": "tools/list" }), h.deps);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("x-content-type-options")).toBe("nosniff");
+    expect(res.headers.get("cache-control")).toBe("no-store");
+  });
+
+  it("finalize escapes invisible characters in any body type and checks the cap after escaping", async () => {
+    const rlo = String.fromCodePoint(0x202e);
+    const plain = await finalize(new Response(`a${rlo}b`, { headers: { "content-type": "text/plain" } }));
+    expect(await plain.text()).toBe("a\\u202eb");
+    // 10 raw characters become 60 bytes once escaped: over a cap of 50, under it before escaping.
+    await expect(finalize(new Response(rlo.repeat(10), { headers: { "content-type": "application/json" } }), 50)).rejects.toThrow();
+    expect((await finalize(new Response("x".repeat(50), { headers: { "content-type": "application/json" } }), 50)).status).toBe(200);
+    const noType = await finalize(new Response(`z${rlo}`));
+    expect(await noType.text()).toBe("z\\u202e");
   });
 
   it("a notification gets 202 with no body", async () => {

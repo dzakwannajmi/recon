@@ -101,17 +101,17 @@ async function readAll(body: ReadableStream<Uint8Array>, max: number): Promise<s
 }
 
 /**
- * Adds the two headers; for a JSON or event-stream body, reads it to the end (capped), escapes invisible and
- * direction-changing characters, and returns a new response. The JSON value is unchanged: those characters are not
- * JSON whitespace, so they can only sit inside strings, and the SSE framing lines are ASCII.
+ * Adds the two headers; every response that has a body is read to the end (capped), has its invisible and
+ * direction-changing characters escaped, and is returned as a new response. The cap is checked again after
+ * escaping, because escapes are longer than the characters they replace. For JSON the value is unchanged:
+ * those characters are not JSON whitespace, so they can only sit inside strings, and SSE framing lines are ASCII.
  */
 export async function finalize(res: Response, maxBytes = MAX_RESPONSE_BYTES): Promise<Response> {
   const headers = new Headers(res.headers);
   for (const [k, v] of Object.entries(BASE_HEADERS)) headers.set(k, v);
-  const type = (headers.get("content-type") ?? "").toLowerCase();
-  const textual = type.startsWith("application/json") || type.startsWith("text/event-stream");
-  if (!res.body || !textual) return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+  if (!res.body) return new Response(null, { status: res.status, statusText: res.statusText, headers });
   const text = escapeInvisible(await readAll(res.body, maxBytes));
+  if (Buffer.byteLength(text) > maxBytes) throw new ResponseTooLarge();
   headers.delete("content-length");
   return new Response(text, { status: res.status, statusText: res.statusText, headers });
 }

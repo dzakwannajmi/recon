@@ -9,7 +9,7 @@
 import fs from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
-import { IS_TEST, ROOT, packageSpecifiers, packageSpecifiersOfSource, reachable, realGraph, type Graph } from "../testing/import-graph";
+import { IS_TEST, ROOT, packageSpecifiers, packageSpecifiersOfSource, reachable, realGraph, resolve, specifiers, type Graph } from "../testing/import-graph";
 
 const g = realGraph();
 const files = [...g.index.values()];
@@ -200,6 +200,22 @@ describe("G4: the MCP endpoint is free and read-only (golden rules 1, 7, 8, 11)"
     const mcpFiles = files.filter((f) => f.startsWith("lib/mcp/") && !IS_TEST.test(f));
     expect(mcpFiles.length).toBeGreaterThan(8);
     for (const f of mcpFiles) expect(g.read(f), f).not.toMatch(/gateway\/(handlers|deps|deps-paid|detail|paywall)["']/);
+  });
+
+  it("each MCP file imports directly only the MCP server library, the Stellar SDK, and zod, and no chain-read or feed file", () => {
+    const own = files.filter((f) => (f.startsWith("lib/mcp/") || f.startsWith("app/api/mcp/")) && !IS_TEST.test(f));
+    expect(own).toEqual(expect.arrayContaining(["lib/mcp/http.ts", "lib/mcp/server.ts", "lib/mcp/tools.ts", "app/api/mcp/route.ts"]));
+    const directPackages = new Set(["@modelcontextprotocol/server", "@stellar/stellar-sdk", "zod"]);
+    const forbiddenTargets = (target: string) =>
+      target === "lib/chain/http.ts" || /^lib\/chain\/(horizon|toml|identity|asset)\.ts$/.test(target) || target.startsWith("lib/feed/");
+    for (const f of own) {
+      expect([...packageSpecifiers([f], g)].filter((p) => !directPackages.has(p)), f).toEqual([]);
+      const targets = specifiers(g.read(f)).flatMap((spec) => {
+        const t = resolve(spec, f, g);
+        return t ? [t] : [];
+      });
+      expect(targets.filter(forbiddenTargets), f).toEqual([]);
+    }
   });
 
   it("the MCP client library is a development dependency: only scripts and tests import it", () => {

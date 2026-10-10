@@ -110,12 +110,13 @@ async function runEra(era: Era, url: string): Promise<{ steps: StepResult[]; exc
       return { ok: r.isError === true, detail: `isError ${String(r.isError)} (input validation)` };
     });
     await attempt("unknown tool delete_asset", async () => {
+      // Passes only for the JSON-RPC error -32602 (tool not found). A result, a 429, a 500, or a timeout fails.
       try {
         const r = await call("delete_asset", {});
-        return { ok: r.isError === true, detail: `isError ${String(r.isError)} (tool result, not a protocol error)` };
+        return { ok: false, detail: `expected protocol error -32602, got a result (isError ${String(r.isError)})` };
       } catch (e) {
         const code = (e as { code?: unknown }).code;
-        return { ok: true, detail: `protocol error${typeof code === "number" || typeof code === "string" ? ` ${String(code)}` : ""}` };
+        return { ok: code === -32602, detail: `protocol error code ${typeof code === "number" || typeof code === "string" ? String(code) : "none"}` };
       }
     });
     await client.close().catch(() => undefined);

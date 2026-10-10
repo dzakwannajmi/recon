@@ -88,6 +88,7 @@ describe("M1: tools/list and server info", () => {
         expect(client.getServerVersion()).toMatchObject({ name: "recon", title: "Recon", version: "0.1.0" });
         expect(client.getInstructions()).toBe(SERVER_INSTRUCTIONS);
         expect(Object.keys(client.getServerCapabilities() ?? {})).toEqual(["tools"]);
+        expect(client.getServerCapabilities()?.tools?.listChanged).toBe(false);
       });
     });
   }
@@ -183,6 +184,8 @@ describe("M4: invalid input is refused by the schema and never reaches the callb
           expect(r.isError, label).toBe(true);
           expect(r.structuredContent, label).toBeUndefined();
         }
+        // The element cap, not some other schema error, refuses the 17-element case.
+        expect(textOf(await call(client, "check_asset", { asset_code: "gBENJI", ...seventeen }))).toContain("maximum of 16 elements");
         const r = await call(client, "list_flags", { flag: "NOT_A_FLAG" });
         expect(r.isError).toBe(true);
         expect((await call(client, "list_flags", { severity: "LOW" })).isError).toBe(true);

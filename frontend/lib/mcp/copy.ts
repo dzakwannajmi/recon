@@ -1,5 +1,5 @@
 /**
- * The fixed wording of the MCP endpoint (golden rule 4: facts and flags, no grades).
+ * The fixed wording of the MCP endpoint (golden rule 4: facts and flags only).
  * Nothing here builds flag wording: statements and reasons come from the stored status file.
  * Reused unchanged from the check routes: NOTICE, UNTRUSTED_NOTE, SCOPE_NOTE, ERROR_MESSAGES.
  */

@@ -139,7 +139,7 @@ export function routeConfigFor(config: PaymentConfig): RouteConfig {
       maxTimeoutSeconds: MAX_TIMEOUT_SECONDS,
     },
     description:
-      "Evidence bundle for one tokenized asset on Stellar: flags with evidence, verified issuer claims, chain facts, and a live feed cross-check. Stellar testnet; test USDC has no value.",
+      "Evidence bundle for one tokenized asset on Stellar: flags with evidence, issuer claims with verbatim quotes and snapshot hashes, stored chain facts, and a testnet feed cross-check. Stored checks as of the dates shown, not a live audit. Stellar testnet; test USDC has no value.",
     mimeType: "application/json",
     customPaywallHtml: PAYWALL_HTML,
     unpaidResponseBody: (ctx) => ({

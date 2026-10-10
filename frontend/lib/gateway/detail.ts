@@ -326,7 +326,7 @@ export async function buildDetail(input: DetailInput) {
       status_file: statusFile,
       inputs: evidenceInputs(inputs),
       reproduce: publishedBy
-        ? `At commit ${publishedBy.commit}, run \`npm run status -- --as-of ${loaded.status.as_of}\` and compare evidence_hash.`
+        ? `In a checkout of the project repository at commit ${publishedBy.commit}, run \`npm run status -- --as-of ${loaded.status.as_of}\` and compare evidence_hash.`
         : `In a checkout that contains ${statusFile}, run \`npm run status -- --as-of ${loaded.status.as_of}\` and compare evidence_hash.`,
     },
     untrusted_text: UNTRUSTED_NOTE,

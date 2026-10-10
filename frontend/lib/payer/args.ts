@@ -16,7 +16,7 @@ Options:
   --help              Show this text.
 
 No .env file is loaded. Configuration comes from these flags and from the process environment only,
-so set the values inline on the command line (they are not stored or printed). stellar-cli, which holds
+so set the values inline on the command line (this script does not store or print them; your shell history may keep them). stellar-cli, which holds
 the payer key, is started with a minimal environment.
 
 Environment:
@@ -24,7 +24,7 @@ Environment:
   X402_TESTNET_AMOUNT   The most this run may pay, in USDC base units. Required.
   X402_PAYER_IDENTITY   stellar-cli identity name of the payer (default x402-payer).
 
-Exit codes: 0 done, 1 refused before paying, 2 paid without a response, 3 not settled.
+Exit codes: 0 done, 1 refused before paying, 2 possibly paid (no response, or a check could not finish), 3 not settled or contradicted by the chain.
 `;
 
 export type CliArgs = { asset: string; issuer?: string; baseUrl: string; replayCheck: boolean };

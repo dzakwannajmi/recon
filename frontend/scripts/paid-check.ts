@@ -7,7 +7,8 @@
  * with `stellar keys secret` (a child process that gets a minimal environment) and is never printed, logged,
  * or written. No .env file is loaded: configuration comes from the flags and the process environment only.
  * This script never prints an amount, a balance, or library error text, and it never pays twice on its own.
- * Exit codes (lib/payer/outcome.ts): 0 done, 1 refused before paying, 2 paid without a response, 3 not settled.
+ * Exit codes (lib/payer/outcome.ts): 0 done, 1 refused before paying, 2 possibly paid (no response, or a check could not finish),
+ * 3 not settled or contradicted by the chain.
  */
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
@@ -273,7 +274,7 @@ async function session(args: CliArgs): Promise<void> {
   stage = "the chain poll";
   say(`No settled response${paid ? ` (status ${paid.status})` : " (no answer)"}. Checking the chain for a transfer; this will not pay again.`);
   state.chain = await pollChain(payer, payTo, startedAt);
-  if (state.chain === "none") console.log("No transfer found on chain: the payment did not settle.");
+  if (state.chain === "none") console.log("No transfer found on chain within the check window: the payment does not appear to have settled.");
 }
 
 function safeSettle(http: x402HTTPClient, res: Response) {

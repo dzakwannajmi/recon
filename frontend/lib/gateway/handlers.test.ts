@@ -1,14 +1,15 @@
 import { Keypair } from "@stellar/stellar-sdk";
-import { FacilitatorTimeoutError } from "@x402/core/server";
+import { FacilitatorResponseError, FacilitatorTimeoutError } from "@x402/core/server";
 import { decodePaymentRequiredHeader, decodePaymentResponseHeader, encodePaymentSignatureHeader } from "@x402/core/http";
-import type { PaymentRequired } from "@x402/core/types";
+import { SettleError, type PaymentRequired } from "@x402/core/types";
+import type { Claim } from "../claims/store";
 import { NextRequest } from "next/server";
 import { describe, expect, it } from "vitest";
 import type { LoadedStatus } from "../factsheet/load";
 import { ERROR_MESSAGES } from "./copy";
 import { handleDetail, handleSummary, newDetailState, type DetailDeps, type SummaryDeps } from "./handlers";
 import { MAX_TIMEOUT_SECONDS, USDC_TESTNET_SAC } from "./payment-config";
-import { PAYWALL_HTML, createPaidHandler, createSeenSet, type LogLine } from "./paywall";
+import { PAYWALL_HTML, createPaidHandler, createSeenSet, type LogLine, type SeenSet } from "./paywall";
 import { createRateLimiter } from "./rate-limit";
 import { FAKE_PAYER, FAKE_TX_HASH, PAY_TO, SENTINEL_AMOUNT, entryFor, fakeFacilitator, fakeReader, paymentHeader, realAsset, realData } from "./testkit";
 
@@ -22,10 +23,10 @@ const ENV = { X402_ENABLED: "true", X402_PAY_TO: PAY_TO, X402_TESTNET_AMOUNT: SE
 const get = (url: string, headers: Record<string, string> = {}) => new NextRequest(url, { headers });
 const limiter = (globalPerMin = 1000) => createRateLimiter({ perIpPerMin: 1000, globalPerMin, trustProxy: false });
 
-function setup(over: { env?: Record<string, string | undefined>; data?: DetailDeps["data"]; limiter?: DetailDeps["limiter"] } = {}) {
+function setup(over: { env?: Record<string, string | undefined>; data?: DetailDeps["data"]; limiter?: DetailDeps["limiter"]; seen?: SeenSet } = {}) {
   const facilitator = fakeFacilitator();
   const logs: LogLine[] = [];
-  const seen = createSeenSet();
+  const seen = over.seen ?? createSeenSet();
   const reader = fakeReader({ [KEY]: entryFor(gbenji.loaded, gbenji.asset) });
   const read = reader.readEntries.bind(reader);
   reader.readEntries = async (keys) => {
@@ -313,6 +314,21 @@ describe("paid detail route: the x402 flow", () => {
     const body = await res.json();
     expect(body).toMatchObject({ error: "settlement_failed", reason: "unspecified", transaction: null });
     expect(JSON.stringify(s.logs)).not.toContain(SENTINEL_AMOUNT);
+    // A thrown plain error (connection reset, non-JSON 5xx) is indeterminate, not a known failure.
+    expect(s.logs.some((l) => l.event === "x402_settle_failed")).toBe(false);
+    expect(s.logs.find((l) => l.event === "x402_settle_unknown")).toMatchObject({ asset: gbenji.asset.asset, reason: "Error" });
+  });
+
+  it("P6d: a failure the facilitator itself reported is classified as known (x402_settle_failed), not unknown", async () => {
+    const s = setup();
+    s.facilitator.settleImpl = async () => {
+      throw new SettleError(400, { success: false, errorReason: "settle_exact_stellar_simulation_failed", transaction: "", network: "stellar:testnet" });
+    };
+    const { header } = await unpaidThenHeader(s);
+    const res = await s.call(paidRequest(header));
+    expect(res.status).toBe(402);
+    expect(s.logs.find((l) => l.event === "x402_settle_failed")).toMatchObject({ reason: "settle_exact_stellar_simulation_failed" });
+    expect(s.logs.some((l) => l.event === "x402_settle_unknown")).toBe(false);
   });
 
   it("P7: a settle timeout gives 502, no detail, and a x402_settle_unknown log line", async () => {
@@ -373,7 +389,7 @@ describe("paid detail route: the x402 flow", () => {
   it("a payload with a lower amount or another payee is not matched either", async () => {
     const s = setup();
     const req = required(await s.call(get(DETAIL)));
-    for (const accepted of [{ ...req.accepts[0], amount: "1" }, { ...req.accepts[0], payTo: FAKE_PAYER }, { ...req.accepts[0], asset: PAY_TO }]) {
+    for (const accepted of [{ ...req.accepts[0], amount: String(BigInt(SENTINEL_AMOUNT) - 1n) }, { ...req.accepts[0], payTo: FAKE_PAYER }, { ...req.accepts[0], asset: PAY_TO }]) {
       const res = await s.call(paidRequest(encodePaymentSignatureHeader({ x402Version: 2, accepted, payload: { transaction: "AAAAfake-x" } })));
       expect(res.status).toBe(402);
     }
@@ -394,5 +410,89 @@ describe("paid detail route: the x402 flow", () => {
     const { first, header } = await unpaidThenHeader(s);
     const responses = [first, await s.call(paidRequest(header)), await s.call(paidRequest(header)), await s.call(get(DETAIL))];
     for (const r of responses) expect(await r.text()).not.toContain(SENTINEL_AMOUNT);
+  });
+});
+
+describe("paid detail route: hardening", () => {
+  it("only GET is served: HEAD, POST, PUT and DELETE with a valid payment header never reach verify or settle", async () => {
+    const s = setup();
+    const { header } = await unpaidThenHeader(s);
+    const before = { ...s.facilitator.calls };
+    for (const method of ["HEAD", "POST", "PUT", "DELETE", "PATCH"]) {
+      const res = await s.call(new NextRequest(DETAIL, { method, headers: { "payment-signature": header } }));
+      expect(res.status, method).toBe(405);
+      expect(res.headers.get("allow")).toBe("GET");
+    }
+    expect(s.facilitator.calls.verify).toBe(before.verify);
+    expect(s.facilitator.calls.settle).toBe(0);
+    expect(s.reader.calls).toHaveLength(0);
+  });
+
+  it("the free summary is GET only too", async () => {
+    const res = await handleSummary(new NextRequest(SUMMARY, { method: "HEAD" }), { env: {}, data: realData(), limiter: limiter() });
+    expect(res.status).toBe(405);
+    expect(res.headers.get("allow")).toBe("GET");
+  });
+
+  it("a 5xx from the wrapper keeps its status but never carries text from the facilitator", async () => {
+    const fixed = { error: "internal_error", message: ERROR_MESSAGES.internal_error };
+    // /supported fails with a message that holds the sentinel
+    const a = setup();
+    a.facilitator.getSupportedImpl = async () => {
+      throw new Error(`upstream said: ${SENTINEL_AMOUNT}`);
+    };
+    const ra = await a.call(get(DETAIL));
+    expect(ra.status).toBeGreaterThanOrEqual(500);
+    expect(await ra.json()).toEqual(fixed);
+    // verify fails with a facilitator response error that holds the sentinel
+    const b = setup();
+    b.facilitator.verifyImpl = async () => {
+      throw new FacilitatorResponseError(`malformed response ${SENTINEL_AMOUNT}`);
+    };
+    const { header } = await unpaidThenHeader(b);
+    const rb = await b.call(paidRequest(header));
+    expect(rb.status).toBe(502);
+    const textB = await rb.text();
+    expect(textB).not.toContain(SENTINEL_AMOUNT);
+    expect(JSON.parse(textB)).toEqual(fixed);
+    expect(rb.headers.get("content-type")).toBe("application/json; charset=utf-8");
+    // settle times out
+    const c = setup();
+    c.facilitator.settleImpl = async () => {
+      throw new FacilitatorTimeoutError("settle", 80_000);
+    };
+    const hc = (await unpaidThenHeader(c)).header;
+    const rc = await c.call(paidRequest(hc));
+    expect(rc.status).toBe(502);
+    expect(await rc.json()).toEqual(fixed);
+  });
+
+  it("a detail body over 64 KB is a 500 and the settlement is never attempted", async () => {
+    const data = realData();
+    const huge = Array.from({ length: 30 }, (_, i) => ({ id: `big${i}`, asset: gbenji.asset.asset, field: "custodian", field_source: "llm", value: "v", value_text: "v", unit: null, as_of: null, quote: String.fromCodePoint(0x1f600).repeat(1000), source_url: "https://x.example/d.pdf", source_class: "issuer", page: null, snapshot_sha256: "a".repeat(64), text_sha256: "b".repeat(64), verified: true }) as unknown as Claim);
+    const s = setup({ data: { ...data, claims: () => huge } });
+    const { header } = await unpaidThenHeader(s);
+    const res = await s.call(paidRequest(header));
+    expect(res.status).toBe(500);
+    expect(await res.text()).not.toContain("check-detail");
+    expect(s.facilitator.calls.verify).toBe(1);
+    expect(s.facilitator.calls.settle).toBe(0);
+  });
+
+  it("an internal error in the replay check aborts the payment: 402, no content, no facilitator call", async () => {
+    const seen: SeenSet = {
+      has() {
+        throw new Error("memory failure");
+      },
+      add() {},
+    };
+    const s = setup({ seen });
+    const first = await s.call(get(DETAIL));
+    const res = await s.call(paidRequest(paymentHeader(required(first))));
+    expect(res.status).toBe(402);
+    expect(required(res).error).toBe("payment_malformed");
+    expect(await res.text()).not.toContain("check-detail");
+    expect(s.facilitator.calls.verify).toBe(0);
+    expect(s.facilitator.calls.settle).toBe(0);
   });
 });

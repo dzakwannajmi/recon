@@ -52,7 +52,22 @@ function errorResponse(code: ErrorCode, status: number, extras: Record<string, u
   return jsonResponse({ error: code, message: ERROR_MESSAGES[code], ...extras }, { status, headers: { "Cache-Control": "no-store", ...headers } });
 }
 
-const rateLimited = () => errorResponse("rate_limited", 429, {}, { "Retry-After": RETRY_AFTER_SECONDS });
+const methodNotAllowed = () => errorResponse("invalid_request", 405, {}, { Allow: "GET" });
+
+/**
+ * A 5xx coming out of the x402 wrapper (facilitator unreachable, a settle timeout, a thrown handler) keeps its
+ * status and protocol headers, but its body is replaced by a fixed sentence: text from the facilitator or from an
+ * error never reaches the client.
+ */
+function fixedServerError(res: NextResponse) {
+  const headers: Record<string, string> = { "Cache-Control": "no-store" };
+  res.headers.forEach((value, name) => {
+    if (!["content-type", "content-length", "content-encoding", "transfer-encoding", "cache-control"].includes(name.toLowerCase())) headers[name] = value;
+  });
+  return jsonResponse({ error: "internal_error", message: ERROR_MESSAGES.internal_error }, { status: res.status, headers });
+}
+
+const rateLimited = () =>errorResponse("rate_limited", 429, {}, { "Retry-After": RETRY_AFTER_SECONDS });
 const invalidRequest = () => errorResponse("invalid_request", 400);
 const internalError = (where: string, e: unknown) => {
   // The error text names files and fields, never secrets or amounts. The caller gets the fixed sentence only.
@@ -74,6 +89,7 @@ function resolutionError(r: Exclude<Resolution, { kind: "found" }>) {
 // ---------------------------------------------------------------- free summary
 
 export async function handleSummary(req: NextRequest, deps: SummaryDeps): Promise<NextResponse> {
+  if (req.method !== "GET") return methodNotAllowed();
   try {
     if (deps.limiter.limited(req)) return rateLimited();
     const query = parseQuery(req.nextUrl.searchParams);
@@ -135,6 +151,8 @@ function detailContent(deps: DetailDeps) {
 }
 
 export async function handleDetail(req: NextRequest, deps: DetailDeps): Promise<NextResponse> {
+  // Next.js answers HEAD with the GET handler. A paid GET that returns no body to a HEAD client would be settled for nothing.
+  if (req.method !== "GET") return methodNotAllowed();
   try {
     if (deps.limiter.limited(req)) return rateLimited();
     if (headerBytes(req, "payment-signature") > MAX_PAYMENT_HEADER_BYTES || headerBytes(req, "x-payment") > MAX_PAYMENT_HEADER_BYTES) return invalidRequest();
@@ -158,7 +176,8 @@ export async function handleDetail(req: NextRequest, deps: DetailDeps): Promise<
     if (r.asset.status === null) return errorResponse("not_published", 409);
 
     deps.state.paid ??= deps.buildPaid(config.config, detailContent(deps));
-    return await deps.state.paid(req);
+    const res = await deps.state.paid(req);
+    return res.status >= 500 ? fixedServerError(res) : res;
   } catch (e) {
     return internalError("detail", e);
   }

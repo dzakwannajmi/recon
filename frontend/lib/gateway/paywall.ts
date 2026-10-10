@@ -13,6 +13,7 @@
 import { createHash } from "node:crypto";
 import { FacilitatorTimeoutError, x402ResourceServer, type FacilitatorClient, type HTTPRequestContext, type RouteConfig } from "@x402/core/server";
 import { withX402 } from "@x402/next";
+import { SettleError } from "@x402/core/types";
 import { ExactStellarScheme } from "@x402/stellar/exact/server";
 import type { NextRequest, NextResponse } from "next/server";
 import { ERROR_MESSAGES } from "./copy";
@@ -214,6 +215,12 @@ export function buildResourceServer(deps: Pick<PaidHandlerDeps, "facilitator" | 
         if (context.error instanceof FacilitatorTimeoutError) {
           // The outcome is unknown: the transaction can still land until its ledger bound.
           emit("x402_settle_unknown", { ...base, reason: "timeout" });
+          return;
+        }
+        if (!(context.error instanceof SettleError)) {
+          // Only a settle result the facilitator itself reported (success false) is a known failure. A connection
+          // reset or a non-JSON 5xx says nothing about the chain: treat it as indeterminate.
+          emit("x402_settle_unknown", { ...base, reason: reasonCode(context.error?.name) });
           return;
         }
         const err = context.error as { errorReason?: unknown; transaction?: unknown; payer?: unknown };

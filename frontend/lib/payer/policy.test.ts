@@ -19,7 +19,7 @@ const OTHER = "GD436PARIAIVGQMI4O54RRKGBL6H7T3BPPKFSTYQGSG3727SXRCGE4S4";
 describe("refuseReason / acceptRequirements (L1)", () => {
   it("accepts exactly the expected testnet payment, up to the cap", () => {
     expect(refuseReason(2, good, expected)).toBeNull();
-    expect(refuseReason(2, { ...good, amount: "1" }, expected)).toBeNull();
+    expect(refuseReason(2, { ...good, amount: String(BigInt(SENTINEL_AMOUNT) - 1n) }, expected)).toBeNull();
     expect(acceptRequirements(expected)(2, [good])).toEqual([good]);
   });
 

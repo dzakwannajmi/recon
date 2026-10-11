@@ -11,7 +11,7 @@ describe("deployment.json", () => {
   });
 
   it("accepts the committed data/feed/deployment.json", () => {
-    expect(loadDeployment()).toMatchObject({ network: "testnet", contract_id: "CA7EM3I32XOCWMXA2U5TQWWBCQ32N4ARTRQWUQPDYFPFQZDL4D5MVYIO", sdk: "29.0.0" });
+    expect(loadDeployment()).toMatchObject({ network: "testnet", contract_id: "CAXEHTAMDRASNGUPGRRPZZAUAOOB5MMAUNLLA5O43KH3BQWZ4LQSX2PR", sdk: "29.0.0" });
   });
 
   it("refuses any network but testnet", () => {

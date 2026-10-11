@@ -238,5 +238,245 @@
         "as_of": 1791552023
       }
     ]
+  },
+  {
+    "at": "2026-10-11T00:31:58.277Z",
+    "network": "testnet",
+    "contract_id": "CAXEHTAMDRASNGUPGRRPZZAUAOOB5MMAUNLLA5O43KH3BQWZ4LQSX2PR",
+    "tx_hash": "fbfb7097c1f23809ea450788307329b30933b3eec5c5ba582d051387e03aede4",
+    "ledger": 5131026,
+    "status_file": "data/status/2026-10-09.json",
+    "status_sha256": "21aa7f152a82dd8a0e43568020f59fb71e09351d713db5afc63b01e2450a2b95",
+    "commit": "cd9853daa8562daa36f137498a074afbc8893e9e",
+    "assets": [
+      {
+        "asset": "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+        "sac_contract_id": "CCDSDPD7FXB74PFB2SYCHGQRWLXQRYRTQSPCVSRJ7FAOLOUGWEYAXQ7A",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "3b0e41c42b1c23a36e9684aa91a024574facc2f237c468d69fc157c4b6ea6785",
+        "as_of": 1791551983
+      },
+      {
+        "asset": "gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+        "sac_contract_id": "CAZGJD4BG6RLFQIAGPDPSX3IR73CBSVDEIBUDQGDZ3RCGGSOYSVBDSM7",
+        "status": 1,
+        "flags": 128,
+        "evidence_hash": "cd3f6ef7ce168659ee62b4f2f5d017b70869f6ce424958bee6da0ac932d2de4a",
+        "as_of": 1791551987
+      },
+      {
+        "asset": "grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+        "sac_contract_id": "CBEFW4IKKVB5KAX7QJAOHZUY77X5M6TRHE7ER6V75WESMAG7SSJBWP4R",
+        "status": 1,
+        "flags": 128,
+        "evidence_hash": "1b184ca767616064ae4aab2ee457769c6da8eb2edaddb0690bf7e705268df141",
+        "as_of": 1791551988
+      },
+      {
+        "asset": "sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+        "sac_contract_id": "CA4JGI47NZ4DYZT6SIXFJU4TVJPKC7QHYQXLKUZ2C7BT3ZX4ZXHO6YIK",
+        "status": 1,
+        "flags": 128,
+        "evidence_hash": "0f132786fead8a8aba0960cdd1fea454f6f83721791b40e9658fb3119f4af2e3",
+        "as_of": 1791551989
+      },
+      {
+        "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+        "sac_contract_id": "CB3YA656OYIHU57657I5KGSBRHE5I3OZU4VFC22PYAOANFZHEWNYGAGP",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "c175e68a958e6841093bffca96fd52b24b104dfdeb40234e6d57bfffe3cb3356",
+        "as_of": 1791551990
+      },
+      {
+        "asset": "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "sac_contract_id": "CBLV4ATSIWU67CFSQU2NVRKINQIKUZ2ODSZBUJTJ43VJVRSBTZYOPNUR",
+        "status": 1,
+        "flags": 24,
+        "evidence_hash": "f316d9c5f48e012ab6488b4e78a6c380ce356c11d40578f18d1f10582b4f4eb5",
+        "as_of": 1791551992
+      },
+      {
+        "asset": "TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "sac_contract_id": "CD6M4R2322BYCY2LNWM74PEBQAQ63SA3DUJLI3L4225U4ZVCLMSCBCIS",
+        "status": 1,
+        "flags": 24,
+        "evidence_hash": "a9e07c4f90803dd608406176ee336fd39db223658077671d589e561f26ea82b0",
+        "as_of": 1791551993
+      },
+      {
+        "asset": "EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "sac_contract_id": "CCHXOH2JGL6KBO5VOHR6WD4ZQXI6CFMJ5F65XVSZ6P47Y7KVZSQIPN6J",
+        "status": 1,
+        "flags": 24,
+        "evidence_hash": "7f9a4f6552a5270d3dd98c3cf00263f288a8ee3c7afc8bac2f33a3019c488698",
+        "as_of": 1791551994
+      },
+      {
+        "asset": "KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "sac_contract_id": "CBAECV6UVDS6ZKPMC63MUYY4V7Q3KTHR7NLUFGVVGK7K3AQT475QTETP",
+        "status": 1,
+        "flags": 24,
+        "evidence_hash": "c9b79994f6d971a5c0378ea7d18cbed86148bade51bfb0101a23ee910dbe5595",
+        "as_of": 1791551996
+      },
+      {
+        "asset": "GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+        "sac_contract_id": "CCQNEBGX5RJQGNLQ25C67DZLOSNM4NFQBANUS3ASALF2X552BSIQ6XCE",
+        "status": 1,
+        "flags": 24,
+        "evidence_hash": "f9986d5253b02156e058c414e60c64aa49530dabda6ec5ffd6b21ab1eb08fcf2",
+        "as_of": 1791551997
+      },
+      {
+        "asset": "GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+        "sac_contract_id": "CDQULNXLNTST3ERDKI2UXFUL64WGVJA4INLSYZCQLBI5KHQ4PSLFJI5S",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "a08446eee73941367482b2daf022dfb385491676ccf40650727b104655b830b4",
+        "as_of": 1791551998
+      },
+      {
+        "asset": "WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+        "sac_contract_id": "CCDI4CNUSRI2UYQ2F44VVUB47WNYQL552SQLL5KT6JQHDTTOS4PAWQ5G",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "11f784f2d3cf8d5c3bc6740bf58e4f02305bd48e9601f596bd05c31b09283b8d",
+        "as_of": 1791552000
+      },
+      {
+        "asset": "WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+        "sac_contract_id": "CATVJYIVZMI3FFCFLNNBUSR7UGLIOCMJRZJ5YZU4LOVWKPTC4VSQ2IQG",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "ee9a260aac6371313917c3a8c9d5771a086dd01f3f953044ffc806a850740d04",
+        "as_of": 1791552001
+      },
+      {
+        "asset": "WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+        "sac_contract_id": "CBZ63YIHU3OOSP2JW3CHMXJ67T3Z3IU3NRSSJ4M53GFDIRR4YXKCEE36",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "9ff6048486995b97e4e64cdac5b48405243e54d1bcdec3f08640d14521cb19b7",
+        "as_of": 1791552003
+      },
+      {
+        "asset": "WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+        "sac_contract_id": "CACJVBOTJ22N224NILIACP6FM75XE5JXIV2PGWYIXJ5R3GW3YD5VVFVS",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "8cb1a0b1ee4772bd9e7b91660ec2ecf5d75a0eca5a44e5fca8f898661d643d96",
+        "as_of": 1791552004
+      },
+      {
+        "asset": "WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+        "sac_contract_id": "CAIDESHFY4QU4I7FNNROV2ADPFZCWMB3VDMLBT5DZYEKWGOLT4ODNS6I",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "0b4d48e73a6d77d81633eedc637bc3ba3d7b678ec0d3cb910267762a255115e6",
+        "as_of": 1791552005
+      },
+      {
+        "asset": "FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+        "sac_contract_id": "CCZ6ZWEO3KEA6PHTK56C6MEOHPVPBWZ7C3YUXR6SMBROPIEVXWICRY2L",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "379480e6d2b2122a0ac53dbd1c857d10d0e8b351bd4178ae91dfb99ee42910f2",
+        "as_of": 1791552007
+      },
+      {
+        "asset": "TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+        "sac_contract_id": "CC5XKPSET6QVWPL7EFUA7KXO6XLWPWXJKAGJC24MXW7EYVXQLUBV4OM5",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "f2e7773a8058a3def1050ee1d06ba480676f0c203212b397d6c7beee28edfbfd",
+        "as_of": 1791552009
+      },
+      {
+        "asset": "WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+        "sac_contract_id": "CBBIDGSNGX43W6AEN32UFSLRTSM64MLNCXAHFCJV6PQYR5E6LV4IHPSS",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "a4ed7e68794115c4e4d37d8bd5d6f2286dfc8cabcb70ec9232c2f3e4b34e4b0d",
+        "as_of": 1791552010
+      },
+      {
+        "asset": "CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+        "sac_contract_id": "CBQDK4Y3B2RYUSXE6JYYTHB6AIW655FPGE4OW7A2BWDZXZ5RALQ3UK3P",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "7900766293a8556e21fa994e67ed854da8fe83fec0fbec23f6369fba7d60ab5b",
+        "as_of": 1791552012
+      },
+      {
+        "asset": "SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+        "sac_contract_id": "CBVCBEMVSVH73W7HZZHEMFYSYNF2ALRUFNSATHF2WXENW33BGF5FSTFR",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "ff61f452d1ee373d17c6a1c8a5d5ddde99ef26a7da96f89f5cf427f29c353e82",
+        "as_of": 1791552013
+      },
+      {
+        "asset": "TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+        "sac_contract_id": "CDBYSQCKN644WWEJBPYDDTF2V5BDSJKC2EXVIEKLGHQSMKILY4IO2NCD",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "10372825d869903f4d8e4b894177c872553c04b95acd691646e3ce32d05447f1",
+        "as_of": 1791552015
+      },
+      {
+        "asset": "EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+        "sac_contract_id": "CCP7YZJWB7C4MIHA7L23OVKUXUXQ3WVFEBOCIYPNIN4LSQPCA26IA6XW",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "dd3c2aebad1ddfcde2fa0106509e7c4904e9abd3dbc9d49ab964583cefbec49c",
+        "as_of": 1791552016
+      },
+      {
+        "asset": "MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+        "sac_contract_id": "CCYPD6HRLXCXOT3ZSUJ4HYYBC7MLAYI7E3QEN4IC7H7FNB4PFDMQLHWL",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "db5f6cb2cce0786f0a502f3e4e3459da9bfa064c121ba68912185f3d617e1816",
+        "as_of": 1791552017
+      },
+      {
+        "asset": "LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+        "sac_contract_id": "CAK3GBT7P6ADHBRK3LH3VODDY4HYLYYXAP6PEH436FYID2VJKPKND64L",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "b268d67992c2c185228264ae2d427adaf28ff6e502e6d053f3c6c2ba3f5ecc3a",
+        "as_of": 1791552018
+      }
+    ]
+  },
+  {
+    "at": "2026-10-11T00:32:03.416Z",
+    "network": "testnet",
+    "contract_id": "CAXEHTAMDRASNGUPGRRPZZAUAOOB5MMAUNLLA5O43KH3BQWZ4LQSX2PR",
+    "tx_hash": "89a3fafdeb30f33bfbe617e7465bbb3b7dc2e1e08ef1db20e868e5942d1269bb",
+    "ledger": 5131027,
+    "status_file": "data/status/2026-10-09.json",
+    "status_sha256": "21aa7f152a82dd8a0e43568020f59fb71e09351d713db5afc63b01e2450a2b95",
+    "commit": "cd9853daa8562daa36f137498a074afbc8893e9e",
+    "assets": [
+      {
+        "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+        "sac_contract_id": "CA6EZRSYJDDGN2W6IQPBTT624I6VIS7SS6OR6GPJQOOQT7GRKK5UTDRL",
+        "status": 1,
+        "flags": 256,
+        "evidence_hash": "be83ddfed6b89a9350d0dbfbe8f3c293b854c6b6f069da4c121e2f9fa75f521f",
+        "as_of": 1791552020
+      },
+      {
+        "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+        "sac_contract_id": "CALI5NJUXWSDKW4FUUQEAHTRD4IY6EQ4BIA6YGPMABRNXMXH7WWCC7Q6",
+        "status": 0,
+        "flags": 0,
+        "evidence_hash": "f3c9dcf6860b768f1677652de748b5e1fbf0338567614cc37358056a1a74a525",
+        "as_of": 1791552023
+      }
+    ]
   }
 ]

@@ -138,8 +138,8 @@ describe("buildDetail", () => {
 
   it("D6: published_by comes from the feed log for a published asset", async () => {
     const { body } = await detailFor("gBENJI");
-    expect(body.feed.published_by).toMatchObject({ ledger: 5111525, explorer: expect.stringMatching(/^https:\/\/stellar\.expert\/explorer\/testnet\/tx\//) });
-    expect(body.feed.published_by?.tx_hash.startsWith("8df3ec36")).toBe(true);
+    expect(body.feed.published_by).toMatchObject({ ledger: 5131026, explorer: expect.stringMatching(/^https:\/\/stellar\.expert\/explorer\/testnet\/tx\//) });
+    expect(body.feed.published_by?.tx_hash.startsWith("fbfb7097")).toBe(true);
     expect(body.evidence.reproduce).toContain(body.feed.published_by?.commit);
     expect(body.evidence.inputs.map((i) => i.name)).toEqual(expect.arrayContaining(["checks", "previous_checks", "claims", "checks_history"]));
     expect(body.evidence.inputs.every((i) => /^[0-9a-f]{64}$/.test(i.sha256))).toBe(true);
@@ -155,7 +155,7 @@ describe("buildDetail", () => {
     const k = realAsset("gBENJI");
     const key = k.asset.sac_contract_id as string;
     const ok = await detailFor("gBENJI");
-    expect(ok.body.feed.onchain).toMatchObject({ read: "ok", matches: true, diffs: [], entry: { version: 1, published_ledger: 5111525 } });
+    expect(ok.body.feed.onchain).toMatchObject({ read: "ok", matches: true, diffs: [], entry: { version: 1, published_ledger: 5131026 } });
     expect(ok.body.feed.key).toBe(key);
     expect(ok.body.feed.expected).toMatchObject({ status: 1, flags: 128 });
     const bad = await detailFor("gBENJI", { reader: fakeReader({ [key]: entryFor(k.loaded, k.asset, { status: 0, flags: 0 }) }) });

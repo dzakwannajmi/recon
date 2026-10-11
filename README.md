@@ -145,7 +145,7 @@ The Examiner compares verified claims and filings with Stellar mainnet data. Fla
 
 ## Demo video and links
 
-- Week 1 (recon.v1): video coming on 2026-10-10
+- Week 1 (recon.v1): video https://youtu.be/wOughNw-Mpw
 - Week 2 (recon.v2): coming
 - Week 3 (recon.v3): coming
 

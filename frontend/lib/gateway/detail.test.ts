@@ -155,7 +155,7 @@ describe("buildDetail", () => {
     const k = realAsset("gBENJI");
     const key = k.asset.sac_contract_id as string;
     const ok = await detailFor("gBENJI");
-    expect(ok.body.feed.onchain).toMatchObject({ read: "ok", matches: true, diffs: [], entry: { version: 1, published_ledger: 5131026 } });
+    expect(ok.body.feed.onchain).toMatchObject({ read: "ok", matches: true, diffs: [], entry: { version: 1, published_ledger: 5111525 } });
     expect(ok.body.feed.key).toBe(key);
     expect(ok.body.feed.expected).toMatchObject({ status: 1, flags: 128 });
     const bad = await detailFor("gBENJI", { reader: fakeReader({ [key]: entryFor(k.loaded, k.asset, { status: 0, flags: 0 }) }) });

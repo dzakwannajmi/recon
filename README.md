@@ -232,7 +232,7 @@ Pipeline commands, also from `frontend/`:
 
 ## Social links
 
-- X: product account coming soon
+- X: https://x.com/reconagent (@reconagent)
 - GitHub: https://github.com/dzakwannajmi/recon
 
 ## License

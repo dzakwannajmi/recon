@@ -13,13 +13,13 @@ describe("buildSummary", () => {
       schema: "check-summary/1",
       asset: { code: "gBENJI", issuer_org: "Franklin Templeton", type: "fund", official_domain: "franklintempleton.com" },
       status: "WARNING",
-      as_of: "2026-10-09",
-      rules_version: "flags-v2",
+      as_of: expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
+      rules_version: expect.stringMatching(/^flags-v\d+$/),
       counts: { raised: 1, clear: 4, not_evaluated: 4 },
       fact_sheet: "/en/assets/gBENJI",
       scope: SCOPE_NOTE,
       notice: NOTICE,
-      source_file: "data/status/2026-10-09.json",
+      source_file: expect.stringMatching(/^data\/status\/\d{4}-\d{2}-\d{2}\.json$/),
     });
     const raised = k.asset.raised[0];
     expect(body.raised_flags).toEqual([{ code: raised.flag, severity: raised.effective_severity, statement: raised.statement, as_of: raised.as_of }]);

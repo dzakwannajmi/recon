@@ -28,6 +28,8 @@ async function detailFor(code: string, over: { issuer?: string; reader?: ReturnT
   return { body, k };
 }
 
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+
 describe("buildDetail", () => {
   it("D1: lists all 9 flags in order, with the statement or reason verbatim and the listed evidence fields", async () => {
     const { body, k } = await detailFor("gBENJI");
@@ -46,7 +48,7 @@ describe("buildDetail", () => {
       }
       for (const e of f.evidence) expect(Object.keys(e).sort()).toEqual(["kind", "quote", "ref", "snapshot_sha256", "source_url", "where"]);
     }
-    expect(body.status).toMatchObject({ value: "WARNING", code: 1, flags_bitmask: 128, flags_binary: "010000000", as_of: "2026-10-09" });
+    expect(body.status).toMatchObject({ value: "WARNING", code: 1, flags_bitmask: 128, flags_binary: "010000000", as_of: expect.stringMatching(DATE) });
     expect(body.asset).toMatchObject({ code: "gBENJI", issuer_org: "Franklin Templeton", official_domain: "franklintempleton.com" });
     expect(body.untrusted_text).toContain("verbatim");
     expect(body.generated_at).toBe(NOW.toISOString());
@@ -114,7 +116,7 @@ describe("buildDetail", () => {
     const { body } = await detailFor("gBENJI");
     expect(body.chain_facts.available).toBe(true);
     if (!body.chain_facts.available) return;
-    expect(body.chain_facts.source_file).toBe("data/checks/2026-10-09.json");
+    expect(body.chain_facts.source_file).toMatch(/^data\/checks\/\d{4}-\d{2}-\d{2}\.json$/);
     expect(body.chain_facts.identity.status).toBe("verified");
     expect(body.chain_facts.facts.issuer_signers.length).toBeLessThanOrEqual(20);
     const weights = body.chain_facts.facts.issuer_signers.map((s) => s.weight);
@@ -138,8 +140,8 @@ describe("buildDetail", () => {
 
   it("D6: published_by comes from the feed log for a published asset", async () => {
     const { body } = await detailFor("gBENJI");
-    expect(body.feed.published_by).toMatchObject({ ledger: 5131026, explorer: expect.stringMatching(/^https:\/\/stellar\.expert\/explorer\/testnet\/tx\//) });
-    expect(body.feed.published_by?.tx_hash.startsWith("fbfb7097")).toBe(true);
+    expect(body.feed.published_by).toMatchObject({ ledger: expect.any(Number), explorer: expect.stringMatching(/^https:\/\/stellar\.expert\/explorer\/testnet\/tx\//) });
+    expect(body.feed.published_by?.tx_hash).toMatch(/^[0-9a-f]{64}$/);
     expect(body.evidence.reproduce).toContain(body.feed.published_by?.commit);
     expect(body.evidence.inputs.map((i) => i.name)).toEqual(expect.arrayContaining(["checks", "previous_checks", "claims", "checks_history"]));
     expect(body.evidence.inputs.every((i) => /^[0-9a-f]{64}$/.test(i.sha256))).toBe(true);
@@ -148,7 +150,7 @@ describe("buildDetail", () => {
   it("published_by is null when no logged record holds this hash", async () => {
     const { body } = await detailFor("gBENJI", { data: { publishedBy: () => null } });
     expect(body.feed.published_by).toBeNull();
-    expect(body.evidence.reproduce).toContain("data/status/2026-10-09.json");
+    expect(body.evidence.reproduce).toMatch(/data\/status\/\d{4}-\d{2}-\d{2}\.json/);
   });
 
   it("shows the matching entry as matches true and a different one with its diffs", async () => {

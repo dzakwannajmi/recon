@@ -1,0 +1,53 @@
+{
+  "network": "testnet",
+  "sdk": "29.0.0",
+  "lending_wasm_hash": "448f8bb42ba12e5db0da13b497fdd4836c068b3b96cac648614e046983165548",
+  "admin": "GBUWF6QFNVNDGPFXDXI3AZPSHJDKTXKUEQPJSAFVP54KS6WOT3LLFLFD",
+  "keeper": "GAFYJCBLQXOIOB574MQZ3TXVPXEBZWHH3LKWGPVOT7VNZMYP6KU6NZOR",
+  "borrower": "GADVOIGVZBIVQ62SHVVGS63NHJRLTNJJFNOQZXJGJBVHGC3HJ3GOJQB3",
+  "markets": {
+    "live": {
+      "contract_id": "CAWODDEZFGNK5ORGNGWVRXBHDRGXO6EVQB2IWQMPVTKS22EGKPGTEWCA",
+      "deploy_tx": "9cc97da4f01043547c299445e6604459b762a20dff0bc832970477fbaf6a6322",
+      "deployed_at": "2026-10-15T15:28:07.000Z",
+      "feed": "CAXEHTAMDRASNGUPGRRPZZAUAOOB5MMAUNLLA5O43KH3BQWZ4LQSX2PR",
+      "pause_at": 2,
+      "max_age_secs": 691200,
+      "assets": [
+        {
+          "label": "BENJI",
+          "asset": "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+          "key": "CCDSDPD7FXB74PFB2SYCHGQRWLXQRYRTQSPCVSRJ7FAOLOUGWEYAXQ7A"
+        },
+        {
+          "label": "USTRY",
+          "asset": "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+          "key": "CBLV4ATSIWU67CFSQU2NVRKINQIKUZ2ODSZBUJTJ43VJVRSBTZYOPNUR"
+        }
+      ]
+    },
+    "demo": {
+      "contract_id": "CC3BPB22M6JHN235MHE2SYXTGE73PAYPNUUGRCY75UNVPZXPVEHVOBB6",
+      "deploy_tx": "d13ff176f8acc9fe91eeefe14a5318ebd2c49cf5f2eb330739354912a5188c6f",
+      "deployed_at": "2026-10-15T15:28:17.000Z",
+      "feed": "CD4JIC2KZ7ZR7B5SYCPO77ZGU5YHWGDPDFEUYUJLRJQVMFNQP2Y2IJHB",
+      "pause_at": 2,
+      "max_age_secs": 691200,
+      "assets": [
+        {
+          "label": "SYNTH (synthetic, testnet only)",
+          "asset": null,
+          "key": "CDBROWIPSBU734N2VKDSPDVLL5VZRO4MV66L5GTYWGG2ZWZSBGHNLYWW"
+        }
+      ]
+    }
+  },
+  "demo_feed": {
+    "contract_id": "CD4JIC2KZ7ZR7B5SYCPO77ZGU5YHWGDPDFEUYUJLRJQVMFNQP2Y2IJHB",
+    "deploy_tx": "fcb26ddae66969f8006778c37b1a4e8bc53ccbdb82ab4f5448d098173469cad1",
+    "deployed_at": "2026-10-15T15:24:32.000Z",
+    "wasm_hash": "92b5af7e84779dad06fa9c31f9ab7edebede3ea8d257a62a1f190637f6923d72",
+    "writer": "GBGRCB7V7EVWIEV3T36R47LRJJYMIYMRCBP4BRTGVJJBWJYVB6YLU2TS",
+    "purpose": "Synthetic test data for the keeper demo. Not Recon's feed. No real asset."
+  }
+}

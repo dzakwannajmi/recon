@@ -88,6 +88,59 @@ export function packageSpecifiersOfSource(source: string): string[] {
   return info.importedFiles.map((f) => f.fileName).filter((spec) => !spec.startsWith("./") && !spec.startsWith("../") && !spec.startsWith("@/") && spec !== "." && spec !== "..");
 }
 
+/**
+ * Text that loads a signing key: the secret env name, the signing getter, the SDK functions that build a
+ * keypair from secret material, and any read of a `secret` field (`x.secret`, `x["secret"]`, `{ secret } =`).
+ * Calling `.secret()` on a freshly generated keypair to write it once (agent/wallet.ts `createWallet`) is
+ * not a read, so it does not match.
+ */
+export const SECRET_READ_PATTERNS: readonly { name: string; re: RegExp }[] = [
+  { name: "AGENT_SECRET_KEY", re: /AGENT_SECRET_KEY/i },
+  { name: "getAgentKeypair", re: /getAgentKeypair/i },
+  { name: "Keypair.fromSecret", re: /fromSecret|fromRawEd25519Seed|decodeEd25519SecretSeed/i },
+  { name: "secret field (dot)", re: /\.secret\b(?!\s*\()/ },
+  { name: "secret field (index)", re: /\[\s*["'`]secret["'`]\s*\]/ },
+  { name: "secret field (destructuring)", re: /\{[^{}]*\bsecret\b[^{}]*\}\s*=(?![=>])/ },
+];
+
+/** The files that contain secret-loading text, each with the first pattern name it matches. */
+export function secretReaders(files: Iterable<string>, g: Graph): string[] {
+  const out: string[] = [];
+  for (const f of files) {
+    const hit = SECRET_READ_PATTERNS.find((p) => p.re.test(g.read(f)));
+    if (hit) out.push(`${f}: ${hit.name}`);
+  }
+  return out;
+}
+
+/**
+ * Files allowed a computed `process.env[name]` lookup. Each one passes only constant names (checked by
+ * grep on 2026-10-15 and by a guard test): `positiveInt("…")` callers, the LLM key names in agent/llm.ts
+ * `KEY_ENV`, and the redaction list in lib/llm-errors.ts. A new entry needs a reviewer.
+ */
+export const ENV_INDEX_ALLOWLIST: ReadonlySet<string> = new Set(["lib/env.ts", "agent/llm.ts", "lib/llm-errors.ts"]);
+
+/**
+ * Text that can reach an env variable by a name the text check cannot see: a computed lookup, enumeration,
+ * or a spread copy of the whole environment. A computed lookup is allowed only in ENV_INDEX_ALLOWLIST.
+ */
+export const ENV_ENUMERATION_PATTERNS: readonly { name: string; re: RegExp; allowlisted: boolean }[] = [
+  { name: "computed process.env[...]", re: /\bprocess\.env\s*(?:\?\.\s*)?\[/, allowlisted: true },
+  { name: "Object.keys/values/entries(process.env)", re: /\bObject\s*\.\s*(?:keys|values|entries)\s*\(\s*process\.env\b/, allowlisted: false },
+  { name: "...process.env", re: /\.\.\.\s*process\.env\b/, allowlisted: false },
+];
+
+/** The files that enumerate the environment or index it by a computed name outside the allowlist. */
+export function envEnumerators(files: Iterable<string>, g: Graph, allow: ReadonlySet<string> = ENV_INDEX_ALLOWLIST): string[] {
+  const out: string[] = [];
+  for (const f of files) {
+    const text = g.read(f);
+    const hit = ENV_ENUMERATION_PATTERNS.find((p) => p.re.test(text) && !(p.allowlisted && allow.has(f.toLowerCase())));
+    if (hit) out.push(`${f}: ${hit.name}`);
+  }
+  return out;
+}
+
 export const realGraph = (): Graph => {
   const files = ["agent", "app", "lib", "components", "scripts"].flatMap((d) => listSources(path.join(ROOT, d)).map((f) => `${d}/${f}`));
   return { index: new Map(files.map((f) => [f.toLowerCase(), f])), read: (rel) => fs.readFileSync(path.join(ROOT, rel), "utf8") };

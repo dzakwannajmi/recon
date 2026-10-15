@@ -9,14 +9,14 @@
 import fs from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
-import { IS_TEST, ROOT, packageSpecifiers, packageSpecifiersOfSource, reachable, realGraph, resolve, specifiers, type Graph } from "../testing/import-graph";
+import { IS_TEST, ROOT, packageSpecifiers, packageSpecifiersOfSource, envEnumerators, reachable, realGraph, resolve, secretReaders, specifiers, type Graph } from "../testing/import-graph";
 
 const g = realGraph();
 const files = [...g.index.values()];
 const checkRoots = files.filter((f) => f.startsWith("app/api/check/") && !IS_TEST.test(f));
 const checkSet = reachable(checkRoots, g);
 
-const FORBIDDEN_FILES = ["agent/llm.ts", "agent/agent.ts", "agent/tools.ts", "agent/wallet.ts", "lib/feed/client.ts", "lib/feed/publish.ts"];
+const FORBIDDEN_FILES = ["agent/llm.ts", "agent/agent.ts", "agent/tools.ts", "agent/wallet.ts", "agent/signer.ts", "lib/feed/client.ts", "lib/feed/publish.ts"];
 // The root entry of @x402/stellar re-exports the client scheme and the signer factory, so it is forbidden too.
 const FORBIDDEN_PACKAGES = [/^ai$/, /^@ai-sdk\//, /^@x402\/stellar$/, /^@x402\/stellar\/exact\/client$/, /^@x402\/stellar\/exact\/facilitator$/, /^@x402\/fetch$/];
 
@@ -76,6 +76,8 @@ describe("G1: the check routes reach no LLM, no signing key, and no x402 client 
   it("never mentions the signer factory, the agent key getter, or the agent secret", () => {
     const hits = [...checkSet].filter((f) => /createEd25519Signer|getAgentKeypair|AGENT_SECRET_KEY|\.agent-wallet/i.test(g.read(f)));
     expect(hits).toEqual([]);
+    expect(secretReaders(checkSet, g)).toEqual([]);
+    expect(envEnumerators(checkSet, g)).toEqual([]);
   });
 
   it("nothing under agent/ or app/ (the chat and the wallet routes included) reaches the payer helpers, the paywall, or the paid deps", () => {
@@ -194,6 +196,8 @@ describe("G4: the MCP endpoint is free and read-only (golden rules 1, 7, 8, 11)"
   it("never mentions the signer factory, the agent key getter, or the agent secret", () => {
     const hits = [...mcpSet].filter((f) => /createEd25519Signer|getAgentKeypair|AGENT_SECRET_KEY|\.agent-wallet/i.test(g.read(f)));
     expect(hits).toEqual([]);
+    expect(secretReaders(mcpSet, g)).toEqual([]);
+    expect(envEnumerators(mcpSet, g)).toEqual([]);
   });
 
   it("no lib/mcp file imports the check-route handlers, deps, detail, or paywall", () => {

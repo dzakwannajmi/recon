@@ -1,8 +1,8 @@
 # What works today
 
-Data as of 2026-10-08. Each item lists proof (a merged pull request and a file in this repo) and how to reproduce it. Commands run from `frontend/`.
+Data as of 2026-10-15. Each item lists proof (a merged pull request and a file in this repo) and how to reproduce it. Commands run from `frontend/`.
 
-362 unit tests pass (`npm test`, vitest, no network).
+1032 frontend unit tests pass (`npm test`, vitest, no network). The Soroban contracts have their own tests: 45 for the feed and 53 for the mock lending market (`cargo test`).
 
 | Item | What it does | Proof | Reproduce |
 | --- | --- | --- | --- |
@@ -15,6 +15,16 @@ Data as of 2026-10-08. Each item lists proof (a merged pull request and a file i
 | Nine flags and status | Pure functions over stored files. Status per asset: OK, WARNING, or CRITICAL. As of 2026-10-08: 18 OK, 9 WARNING, 0 CRITICAL. Two flags (`LARGE_MINT_BURN`, `PRICE_DEVIATION`) are not evaluated yet. | [PR 7](https://github.com/dzakwannajmi/recon/pull/7), [`data/status/2026-10-08.json`](../data/status/2026-10-08.json) | `npm run status` |
 | Fact sheets in English and Indonesian | A page per asset at `/en/assets` and `/id/assets`, built from the newest status file. Each flag links to its evidence. | [PR 8](https://github.com/dzakwannajmi/recon/pull/8), [`frontend/lib/factsheet/`](../frontend/lib/factsheet/) | `npm run build`, then `npm start` and open `/en/assets` |
 | Operator review queue | Documents with a failed or empty extraction are listed. Reviewed proposals go through the same verifier and are labeled `operator-reviewed`. First run: 9 entries, 8 claims stored. | [PR 9](https://github.com/dzakwannajmi/recon/pull/9), [`data/review/queue.json`](../data/review/queue.json), [`data/review/imports.json`](../data/review/imports.json) | `npm run review:queue`, `npm run import:review` |
+| Soroban feed on testnet | The agent's wallet publishes one entry per asset (status, flag bits, as-of time, evidence hash) to a contract. Anyone can read it and re-compute the hash from the repo files. 27 entries. After the 2026-10-15 publish, `feed:verify` reported 0 mismatches. | [PR 16](https://github.com/dzakwannajmi/recon/pull/16), [PR 18](https://github.com/dzakwannajmi/recon/pull/18), [`contracts/feed/`](../contracts/feed/), [`data/feed/deployment.json`](../data/feed/deployment.json), [`data/feed/log.json`](../data/feed/log.json) | `npm run feed:verify -- --status data/status/2026-10-15.json` |
+| Paid check over x402 | `GET /api/check` is free; `/api/check/detail` settles a testnet payment before it answers (enabled when run locally; the hosted demo does not enable it). One settlement is on chain: [stellar.expert](https://stellar.expert/explorer/testnet/tx/67e1b4eaaf8ddba8c064a866348ae14ae1d0936f9f633518b5e63071e91e1e90). | [PR 20](https://github.com/dzakwannajmi/recon/pull/20), [`frontend/lib/payer/`](../frontend/lib/payer/) | `npm run check:paid` (local, testnet) |
+| MCP endpoint | Other agents call `check_asset`, `get_fact_sheet` and `list_flags` at `POST /api/mcp`. | [PR 21](https://github.com/dzakwannajmi/recon/pull/21), [`frontend/lib/mcp/`](../frontend/lib/mcp/) | `npm run mcp:probe -- --url <url> --out <dir>` |
+| Publisher key kept off the web server | The deployed app only knows the wallet's public key. Only the operator script can sign. Guard tests fail if app code can reach a secret. The publisher key was rotated on the feed contract (read `publisher()`). The operator reports the old key was removed from hosting; we could not check that from this repo. | [PR 25](https://github.com/dzakwannajmi/recon/pull/25), [PR 26](https://github.com/dzakwannajmi/recon/pull/26), [`frontend/agent/signer.ts`](../frontend/agent/signer.ts) | `npm test` |
+| Change flags held for 7 days | FLAG_CHANGE and SIGNER_CHANGE stay raised for 7 days even when the latest check is incomplete, so a reader that polls rarely does not miss a change. | [PR 27](https://github.com/dzakwannajmi/recon/pull/27), [`frontend/lib/flags/changes.ts`](../frontend/lib/flags/changes.ts) | `npm test` |
+| Mock lending market and keeper (code only) | A testnet-only mock market that pauses new borrows when the feed says CRITICAL, is stale, missing or unreadable, plus a keeper script. Not deployed yet: no on-chain run to show. | [PR 28](https://github.com/dzakwannajmi/recon/pull/28), [PR 29](https://github.com/dzakwannajmi/recon/pull/29), [`contracts/lending-mock/`](../contracts/lending-mock/), [`frontend/lib/keeper/`](../frontend/lib/keeper/) | `cargo test` in `contracts/lending-mock/` |
+
+## Week 2: what we learned
+
+The feed turned the fact sheets into something a contract can read, and that raised new questions. A status of OK can hide a flag that was never evaluated, so we keep flags that were not evaluated visible and plan a contract change for it. A change seen once must outlive a later incomplete check, so the 7-day hold now survives gaps in the latest read. Keys were the biggest risk: the app code no longer needs a signing key, the publisher key was rotated, and a test fails if app code can reach a secret. The 2026-10-15 run kept 18 OK and 9 WARNING with no CRITICAL, so for a CRITICAL demo we will use a separate demo feed with a clearly labeled synthetic asset, never a fake entry on the real feed.
 
 ## Week 1: what we learned
 

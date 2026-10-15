@@ -30,6 +30,17 @@ export function useDictation(root: React.RefObject<HTMLElement | null>) {
   }, []);
   useEffect(() => stop, [stop]);
 
+  // Hiding the tab closes the mic and resets the pill.
+  useEffect(() => {
+    const onVis = () => {
+      if (!document.hidden || !rec.current) return;
+      stop();
+      setPillKey((k) => k + 1);
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, [stop]);
+
   const start = useCallback(() => {
     setError(null);
     stop();

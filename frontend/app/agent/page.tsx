@@ -20,7 +20,13 @@ export default function AgentPage() {
   const a = useAgent();
   const bottomRef = useRef<HTMLDivElement>(null);
   const [calling, setCalling] = useState(false);
-  const closeCall = useCallback(() => setCalling(false), []);
+  const stopRef = useRef(a.stop);
+  stopRef.current = a.stop;
+  // Ending the call also drops a request that is still waiting, so calling again right away is not blocked.
+  const closeCall = useCallback(() => {
+    stopRef.current();
+    setCalling(false);
+  }, []);
 
   useEffect(() => {
     if (a.messages.length > 0 || a.thinking) bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });

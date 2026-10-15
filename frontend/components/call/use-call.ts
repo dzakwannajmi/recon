@@ -2,7 +2,7 @@
 
 import { useEffect, useReducer, useRef } from "react";
 import type { Reply } from "@/components/chat/types";
-import { CLOSED, callReducer, wantsMic } from "@/lib/voice/call-state";
+import { CLOSED, callReducer, closesOnHide, wantsMic } from "@/lib/voice/call-state";
 import { createRecognizer, recognitionError, speak, type Recognizer } from "@/lib/voice/recognition";
 import { markdownToSpeech, splitForSpeech } from "@/lib/voice/speech-text";
 
@@ -10,11 +10,15 @@ import { markdownToSpeech, splitForSpeech } from "@/lib/voice/speech-text";
  * Runs call mode: the mic, the question to the agent, and the spoken answer, in that order, driven by the
  * state machine in lib/voice/call-state. The mic is open only while the phase is "listening".
  */
-export function useCall(open: boolean, ask: (text: string) => Promise<Reply>) {
+export function useCall(open: boolean, ask: (text: string) => Promise<Reply>, onClose: () => void) {
   const [state, dispatch] = useReducer(callReducer, CLOSED);
   const rec = useRef<Recognizer | null>(null);
   const askRef = useRef(ask);
   askRef.current = ask;
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
+  const stateRef = useRef(state);
+  stateRef.current = state;
   const round = useRef(0); // bumps on open and close so an answer that arrives after the call ended is dropped
 
   const stopMic = () => {
@@ -33,16 +37,24 @@ export function useCall(open: boolean, ask: (text: string) => Promise<Reply>) {
   useEffect(() => {
     if (!wants) return undefined;
     const timer = setTimeout(() => {
-      const r = createRecognizer(
+      // Each callback belongs to its own recognizer: a late event from an old one must not touch the new session.
+      let r: Recognizer | null = null;
+      const mine = () => r !== null && rec.current === r;
+      r = createRecognizer(
         { continuous: false, interim: true },
         {
-          onInterim: (text) => dispatch({ type: "interim", text }),
-          onFinal: (text) => dispatch({ type: "heard", text }),
+          onInterim: (text) => mine() && dispatch({ type: "interim", text }),
+          onFinal: (text) => mine() && dispatch({ type: "heard", text }),
           onError: (code) => {
+            if (!mine()) return;
             const e = recognitionError(code);
             if (e) dispatch({ type: "fail", message: e.message, fatal: e.fatal });
           },
-          onEnd: () => dispatch({ type: "mic_off" }),
+          onEnd: () => {
+            if (!mine()) return;
+            rec.current = null;
+            dispatch({ type: "mic_off" });
+          },
         },
       );
       if (!r) {
@@ -79,6 +91,15 @@ export function useCall(open: boolean, ask: (text: string) => Promise<Reply>) {
     const s = speak(splitForSpeech(state.reply), () => dispatch({ type: "spoken" }));
     return () => s.cancel();
   }, [state.phase]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Hiding the tab ends the call (and with it the mic and the speech).
+  useEffect(() => {
+    const onVis = () => {
+      if (closesOnHide(stateRef.current, document.hidden)) closeRef.current();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
 
   useEffect(
     () => () => {

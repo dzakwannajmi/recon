@@ -60,3 +60,6 @@ export function callReducer(s: CallState, e: CallEvent): CallState {
 
 /** True when the mic should be open: the call is open, nothing is being thought or said, and no fatal error. */
 export const wantsMic = (s: CallState) => s.open && s.phase === "idle" && !s.fatal;
+
+/** Hiding the tab ends the call: nothing may keep listening or talking in the background. */
+export const closesOnHide = (s: CallState, hidden: boolean) => hidden && s.open;

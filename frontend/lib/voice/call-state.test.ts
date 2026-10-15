@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CLOSED, callReducer, wantsMic, type CallEvent, type CallState } from "./call-state";
+import { CLOSED, callReducer, closesOnHide, wantsMic, type CallEvent, type CallState } from "./call-state";
 
 const run = (events: CallEvent[], from: CallState = CLOSED) => events.reduce(callReducer, from);
 
@@ -67,5 +67,12 @@ describe("call state machine", () => {
     const closed = run([{ type: "close" }], thinking);
     expect(closed).toEqual(CLOSED);
     expect(run([{ type: "answered", text: "late" }, { type: "mic_on" }], closed)).toEqual(CLOSED);
+  });
+
+  it("closes when the tab is hidden, only while open", () => {
+    const open = run([{ type: "open" }, { type: "mic_on" }]);
+    expect(closesOnHide(open, true)).toBe(true);
+    expect(closesOnHide(open, false)).toBe(false);
+    expect(closesOnHide(CLOSED, true)).toBe(false);
   });
 });

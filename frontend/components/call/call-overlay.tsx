@@ -13,7 +13,7 @@ type Props = { open: boolean; onClose: () => void; ask: (text: string) => Promis
 
 /** Full-screen call mode. End and Escape close it, which also stops the mic and the speech. */
 export function CallOverlay({ open, onClose, ask }: Props) {
-  const call = useCall(open, ask);
+  const call = useCall(open, ask, onClose);
   const endRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {

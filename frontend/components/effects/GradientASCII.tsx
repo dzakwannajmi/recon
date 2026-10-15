@@ -893,7 +893,8 @@ const GradientASCII = ({
       if (atlas) gl.deleteTexture(atlas.texture);
       gl.deleteVertexArray(vao);
       [field, halo, blur, composite].forEach(item => gl.deleteProgram(item.program));
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      // Not lost on cleanup: the canvas below is reused when React StrictMode re-runs this effect in development,
+      // and a lost context cannot be recreated on the same canvas.
     };
   }, []);
 

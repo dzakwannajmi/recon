@@ -75,7 +75,7 @@
     font-feature-settings: "ss01" on, "cv11" on;
     }
 }
-a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible {
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, textarea:focus-visible, [role="slider"]:focus-visible {
   outline: 2px solid var(--foreground);
   outline-offset: 2px;
 }

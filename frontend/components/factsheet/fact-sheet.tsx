@@ -8,7 +8,7 @@ import { LangSwitch } from "./lang-switch";
 import Link from "next/link";
 
 const EXTERNAL = { target: "_blank", rel: "noopener noreferrer nofollow" } as const;
-const linkCls = "text-primary underline-offset-4 hover:underline";
+const linkCls = "text-foreground underline-offset-4 hover:underline";
 
 /** Label for an asset type; an unknown type falls back to the raw string. */
 export function assetTypeLabel(lang: Lang, type: string): string {

@@ -97,20 +97,20 @@ export default function Home() {
       <header className="flex flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Label>
-            <img src="/risein-logo.svg" alt="Rise In" className="mr-3 h-5 w-auto" />
+            <img src="/risein-logo.svg" alt="Rise In" className="mr-3 h-5 w-auto invert" />
             <span className="text-foreground">/ Agentmaxxing</span>&nbsp;
             <img src="/logo-mark.svg" alt="" className="mx-1 h-5 w-5" />
             Recon
           </Label>
           {status && <Label>Model: {status.model}</Label>}
         </div>
-        <h1 className="text-5xl leading-[0.9] font-bold tracking-[-0.045em] uppercase md:text-7xl">
-          Recon <span className="text-primary">agent.</span>
+        <h1 className="text-5xl leading-none tracking-[-0.03em] md:text-7xl">
+          Recon <span className="bg-primary px-2">agent.</span>
         </h1>
         <p className="max-w-xl text-lg text-muted-foreground">
           An AI agent that checks tokenized real-world assets against Stellar on-chain data.
         </p>
-        <Link href="/en/assets" className="w-fit text-sm text-primary underline underline-offset-4">
+        <Link href="/en/assets" className="w-fit text-sm text-foreground underline underline-offset-4">
           Fact sheets
         </Link>
       </header>
@@ -128,7 +128,7 @@ export default function Home() {
                   <p className="text-muted-foreground">
                     Paste it into <Code>.env</Code> as <Code>{status.keyEnv ?? "GEMINI_API_KEY"}</Code>, then restart <Code>npm run dev</Code>.{" "}
                     {(!status.provider || status.provider === "google") && (
-                      <a className="text-primary underline underline-offset-4" href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">
+                      <a className="text-foreground underline underline-offset-4" href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">
                         Get a free key
                       </a>
                     )}
@@ -164,7 +164,7 @@ export default function Home() {
               {status?.tools.map((t) => (
                 <div key={t.name}>
                   <p className="font-mono text-sm">
-                    <span className="text-primary">&gt;</span> {t.name}
+                    <span className="text-foreground">&gt;</span> {t.name}
                   </p>
                   <p className="mt-1 text-muted-foreground">{t.description}</p>
                 </div>
@@ -195,7 +195,7 @@ export default function Home() {
                     <Bot className="size-6" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold tracking-tight uppercase">Ask your agent something</p>
+                    <p className="text-2xl tracking-tight">Ask your agent something</p>
                     <p className="mt-1 text-muted-foreground">
                       {!ready
                         ? "Add your API key to start."
@@ -207,7 +207,7 @@ export default function Home() {
                   <div className="flex flex-wrap justify-center gap-2">
                     {EXAMPLES.map((e) => (
                       <Button key={e} variant="outline" onClick={() => send(e)} disabled={!ready} className="font-mono">
-                        <span className="text-primary">&gt;</span> {e}
+                        <span className="text-foreground">&gt;</span> {e}
                       </Button>
                     ))}
                   </div>
@@ -222,7 +222,7 @@ export default function Home() {
                 ) : (
                   <div key={i} className="flex max-w-[85%] gap-3 self-start">
                     <div className="flex size-8 shrink-0 items-center justify-center border">
-                      <Bot className="size-4 text-primary" />
+                      <Bot className="size-4 text-foreground" />
                     </div>
                     <div className="flex min-w-0 flex-col gap-2">
                       {m.steps?.map((s, j) => <ToolCall key={j} step={s} />)}
@@ -252,7 +252,7 @@ export default function Home() {
                 send(input);
               }}
             >
-              <div className={cn("flex flex-1 items-center border border-input bg-background focus-within:border-primary", !ready && "opacity-50")}>
+              <div className={cn("flex flex-1 items-center border border-input bg-background focus-within:border-foreground", !ready && "opacity-50")}>
                 <span className="pl-3 font-mono text-base whitespace-nowrap text-muted-foreground md:text-sm">~/agent $</span>
                 <Input
                   value={input}
@@ -280,7 +280,7 @@ function Label({ children }: { children: React.ReactNode }) {
 function SectionTitle({ num, title }: { num: string; title: string }) {
   return (
     <p className="font-mono text-xs font-medium tracking-[0.06em] uppercase">
-      <span className="text-primary">{num}</span>
+      <span className="text-foreground">{num}</span>
       <span className="ml-3 text-muted-foreground">{title}</span>
     </p>
   );
@@ -297,7 +297,7 @@ function SetupStep(props: { number: number; title: string; done: boolean; last?:
         <span
           className={cn(
             "flex size-6 shrink-0 items-center justify-center border-2 font-mono text-xs font-bold",
-            props.done ? "border-primary bg-primary text-primary-foreground" : "border-primary text-primary"
+            props.done ? "border-primary bg-primary text-primary-foreground" : "border-primary text-foreground"
           )}
         >
           {props.done ? <Check className="size-3.5" strokeWidth={3} /> : props.number}
@@ -305,7 +305,7 @@ function SetupStep(props: { number: number; title: string; done: boolean; last?:
         {!props.last && <span className={cn("w-0.5 flex-1", props.done ? "bg-primary" : "bg-border")} />}
       </div>
       <div className={cn("flex min-w-0 flex-1 flex-col gap-2", !props.last && "pb-6")}>
-        <p className="font-bold tracking-tight uppercase">{props.title}</p>
+        <p className="tracking-tight">{props.title}</p>
         {props.children}
       </div>
     </div>
@@ -325,7 +325,7 @@ function WalletDetails({ wallet, onRefresh }: { wallet: WalletInfo; onRefresh: (
   return (
     <div className="flex flex-col gap-3 border bg-background p-3">
       <div className="flex items-center justify-between gap-2">
-        <code className="truncate font-mono text-xs text-primary">{address}</code>
+        <code className="truncate font-mono text-xs text-foreground">{address}</code>
         <Button variant="ghost" size="icon-xs" onClick={copy} aria-label="Copy address">
           {copied ? <Check /> : <Copy />}
         </Button>
@@ -339,10 +339,10 @@ function WalletDetails({ wallet, onRefresh }: { wallet: WalletInfo; onRefresh: (
         </Button>
       </div>
       <div className="flex flex-wrap gap-x-4 gap-y-1 border-t pt-3 font-mono text-xs uppercase">
-        <a className="inline-flex items-center gap-1 hover:text-primary" href={`https://stellar.expert/explorer/testnet/account/${address}`} target="_blank" rel="noreferrer">
+        <a className="inline-flex items-center gap-1 hover:bg-primary" href={`https://stellar.expert/explorer/testnet/account/${address}`} target="_blank" rel="noreferrer">
           Explorer <ExternalLink className="size-3" />
         </a>
-        <a className="inline-flex items-center gap-1 hover:text-primary" href={`https://friendbot.stellar.org?addr=${address}`} target="_blank" rel="noreferrer">
+        <a className="inline-flex items-center gap-1 hover:bg-primary" href={`https://friendbot.stellar.org?addr=${address}`} target="_blank" rel="noreferrer">
           Fund with Friendbot <ExternalLink className="size-3" />
         </a>
       </div>
@@ -357,7 +357,7 @@ function ToolCall({ step }: { step: Step }) {
       <CollapsibleTrigger className="group flex w-full items-center gap-2 px-3 py-2 text-left hover:bg-muted">
         <ChevronRight className="size-3.5 transition-transform group-data-[panel-open]:rotate-90" />
         <span className="text-muted-foreground uppercase">Tool</span>
-        <span className="text-primary">{step.tool}</span>
+        <span className="text-foreground">{step.tool}</span>
         {step.error && <Badge variant="destructive" className="ml-auto font-mono uppercase">Failed</Badge>}
       </CollapsibleTrigger>
       <CollapsibleContent className="flex flex-col gap-2 border-t px-3 py-2">

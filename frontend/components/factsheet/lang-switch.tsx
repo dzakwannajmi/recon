@@ -11,7 +11,7 @@ export function LangSwitch({ lang, path }: { lang: Lang; path: string }) {
         l === lang ? (
           <span key={l} lang={l} aria-current="page" className="font-medium text-foreground">{COPY[l].languageName}</span>
         ) : (
-          <Link key={l} href={`/${l}${path}`} lang={l} hrefLang={l} className="text-primary underline-offset-4 hover:underline">{COPY[l].languageName}</Link>
+          <Link key={l} href={`/${l}${path}`} lang={l} hrefLang={l} className="text-foreground underline-offset-4 hover:underline">{COPY[l].languageName}</Link>
         ),
       )}
     </nav>

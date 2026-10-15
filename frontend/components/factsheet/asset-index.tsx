@@ -33,7 +33,7 @@ export function AssetIndex({ lang, status }: { lang: Lang; status: StatusFile })
               <tr key={`${a.asset_code}:${a.issuer}`} className="border-b border-border/50 align-top">
                 <td className="py-2 pr-4 font-medium">
                   {findAsset(status, a.asset_code) ? (
-                    <Link href={`/${lang}/assets/${encodeURIComponent(a.asset_code)}`} className="text-primary underline-offset-4 hover:underline">{a.asset_code}</Link>
+                    <Link href={`/${lang}/assets/${encodeURIComponent(a.asset_code)}`} className="text-foreground underline-offset-4 hover:underline">{a.asset_code}</Link>
                   ) : (
                     a.asset_code
                   )}

@@ -21,7 +21,7 @@ function FlagTitle({ copy, flag }: { copy: FactSheetCopy; flag: ReviewedFlag["fl
 function SeverityBadge({ severity }: { severity: "WARNING" | "CRITICAL" }) {
   return severity === "CRITICAL"
     ? <Badge variant="destructive">{severity}</Badge>
-    : <Badge variant="outline" className="border-amber-500/40 bg-amber-500/10 text-amber-300">{severity}</Badge>;
+    : <Badge variant="outline" className="border-amber-700/40 bg-amber-500/15 text-amber-900">{severity}</Badge>;
 }
 
 const Section = ({ title, intro, children }: { title: string; intro?: string; children: React.ReactNode }) => (

@@ -1,26 +1,30 @@
 /**
- * Golden rule 1: the LLM proposes, code decides, and no LLM tool publishes.
- * Nothing the live app can reach (everything under agent/ and app/, followed through its imports,
- * however indirect) may import the signing client or the publisher, or ask for the signing key.
+ * Golden rules 1 and 8: the LLM proposes, code decides, no LLM tool publishes, and the web app holds no secret.
+ * Nothing the live app can reach (everything under agent/ and app/ except agent/signer.ts, followed through its
+ * imports, however indirect) may import the signing client, the publisher, or the signer, or load a secret key.
+ * agent/signer.ts is the only file that loads the signing key, and only scripts/publish-feed.ts imports it.
  */
 import { describe, expect, it } from "vitest";
-import { IS_TEST, reachable, realGraph, type Graph } from "../testing/import-graph";
+import { IS_TEST, reachable, realGraph, resolve, secretReaders, specifiers, type Graph } from "../testing/import-graph";
 
+/** The operator-only signing module: under agent/, but never reachable from the app. */
+const SIGNER = "agent/signer.ts";
 /** Files under lib/feed that live code reachable from the app may import. */
 const ALLOWED_FEED = new Set(["lib/feed/reader.ts", "lib/feed/encode.ts", "lib/feed/deployment.ts"]);
 const feedFiles = (set: Set<string>) => [...set].filter((f) => f.toLowerCase().startsWith("lib/feed/") && !ALLOWED_FEED.has(f.toLowerCase()));
-const keyGetterUsers = (set: Set<string>, g: Graph) =>
-  [...set].filter((f) => f.toLowerCase() !== "agent/wallet.ts" && g.read(f).toLowerCase().includes("getagentkeypair"));
+const keyGetterUsers = (set: Set<string>, g: Graph) => [...set].filter((f) => g.read(f).toLowerCase().includes("getagentkeypair"));
+const appRoots = (g: Graph) => [...g.index.values()].filter((f) => /^(agent|app)\//.test(f) && !IS_TEST.test(f) && f.toLowerCase() !== SIGNER);
 
-describe("golden rule 1: nothing the app can reach touches the signing path", () => {
+describe("golden rules 1 and 8: nothing the app can reach touches the signing path or a secret", () => {
   const g = realGraph();
-  const roots = [...g.index.values()].filter((f) => /^(agent|app)\//.test(f) && !IS_TEST.test(f));
+  const roots = appRoots(g);
   const set = reachable(roots, g);
 
-  it("starts from every non-test file under agent/ and app/ and follows imports", () => {
+  it("starts from every non-test file under agent/ and app/ but the signer, and follows imports", () => {
     expect(roots.length).toBeGreaterThanOrEqual(8);
     expect(roots).toContain("agent/tools.ts");
-    expect(set.has("agent/wallet.ts")).toBe(true);
+    expect(roots).toContain("agent/wallet.ts");
+    expect(roots).toContain("app/api/wallet/route.ts");
     expect(set.size).toBeGreaterThan(roots.length); // it reaches into lib/
     expect([...set].some((f) => f.startsWith("lib/flags/"))).toBe(true);
   });
@@ -31,8 +35,26 @@ describe("golden rule 1: nothing the app can reach touches the signing path", ()
     expect(feedFiles(set)).toEqual([]);
   });
 
-  it("no reachable file other than agent/wallet.ts mentions the signing keypair getter", () => {
+  it("never reaches agent/signer.ts", () => {
+    expect(g.index.has(SIGNER)).toBe(true);
+    expect(set.has(SIGNER)).toBe(false);
+  });
+
+  it("no reachable file (agent/wallet.ts included) mentions the signing keypair getter", () => {
     expect(keyGetterUsers(set, g)).toEqual([]);
+  });
+
+  it("no reachable file (agent/wallet.ts included) loads a secret: no AGENT_SECRET_KEY, fromSecret, or secret-field read", () => {
+    expect(secretReaders(set, g)).toEqual([]);
+  });
+
+  it("agent/signer.ts is imported only by scripts/publish-feed.ts, and it is the only agent/ file that loads a secret", () => {
+    const importers = [...g.index.values()].filter(
+      (f) => !IS_TEST.test(f) && specifiers(g.read(f)).some((spec) => resolve(spec, f, g) === SIGNER),
+    );
+    expect(importers).toEqual(["scripts/publish-feed.ts"]);
+    const agentFiles = [...g.index.values()].filter((f) => f.startsWith("agent/") && !IS_TEST.test(f));
+    expect(secretReaders(agentFiles, g).map((hit) => hit.split(":")[0])).toEqual([SIGNER]);
   });
 
   it("the read-only modules do not import the signing client", () => {
@@ -40,6 +62,7 @@ describe("golden rule 1: nothing the app can reach touches the signing path", ()
     expect(fromReader.has("lib/feed/client.ts")).toBe(false);
     expect(fromReader.has("lib/feed/publish.ts")).toBe(false);
     expect(keyGetterUsers(fromReader, g)).toEqual([]);
+    expect(secretReaders(fromReader, g)).toEqual([]);
   });
 });
 
@@ -86,10 +109,48 @@ describe("the guard itself catches what it must (in-memory graph)", () => {
     expect([...reachable(["agent/a.ts"], g)]).toEqual(["agent/a.ts"]);
   });
 
-  it("flags a key-getter mention outside wallet.ts and a forbidden feed file", () => {
-    const g = graph({ "agent/a.ts": 'import "../lib/feed/verify"; const k = GetAgentKeypair();', "lib/feed/verify.ts": "" });
+  it("flags a key-getter mention anywhere reachable, and a forbidden feed file", () => {
+    const g = graph({
+      "agent/a.ts": 'import "../lib/feed/verify"; import "./wallet"; const k = GetAgentKeypair();',
+      "agent/wallet.ts": "export const getAgentKeypair = 1;",
+      "lib/feed/verify.ts": "",
+    });
     const set = reachable(["agent/a.ts"], g);
     expect(feedFiles(set)).toEqual(["lib/feed/verify.ts"]);
-    expect(keyGetterUsers(set, g)).toEqual(["agent/a.ts"]);
+    expect(keyGetterUsers(set, g).sort()).toEqual(["agent/a.ts", "agent/wallet.ts"]);
+  });
+
+  it("leaves the signer out of the roots, but sees it when a root imports it", () => {
+    const g = graph({ "agent/tools.ts": 'import { w } from "./wallet";', "agent/wallet.ts": "", "agent/signer.ts": 'import "./wallet";' });
+    expect(appRoots(g).sort()).toEqual(["agent/tools.ts", "agent/wallet.ts"]);
+    expect(reachable(appRoots(g), g).has(SIGNER)).toBe(false);
+    const bad = graph({ "agent/tools.ts": 'import { getAgentKeypair } from "./signer";', "agent/signer.ts": "" });
+    expect(reachable(appRoots(bad), bad).has(SIGNER)).toBe(true);
+  });
+
+  it("flags every way of loading a secret, and not the one-time write of a fresh keypair", () => {
+    const bad = [
+      "const s = process.env.AGENT_SECRET_KEY;",
+      "const k = Keypair.fromSecret(s);",
+      "const k = Keypair.fromRawEd25519Seed(raw);",
+      'const s = JSON.parse(fs.readFileSync(f, "utf8")).secret;',
+      "const s = data?.secret;",
+      'const s = data["secret"];',
+      "const { publicKey, secret } = JSON.parse(text);",
+    ];
+    for (const src of bad) {
+      const g = graph({ "agent/a.ts": src });
+      expect(secretReaders(["agent/a.ts"], g), src).toHaveLength(1);
+    }
+    const ok = [
+      "fs.writeFileSync(f, JSON.stringify({ publicKey: keypair.publicKey(), secret: keypair.secret() }, null, 2));",
+      "const publicKey = (JSON.parse(text) as { publicKey?: unknown }).publicKey;",
+      "type WalletFile = { publicKey: string; secret: string };",
+      "// never reads the file's private field",
+    ];
+    for (const src of ok) {
+      const g = graph({ "agent/a.ts": src });
+      expect(secretReaders(["agent/a.ts"], g), src).toEqual([]);
+    }
   });
 });

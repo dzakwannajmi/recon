@@ -110,7 +110,7 @@ export type PublishDeps = {
   deployment: Deployment;
   rpcUrl: string;
   client: FeedClient;
-  /** The agent wallet's keypair (from `agent/wallet.ts`), or null if there is none. Never printed. */
+  /** The agent wallet's signing keypair (from `agent/signer.ts`, operator script only), or null if there is none. Never printed. */
   keypair: Keypair | null;
   git: Git;
   /** Contents of a repo-relative file. */
@@ -158,7 +158,7 @@ export async function runPublish(opts: PublishOptions, deps: PublishDeps): Promi
 
   // 2. Signer: the agent wallet's public key is the deployment's publisher and the contract's publisher().
   const roles = await client.readRoles();
-  if (deps.keypair === null && !opts.dryRun) throw new PreconditionError(2, "the agent has no wallet (AGENT_SECRET_KEY or the wallet file); cannot sign");
+  if (deps.keypair === null && !opts.dryRun) throw new PreconditionError(2, "no signing key (set AGENT_SECRET_KEY in the operator shell, or keep the local wallet file; agent/signer.ts); cannot sign");
   const publisherKey = deps.keypair ? deps.keypair.publicKey() : deployment.publisher;
   if (publisherKey !== deployment.publisher) throw new PreconditionError(2, `the wallet's public key ${publisherKey} is not deployment.publisher ${deployment.publisher}`);
   if (roles.publisher !== publisherKey) throw new PreconditionError(2, `the contract's publisher() is ${roles.publisher}, not ${publisherKey}`);

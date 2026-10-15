@@ -4,13 +4,14 @@
  *   npm run feed:publish -- --status data/status/YYYY-MM-DD.json [--dry-run] [--batch-size N]
  *
  * Reads data/feed/deployment.json and the status file; appends data/feed/log.json; then verifies.
- * The signing key comes only from agent/wallet.ts (AGENT_SECRET_KEY or the wallet file) and is never printed.
+ * The signing key comes only from agent/signer.ts (AGENT_SECRET_KEY or the wallet file), must match AGENT_PUBLIC_KEY
+ * when that is set, and is never printed. The web app never imports agent/signer.ts.
  * The status and flags are those lib/flags wrote into the file. No LLM is involved (golden rule 1).
  * Testnet only: every precondition failure exits 1 before anything is sent.
  */
 import fs from "fs";
 import path from "path";
-import { getAgentKeypair } from "../agent/wallet";
+import { getAgentKeypair } from "../agent/signer";
 import { createFeedClient, createRpc, feedRpcUrl } from "../lib/feed/client";
 import { LOG_FILE, loadDeployment } from "../lib/feed/deployment";
 import { MAX_BATCH } from "../lib/feed/encode";

@@ -88,6 +88,31 @@ export function packageSpecifiersOfSource(source: string): string[] {
   return info.importedFiles.map((f) => f.fileName).filter((spec) => !spec.startsWith("./") && !spec.startsWith("../") && !spec.startsWith("@/") && spec !== "." && spec !== "..");
 }
 
+/**
+ * Text that loads a signing key: the secret env name, the signing getter, the SDK functions that build a
+ * keypair from secret material, and any read of a `secret` field (`x.secret`, `x["secret"]`, `{ secret } =`).
+ * Calling `.secret()` on a freshly generated keypair to write it once (agent/wallet.ts `createWallet`) is
+ * not a read, so it does not match.
+ */
+export const SECRET_READ_PATTERNS: readonly { name: string; re: RegExp }[] = [
+  { name: "AGENT_SECRET_KEY", re: /AGENT_SECRET_KEY/i },
+  { name: "getAgentKeypair", re: /getAgentKeypair/i },
+  { name: "Keypair.fromSecret", re: /fromSecret|fromRawEd25519Seed|decodeEd25519SecretSeed/i },
+  { name: "secret field (dot)", re: /\.secret\b(?!\s*\()/ },
+  { name: "secret field (index)", re: /\[\s*["'`]secret["'`]\s*\]/ },
+  { name: "secret field (destructuring)", re: /\{[^{}]*\bsecret\b[^{}]*\}\s*=(?![=>])/ },
+];
+
+/** The files that contain secret-loading text, each with the first pattern name it matches. */
+export function secretReaders(files: Iterable<string>, g: Graph): string[] {
+  const out: string[] = [];
+  for (const f of files) {
+    const hit = SECRET_READ_PATTERNS.find((p) => p.re.test(g.read(f)));
+    if (hit) out.push(`${f}: ${hit.name}`);
+  }
+  return out;
+}
+
 export const realGraph = (): Graph => {
   const files = ["agent", "app", "lib", "components", "scripts"].flatMap((d) => listSources(path.join(ROOT, d)).map((f) => `${d}/${f}`));
   return { index: new Map(files.map((f) => [f.toLowerCase(), f])), read: (rel) => fs.readFileSync(path.join(ROOT, rel), "utf8") };

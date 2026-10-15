@@ -1,6 +1,7 @@
 /**
- * Small, safe markdown parser for chat answers. It produces a plain tree (no HTML, no React) and never
- * uses regular expressions on whole documents, so long or hostile input stays linear.
+ * Small, safe markdown parser for chat answers. It produces a plain tree (no HTML, no React).
+ * Emphasis closers are found once up front and looked up by binary search, so matching is linear per
+ * nesting level (depth is capped). Input over MAX_INPUT characters is rendered as plain text.
  * Supported: headings, paragraphs, fenced code, bullet and numbered lists, blockquotes, rules,
  * and inline bold, italic, code, http(s) links. Everything else is literal text.
  */
@@ -26,17 +27,52 @@ const isSpace = (c: string | undefined) => c === undefined || c === " " || c ===
 const isAlnum = (c: string | undefined) => !!c && ((c >= "0" && c <= "9") || (c >= "a" && c <= "z") || (c >= "A" && c <= "Z"));
 const isPunct = (c: string) => "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".includes(c);
 
-/** Only http and https links are ever clickable. Returns the normalized URL or null. */
-export function safeHref(raw: string): string | null {
+export const MAX_INPUT = 20_000;
+
+/** Only http and https links are ever clickable, and never with credentials in the URL (https://sec.gov@evil.com). */
+export function parseSafeUrl(raw: string): URL | null {
   const s = raw.trim();
   const head = s.slice(0, 8).toLowerCase();
   if (!head.startsWith("http://") && !head.startsWith("https://")) return null;
   try {
     const u = new URL(s);
-    return u.protocol === "http:" || u.protocol === "https:" ? u.href : null;
+    if (u.protocol !== "http:" && u.protocol !== "https:") return null;
+    if (u.username || u.password) return null;
+    return u;
   } catch {
     return null;
   }
+}
+
+export const safeHref = (raw: string): string | null => parseSafeUrl(raw)?.href ?? null;
+
+const COMMON_TLDS = new Set(["com", "org", "net", "gov", "edu", "io", "co", "uk", "eu", "xyz", "app", "dev", "info", "ai", "us", "fi", "finance", "capital"]);
+
+/** Host of a label token that looks like a URL (http(s)://..., www., or host with a common TLD), else null. */
+function labelHost(token: string): string | null {
+  const t = token.replace(/^[("'\[]+/, "").replace(/[)"'\].,;:!?]+$/, "");
+  if (t.length === 0 || t.length > 256) return null;
+  const lower = t.toLowerCase();
+  const explicit = lower.startsWith("http://") || lower.startsWith("https://");
+  if (!explicit) {
+    const hostPart = lower.split(/[/?#]/, 1)[0];
+    const parts = hostPart.split(".");
+    if (parts.length < 2 || !(lower.startsWith("www.") || COMMON_TLDS.has(parts[parts.length - 1].split(":")[0]))) return null;
+  }
+  try {
+    return new URL(explicit ? t : `https://${t}`).hostname;
+  } catch {
+    return null;
+  }
+}
+
+/** A host the label claims that differs from the real one, or null when the label does not name a different site. */
+function spoofedHost(label: string, real: string): boolean {
+  for (const token of label.split(/\s+/)) {
+    const h = labelHost(token);
+    if (h !== null && h !== real) return true;
+  }
+  return false;
 }
 
 // ---------- inline ----------
@@ -52,28 +88,28 @@ function find(src: string, token: string, from: number, fail: Fail): number {
   return at;
 }
 
-function closeDouble(src: string, from: number, fail: Fail): number {
-  let p = from;
-  for (;;) {
-    const at = find(src, "**", p, fail);
-    if (at < 0) return -1;
-    if (at > from && !isSpace(src[at - 1])) return at;
-    p = at + 1;
+/** Sorted positions where an emphasis marker may close: not preceded by whitespace (and, for `*`, not part of `**`). */
+function closerPositions(src: string): { double: number[]; single: number[] } {
+  const double: number[] = [];
+  const single: number[] = [];
+  for (let k = 1; k < src.length; k++) {
+    if (src[k] !== "*" || isSpace(src[k - 1])) continue;
+    if (src[k + 1] === "*") double.push(k);
+    else if (src[k - 1] !== "*") single.push(k);
   }
+  return { double, single };
 }
 
-function closeSingle(src: string, from: number, fail: Fail): number {
-  let p = from;
-  for (;;) {
-    const at = find(src, "*", p, fail);
-    if (at < 0) return -1;
-    if (src[at + 1] === "*") {
-      p = at + 2;
-      continue;
-    }
-    if (at > from && !isSpace(src[at - 1])) return at;
-    p = at + 1;
+/** First element of the sorted list that is >= x, or -1. */
+function firstAtLeast(list: number[], x: number): number {
+  let lo = 0;
+  let hi = list.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (list[mid] < x) lo = mid + 1;
+    else hi = mid;
   }
+  return lo < list.length ? list[lo] : -1;
 }
 
 /** End (exclusive) of a bare URL starting at `i`, with trailing punctuation left out. */
@@ -87,6 +123,7 @@ function urlEnd(src: string, i: number): number {
 export function parseInline(src: string, depth = 0, inLink = false): Inline[] {
   const out: Inline[] = [];
   const fail: Fail = {};
+  const closers = closerPositions(src);
   let buf = "";
   const flush = () => {
     if (buf) out.push({ t: "text", text: buf });
@@ -124,7 +161,7 @@ export function parseInline(src: string, depth = 0, inLink = false): Inline[] {
     }
     if (c === "*" && depth < MAX_DEPTH) {
       if (src[i + 1] === "*" && !isSpace(src[i + 2])) {
-        const end = closeDouble(src, i + 2, fail);
+        const end = firstAtLeast(closers.double, i + 3);
         if (end > i + 2) {
           flush();
           out.push({ t: "strong", children: parseInline(src.slice(i + 2, end), depth + 1, inLink) });
@@ -132,7 +169,7 @@ export function parseInline(src: string, depth = 0, inLink = false): Inline[] {
           continue;
         }
       } else if (src[i + 1] !== "*" && !isSpace(src[i + 1])) {
-        const end = closeSingle(src, i + 1, fail);
+        const end = firstAtLeast(closers.single, i + 2);
         if (end > i + 1) {
           flush();
           out.push({ t: "em", children: parseInline(src.slice(i + 1, end), depth + 1, inLink) });
@@ -153,10 +190,13 @@ export function parseInline(src: string, depth = 0, inLink = false): Inline[] {
         if (end > 0) {
           const label = src.slice(open + 1, close);
           const target = src.slice(close + 2, end).trim().split(/\s/, 1)[0] ?? "";
-          const href = image || inLink ? null : safeHref(target);
+          const url = image || inLink ? null : parseSafeUrl(target);
           flush();
-          if (href) out.push({ t: "link", href, children: parseInline(label, depth + 1, true) });
-          else out.push(...parseInline(label, depth + 1, true)); // image alt text, or an unsafe link: label only
+          if (url && !spoofedHost(label, url.hostname)) out.push({ t: "link", href: url.href, children: parseInline(label, depth + 1, true) });
+          else {
+            out.push(...parseInline(label, depth + 1, true)); // image alt text, an unsafe link, or a label that names another site
+            if (url) out.push({ t: "text", text: ` (${url.hostname})` });
+          }
           i = end + 1;
           continue;
         }
@@ -336,5 +376,13 @@ export function parseBlocks(lines: string[], depth = 0): Block[] {
 }
 
 export function parseMarkdown(src: string): Block[] {
+  if (src.length > MAX_INPUT) {
+    const children: Inline[] = [];
+    src.split(/\r\n|\r|\n/).forEach((line, i) => {
+      if (i > 0) children.push({ t: "br" });
+      children.push({ t: "text", text: line });
+    });
+    return [{ t: "p", children }];
+  }
   return parseBlocks(src.replace(/\r\n?/g, "\n").split("\n"));
 }

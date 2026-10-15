@@ -112,6 +112,45 @@ describe("Markdown renderer", () => {
     }
   });
 
+  it("is fast on adversarial input up to the cap and above it", () => {
+    const cases = ["**a ".repeat(5_000), "*a ".repeat(6_666), "**a ".repeat(10_000), "*a **b ".repeat(5_000), "[x ".repeat(6_000) + "]"];
+    for (const src of cases) {
+      const t = performance.now();
+      html(src);
+      expect(performance.now() - t, `${src.slice(0, 8)} x${src.length}`).toBeLessThan(150);
+    }
+  });
+
+  it("renders input over 20000 characters as plain text", () => {
+    const src = "**a **".repeat(10_000);
+    expect(src.length).toBeGreaterThan(20_000);
+    const t = performance.now();
+    const out = html(src + "\n[x](https://example.com)");
+    expect(performance.now() - t).toBeLessThan(150);
+    expect(out).not.toContain("<strong");
+    expect(out).not.toContain("<a");
+    expect(out).toContain("**a **");
+  });
+
+  it("rejects links with credentials in the URL", () => {
+    for (const src of ["https://sec.gov@evil.com", "[x](https://user:pw@example.com/)", "[x](https://sec.gov@evil.com/path)"]) {
+      const out = html(src);
+      expect(out, src).not.toContain("<a");
+      expect(out, src).not.toContain("href");
+    }
+  });
+
+  it("does not let a URL-looking label point to another host", () => {
+    for (const src of ["[https://sec.gov/x](https://evil.com)", "[sec.gov](https://evil.com/a)", "[see www.sec.gov/x here](https://evil.com)"]) {
+      const out = html(src);
+      expect(out, src).not.toContain("<a");
+      expect(out, src).toContain("(evil.com)");
+    }
+    const same = html("[https://sec.gov/filing](https://sec.gov/other)");
+    expect(same).toContain('href="https://sec.gov/other"');
+    expect(html("[stellar.toml](https://example.com/.well-known/stellar.toml)")).toContain('href="https://example.com/.well-known/stellar.toml"');
+  });
+
   it("does not use dangerouslySetInnerHTML", async () => {
     const fs = await import("fs");
     const src = fs.readFileSync(new URL("./markdown.tsx", import.meta.url), "utf8");

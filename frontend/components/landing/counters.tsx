@@ -7,7 +7,7 @@ export function Counters() {
   const items = [
     { label: "Assets", value: String(s.assets) },
     { label: "Issuers", value: String(s.issuers) },
-    { label: "Feed entries", value: String(s.feedEntries) },
+    { label: "Assets with a status", value: String(s.feedEntries) },
     { label: "As of", value: s.asOf },
   ];
   return (

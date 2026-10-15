@@ -6,7 +6,7 @@
  *
  * The demo feed holds one synthetic testnet key, SYNTH; its entries are test data, not a Recon finding.
  * The code refuses any `publish` to Recon's feed. Signs through stellar-cli; no secret enters Node.
- * No .env is loaded. Testnet only. Exit codes as `keeper:run`.
+ * No environment file is loaded. Testnet only. Exit codes as `keeper:run`.
  */
 import { publicKeyOf } from "../lib/keeper/cli-signer";
 import { runDemo } from "../lib/keeper/demo";

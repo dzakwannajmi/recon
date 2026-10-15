@@ -5,7 +5,7 @@
  *
  * Simulates `check` for each listed asset and sends the permissionless `sync` only where a pause is due.
  * Signs through stellar-cli (`stellar tx sign --sign-with-key lending-keeper`); no secret enters Node.
- * No .env is loaded; the only settings read are FEED_RPC_URL and FEED_RPC_ALLOW_HOSTS. Testnet only.
+ * No environment file is loaded; the only settings read are FEED_RPC_URL and FEED_RPC_ALLOW_HOSTS. Testnet only.
  * Exit codes: 0 done, 1 refused (nothing signed), 2 a transaction outcome unknown, 3 a transaction failed.
  */
 import { runKeeper } from "../lib/keeper/run";

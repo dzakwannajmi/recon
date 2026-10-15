@@ -164,6 +164,7 @@ export function world(): World {
       const marketId = DEPLOYMENT.markets[market].contract_id;
       const apply = (req: InvokeRequest | Omit<InvokeRequest, "identity">, effects: boolean): InvokeResult | void => {
         const own = req.contractId;
+        if (!effects) w.simulated.push({ contractId: own, method: req.method, source: req.source });
         const arg = (i: number): any => scValToNative(req.args[i] as xdr.ScVal);
         const m = w.markets.get(own);
         const feed = w.feeds.get(own);
@@ -206,10 +207,7 @@ export function world(): World {
             if (effects) s.total_borrowed += arg(2) as bigint;
           } else throw new Error(`test: unexpected market method ${req.method}`);
         } else throw new Error(`test: unknown contract ${own}`);
-        if (!effects) {
-          w.simulated.push({ contractId: own, method: req.method, source: req.source });
-          return;
-        }
+        if (!effects) return;
         const identity = (req as InvokeRequest).identity;
         if (w.identities[identity] !== req.source) throw new Error(`test: identity ${identity} is not the source ${req.source}`);
         const txHash = (w.sent.length + 1).toString(16).padStart(64, "0");

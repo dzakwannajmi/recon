@@ -1,7 +1,7 @@
 /**
  * Wires the keeper and the demo to the real world for `scripts/keeper*.ts`: the testnet RPC, the committed
  * records, `data/assets.csv`, the stellar-cli signer, and the log. The only settings read from the
- * environment are `FEED_RPC_URL` and `FEED_RPC_ALLOW_HOSTS`, through `feedRpcUrl()`; no `.env` is loaded.
+ * environment are `FEED_RPC_URL` and `FEED_RPC_ALLOW_HOSTS`, through `feedRpcUrl()`; no environment file is loaded.
  * Node runtime only. Nothing under `app/` or `agent/` may import this file.
  */
 import path from "node:path";

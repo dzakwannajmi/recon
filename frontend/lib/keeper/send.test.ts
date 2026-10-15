@@ -30,6 +30,15 @@ function mockRpc(over: Partial<{
   return m;
 }
 
+const rejection = async (p: Promise<unknown>): Promise<ChainError> => {
+  try {
+    await p;
+  } catch (e) {
+    return e as ChainError;
+  }
+  throw new Error("expected the call to reject");
+};
+
 const signing = (kp: Keypair): StellarRunner => (_a, input) => {
   const tx = TransactionBuilder.fromXDR(input as string, Networks.TESTNET) as Transaction;
   tx.sign(kp);
@@ -115,7 +124,7 @@ describe("invoke: refusals before anything is signed", () => {
 describe("invoke: after the transaction is signed", () => {
   it("a send that throws is reported with the hash and is not retried", async () => {
     const r = mockRpc({ send: () => Promise.reject(new Error("socket hang up")) });
-    const err = await invoke(req, deps(r)).catch((e) => e as ChainError);
+    const err = await rejection(invoke(req, deps(r)));
     expect(err).toBeInstanceOf(ChainError);
     expect(err).toMatchObject({ kind: "unknown", txHash: HASH_OF_SENT.value });
     expect(err.message).toContain(HASH_OF_SENT.value);
@@ -137,7 +146,7 @@ describe("invoke: after the transaction is signed", () => {
     const flaky = mockRpc({ get: (n) => { if (n === 1) throw new Error("503"); return found(); } });
     expect((await invoke(req, deps(flaky))).ledger).toBe(777);
     const never = mockRpc({ get: () => notFound() });
-    const err = await invoke(req, deps(never)).catch((e) => e as ChainError);
+    const err = await rejection(invoke(req, deps(never)));
     expect(err).toMatchObject({ kind: "timeout", txHash: HASH_OF_SENT.value });
     expect(err.message).toMatch(/outcome is unknown/);
     expect(never.sent).toHaveLength(1);

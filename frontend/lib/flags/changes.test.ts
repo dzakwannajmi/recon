@@ -158,6 +158,108 @@ describe("flagFlagChange: reverts and gaps (S2, S3)", () => {
   });
 });
 
+describe("degraded current check (flags-v3, FO.5)", () => {
+  const T08 = "2026-10-08T01:00:00.000Z";
+  /** A present, not failed check on day d that could not read the issuer's flags. */
+  const noFlags = (d: string) => at(d, { flags: undefined });
+  const HELD =
+    "Issuer authorization flags changed between checks on 2026-10-06 and 2026-10-08: auth_revocable false → true, auth_clawback_enabled false → true. Held through 2026-10-15 (7 days after the change was first seen).";
+
+  it("(a) keeps a change raised through a degraded check inside the window, with the original change time", () => {
+    const series = [...afterChange(), noFlags("2026-10-10")];
+    const e = flagFlagChange(series);
+    expect(e).toMatchObject({ outcome: "raised", severity: "WARNING", as_of: "2026-10-10" });
+    expect(text(e)).toBe(`${HELD} The latest check on 2026-10-10 could not re-read the issuer authorization flags.`);
+    // evidence: the two checks that bracket the change, then the degraded current check
+    expect(e.outcome === "raised" && e.evidence.map((r) => r.ref)).toEqual([expect.stringContaining("2026-10-06"), expect.stringContaining("2026-10-08"), expect.stringContaining("2026-10-10")]);
+    expect(issuerChangeSeenAt(series)).toBe(T08);
+    // several degraded checks in a row change nothing
+    expect(text(flagFlagChange([...afterChange(), noFlags("2026-10-10"), noFlags("2026-10-12")]))).toContain("Held through 2026-10-15");
+  });
+
+  it("(a) holds when the current check has no facts at all, or no valid facts time, using the chain time the feed publishes", () => {
+    const noFacts = row({ file: "data/checks/2026-10-11.json", identity: identity({ checkedAt: "2026-10-11T01:00:00.000Z" }), facts: undefined });
+    expect(flagFlagChange([...afterChange(), noFacts])).toMatchObject({ outcome: "raised", as_of: "2026-10-11" });
+    const badTime = row({ file: "data/checks/2026-10-11.json", identity: identity({ checkedAt: "2026-10-11T01:00:00.000Z" }), facts: facts({ checkedAt: "junk", flags: NEXT }) });
+    expect(flagFlagChange([...afterChange(), badTime])).toMatchObject({ outcome: "raised", as_of: "2026-10-11" });
+    // no valid time anywhere in the current row: nothing to measure the window from
+    const noTime = row({ file: "data/checks/2026-10-11.json", identity: undefined, facts: facts({ checkedAt: "junk" }) });
+    expect(flagFlagChange([...afterChange(), noTime])).toMatchObject({ outcome: "not_evaluated", reason: "The current chain check has no valid check time" });
+  });
+
+  it("(a) SIGNER_CHANGE: held through a check without signers or without thresholds, keeping `extra`", () => {
+    const two = [{ key: A, weight: 1 }, { key: B, weight: 3 }];
+    const base: ChecksSeries = [prev(), cur({ issuerSigners: two })];
+    for (const over of [{ issuerSigners: undefined }, { issuerThresholds: undefined }]) {
+      const e = flagSignerChange([...base, at("2026-10-12", over)]);
+      expect(e).toMatchObject({ outcome: "raised", as_of: "2026-10-12", extra: { added: [{ key: B, weight: 3 }] } });
+      expect(text(e)).toMatch(/Held through 2026-10-15 \(7 days after the change was first seen\)\. The latest check on 2026-10-12 could not re-read the issuer signers and thresholds\.$/);
+    }
+  });
+
+  it("(b) a degraded check outside the window is not evaluated (never clear, never raised)", () => {
+    const e = flagFlagChange([...afterChange(), noFlags("2026-10-16")]);
+    expect(e).toEqual({ flag: "FLAG_CHANGE", outcome: "not_evaluated", reason: "The current chain check has no authorization flags" });
+    expect(flagFlagChange([...afterChange("2026-10-16"), noFlags("2026-10-20")]).outcome).toBe("not_evaluated");
+    expect(flagSignerChange([prev(), cur({ issuerSigners: [{ key: B, weight: 1 }] }), at("2026-10-16", { issuerSigners: undefined })]).outcome).toBe("not_evaluated");
+    // the change time stays (it never clears)
+    expect(issuerChangeSeenAt([...afterChange(), noFlags("2026-10-16")])).toBe(T08);
+  });
+
+  it("(c) a degraded check never creates a change: missing data is not evaluated, not a change", () => {
+    expect(flagFlagChange([noFlags("2026-10-06")])).toMatchObject({ outcome: "not_evaluated", reason: "The current chain check has no authorization flags" });
+    expect(flagFlagChange([noFlags("2026-10-06"), cur({ flags: NEXT })])).toMatchObject({ outcome: "not_evaluated", reason: "No previous chain check for this asset to compare with" });
+    expect(flagFlagChange([prev({ flags: OPEN }), noFlags("2026-10-08")])).toMatchObject({ outcome: "not_evaluated", reason: "The current chain check has no authorization flags" });
+    expect(issuerChangeSeenAt([prev({ flags: OPEN }), noFlags("2026-10-08")])).toBeNull();
+    // a degraded check between two equal ones is skipped: no change, and no pair of changes
+    const skipped = flagFlagChange([prev({ flags: OPEN }), noFlags("2026-10-07"), cur({ flags: OPEN })]);
+    expect(skipped).toMatchObject({ outcome: "clear", reason: "The issuer authorization flags are the same in all 2 checks from 2026-10-06 to 2026-10-08." });
+    expect(issuerChangeSeenAt([prev({ flags: OPEN }), noFlags("2026-10-07"), cur({ flags: OPEN })])).toBeNull();
+    // signers present but thresholds missing is degraded too, never compared
+    expect(flagSignerChange([prev(), at("2026-10-07", { issuerSigners: [{ key: C, weight: 9 }], issuerThresholds: undefined }), cur()]).outcome).toBe("clear");
+    // a failed or missing current row is not degraded and is never held (the asset is not published)
+    expect(flagFlagChange([...afterChange(), row({ file: "data/checks/2026-10-09.json", facts: undefined, error: "timeout" })]).outcome).toBe("not_evaluated");
+    expect(flagFlagChange([...afterChange(), undefined]).outcome).toBe("not_evaluated");
+  });
+
+  it("(c) a degraded check older than the change it would hold does not hold it", () => {
+    const early = row({ file: "data/checks/2026-10-08b.json", identity: identity({ checkedAt: "2026-10-08T00:30:00.000Z" }), facts: facts({ checkedAt: "2026-10-08T00:30:00.000Z", flags: undefined }) });
+    expect(flagFlagChange([...afterChange(), early]).outcome).toBe("not_evaluated");
+  });
+
+  it("(d) a later usable check with no further change keeps it raised until the window ends, then clears", () => {
+    const series = (...tail: ChecksSeries) => [...afterChange(), noFlags("2026-10-10"), ...tail];
+    const e = flagFlagChange(series(at("2026-10-12", { flags: NEXT })));
+    expect(e).toMatchObject({ outcome: "raised", as_of: "2026-10-12" });
+    expect(text(e)).toBe(HELD); // a usable current check: the flags-v2 wording, no degraded note
+    expect(flagFlagChange(series(at("2026-10-15", { flags: NEXT }))).outcome).toBe("raised");
+    const cleared = flagFlagChange(series(at("2026-10-16", { flags: NEXT })));
+    expect(cleared).toMatchObject({ outcome: "clear", as_of: "2026-10-16" });
+    expect(text(cleared)).toContain("the last change was seen between checks on 2026-10-06 and 2026-10-08");
+    // a usable check after a degraded one that shows a new change is compared with the last usable row
+    const next = flagFlagChange(series(at("2026-10-12", { flags: OPEN })));
+    expect(text(next)).toContain("between checks on 2026-10-08 and 2026-10-12");
+  });
+
+  it("(e) boundary: held when the degraded check is exactly 7 UTC days after the seen day, not on the 8th", () => {
+    expect(flagFlagChange([...afterChange(), noFlags("2026-10-15")])).toMatchObject({ outcome: "raised", as_of: "2026-10-15" });
+    expect(flagFlagChange([...afterChange(), noFlags("2026-10-16")]).outcome).toBe("not_evaluated");
+    // calendar days in UTC, not hours, exactly as for a usable check
+    const t = (d: string, time: string, over: Partial<AssetFacts>) => row({ file: `data/checks/${d}.json`, identity: identity({ checkedAt: `${d}T${time}` }), facts: facts({ checkedAt: `${d}T${time}`, ...over }) });
+    const late = [t("2026-10-06", "23:59:59.000Z", { flags: OPEN }), t("2026-10-08", "23:59:59.000Z", { flags: NEXT })];
+    expect(flagFlagChange([...late, t("2026-10-15", "00:00:01.000Z", { flags: undefined })]).outcome).toBe("raised");
+    expect(flagFlagChange([...late, t("2026-10-16", "00:00:01.000Z", { flags: undefined })]).outcome).toBe("not_evaluated");
+  });
+
+  it("the degraded hold and the usable hold agree day by day", () => {
+    for (const d of ["2026-10-08", "2026-10-09", "2026-10-12", "2026-10-15", "2026-10-16", "2026-10-30"]) {
+      const usable = flagFlagChange(d === "2026-10-08" ? afterChange() : afterChange(d));
+      const degraded = flagFlagChange([...afterChange(), noFlags(d)]);
+      expect(degraded.outcome === "raised", d).toBe(usable.outcome === "raised");
+    }
+  });
+});
+
 describe("flagSignerChange", () => {
   const two = [{ key: A, weight: 1 }, { key: B, weight: 3 }];
 

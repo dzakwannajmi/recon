@@ -76,6 +76,19 @@ describe("hold window through evaluateAsset (S1)", () => {
     expect(late.raised).toEqual(early.raised);
     expect(late.evidence_hash).toBe(early.evidence_hash); // the hash does not depend on as-of: it hashes the inputs, which are the same here
   });
+
+  it("keeps bit 3 and the change time when the current check lacks the flags (flags-v3, FO.5)", () => {
+    const degraded = (d: string) => row({ file: `data/checks/${d}.json`, identity: identity({ checkedAt: `${d}T01:34:10.000Z` }), facts: facts({ checkedAt: `${d}T01:34:21.021Z`, flags: undefined }) });
+    const withDegraded = (d: string, asOf: string) => base({ asOf, earlierChecks: [[at("2026-10-06", OPEN)], [at("2026-10-08", NEXT)]], checks: [degraded(d)] });
+    const held = statusFor(withDegraded("2026-10-10", "2026-10-10"));
+    expect(held).toMatchObject({ status: "WARNING", flags_bitmask: 8, issuer_change_seen_at: "2026-10-08T01:34:21.021Z", checked_at: "2026-10-10T01:34:21.021Z" });
+    expect(held.raised[0].statement).toContain("The latest check on 2026-10-10 could not re-read the issuer authorization flags.");
+    // the D-038 boundary: still held 7 days after, not evaluated (never clear) on the 8th day
+    expect(statusFor(withDegraded("2026-10-15", "2026-10-15")).flags_bitmask).toBe(8);
+    const out = statusFor(withDegraded("2026-10-16", "2026-10-16"));
+    expect(out).toMatchObject({ status: "OK", flags_bitmask: 0, issuer_change_seen_at: "2026-10-08T01:34:21.021Z" });
+    expect(out.not_evaluated.find((e) => e.flag === "FLAG_CHANGE")?.reason).toBe("The current chain check has no authorization flags");
+  });
 });
 
 describe("wording", () => {

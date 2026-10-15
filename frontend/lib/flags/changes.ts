@@ -6,6 +6,16 @@
  *
  * One event computation (`changeEvents`) feeds both deciders and
  * `issuerChangeSeenAt`, so the flag and the feed's change time can't disagree.
+ *
+ * Current row, per flag (flags-v3, amends D-038; threat model FO.5):
+ * - missing: the asset is not in the current checks file → `not_evaluated`;
+ * - failed: `error` is set → `not_evaluated` (no chain time; the asset is not published);
+ * - degraded: present and not failed, but not usable for this flag (no facts, no flags for
+ *   FLAG_CHANGE, no signers or no thresholds for SIGNER_CHANGE, or no valid facts.checkedAt) →
+ *   held `raised` while a change seen earlier is inside the window, else `not_evaluated`
+ *   (see `decideDegraded`). A degraded row never takes part in a comparison, so a missing
+ *   field is never read as a change and never as "no change";
+ * - usable: the D-038 rules, unchanged.
  */
 import type { AssetFacts } from "../chain/asset";
 import type { AssetFlags } from "../chain/horizon";
@@ -93,6 +103,26 @@ const usable = (kind: Kind, r: ChecksRow | undefined): r is ChecksRow & { facts:
   !!r && !r.error && !!r.facts && kind.need(r.facts) && isIsoTime(r.facts.checkedAt);
 
 /**
+ * The chain read a status rests on: the later of identity.checkedAt and facts.checkedAt of the row.
+ * (The identity read is cached per issuer, so it can be older than the facts.) Null for a missing
+ * or failed row. This is the feed's `as_of`; a change seen in the facts is never later than it.
+ * Every published asset has one (`assetStatus` refuses a published status without it).
+ */
+export function chainCheckedAt(row: ChecksRow | undefined): string | null {
+  if (!row || row.error) return null;
+  const times = [row.identity?.checkedAt, row.facts?.checkedAt].filter((t): t is string => isIsoTime(t));
+  if (times.length === 0) return null;
+  return times.reduce((best, t) => (Date.parse(t) > Date.parse(best) ? t : best));
+}
+
+/** Why a present but unusable current row can't be compared (the flags-v2 reasons, unchanged). */
+function unusableReason(kind: Kind, current: ChecksRow): string {
+  if (current.error || !current.facts) return "The current chain check failed or has no on-chain facts";
+  if (!kind.need(current.facts)) return `The current chain check has no ${kind.what}`;
+  return "The current chain check has no valid check time";
+}
+
+/**
  * The only event computation: every pair of neighbouring usable rows that differs is one
  * event, oldest first. Unusable rows in the middle are skipped. A revert (A to B, then B to A) is two events.
  */
@@ -106,14 +136,47 @@ function changeEvents(kind: Kind, series: ChecksSeries): { rows: (ChecksRow & { 
   return { rows, events };
 }
 
+/** The raised statement of the latest event, held as of `currentDay` (shared by the normal and the degraded path). */
+function heldStatement(kind: Kind, events: ChangeEvent[], currentDay: string): string {
+  const latest = events[events.length - 1];
+  const seenDay = day(latest.seenAt);
+  const inWindow = events.filter((e) => wholeDays(day(e.seenAt), currentDay) <= CHANGE_HOLD_DAYS).length;
+  return (
+    `${kind.headline} between checks on ${day(latest.from.facts!.checkedAt)} and ${seenDay}: ${latest.changes.join(kind.joiner)}. ` +
+    `Held through ${addDays(seenDay, CHANGE_HOLD_DAYS)} (${CHANGE_HOLD_DAYS} days after the change was first seen).` +
+    (inWindow > 1 ? ` ${inWindow} changes in the last ${CHANGE_HOLD_DAYS} days.` : "")
+  );
+}
+
+/**
+ * flags-v3 (FO.5): the current row is DEGRADED for this kind (present, not failed, but not usable:
+ * no facts, no {kind.what}, or no valid facts.checkedAt). It can neither clear nor create a change:
+ * it is left out of the comparison, and a change seen earlier stays raised while
+ * `wholeDays(seenDay, day(chainCheckedAt(current))) <= CHANGE_HOLD_DAYS` (the D-038 boundary, measured
+ * from the time the feed publishes as `as_of`). Outside the window, with no change seen, or with no
+ * valid chain time, it is `not_evaluated` (never `clear`: the degraded check did not read the account).
+ */
+function decideDegraded(kind: Kind, current: ChecksRow, events: ChangeEvent[]): Evaluation {
+  const { flag } = kind;
+  const reason = unusableReason(kind, current);
+  const at = chainCheckedAt(current);
+  const latest = events[events.length - 1];
+  if (!at || !latest) return notEvaluated(flag, reason);
+  // A current check that predates the change can't hold it (assetStatus would refuse the change time anyway).
+  if (Date.parse(at) < Date.parse(latest.seenAt)) return notEvaluated(flag, reason);
+  const currentDay = day(at);
+  if (wholeDays(day(latest.seenAt), currentDay) > CHANGE_HOLD_DAYS) return notEvaluated(flag, reason);
+  const statement = `${heldStatement(kind, events, currentDay)} The latest check on ${currentDay} could not re-read the ${kind.subject}.`;
+  return raised(flag, "WARNING", statement, currentDay, [chainRef(latest.from), chainRef(latest.to), chainRef(current)], latest.extra);
+}
+
 function decide(kind: Kind, series: ChecksSeries): Evaluation {
   const { flag } = kind;
   const current = series[series.length - 1];
   if (!current) return notEvaluated(flag, "No chain check for this asset in the current checks file");
-  if (current.error || !current.facts) return notEvaluated(flag, "The current chain check failed or has no on-chain facts");
-  if (!kind.need(current.facts)) return notEvaluated(flag, `The current chain check has no ${kind.what}`);
-  if (!isIsoTime(current.facts.checkedAt)) return notEvaluated(flag, "The current chain check has no valid check time");
+  if (current.error) return notEvaluated(flag, unusableReason(kind, current));
   const { rows, events } = changeEvents(kind, series);
+  if (!usable(kind, current)) return decideDegraded(kind, current, events);
   if (rows.length < 2) return notEvaluated(flag, "No previous chain check for this asset to compare with");
 
   const currentDay = day(current.facts.checkedAt);
@@ -132,12 +195,7 @@ function decide(kind: Kind, series: ChecksSeries): Evaluation {
       evidence,
     );
   }
-  const inWindow = events.filter((e) => wholeDays(day(e.seenAt), currentDay) <= CHANGE_HOLD_DAYS).length;
-  const statement =
-    `${kind.headline} between checks on ${day(latest.from.facts!.checkedAt)} and ${seenDay}: ${latest.changes.join(kind.joiner)}. ` +
-    `Held through ${addDays(seenDay, CHANGE_HOLD_DAYS)} (${CHANGE_HOLD_DAYS} days after the change was first seen).` +
-    (inWindow > 1 ? ` ${inWindow} changes in the last ${CHANGE_HOLD_DAYS} days.` : "");
-  return raised(flag, "WARNING", statement, currentDay, evidence, latest.extra);
+  return raised(flag, "WARNING", heldStatement(kind, events, currentDay), currentDay, evidence, latest.extra);
 }
 
 /** FLAG_CHANGE (WARNING only): the issuer's four authorization flags changed in the last 7 days of checks. */

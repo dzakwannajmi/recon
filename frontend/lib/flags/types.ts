@@ -20,7 +20,7 @@ export const FLAG_BITS = {
 export const STATUS_CODES = { OK: 0, WARNING: 1, CRITICAL: 2 } as const;
 export type StatusName = keyof typeof STATUS_CODES;
 
-export const RULES_VERSION = "flags-v2";
+export const RULES_VERSION = "flags-v3";
 
 /** Layout of the feed entry and of its evidence hash (D-039). Bump together with the contract's SCHEMA. */
 export const FEED_SCHEMA = 1;

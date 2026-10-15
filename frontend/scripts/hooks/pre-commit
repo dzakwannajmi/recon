@@ -1,0 +1,19 @@
+#!/bin/sh
+# Blocks a commit when the index holds a secret-shaped string: "S" followed by 55 base32 characters
+# (a Stellar secret key). Install with `npm run hooks:install` (threat model A10).
+# -w and not \b: on Apple git 2.54.0 the \b form found nothing in a synthetic test; -w did.
+# The matching line is never printed, only the command that lists the files.
+git grep --cached -qwE 'S[A-Z2-7]{55}'
+status=$?
+if [ "$status" -eq 0 ]; then
+  echo "pre-commit: a secret-shaped string (S followed by 55 base32 characters) is in the index." >&2
+  echo "pre-commit: list the files with: git grep --cached -lwE 'S[A-Z2-7]{55}'" >&2
+  echo "pre-commit: remove it, or build the string at run time if it is a test fixture." >&2
+  exit 1
+fi
+if [ "$status" -ne 1 ]; then
+  # git grep failed (exit 2 or more): do not let a broken check pass silently.
+  echo "pre-commit: the secret scan could not run (git grep exit $status); commit blocked." >&2
+  exit 1
+fi
+exit 0

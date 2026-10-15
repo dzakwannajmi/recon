@@ -188,6 +188,7 @@ Pipeline commands, also from `frontend/`:
 | `npm run examine` | Examination run -> `data/examinations/DATE.json` |
 | `npm run status` | Compute flags and status -> `data/status/DATE.json` (no network, no LLM) |
 | `npm run build` | Build the app and the fact sheets from the newest status file |
+| `npm run hooks:install` | Install the tracked pre-commit hook (`core.hooksPath`) that blocks a staged secret-shaped string; it prints the file-list command, never the line |
 
 ## Repository layout
 

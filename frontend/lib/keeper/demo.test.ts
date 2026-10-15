@@ -3,6 +3,7 @@ import { assertPublishTarget, checkDemoGuards, nextAsOf, runDemo, type DemoOptio
 import { ChainError, REASON } from "./market";
 import { IDENTITIES, demoEvidenceHash } from "./records";
 import { KeeperRefusal } from "./run";
+import { FEED_WASM_HASH, RECON_FEED_ID } from "./records";
 import { DEPLOYMENT, IDS, KEYS, RECON, SCENARIO, SYNTH_KEY, UNIVERSE, putEntry, world, type World } from "./testkit";
 
 const full: DemoOptions = { dryRun: false, fromStep: 0 };
@@ -226,6 +227,91 @@ describe("K5 demo: guards refuse before anything is signed (exit 1)", () => {
     const w = world();
     w.passphrase = "Public Global Stellar Network ; September 2015";
     expect(await refused(w)).toMatch(/not testnet/);
+  });
+});
+
+describe("HIGH 1 and MEDIUM (b) in the demo", () => {
+  const refused = async (w: World, over: Parameters<World["deps"]>[1] = {}) => {
+    const res = await runDemo(full, w.deps("demo", over));
+    expect(res.exitCode).toBe(1);
+    expect(w.signs).toBe(0);
+    expect(w.sent).toEqual([]);
+    return res.message ?? "";
+  };
+
+  it("the demo feed or the demo market running another Wasm, a Stellar Asset Contract, or no instance is refused", async () => {
+    const w = world();
+    w.executables.set(IDS.demoFeed, { kind: "wasm", hash: "aa".repeat(32) });
+    expect(await refused(w)).toMatch(/runs Wasm aa+, not the expected 92b5af7e/);
+    const w2 = world();
+    w2.executables.set(IDS.demoFeed, { kind: "asset" });
+    expect(await refused(w2)).toMatch(/does not run a Wasm/);
+    const w3 = world();
+    w3.executables.set(IDS.demoMarket, { kind: "wasm", hash: "bb".repeat(32) });
+    expect(await refused(w3)).toMatch(/the market .* runs Wasm bb+/);
+    const w4 = world();
+    w4.executables.set(IDS.demoFeed, null);
+    expect(await refused(w4)).toMatch(/no contract instance/);
+  });
+
+  it("a record whose demo_feed.wasm_hash is not the feed Wasm is refused", async () => {
+    const w = world();
+    const bad = { ...DEPLOYMENT, demo_feed: { ...DEPLOYMENT.demo_feed, wasm_hash: "aa".repeat(32) } };
+    expect(await refused(w, { deployment: bad })).toMatch(/demo_feed.wasm_hash/);
+  });
+
+  it("the guarded send refuses Recon's feed ID inside runDemo even when the records name it as the demo feed", async () => {
+    // Every record and every on-chain read is made consistent with the demo feed being RECON_FEED_ID, so only the constant is left to stop it.
+    const w = world();
+    w.feeds.set(RECON_FEED_ID, new Map());
+    w.feedRoles.set(RECON_FEED_ID, { admin: KEYS.writer, publisher: KEYS.writer, schema: 1 });
+    w.executables.set(RECON_FEED_ID, { kind: "wasm", hash: FEED_WASM_HASH });
+    w.markets.get(IDS.demoMarket)!.feed = RECON_FEED_ID;
+    const edited = {
+      ...DEPLOYMENT,
+      markets: { ...DEPLOYMENT.markets, demo: { ...DEPLOYMENT.markets.demo, feed: RECON_FEED_ID } },
+      demo_feed: { ...DEPLOYMENT.demo_feed, contract_id: RECON_FEED_ID },
+    };
+    const res = await runDemo(full, w.deps("demo", { deployment: edited }));
+    expect(res.exitCode).toBe(1);
+    expect(res.message).toMatch(/refusing to send publish to Recon's feed/);
+    expect(w.sent).toEqual([]);
+    expect(w.signs).toBe(0);
+    expect(w.published).toEqual([]);
+  });
+
+  it("Recon's feed admin or publisher on chain equal to any of the four identities is refused", async () => {
+    for (const roles of [{ admin: KEYS.admin, publisher: KEYS.reconPublisher }, { admin: KEYS.reconAdmin, publisher: KEYS.writer }, { admin: KEYS.reconAdmin, publisher: KEYS.keeper }]) {
+      const w = world();
+      w.feedRoles.set(IDS.reconFeed, { ...roles, schema: 1 });
+      expect(await refused(w)).toMatch(/publisher or admin of Recon's feed on chain/);
+    }
+  });
+});
+
+describe("MEDIUM (a) and LOW in the demo: logging", () => {
+  it("market() throws after a successful step: the transaction is logged with its hash and ledger, borrow_enabled_after null, exit 3", async () => {
+    const w = world();
+    const real = w.deps("demo");
+    // fail the re-read right after step 3 (resume_borrows), the second transaction
+    const deps = { ...real, market: { ...real.market, market: async (k: string) => { if (w.sent.length >= 2) throw new Error("rpc down"); return real.market.market(k); } } };
+    const res = await runDemo(full, deps);
+    expect(res.exitCode).toBe(3);
+    expect(w.sent.map((s) => s.method)).toEqual(["publish", "resume_borrows"]);
+    const last = w.logs[w.logs.length - 1];
+    expect(last).toMatchObject({ step: 3, method: "resume_borrows", tx_hash: w.sent[1].txHash, borrow_enabled_after: null });
+    expect(last.ledger).toBe(902);
+    expect(res.steps.some((s) => s.txHash === w.sent[1].txHash)).toBe(true);
+  });
+
+  it("a transaction that fails on chain is logged with outcome failed and the run exits 3", async () => {
+    const w = world();
+    const hash = "ab".repeat(32);
+    w.failSend = { n: 1, error: new ChainError(`Transaction ${hash} failed on chain`, "failed", null, null, hash) };
+    const res = await runDemo(full, w.deps("demo"));
+    expect(res.exitCode).toBe(3);
+    expect(w.logs).toHaveLength(1);
+    expect(w.logs[0]).toMatchObject({ tx_hash: hash, ledger: null, outcome: "failed", step: 2 });
   });
 });
 

@@ -6,7 +6,9 @@
  * Simulates `check` for each listed asset and sends the permissionless `sync` only where a pause is due.
  * Signs through stellar-cli (`stellar tx sign --sign-with-key lending-keeper`); no secret enters Node.
  * No environment file is loaded; the only settings read are FEED_RPC_URL and FEED_RPC_ALLOW_HOSTS. Testnet only.
- * Exit codes: 0 done, 1 refused (nothing signed), 2 a transaction outcome unknown, 3 a transaction failed.
+ * Exit codes: 0 done; 1 refused (a record, identity or consistency check failed; nothing signed);
+ * 2 a transaction outcome unknown; 3 a transaction failed; 4 an asset could not be evaluated while its market
+ * may be open (the operator pauses it by hand: runbook 5.11, lending-admin runs pause_borrows).
  */
 import { runKeeper } from "../lib/keeper/run";
 import type { MarketName } from "../lib/keeper/records";

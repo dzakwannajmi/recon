@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { ChainError, REASON } from "./market";
+import { ChainError, REASON, addressToScVal } from "./market";
 import { IDENTITIES } from "./records";
-import { MIN_KEEPER_BALANCE_STROOPS, entryMismatch, explorerTxUrl, formatAge, runKeeper, type KeeperOptions } from "./run";
+import { loadDeployment as loadReconFeed } from "../feed/deployment";
+import { FEED_WASM_HASH, RECON_FEED_ID } from "./records";
+import { MIN_KEEPER_BALANCE_STROOPS, KeeperRefusal, assertExecutable, entryMismatch, explorerTxUrl, formatAge, guardedSend, runKeeper, type KeeperOptions } from "./run";
 import { BENJI_KEY, DEPLOYMENT, IDS, KEYS, SYNTH_KEY, USTRY_KEY, entry, putEntry, world, type World } from "./testkit";
 
 const live = (over: Partial<KeeperOptions> = {}): KeeperOptions => ({ market: "live", dryRun: false, sendAll: false, ...over });
@@ -87,12 +89,13 @@ describe("K3 runKeeper: the plan", () => {
     expect(w.lines.join("\n")).toContain("nothing is signed");
   });
 
-  it("a dry run whose simulation fails exits 3 without signing", async () => {
+  it("a dry run whose simulation fails on an open market exits 4 (could not evaluate) without signing", async () => {
     const w = liveWorld();
     const deps = w.deps("live", { simulate: async () => { throw new ChainError("contract error #13 (NotListed)", "contract", 13, "NotListed"); } });
     const res = await runKeeper(live({ dryRun: true, sendAll: true }), deps);
-    expect(res.exitCode).toBe(3);
+    expect(res.exitCode).toBe(4);
     expect(w.signs).toBe(0);
+    expect(w.lines).toContain("could not evaluate BENJI; the market may be open; follow runbook 5.11: lending-admin runs pause_borrows");
   });
 });
 
@@ -222,8 +225,10 @@ describe("K4 preconditions: each refusal exits 1 before anything is signed", () 
     };
     expect(await refused(w, tampered)).toMatch(/differs from the market's decision: evidence_hash differs/);
     const w2 = liveWorld();
-    w2.brokenFeeds.add(IDS.reconFeed); // the market says FEED_UNAVAILABLE, yet the feed answers with entries
-    expect(await refused(w2)).toMatch(/FEED_UNAVAILABLE but the feed holds an entry/);
+    w2.feeds.get(IDS.reconFeed)!.delete(USTRY_KEY); // the market holds a decision from an entry, the feed has none
+    const real2 = w2.deps("live");
+    const statusDecision = { reason: REASON.STATUS, status: 2, flags: 1, as_of: 1n, evidence_hash: "11".repeat(32), published_ledger: 1 };
+    expect(await refused(w2, { market: { ...real2.market, check: async (k: string) => (k === USTRY_KEY ? statusDecision : real2.market.check(k)) } })).toMatch(/the feed has none/);
   });
 
   it("a market that is not listed", async () => {
@@ -298,5 +303,215 @@ describe("K7 output", () => {
     expect(formatAge(3 * 3600 + 120)).toBe("3h 2m");
     expect(formatAge(2 * 86_400 + 5 * 3600)).toBe("2d 5h");
     expect(formatAge(-5)).toBe("0m");
+  });
+});
+
+
+describe("K4 executable hash: each refusal exits 1 before anything is signed", () => {
+  const refusedWith = async (w: World, expected: RegExp) => {
+    const res = await runKeeper(live({ sendAll: true }), w.deps("live"));
+    expect(res.exitCode).toBe(1);
+    expect(res.message ?? "").toMatch(expected);
+    expect(w.signs).toBe(0);
+    expect(w.sent).toEqual([]);
+    expect(w.logs).toEqual([]);
+  };
+
+  it("passes when the market and its feed run the expected Wasm", async () => {
+    const w = liveWorld();
+    const res = await runKeeper(live(), w.deps("live"));
+    expect(res.exitCode).toBe(0);
+  });
+
+  it("the market's feed runs another Wasm", async () => {
+    const w = liveWorld();
+    w.executables.set(IDS.reconFeed, { kind: "wasm", hash: "aa".repeat(32) });
+    await refusedWith(w, /the market's feed .* runs Wasm aa+, not the expected 92b5af7e/);
+  });
+
+  it("the market itself runs another Wasm", async () => {
+    const w = liveWorld();
+    w.executables.set(IDS.liveMarket, { kind: "wasm", hash: "bb".repeat(32) });
+    await refusedWith(w, /the market .* runs Wasm bb+, not the expected cd/);
+  });
+
+  it("the feed address is a Stellar Asset Contract", async () => {
+    const w = liveWorld();
+    w.executables.set(IDS.reconFeed, { kind: "asset" });
+    await refusedWith(w, /does not run a Wasm \(contractExecutableStellarAsset\)/);
+  });
+
+  it("the instance entry is missing", async () => {
+    const w = liveWorld();
+    w.executables.set(IDS.liveMarket, null);
+    await refusedWith(w, /has no contract instance on chain/);
+    const w2 = liveWorld();
+    w2.executables.set(IDS.reconFeed, null);
+    await refusedWith(w2, /has no contract instance on chain/);
+  });
+
+  it("an RPC error reading the entry is a refusal too", async () => {
+    const w = liveWorld();
+    const real = w.deps("live");
+    const res = await runKeeper(live(), { ...real, rpc: { ...real.rpc, getLedgerEntries: async () => { throw new Error("rpc down"); } } });
+    expect(res.exitCode).toBe(1);
+    expect(res.message).toMatch(/could not read the executable of the market .*rpc down/);
+  });
+
+  it("assertExecutable reads a real instance entry (SDK XDR objects)", async () => {
+    const w = liveWorld();
+    const rpc = w.deps("live").rpc;
+    await expect(assertExecutable(rpc, IDS.reconFeed, FEED_WASM_HASH, "feed")).resolves.toBeUndefined();
+    await expect(assertExecutable(rpc, IDS.reconFeed, "00".repeat(32), "feed")).rejects.toThrow(KeeperRefusal);
+  });
+});
+
+describe("HIGH 2 fail-safe: an unreadable asset never blocks a pause, and never hides an open market", () => {
+  it("FEED_UNAVAILABLE: an off-chain read error counts as consistent and sync is sent", async () => {
+    const w = liveWorld();
+    w.brokenFeeds.add(IDS.reconFeed);
+    const deps = w.deps("live", { readEntries: async () => { throw new Error("feed read failed"); } });
+    const res = await runKeeper(live(), deps);
+    expect(res.exitCode).toBe(0);
+    expect(res.rows.map((r) => [r.label, r.decision.reason, r.action, r.after.borrow_enabled, r.after.reason])).toEqual([
+      ["BENJI", REASON.FEED_UNAVAILABLE, "sync", false, REASON.FEED_UNAVAILABLE],
+      ["USTRY", REASON.FEED_UNAVAILABLE, "sync", false, REASON.FEED_UNAVAILABLE],
+    ]);
+    expect(w.sent.map((s) => s.method)).toEqual(["sync", "sync"]);
+  });
+
+  it("FEED_UNAVAILABLE with a readable entry is also consistent: the market's own call failed and sync can only pause", async () => {
+    const w = liveWorld();
+    w.brokenFeeds.add(IDS.reconFeed);
+    const res = await runKeeper(live(), w.deps("live"));
+    expect(res.exitCode).toBe(0);
+    expect(w.sent).toHaveLength(2);
+  });
+
+  it("UNKNOWN_SCHEMA: a decoding error off chain counts as consistent and sync is sent", async () => {
+    const w = liveWorld();
+    putEntry(w, IDS.reconFeed, BENJI_KEY, { version: 2 });
+    const deps = w.deps("live", { readEntries: async () => { throw new Error("Entry.status is not a u32"); } });
+    const res = await runKeeper(live(), deps);
+    // BENJI is paused by sync; USTRY is CLEAR with an unreadable entry on an open market, so the run ends with exit 4.
+    expect(res.exitCode).toBe(4);
+    expect(res.rows.find((r) => r.label === "BENJI")).toMatchObject({ action: "sync" });
+    expect(res.rows.find((r) => r.label === "BENJI")!.decision.reason).toBe(REASON.UNKNOWN_SCHEMA);
+    expect(w.sent.map((s) => s.method)).toEqual(["sync"]);
+  });
+
+  it("check() throws on an open market: exit 4 with the runbook line, nothing signed", async () => {
+    const w = liveWorld();
+    const real = w.deps("live");
+    const res = await runKeeper(live(), { ...real, market: { ...real.market, check: async () => { throw new Error("simulation failed"); } } });
+    expect(res.exitCode).toBe(4);
+    expect(w.signs).toBe(0);
+    expect(w.lines).toContain("could not evaluate BENJI; the market may be open; follow runbook 5.11: lending-admin runs pause_borrows");
+    expect(w.lines).toContain("could not evaluate USTRY; the market may be open; follow runbook 5.11: lending-admin runs pause_borrows");
+  });
+
+  it("market() throws: the state is unknown, so exit 4", async () => {
+    const w = liveWorld();
+    const real = w.deps("live");
+    const res = await runKeeper(live(), { ...real, market: { ...real.market, market: async () => { throw new Error("rpc down"); } } });
+    expect(res.exitCode).toBe(4);
+    expect(w.lines.filter((l) => l.startsWith("could not evaluate"))).toHaveLength(2);
+  });
+
+  it("check() throws but the market is known to be paused: no exit 4", async () => {
+    const w = liveWorld();
+    for (const s of w.markets.get(IDS.liveMarket)!.states.values()) Object.assign(s, { borrow_enabled: false, reason: REASON.STATUS });
+    const real = w.deps("live");
+    const res = await runKeeper(live(), { ...real, market: { ...real.market, check: async () => { throw new Error("simulation failed"); } } });
+    expect(res.exitCode).toBe(0);
+    expect(w.lines.some((l) => l.includes("could not evaluate BENJI; the market is paused"))).toBe(true);
+  });
+
+  it("one unreadable asset does not stop the pause of another: sync is sent, then exit 4", async () => {
+    const w = liveWorld();
+    putEntry(w, IDS.reconFeed, USTRY_KEY, { status: 2, flags: 1, evidence_hash: "33".repeat(32) });
+    const real = w.deps("live");
+    const res = await runKeeper(live(), { ...real, market: { ...real.market, check: async (k: string) => { if (k === BENJI_KEY) throw new Error("boom"); return real.market.check(k); } } });
+    expect(res.exitCode).toBe(4);
+    expect(w.sent.map((s) => s.method)).toEqual(["sync"]);
+    expect(res.rows.map((r) => [r.label, r.action])).toEqual([["USTRY", "sync"]]);
+    expect(w.lines.some((l) => l.startsWith("could not evaluate BENJI"))).toBe(true);
+  });
+
+  it("a CLEAR decision whose entry can't be cross-checked, with the market open, is exit 4", async () => {
+    const w = liveWorld();
+    const res = await runKeeper(live(), w.deps("live", { readEntries: async () => { throw new Error("decode"); } }));
+    expect(res.exitCode).toBe(4);
+    expect(w.signs).toBe(0);
+  });
+
+  it("record and identity refusals stay exit 1 (not 4)", async () => {
+    const w = liveWorld();
+    w.identities[IDENTITIES.keeper] = KEYS.borrower;
+    expect((await runKeeper(live(), w.deps("live"))).exitCode).toBe(1);
+  });
+});
+
+describe("MEDIUM (a): the hash survives a failed re-read, and an on-chain failure is logged", () => {
+  it("market() throws after a successful send: logged with the hash and ledger, borrow_enabled_after null, exit 3", async () => {
+    const w = liveWorld();
+    putEntry(w, IDS.reconFeed, USTRY_KEY, { status: 2, flags: 1, evidence_hash: "33".repeat(32) });
+    const real = w.deps("live");
+    const res = await runKeeper(live(), { ...real, market: { ...real.market, market: async (k: string) => { if (w.sent.length > 0) throw new Error("rpc down"); return real.market.market(k); } } });
+    expect(res.exitCode).toBe(3);
+    expect(w.sent).toHaveLength(1);
+    expect(w.logs).toHaveLength(1);
+    expect(w.logs[0]).toMatchObject({ tx_hash: w.sent[0].txHash, ledger: 901, borrow_enabled_before: true, borrow_enabled_after: null });
+    expect(w.logs[0].outcome).toBeUndefined();
+    expect(res.message).toContain(w.sent[0].txHash);
+  });
+
+  it("a transaction that fails on chain is logged with outcome failed and exit 3", async () => {
+    const w = liveWorld();
+    const hash = "ab".repeat(32);
+    w.failSend = { n: 1, error: new ChainError(`Transaction ${hash} failed on chain`, "failed", null, null, hash) };
+    const res = await runKeeper(live({ sendAll: true }), w.deps("live"));
+    expect(res.exitCode).toBe(3);
+    expect(w.logs).toHaveLength(1);
+    expect(w.logs[0]).toMatchObject({ tx_hash: hash, ledger: null, outcome: "failed", borrow_enabled_after: null });
+    expect(res.message).toMatch(/runbook 5.11/);
+  });
+
+  it("a refused transaction (never on chain) is not logged", async () => {
+    const w = liveWorld();
+    w.failSend = { n: 1, error: new ChainError("The network refused the transaction (ERROR)", "rejected", null, null, "cd".repeat(32)) };
+    const res = await runKeeper(live({ sendAll: true }), w.deps("live"));
+    expect(res.exitCode).toBe(3);
+    expect(w.logs).toEqual([]);
+  });
+});
+
+describe("MEDIUM (b): Recon's feed", () => {
+  it("RECON_FEED_ID and FEED_WASM_HASH are the values in data/feed/deployment.json", () => {
+    expect(RECON_FEED_ID).toBe(loadReconFeed().contract_id);
+    expect(FEED_WASM_HASH).toBe(loadReconFeed().wasm_hash);
+  });
+
+  it("guardedSend refuses any method to Recon's feed, by the constant and by the record, and passes others through", async () => {
+    const w = liveWorld();
+    const deps = w.deps("live");
+    for (const method of ["publish", "set_publisher", "upgrade", "sync", "anything"]) {
+      await expect(guardedSend(deps, { contractId: RECON_FEED_ID, method, args: [], source: KEYS.keeper, identity: IDENTITIES.keeper, errorNames: {} })).rejects.toThrow(KeeperRefusal);
+      await expect(guardedSend(deps, { contractId: deps.recon.contract_id, method, args: [], source: KEYS.keeper, identity: IDENTITIES.keeper, errorNames: {} })).rejects.toThrow(/never writes to it/);
+    }
+    expect(w.sent).toEqual([]);
+    const ok = await guardedSend(deps, { contractId: IDS.liveMarket, method: "sync", args: [addressToScVal(BENJI_KEY)], source: KEYS.keeper, identity: IDENTITIES.keeper, errorNames: {} });
+    expect(ok.txHash).toMatch(/^[0-9a-f]{64}$/);
+  });
+
+  it("a keeper identity equal to Recon's feed admin or publisher on chain is refused, whatever data/feed/deployment.json says", async () => {
+    for (const roles of [{ admin: KEYS.admin, publisher: KEYS.reconPublisher }, { admin: KEYS.reconAdmin, publisher: KEYS.keeper }, { admin: KEYS.borrower, publisher: KEYS.reconPublisher }, { admin: KEYS.reconAdmin, publisher: KEYS.writer }]) {
+      const w = liveWorld();
+      w.feedRoles.set(IDS.reconFeed, { ...roles, schema: 1 });
+      const res = await runKeeper(live({ sendAll: true }), w.deps("live"));
+      expect(res.exitCode).toBe(1);
+      expect(res.message).toMatch(/is the publisher or admin of Recon's feed on chain/);
+      expect(w.signs).toBe(0);
+    }
   });
 });

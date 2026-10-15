@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { Account, Contract, Networks, Transaction, TransactionBuilder, type Keypair } from "@stellar/stellar-sdk";
+import { Account, Contract, Networks, Transaction, TransactionBuilder, xdr, type Keypair } from "@stellar/stellar-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { stellarChildEnv } from "../payer/env";
 import { buildTx } from "../feed/reader";
@@ -58,6 +58,7 @@ describe("K2 cli-signer: identity names", () => {
       "", "Lending", "a b", "a_b", "../x", "x/y", "a;b", "$(id)", "-x y", "a".repeat(33),
       "S" + "A".repeat(55), // shaped like a secret key
       "kite urban dog", // a seed phrase
+      "-x", "--quiet", "-", "--network", // would read as an option of stellar
     ];
     for (const name of bad) expect(isIdentityName(name), name).toBe(false);
   });
@@ -66,6 +67,9 @@ describe("K2 cli-signer: identity names", () => {
     const run = vi.fn<StellarRunner>();
     expect(() => signWith(txOf(), "SAAAA", KEYS.keeper, run)).toThrow(/not valid/);
     expect(() => signWith(txOf(), "a b", KEYS.keeper, run)).toThrow(/not valid/);
+    expect(() => signWith(txOf(), "-x", KEYS.keeper, run)).toThrow(/not valid/);
+    expect(() => signWith(txOf(), "--quiet", KEYS.keeper, run)).toThrow(/not valid/);
+    expect(() => publicKeyOf("--help", run)).toThrow(/not valid/);
     expect(() => publicKeyOf("../etc", run)).toThrow(/not valid/);
     expect(run).not.toHaveBeenCalled();
   });
@@ -83,6 +87,16 @@ describe("K2 cli-signer: the returned envelope is checked", () => {
     const tx = txOf("10");
     const other = txOf("11");
     expect(() => signWith(tx, "lending-keeper", KEYS.keeper, () => signedBy(other, KEYPAIRS.keeper))).toThrow(/different hash/);
+  });
+
+  it("refuses a signature with the right hint but invalid bytes (signer.verify fails)", () => {
+    const tx = txOf();
+    const forged = () => {
+      const copy = TransactionBuilder.fromXDR(tx.toXDR(), Networks.TESTNET) as Transaction;
+      copy.signatures.push(new xdr.DecoratedSignature({ hint: KEYPAIRS.keeper.signatureHint(), signature: Buffer.alloc(64, 7) }));
+      return copy.toXDR();
+    };
+    expect(() => signWith(tx, "lending-keeper", KEYS.keeper, forged)).toThrow(/does not verify/);
   });
 
   it("refuses an envelope signed by the wrong key", () => {

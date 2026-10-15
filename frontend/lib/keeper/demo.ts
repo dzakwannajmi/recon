@@ -7,14 +7,16 @@
  */
 import { nativeToScVal } from "@stellar/stellar-sdk";
 import { FEED_ERROR_NAMES, entryMatches, updatesToScVal, type Update } from "../feed/encode";
-import type { Roles } from "../feed/reader";
 import { decisionToJson, type KeeperLogRecord } from "./log";
 import {
   ChainError, ERROR_CODE, MARKET_ERROR_NAMES, REASON, addressToScVal, reasonName,
   type ErrorNames, type MarketState,
 } from "./market";
-import { IDENTITIES, demoEvidenceHash, type KeeperDeployment, type ReconFeedRecord, type ScenarioStepId } from "./records";
-import { KeeperRefusal, checkPreconditions, exitCodeForChainError, explorerTxUrl, runKeeper, type ExitCode, type KeeperDeps } from "./run";
+import { FEED_WASM_HASH, IDENTITIES, demoEvidenceHash, type KeeperDeployment, type ReconFeedRecord, type ScenarioStepId } from "./records";
+import {
+  KeeperRefusal, assertExecutable, checkPreconditions, exitCodeForChainError, explorerTxUrl, guardedSend, runKeeper,
+  type ExitCode, type KeeperDeps,
+} from "./run";
 import type { InvokeResult } from "./send";
 
 export type DemoOptions = { dryRun: boolean; fromStep: number };
@@ -22,9 +24,6 @@ export type DemoOptions = { dryRun: boolean; fromStep: number };
 export type DemoDeps = KeeperDeps & {
   /** SHA-256 of the scenario file text. */
   scenarioSha256: string;
-  feedRoles(feedContractId: string): Promise<Roles>;
-  /** The keys a feed holds (`assets()`). */
-  feedAssets(feedContractId: string): Promise<string[]>;
   sleep(ms: number): Promise<void>;
 };
 
@@ -62,6 +61,7 @@ export async function checkDemoGuards(deps: DemoDeps): Promise<void> {
   const writer = dep.demo_feed.writer;
   const synth = dep.markets.demo.assets[0].key;
 
+  await assertExecutable(deps.rpc, feedId, FEED_WASM_HASH, "the demo feed");
   const roles = await deps.feedRoles(feedId);
   if (roles.publisher === deps.recon.publisher || roles.admin === deps.recon.admin) throw new KeeperRefusal("the demo feed's publisher or admin is Recon's");
   if (roles.publisher !== writer) throw new KeeperRefusal(`the demo feed's publisher() is ${roles.publisher}, not the writer ${writer}`);
@@ -123,28 +123,42 @@ export async function runDemo(opts: DemoOptions, deps: DemoDeps): Promise<DemoRe
     const before = withDecision ? await stateOf() : null;
     let sent: InvokeResult;
     try {
-      sent = await deps.send({ contractId, method, args, source, identity, errorNames });
+      // Every demo send goes through guardedSend, which refuses Recon's feed for any method.
+      sent = await guardedSend(deps, { contractId, method, args, source, identity, errorNames });
     } catch (err) {
       if (err instanceof ChainError && err.txHash && (err.kind === "timeout" || err.kind === "unknown")) {
-        deps.appendLog(record(step, contractId, method, err.txHash, null, decision, before, null, true));
+        deps.appendLog(record(step, contractId, method, err.txHash, null, decision, before, null, "unknown"));
         steps.push({ step, signer, result: `${method}: outcome unknown`, txHash: err.txHash });
+      } else if (err instanceof ChainError && err.txHash && err.kind === "failed" && err.ledger === null) {
+        deps.appendLog(record(step, contractId, method, err.txHash, null, decision, before, null, "failed"));
+        steps.push({ step, signer, result: `${method}: failed on chain`, txHash: err.txHash });
       }
       throw err;
     }
-    const after = withDecision ? await stateOf() : null;
-    deps.appendLog(record(step, contractId, method, sent.txHash, sent.ledger, decision, before, after, false));
+    // The transaction is final: log it at once; a failed re-read of the state must not lose the hash.
+    let after: MarketState | null = null;
+    if (withDecision) {
+      try {
+        after = await stateOf();
+      } catch {
+        deps.appendLog(record(step, contractId, method, sent.txHash, sent.ledger, decision, before, null, undefined));
+        steps.push({ step, signer, result: method, txHash: sent.txHash });
+        throw new ChainError(`Transaction ${sent.txHash} succeeded in ledger ${sent.ledger} but the market state could not be re-read afterwards`, "failed", null, null, sent.txHash, sent.ledger);
+      }
+    }
+    deps.appendLog(record(step, contractId, method, sent.txHash, sent.ledger, decision, before, after, undefined));
     steps.push({ step, signer, result: method, txHash: sent.txHash });
     return sent;
   }
 
   const record = (
     step: number, contractId: string, method: string, txHash: string, ledger: number | null,
-    decision: Awaited<ReturnType<DemoDeps["market"]["check"]>> | null, before: MarketState | null, after: MarketState | null, unknown: boolean,
+    decision: Awaited<ReturnType<DemoDeps["market"]["check"]>> | null, before: MarketState | null, after: MarketState | null, outcome: "unknown" | "failed" | undefined,
   ): KeeperLogRecord => ({
     at: deps.now().toISOString(), network: "testnet", market: "demo", contract_id: contractId, method, asset_label: label, key: synth,
     tx_hash: txHash, ledger, decision: decision ? decisionToJson(decision, reasonName) : null,
     borrow_enabled_before: before ? before.borrow_enabled : null, borrow_enabled_after: after ? after.borrow_enabled : null,
-    step, ...(unknown ? { outcome: "unknown" as const } : {}),
+    step, ...(outcome ? { outcome } : {}),
   });
 
   const expectError = async (step: number, signer: string, method: string, source: string, args: Parameters<DemoDeps["send"]>[0]["args"], code: number) => {

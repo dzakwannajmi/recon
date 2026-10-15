@@ -3,13 +3,13 @@
  * follows the market's decision order from spec 3. No network, no process, no keys but public test seeds.
  * Test support only: nothing in the app or the scripts imports this file.
  */
-import { Address, Asset, Keypair, Networks, StrKey, scValToNative, type xdr } from "@stellar/stellar-sdk";
+import { Address, Asset, Keypair, Networks, StrKey, scValToNative, xdr } from "@stellar/stellar-sdk";
 import type { Entry } from "../feed/encode";
 import type { Roles } from "../feed/reader";
 import type { KeeperLogRecord } from "./log";
 import { ChainError, FEED_STATUS_NAMES, MARKET_ERROR_NAMES, REASON, type Decision, type MarketReader, type MarketState } from "./market";
 import {
-  DEMO_PURPOSE, IDENTITIES, parseScenario, syntheticKey,
+  DEMO_PURPOSE, FEED_WASM_HASH, IDENTITIES, parseScenario, syntheticKey,
   type KeeperDeployment, type LoadedScenario, type MarketRecord, type UniverseRow,
 } from "./records";
 import type { DemoDeps } from "./demo";
@@ -46,6 +46,26 @@ export const BENJI_KEY = UNIVERSE[0].sac_contract_id;
 export const USTRY_KEY = UNIVERSE[1].sac_contract_id;
 export const SYNTH_KEY = syntheticKey("SYNTH", KEYS.writer);
 
+export const LENDING_WASM_HASH = "cd".repeat(32);
+
+/** What a contract runs, as the instance ledger entry says. */
+export type FakeExecutable = { kind: "wasm"; hash: string } | { kind: "asset" } | null;
+
+/** A real `getLedgerEntries` answer for a contract instance, built from SDK XDR objects. */
+export function instanceEntries(contract: string, exec: FakeExecutable): { entries: { val: xdr.LedgerEntryData }[] } {
+  if (exec === null) return { entries: [] };
+  const executable = exec.kind === "wasm" ? xdr.ContractExecutable.contractExecutableWasm(exec.hash) : xdr.ContractExecutable.contractExecutableStellarAsset();
+  const val = new xdr.ScValContractInstance(new xdr.ScContractInstance({ executable, storage: null }));
+  const data = new xdr.ContractDataEntry({
+    ext: xdr.ExtensionPoint.v0(),
+    contract: new Address(contract).toScAddress(),
+    key: xdr.ScVal.scvLedgerKeyContractInstance(),
+    durability: xdr.ContractDataDurability.persistent,
+    val,
+  });
+  return { entries: [{ val: new xdr.LedgerEntryDataContractData(data) }] };
+}
+
 export const RECON = { contract_id: IDS.reconFeed, admin: KEYS.reconAdmin, publisher: KEYS.reconPublisher };
 
 const marketRecord = (id: string, feed: string, assets: MarketRecord["assets"]): MarketRecord => ({
@@ -55,7 +75,7 @@ const marketRecord = (id: string, feed: string, assets: MarketRecord["assets"]):
 export const DEPLOYMENT: KeeperDeployment = {
   network: "testnet",
   sdk: "29.0.0",
-  lending_wasm_hash: "cd".repeat(32),
+  lending_wasm_hash: LENDING_WASM_HASH,
   admin: KEYS.admin,
   keeper: KEYS.keeper,
   borrower: KEYS.borrower,
@@ -67,7 +87,7 @@ export const DEPLOYMENT: KeeperDeployment = {
     demo: marketRecord(IDS.demoMarket, IDS.demoFeed, [{ label: "SYNTH (synthetic, testnet only)", asset: null, key: SYNTH_KEY }]),
   },
   demo_feed: {
-    contract_id: IDS.demoFeed, deploy_tx: "ef".repeat(32), deployed_at: "2026-10-16T00:00:00.000Z", wasm_hash: "92".repeat(32), writer: KEYS.writer, purpose: DEMO_PURPOSE,
+    contract_id: IDS.demoFeed, deploy_tx: "ef".repeat(32), deployed_at: "2026-10-16T00:00:00.000Z", wasm_hash: FEED_WASM_HASH, writer: KEYS.writer, purpose: DEMO_PURPOSE,
   },
 };
 
@@ -106,6 +126,8 @@ export type World = {
   /** Make the nth (1-based) send fail with this error. */
   failSend: { n: number; error: ChainError } | null;
   rpcUrl: string;
+  /** The executable of each contract; set an entry to change it, or to null for a missing instance. */
+  executables: Map<string, FakeExecutable>;
   /** Feed reads for these feed IDs fail (the market reports FEED_UNAVAILABLE). */
   brokenFeeds: Set<string>;
   reader(marketId: string): MarketReader;
@@ -134,6 +156,12 @@ export function world(): World {
     failSend: null,
     rpcUrl: "https://soroban-testnet.stellar.org",
     brokenFeeds: new Set(),
+    executables: new Map<string, FakeExecutable>([
+      [IDS.liveMarket, { kind: "wasm", hash: LENDING_WASM_HASH }],
+      [IDS.demoMarket, { kind: "wasm", hash: LENDING_WASM_HASH }],
+      [IDS.reconFeed, { kind: "wasm", hash: FEED_WASM_HASH }],
+      [IDS.demoFeed, { kind: "wasm", hash: FEED_WASM_HASH }],
+    ]),
     decide(marketId, key) {
       const m = w.markets.get(marketId) as MarketData;
       const none = (reason: number): Decision => ({ reason, status: 0, flags: 0, as_of: 0n, evidence_hash: zeroHash, published_ledger: 0 });
@@ -226,6 +254,11 @@ export function world(): World {
         rpc: {
           getNetwork: async () => ({ passphrase: w.passphrase }),
           getAccountEntry: async () => ({ balance: w.balance }),
+          getLedgerEntries: async (...keys: xdr.LedgerKey[]) => {
+            const k = keys[0];
+            if (k.type !== "contractData") throw new Error("test: unexpected ledger key");
+            return instanceEntries(Address.fromScAddress(k.contractData.contract).toString(), w.executables.get(Address.fromScAddress(k.contractData.contract).toString()) ?? null);
+          },
         },
         market: w.reader(marketId),
         readEntries: async (feedId, keys) => keys.map((k) => w.feeds.get(feedId)?.get(k) ?? null),

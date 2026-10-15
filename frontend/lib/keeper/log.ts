@@ -25,7 +25,7 @@ export type KeeperLogRecord = {
   asset_label: string;
   key: string;
   tx_hash: string;
-  /** null only when `outcome` is "unknown". */
+  /** null when `outcome` is set. */
   ledger: number | null;
   /** The market's decision for the asset; null for a call that has none (a feed `publish`). */
   decision: DecisionJson | null;
@@ -33,8 +33,8 @@ export type KeeperLogRecord = {
   borrow_enabled_after: boolean | null;
   /** The demo step id (1 to 12), when the call came from `keeper:demo`. */
   step?: number;
-  /** Present only on a transaction that was sent but never confirmed: look it up by hash before sending again. */
-  outcome?: "unknown";
+  /** "unknown": sent but never confirmed, look it up by hash before sending again. "failed": included on chain as FAILED. */
+  outcome?: "unknown" | "failed";
 };
 
 export function decisionToJson(d: Decision, reasonName: (code: number) => string): DecisionJson {

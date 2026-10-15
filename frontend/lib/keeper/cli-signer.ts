@@ -12,7 +12,7 @@ import { Keypair, Networks, StrKey, Transaction, TransactionBuilder } from "@ste
 import { stellarChildEnv } from "../payer/env";
 
 /** A stellar-cli identity name: lowercase letters, digits and hyphens. Anything else (a secret key, a seed phrase, a path) is refused. */
-const IDENTITY = /^[a-z0-9-]{1,32}$/;
+const IDENTITY = /^[a-z0-9][a-z0-9-]{0,31}$/;
 
 export const isIdentityName = (s: string): boolean => IDENTITY.test(s);
 

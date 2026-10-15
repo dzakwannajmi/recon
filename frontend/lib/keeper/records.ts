@@ -24,6 +24,11 @@ export const IDENTITIES = {
   writer: "demo-feed-writer",
 } as const;
 
+/** The Wasm hash of Recon's feed contract (`data/feed/deployment.json` `wasm_hash`): the demo feed must run the same code. */
+export const FEED_WASM_HASH = "92b5af7e84779dad06fa9c31f9ab7edebede3ea8d257a62a1f190637f6923d72";
+/** Recon's feed contract ID on testnet (`data/feed/deployment.json`). No keeper transaction may ever target it. */
+export const RECON_FEED_ID = "CAXEHTAMDRASNGUPGRRPZZAUAOOB5MMAUNLLA5O43KH3BQWZ4LQSX2PR";
+
 export const DEMO_PURPOSE = "Synthetic test data for the keeper demo. Not Recon's feed. No real asset.";
 export const SYNTH_CODE = "SYNTH";
 
@@ -158,6 +163,7 @@ export function checkRecords(dep: KeeperDeployment, scenario: Scenario, recon: R
 
   if (demo.feed !== dep.demo_feed.contract_id) problems.push(`the demo market's feed ${demo.feed} is not the demo feed ${dep.demo_feed.contract_id}`);
   if (demo.feed === recon.contract_id || dep.demo_feed.contract_id === recon.contract_id) problems.push("the demo feed is Recon's feed");
+  if (dep.demo_feed.wasm_hash !== FEED_WASM_HASH) problems.push(`demo_feed.wasm_hash ${dep.demo_feed.wasm_hash} is not the feed Wasm ${FEED_WASM_HASH}`);
   if (scenario.issuer !== writer) problems.push(`scenario.json issuer ${scenario.issuer} is not the demo feed writer ${writer}`);
   const synth = syntheticKey(scenario.code, writer);
   if (demo.assets.length !== 1 || demo.assets[0].asset !== null || demo.assets[0].key !== synth) {

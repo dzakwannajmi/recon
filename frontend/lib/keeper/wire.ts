@@ -11,7 +11,7 @@ import { createFeedReader, createRpc, feedRpcUrl } from "../feed/reader";
 import { publicKeyOf } from "./cli-signer";
 import type { DemoDeps } from "./demo";
 import { appendKeeperLog } from "./log";
-import { createMarketReader, readFeedAssets } from "./market";
+import { createMarketReader, readFeedAssets, type LedgerRpc } from "./market";
 import { LOG_FILE as KEEPER_LOG_FILE, loadDeployment, loadScenario, type MarketName } from "./records";
 import { notEvaluatedFromStatus } from "./run";
 import { invoke, simulateInvoke } from "./send";
@@ -19,7 +19,8 @@ import { invoke, simulateInvoke } from "./send";
 /** Everything `runKeeper` and `runDemo` need, built from the records on disk and the shell environment. */
 export function createDemoDeps(market: MarketName): DemoDeps {
   const rpcUrl = feedRpcUrl();
-  const rpc = createRpc(rpcUrl);
+  // createRpc returns an rpc.Server, which also reads ledger entries (the executable check).
+  const rpc = createRpc(rpcUrl) as ReturnType<typeof createRpc> & LedgerRpc;
   const deployment = loadDeployment();
   const { scenario, sha256 } = loadScenario();
   const recon = loadReconFeed();

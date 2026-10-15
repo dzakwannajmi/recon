@@ -6,7 +6,7 @@ import { loadUniverse } from "../chain/universe";
 import { DATA_DIR, loadDeployment as loadReconFeed } from "../feed/deployment";
 import { appendKeeperLog, readKeeperLog, type KeeperLogRecord } from "./log";
 import {
-  DEMO_PURPOSE, checkRecords, demoEvidenceHash, parseDeployment, parseScenario, syntheticKey, type KeeperDeployment,
+  DEMO_PURPOSE, FEED_WASM_HASH, checkRecords, demoEvidenceHash, parseDeployment, parseScenario, syntheticKey, type KeeperDeployment,
 } from "./records";
 import { notEvaluatedFromStatus } from "./run";
 import { BENJI_KEY, DEPLOYMENT, KEYS, RECON, SCENARIO, SCENARIO_TEXT, SYNTH_KEY, UNIVERSE, USTRY_KEY } from "./testkit";
@@ -115,6 +115,13 @@ describe("K6 records: consistency with data/assets.csv and the other records", (
     expect(same((d) => (d.borrower = KEYS.reconPublisher))).toMatch(/lending-borrower and Recon's publisher/);
     expect(same((d) => (d.admin = KEYS.reconAdmin))).toMatch(/lending-admin and Recon's admin/);
     expect(checkRecords(DEPLOYMENT, SCENARIO.scenario, { ...RECON, publisher: KEYS.writer }, UNIVERSE).join(" ")).toMatch(/demo-feed-writer and Recon's publisher/);
+  });
+
+  it("the demo feed must run the same Wasm as Recon's feed", () => {
+    const d = clone(DEPLOYMENT) as KeeperDeployment;
+    expect(d.demo_feed.wasm_hash).toBe(FEED_WASM_HASH);
+    d.demo_feed.wasm_hash = "aa".repeat(32);
+    expect(checkRecords(d, SCENARIO.scenario, RECON, UNIVERSE).join(" ")).toMatch(/demo_feed.wasm_hash .* is not the feed Wasm/);
   });
 
   it("the scenario issuer must be the demo writer", () => {

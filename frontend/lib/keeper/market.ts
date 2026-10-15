@@ -230,3 +230,32 @@ export async function readFeedAssets(server: Pick<FeedRpc, "simulateTransaction"
   const { retval } = await simulateContract(server, feedContractId, new Account(READ_SOURCE, "0"), "assets", [], {});
   return decodeAddressVec(retval);
 }
+
+/** The part of the RPC that reads ledger entries (`rpc.Server` has it). */
+export interface LedgerRpc {
+  getLedgerEntries(...keys: xdr.LedgerKey[]): Promise<{ entries: { val: xdr.LedgerEntryData }[] }>;
+}
+
+/** What a contract instance runs: a Wasm with this hash, a Stellar Asset Contract, or something else. `null` when there is no instance entry. */
+export type ExecutableInfo = { kind: "wasm"; hash: string } | { kind: "other"; type: string } | null;
+
+/** Read the executable of a deployed contract from its instance ledger entry (persistent). */
+export async function executableOf(server: LedgerRpc, contractId: string): Promise<ExecutableInfo> {
+  const key = xdr.LedgerKey.contractData(
+    new xdr.LedgerKeyContractData({
+      contract: new Address(contractId).toScAddress(),
+      key: xdr.ScVal.scvLedgerKeyContractInstance(),
+      durability: xdr.ContractDataDurability.persistent,
+    }),
+  );
+  const { entries } = await server.getLedgerEntries(key);
+  if (entries.length !== 1) return null;
+  const data = entries[0].val;
+  if (data.type !== "contractData") return null;
+  const val = data.contractData.val;
+  if (val.type !== "scvContractInstance") return null;
+  const exec = val.instance.executable;
+  return exec.type === "contractExecutableWasm"
+    ? { kind: "wasm", hash: Buffer.from(exec.wasmHash.toBytes()).toString("hex") }
+    : { kind: "other", type: exec.type };
+}

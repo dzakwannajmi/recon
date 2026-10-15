@@ -87,7 +87,7 @@ describe("the keeper's own reach", () => {
     const src = g.read(CLI_SIGNER);
     expect(src).toMatch(/shell:\s*false/);
     expect(src).toContain('"--sign-with-key"');
-    expect(src).toMatch(/\^\[a-z0-9-\]\{1,32\}\$/);
+    expect(src).toMatch(/\^\[a-z0-9\]\[a-z0-9-\]\{0,31\}\$/);
     expect(src).not.toMatch(/\bsh\b\s*-c|bash|zsh|cmd\.exe/);
   });
 

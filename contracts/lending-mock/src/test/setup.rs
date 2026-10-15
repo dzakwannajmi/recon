@@ -148,6 +148,31 @@ impl Fx {
         super::stub::StubFeedClient::new(&self.env, &self.feed_id).set_mode(&mode);
     }
 
+    /// Lists `asset` and writes it as open without going through
+    /// `resume_borrows`, for feeds that could never pass the CLEAR check.
+    pub fn force_open(&self, asset: &Address) {
+        self.list(asset);
+        self.env.as_contract(&self.id, || {
+            self.env.storage().persistent().set(
+                &DataKey::Market(asset.clone()),
+                &MarketState {
+                    borrow_enabled: true,
+                    reason: REASON_CLEAR,
+                    changed_ledger: SEQ,
+                    total_borrowed: 0,
+                },
+            );
+        });
+    }
+
+    /// A market that reads `feed_id` (any contract the caller registered).
+    pub fn with_feed_contract(env: Env, feed_id: Address) -> Self {
+        env.ledger().set_timestamp(NOW);
+        env.ledger().set_sequence_number(SEQ);
+        let publisher = Address::generate(&env);
+        Self::on_feed(env, feed_id, publisher, 2, EIGHT_DAYS)
+    }
+
     /// An OK entry in the real feed, then the market listed and resumed.
     pub fn open_market(&self, asset: &Address) {
         self.publish(asset, 0, NOW - 100, 1);

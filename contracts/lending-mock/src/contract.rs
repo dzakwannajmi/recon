@@ -4,7 +4,7 @@ use crate::errors::MarketError;
 use crate::events::{
     BorrowOpened, BorrowsPaused, BorrowsResumed, Initialized, MarketListed, PolicySet,
 };
-use crate::policy::decide;
+use crate::policy::{decide, empty};
 use crate::storage::{
     bump_instance, bump_persistent, load_admin, load_debt, load_feed, load_market, load_markets,
     load_policy, save_debt, save_market,
@@ -119,15 +119,15 @@ impl LendingMock {
         Ok(d)
     }
 
-    /// Admin brake. A no-op when the market is already paused.
+    /// Admin brake. Reads no feed, so the event carries zero entry fields. A
+    /// no-op when the market is already paused.
     pub fn pause_borrows(env: Env, asset: Address) -> Result<(), MarketError> {
         let admin = load_admin(&env)?;
         admin.require_auth();
         let mut state = load_market(&env, &asset).ok_or(MarketError::NotListed)?;
         if state.borrow_enabled {
-            let feed = load_feed(&env)?;
-            let policy = load_policy(&env)?;
-            let d = decide(&env, &feed, &policy, &asset);
+            // Never reads the feed: the brake must work when the feed does not.
+            let d = empty(&env, REASON_MANUAL);
             pause(&env, &asset, &mut state, REASON_MANUAL, &d);
         }
         Ok(())

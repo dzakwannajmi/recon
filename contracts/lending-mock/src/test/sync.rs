@@ -241,23 +241,10 @@ fn l7_a_feed_address_with_no_contract_pauses_as_unavailable() {
     let nothing = Address::generate(&env);
     let fx = Fx::on_feed(env, nothing.clone(), nothing, 2, EIGHT_DAYS);
     let a = fx.addr();
-    fx.list(&a);
+    fx.force_open(&a);
 
     let want = zero_fields(&fx, REASON_FEED_UNAVAILABLE);
     assert_eq!(fx.client().check(&a), want);
-
-    // Force the market open (it could never be resumed with this feed).
-    fx.env.as_contract(&fx.id, || {
-        fx.env.storage().persistent().set(
-            &DataKey::Market(a.clone()),
-            &MarketState {
-                borrow_enabled: true,
-                reason: REASON_CLEAR,
-                changed_ledger: SEQ,
-                total_borrowed: 0,
-            },
-        );
-    });
     assert_eq!(fx.client().sync(&a), want);
     assert_eq!(
         fx.env.events().all(),
@@ -314,4 +301,102 @@ fn l8_a_paused_market_keeps_its_first_reason() {
     assert_eq!(fx.client().sync(&a).reason, REASON_STATUS);
     fx.assert_unchanged(&before, &[a.clone()], &[]);
     assert_eq!(fx.state(&a).reason, REASON_LISTED);
+}
+
+#[test]
+fn l5_as_of_300_seconds_ahead_passes_and_301_is_unknown_schema() {
+    let fx = Fx::with_stub(MODE_CLEAN);
+    let a = fx.addr();
+    fx.list_open(&a);
+
+    fx.stub_mode(MODE_AHEAD_300);
+    let d = fx.client().check(&a);
+    assert_eq!(d.reason, REASON_CLEAR);
+    assert_eq!(d.as_of, NOW + MAX_CLOCK_SKEW);
+    let before = fx.snapshot(&[a.clone()], &[]);
+    fx.client().sync(&a);
+    fx.assert_unchanged(&before, &[a.clone()], &[]);
+
+    fx.stub_mode(MODE_AHEAD_301);
+    let d = fx.client().check(&a);
+    assert_eq!(d.reason, REASON_UNKNOWN_SCHEMA);
+    assert_eq!(d.as_of, NOW + MAX_CLOCK_SKEW + 1);
+    assert_eq!(fx.client().sync(&a), d);
+    assert_eq!(
+        fx.env.events().all(),
+        vec![fx.paused_event(&a, REASON_UNKNOWN_SCHEMA, &d)]
+    );
+    assert!(!fx.state(&a).borrow_enabled);
+}
+
+/// Review round 1: `pause_borrows` reads no feed. With a feed that burns the
+/// whole budget, `sync` traps (the host cannot recover), `check` and
+/// `resume_borrows` trap too, and the manual pause still works.
+#[test]
+fn l11_a_budget_burning_feed_traps_reads_but_not_the_manual_pause() {
+    let fx = Fx::with_stub(MODE_CLEAN);
+    let a = fx.addr();
+    fx.list_open(&a);
+    fx.stub_mode(MODE_BURN);
+
+    let traps = |f: &dyn Fn()| std::panic::catch_unwind(std::panic::AssertUnwindSafe(f)).is_err();
+    assert!(traps(&|| {
+        let _ = fx.client().try_sync(&a);
+    }));
+    // The failed call spent the budget; a real transaction starts fresh.
+    fx.env.cost_estimate().budget().reset_default();
+    assert!(traps(&|| {
+        let _ = fx.client().try_check(&a);
+    }));
+    fx.env.cost_estimate().budget().reset_default();
+    fx.mock(&fx.admin, "resume_borrows", args1(&fx.env, a.clone()));
+    assert!(traps(&|| {
+        let _ = fx.client().try_resume_borrows(&a);
+    }));
+    fx.env.cost_estimate().budget().reset_default();
+
+    fx.mock(&fx.admin, "pause_borrows", args1(&fx.env, a.clone()));
+    fx.client().pause_borrows(&a);
+    let zero = zero_fields(&fx, REASON_MANUAL);
+    assert_eq!(
+        fx.env.events().all(),
+        vec![fx.paused_event(&a, REASON_MANUAL, &zero)]
+    );
+    assert_eq!(fx.state(&a).reason, REASON_MANUAL);
+    assert!(!fx.state(&a).borrow_enabled);
+}
+
+/// The conversion-error arm of the feed read: a `get` of the wrong type, or an
+/// entry with missing fields, is FEED_UNAVAILABLE, never CLEAR.
+#[test]
+fn l6_a_feed_with_a_wrong_return_type_is_unavailable() {
+    for kind in 0..2 {
+        let env = Env::default();
+        let feed_id = if kind == 0 {
+            env.register(StubWrongType, ())
+        } else {
+            env.register(StubMissingFields, ())
+        };
+        let fx = Fx::with_feed_contract(env, feed_id);
+        let a = fx.addr();
+        fx.force_open(&a);
+        let want = zero_fields(&fx, REASON_FEED_UNAVAILABLE);
+        assert_eq!(fx.client().check(&a), want, "kind {kind}");
+
+        // Resume is blocked while the feed is unusable.
+        fx.mock(&fx.admin, "resume_borrows", args1(&fx.env, a.clone()));
+        assert_eq!(
+            err(fx.client().try_resume_borrows(&a)),
+            MarketError::PolicyBlocks,
+            "kind {kind}"
+        );
+
+        assert_eq!(fx.client().sync(&a), want, "kind {kind}");
+        assert_eq!(
+            fx.env.events().all(),
+            vec![fx.paused_event(&a, REASON_FEED_UNAVAILABLE, &want)]
+        );
+        assert!(!fx.state(&a).borrow_enabled);
+        assert_eq!(fx.state(&a).reason, REASON_FEED_UNAVAILABLE);
+    }
 }

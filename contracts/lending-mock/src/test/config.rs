@@ -189,9 +189,16 @@ fn l11_pause_borrows_is_admin_only_and_records_manual() {
     assert_auth_error(fx.client().try_pause_borrows(&a));
     fx.assert_unchanged(&before, &[a.clone()], &[]);
 
-    // The admin: reason 11, and the event carries the current decision.
-    let d = fx.client().check(&a);
-    assert_eq!(d.reason, REASON_CLEAR);
+    // The admin: reason 11, and the event has zero entry fields (the pause
+    // reads no feed).
+    let d = Decision {
+        reason: REASON_MANUAL,
+        status: 0,
+        flags: 0,
+        as_of: 0,
+        evidence_hash: fx.hash(0),
+        published_ledger: 0,
+    };
     fx.mock(&fx.admin, "pause_borrows", args1(&fx.env, a.clone()));
     fx.client().pause_borrows(&a);
     fx.assert_auth(&fx.admin, "pause_borrows", args1(&fx.env, a.clone()));

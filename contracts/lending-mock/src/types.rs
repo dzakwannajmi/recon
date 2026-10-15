@@ -4,6 +4,8 @@ use soroban_sdk::{contracttype, Address, BytesN};
 pub const FEED_SCHEMA: u32 = 1;
 /// Highest status code of schema 1 (0 OK, 1 WARNING, 2 CRITICAL).
 pub const STATUS_MAX: u32 = 2;
+/// Seconds an entry's `as_of` may exceed the ledger time (same as the feed's).
+pub const MAX_CLOCK_SKEW: u64 = 300;
 /// Cap for the `Markets` list.
 pub const MAX_MARKETS: u32 = 10;
 /// Shortest allowed freshness limit, in seconds.

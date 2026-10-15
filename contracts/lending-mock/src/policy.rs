@@ -6,11 +6,11 @@ use soroban_sdk::{Address, BytesN, Env};
 
 use crate::feed;
 use crate::types::{
-    Decision, Policy, FEED_SCHEMA, REASON_CLEAR, REASON_FEED_UNAVAILABLE, REASON_NOT_COVERED,
-    REASON_STALE, REASON_STATUS, REASON_UNKNOWN_SCHEMA, STATUS_MAX,
+    Decision, Policy, FEED_SCHEMA, MAX_CLOCK_SKEW, REASON_CLEAR, REASON_FEED_UNAVAILABLE,
+    REASON_NOT_COVERED, REASON_STALE, REASON_STATUS, REASON_UNKNOWN_SCHEMA, STATUS_MAX,
 };
 
-fn empty(env: &Env, reason: u32) -> Decision {
+pub(crate) fn empty(env: &Env, reason: u32) -> Decision {
     Decision {
         reason,
         status: 0,
@@ -31,11 +31,17 @@ pub(crate) fn decide(env: &Env, feed_id: &Address, policy: &Policy, asset: &Addr
         Ok(Err(_)) | Err(_) => return empty(env, REASON_FEED_UNAVAILABLE),
     };
 
-    let reason = if entry.version != FEED_SCHEMA || entry.status > STATUS_MAX {
+    let now = env.ledger().timestamp();
+    // A feed that stamps `as_of` beyond its own clock-skew cap is not the
+    // schema this market reads (the real feed rejects such writes).
+    let reason = if entry.version != FEED_SCHEMA
+        || entry.status > STATUS_MAX
+        || entry.as_of > now.saturating_add(MAX_CLOCK_SKEW)
+    {
         REASON_UNKNOWN_SCHEMA
     } else if entry.status >= policy.pause_at {
         REASON_STATUS
-    } else if env.ledger().timestamp().saturating_sub(entry.as_of) > policy.max_age {
+    } else if now.saturating_sub(entry.as_of) > policy.max_age {
         REASON_STALE
     } else {
         REASON_CLEAR

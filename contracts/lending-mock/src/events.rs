@@ -14,8 +14,9 @@ pub struct MarketListed {
     pub asset: Address,
 }
 
-/// Carries the feed entry the pause acted on (zero for reasons 1, 2, and 11
-/// when the feed had nothing).
+/// Carries the feed entry the pause acted on. The entry fields are zero (and
+/// a zero hash) for reasons 1 and 2, and always for reason 11: a manual pause
+/// reads no feed.
 #[contractevent]
 pub struct BorrowsPaused {
     #[topic]

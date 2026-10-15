@@ -1,6 +1,8 @@
-import { WalletError, createWallet, explorerUrl, getWalletAddress, getWalletBalances } from "@/agent/wallet";
+import { WalletConfiguredError, WalletError, createWallet, explorerUrl, getWalletAddress, getWalletBalances } from "@/agent/wallet";
 
 function errorResponse(err: unknown) {
+  // A configured wallet (AGENT_PUBLIC_KEY) is a conflict with "create one", not a server failure.
+  if (err instanceof WalletConfiguredError) return Response.json({ error: err.message }, { status: 409 });
   if (err instanceof WalletError) return Response.json({ error: err.message }, { status: 500 });
   console.error("Wallet request failed:", (err as Error).name);
   return Response.json({ error: "Something went wrong. Try again in a moment." }, { status: 500 });

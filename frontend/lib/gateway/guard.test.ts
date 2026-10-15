@@ -9,7 +9,7 @@
 import fs from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
-import { IS_TEST, ROOT, packageSpecifiers, packageSpecifiersOfSource, reachable, realGraph, resolve, secretReaders, specifiers, type Graph } from "../testing/import-graph";
+import { IS_TEST, ROOT, packageSpecifiers, packageSpecifiersOfSource, envEnumerators, reachable, realGraph, resolve, secretReaders, specifiers, type Graph } from "../testing/import-graph";
 
 const g = realGraph();
 const files = [...g.index.values()];
@@ -77,6 +77,7 @@ describe("G1: the check routes reach no LLM, no signing key, and no x402 client 
     const hits = [...checkSet].filter((f) => /createEd25519Signer|getAgentKeypair|AGENT_SECRET_KEY|\.agent-wallet/i.test(g.read(f)));
     expect(hits).toEqual([]);
     expect(secretReaders(checkSet, g)).toEqual([]);
+    expect(envEnumerators(checkSet, g)).toEqual([]);
   });
 
   it("nothing under agent/ or app/ (the chat and the wallet routes included) reaches the payer helpers, the paywall, or the paid deps", () => {
@@ -196,6 +197,7 @@ describe("G4: the MCP endpoint is free and read-only (golden rules 1, 7, 8, 11)"
     const hits = [...mcpSet].filter((f) => /createEd25519Signer|getAgentKeypair|AGENT_SECRET_KEY|\.agent-wallet/i.test(g.read(f)));
     expect(hits).toEqual([]);
     expect(secretReaders(mcpSet, g)).toEqual([]);
+    expect(envEnumerators(mcpSet, g)).toEqual([]);
   });
 
   it("no lib/mcp file imports the check-route handlers, deps, detail, or paywall", () => {

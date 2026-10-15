@@ -7,7 +7,7 @@ import os from "os";
 import path from "path";
 import { Keypair } from "@stellar/stellar-sdk";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { WalletError, createWallet, fundWallet, getWalletAddress, walletFilePath } from "./wallet";
+import { WalletConfiguredError, WalletError, createWallet, fundWallet, getWalletAddress, walletFilePath } from "./wallet";
 
 let dir: string;
 
@@ -108,6 +108,7 @@ describe("createWallet", () => {
     const fetchMock = okFetch();
     vi.stubGlobal("fetch", fetchMock);
     await expect(createWallet()).rejects.toThrow(/set by AGENT_PUBLIC_KEY/);
+    await expect(createWallet()).rejects.toBeInstanceOf(WalletConfiguredError);
     expect(fs.existsSync(path.join(dir, ".agent-wallet.json"))).toBe(false);
     expect(fetchMock).not.toHaveBeenCalled();
   });

@@ -5,7 +5,7 @@
  * agent/signer.ts is the only file that loads the signing key, and only scripts/publish-feed.ts imports it.
  */
 import { describe, expect, it } from "vitest";
-import { IS_TEST, reachable, realGraph, resolve, secretReaders, specifiers, type Graph } from "../testing/import-graph";
+import { ENV_INDEX_ALLOWLIST, IS_TEST, envEnumerators, reachable, realGraph, resolve, secretReaders, specifiers, type Graph } from "../testing/import-graph";
 
 /** The operator-only signing module: under agent/, but never reachable from the app. */
 const SIGNER = "agent/signer.ts";
@@ -46,6 +46,21 @@ describe("golden rules 1 and 8: nothing the app can reach touches the signing pa
 
   it("no reachable file (agent/wallet.ts included) loads a secret: no AGENT_SECRET_KEY, fromSecret, or secret-field read", () => {
     expect(secretReaders(set, g)).toEqual([]);
+  });
+
+  it("no reachable file enumerates the environment, and computed process.env[...] lookups stay in the allowlist", () => {
+    expect(envEnumerators(set, g)).toEqual([]);
+    const sources = [...g.index.values()].filter((f) => !IS_TEST.test(f) && !f.startsWith("lib/testing/"));
+    expect(envEnumerators(sources, g)).toEqual([]);
+    for (const f of ENV_INDEX_ALLOWLIST) expect(g.index.has(f), f).toBe(true);
+  });
+
+  it("every positiveInt() call passes a constant, non-secret env name", () => {
+    const sources = [...g.index.values()].filter((f) => !IS_TEST.test(f) && f !== "lib/env.ts" && !f.startsWith("lib/testing/"));
+    const calls = sources.flatMap((f) => [...g.read(f).matchAll(/\bpositiveInt\(\s*([^,)]*)/g)].map((m) => `${f}: ${m[1].trim()}`));
+    expect(calls.length).toBeGreaterThanOrEqual(8);
+    for (const call of calls) expect(call).toMatch(/: "[A-Z0-9_]+"$/);
+    expect(calls.filter((c) => /SECRET/.test(c))).toEqual([]);
   });
 
   it("agent/signer.ts is imported only by scripts/publish-feed.ts, and it is the only agent/ file that loads a secret", () => {
@@ -152,5 +167,30 @@ describe("the guard itself catches what it must (in-memory graph)", () => {
       const g = graph({ "agent/a.ts": src });
       expect(secretReaders(["agent/a.ts"], g), src).toEqual([]);
     }
+  });
+
+  it("flags env enumeration and computed lookups outside the allowlist, and not constant-name reads", () => {
+    const bad = [
+      "const v = process.env[name];",
+      'const v = process.env["AGENT_" + "SECRET_KEY"];',
+      "const v = process.env?.[name];",
+      "const names = Object.keys(process.env);",
+      "for (const [k, v] of Object.entries( process.env )) {}",
+      "const all = Object.values(process.env);",
+      "const copy = { ...process.env };",
+      "spawn(cmd, { env: { ...process.env, X: 1 } });",
+    ];
+    for (const src of bad) expect(envEnumerators(["agent/a.ts"], graph({ "agent/a.ts": src })), src).toHaveLength(1);
+    const ok = [
+      "const v = process.env.TRUST_PROXY;",
+      'const v = process.env.AGENT_PUBLIC_KEY?.trim();',
+      "const env = { a: 1 }; const v = env[name];",
+      "const keys = Object.keys(config);",
+    ];
+    for (const src of ok) expect(envEnumerators(["agent/a.ts"], graph({ "agent/a.ts": src })), src).toEqual([]);
+    // The allowlist covers computed lookups only, never enumeration.
+    expect(envEnumerators(["lib/env.ts"], graph({ "lib/env.ts": "const raw = process.env[name];" }))).toEqual([]);
+    expect(envEnumerators(["lib/env.ts"], graph({ "lib/env.ts": "const n = Object.keys(process.env);" }))).toHaveLength(1);
+    expect(envEnumerators(["lib/Env.ts"], graph({ "lib/Env.ts": "const raw = process.env[name];" }))).toEqual([]);
   });
 });

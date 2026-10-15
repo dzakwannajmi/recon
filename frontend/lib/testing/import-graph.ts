@@ -113,6 +113,34 @@ export function secretReaders(files: Iterable<string>, g: Graph): string[] {
   return out;
 }
 
+/**
+ * Files allowed a computed `process.env[name]` lookup. Each one passes only constant names (checked by
+ * grep on 2026-10-15 and by a guard test): `positiveInt("…")` callers, the LLM key names in agent/llm.ts
+ * `KEY_ENV`, and the redaction list in lib/llm-errors.ts. A new entry needs a reviewer.
+ */
+export const ENV_INDEX_ALLOWLIST: ReadonlySet<string> = new Set(["lib/env.ts", "agent/llm.ts", "lib/llm-errors.ts"]);
+
+/**
+ * Text that can reach an env variable by a name the text check cannot see: a computed lookup, enumeration,
+ * or a spread copy of the whole environment. A computed lookup is allowed only in ENV_INDEX_ALLOWLIST.
+ */
+export const ENV_ENUMERATION_PATTERNS: readonly { name: string; re: RegExp; allowlisted: boolean }[] = [
+  { name: "computed process.env[...]", re: /\bprocess\.env\s*(?:\?\.\s*)?\[/, allowlisted: true },
+  { name: "Object.keys/values/entries(process.env)", re: /\bObject\s*\.\s*(?:keys|values|entries)\s*\(\s*process\.env\b/, allowlisted: false },
+  { name: "...process.env", re: /\.\.\.\s*process\.env\b/, allowlisted: false },
+];
+
+/** The files that enumerate the environment or index it by a computed name outside the allowlist. */
+export function envEnumerators(files: Iterable<string>, g: Graph, allow: ReadonlySet<string> = ENV_INDEX_ALLOWLIST): string[] {
+  const out: string[] = [];
+  for (const f of files) {
+    const text = g.read(f);
+    const hit = ENV_ENUMERATION_PATTERNS.find((p) => p.re.test(text) && !(p.allowlisted && allow.has(f.toLowerCase())));
+    if (hit) out.push(`${f}: ${hit.name}`);
+  }
+  return out;
+}
+
 export const realGraph = (): Graph => {
   const files = ["agent", "app", "lib", "components", "scripts"].flatMap((d) => listSources(path.join(ROOT, d)).map((f) => `${d}/${f}`));
   return { index: new Map(files.map((f) => [f.toLowerCase(), f])), read: (rel) => fs.readFileSync(path.join(ROOT, rel), "utf8") };

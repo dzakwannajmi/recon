@@ -29,6 +29,9 @@ export const NETWORK = "Stellar testnet";
 /** Errors whose messages are safe to show to the user and the model. */
 export class WalletError extends Error {}
 
+/** createWallet refused because AGENT_PUBLIC_KEY already configures the wallet (POST /api/wallet answers 409). */
+export class WalletConfiguredError extends WalletError {}
+
 /** The git-ignored wallet file, resolved per call so tests can point the working directory elsewhere. */
 export function walletFilePath() {
   return path.join(process.cwd(), ".agent-wallet.json");
@@ -93,7 +96,7 @@ export async function fundWallet() {
  */
 export async function createWallet() {
   if (configuredPublicKey()) {
-    throw new WalletError("The wallet is set by AGENT_PUBLIC_KEY, so the app cannot create one. Unset it to create a local wallet.");
+    throw new WalletConfiguredError("The wallet is set by AGENT_PUBLIC_KEY, so the app cannot create one. Unset it to create a local wallet.");
   }
   const existing = filePublicKey();
   if (existing) return existing;

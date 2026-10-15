@@ -238,5 +238,3 @@ Pipeline commands, also from `frontend/`:
 ## License
 
 MIT. See [LICENSE](LICENSE).
-
-Third-party notices: [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).

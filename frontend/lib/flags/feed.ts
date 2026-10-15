@@ -4,21 +4,11 @@
  */
 import { sacContractId } from "../chain/asset";
 import type { UniverseAsset } from "../chain/universe";
-import { issuerChangeSeenAt, type ChecksSeries } from "./changes";
+import { chainCheckedAt, issuerChangeSeenAt, type ChecksSeries } from "./changes";
 import type { AssetContext, FileFields } from "./status";
-import { isIsoTime, type ChecksRow } from "./types";
 
-/**
- * The chain read a status rests on: the later of identity.checkedAt and facts.checkedAt of the row.
- * (The identity read is cached per issuer, so it can be older than the facts.) Null for a missing
- * or failed row. This is the feed's `as_of`; a change seen in the facts is never later than it.
- */
-export function chainCheckedAt(row: ChecksRow | undefined): string | null {
-  if (!row || row.error) return null;
-  const times = [row.identity?.checkedAt, row.facts?.checkedAt].filter((t): t is string => isIsoTime(t));
-  if (times.length === 0) return null;
-  return times.reduce((best, t) => (Date.parse(t) > Date.parse(best) ? t : best));
-}
+// Defined next to the change deciders, which use the same time for a degraded check's hold (flags-v3).
+export { chainCheckedAt };
 
 /**
  * The feed key: derived from CODE and issuer with the public passphrase. If data/assets.csv lists a

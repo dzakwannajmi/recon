@@ -16,7 +16,7 @@ import { checkIssuerIdentity } from "@/lib/chain/identity";
 import { loadUniverse } from "@/lib/chain/universe";
 import { isAccountId, isAssetCode } from "@/lib/chain/validate";
 import { FIELD_NAMES } from "@/lib/claims/fields";
-import { escapeInvisibleDeep } from "@/lib/gateway/text";
+import { escapeInvisible, escapeInvisibleDeep } from "@/lib/gateway/text";
 import { loadStatus } from "@/lib/factsheet/load";
 import { NETWORK, explorerUrl, fundWallet, getWalletAddress, getWalletBalances } from "./wallet";
 
@@ -210,7 +210,17 @@ const rawTools: Tool[] = [
  * escapes, so a quote that held one is no longer byte-identical to the stored quote.
  */
 export function withEscapedResults(list: Tool[]): Tool[] {
-  return list.map((t) => ({ ...t, run: async (args, ctx) => escapeInvisibleDeep(await t.run(args, ctx)) }));
+  return list.map((t) => ({
+    ...t,
+    run: async (args, ctx) => {
+      try {
+        return escapeInvisibleDeep(await t.run(args, ctx));
+      } catch (e) {
+        // An error message can carry text from a document or a remote service: escape it like a result.
+        throw new Error(escapeInvisible(e instanceof Error ? e.message : String(e)));
+      }
+    },
+  }));
 }
 
 export const tools: Tool[] = withEscapedResults(rawTools);

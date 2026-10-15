@@ -244,6 +244,12 @@ describe("A5: tool results are escaped at value level", () => {
     expect(JSON.stringify(out)).not.toMatch(/[\u202e\ufe0f\u0085\u200b]/u);
   });
 
+  it("escapes the message of a thrown error too", async () => {
+    const boom: Tool = { name: "t", description: "", parameters: {}, run: async () => { throw new Error(`bad${cp(0x202e)}news${cp(0xfe0f)}`); } };
+    const [t] = withEscapedResults([boom]);
+    await expect(t.run({}, {})).rejects.toThrow("bad\\u202enews\\ufe0f");
+  });
+
   it("the exported tools are the wrapped ones (every real tool's result goes through the escape)", async () => {
     expect(tools.map((t) => t.name)).toEqual(["get_my_wallet", "fund_my_wallet", "list_assets", "get_asset_status", "get_verified_claims", "check_asset"]);
     const out = await run("get_asset_status", { asset_code: "bad code!" });

@@ -48,6 +48,8 @@ for (const [address, prefix] of [
 ] as const) blockList.addSubnet(address, prefix, "ipv4");
 for (const [address, prefix] of [
   ["::", 128], ["::1", 128], ["fc00::", 7], ["fe80::", 10], ["ff00::", 8], ["64:ff9b::", 96], ["2001:db8::", 32],
+  // Threat model A11: local-use NAT64, 6to4, IPv4-compatible, Teredo, and the discard-only prefix.
+  ["64:ff9b:1::", 48], ["2002::", 16], ["::", 96], ["2001::", 32], ["100::", 64],
 ] as const) blockList.addSubnet(address, prefix, "ipv6");
 
 /** Loopback, private, link-local, CGNAT, multicast, reserved, or metadata addresses. IPv4-mapped IPv6 is checked as IPv4. */

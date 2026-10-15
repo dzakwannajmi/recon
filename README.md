@@ -155,7 +155,7 @@ The Examiner compares verified claims and filings with Stellar mainnet data. Fla
 
 ## Trying the app
 
-1. Open the live app (or `http://localhost:3000` after `npm run dev`).
+1. Open the live app at `/agent` (or `http://localhost:3000/agent` after `npm run dev`).
 2. Click the example prompt "Check USTRY on Stellar mainnet".
 3. Expand the tool call in the chat. `check_asset` shows its input and the raw result: issuer identity, supply, trustlines, flags, and the sources it read.
 4. Open **Fact sheets** (`/en/assets`, or `/id/assets` in Indonesian).

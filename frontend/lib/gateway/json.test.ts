@@ -50,8 +50,27 @@ describe("jsonResponse (J1)", () => {
     expect(JSON.parse(raw).q).toBe(`ignore${hidden}`);
   });
 
+  it("escapes by Unicode property: variation selectors, a C1 control, Hangul fillers, and the supplementary selectors", () => {
+    const codes = [0xfe00, 0xfe0f, 0x85, 0x9f, 0x7f, 0x34f, 0x115f, 0x1160, 0x17b4, 0x17b5, 0x3164, 0xffa0, 0x180e, 0x600];
+    for (const c of codes) {
+      const text = toJsonText({ q: `a${cp(c)}b` });
+      expect(text, `U+${c.toString(16)}`).toBe(`{"q":"a${esc(c)}b"}`);
+      expect(JSON.parse(text).q).toBe(`a${cp(c)}b`);
+    }
+    for (const c of [0xe0100, 0xe01ef]) {
+      const text = toJsonText({ q: `a${cp(c)}b` });
+      expect(Array.from(text).some((ch) => (ch.codePointAt(0) as number) >= 0xe0000)).toBe(false);
+      expect(JSON.parse(text).q).toBe(`a${cp(c)}b`);
+    }
+  });
+
+  it("keeps tab, line feed, and carriage return as JSON whitespace escapes and leaves U+FE10 alone", () => {
+    expect(toJsonText({ q: "a\tb\nc\rd" })).toBe(JSON.stringify({ q: "a\tb\nc\rd" }));
+    expect(toJsonText({ q: `a${cp(0xfe10, 0xe01f0)}` })).toBe(JSON.stringify({ q: `a${cp(0xfe10, 0xe01f0)}` }));
+  });
+
   it("leaves ordinary text, emoji, and the characters next to the ranges alone", () => {
-    const plain = `caf${cp(0xe9)} ${cp(0x2013)} ${cp(0x1f600)} ${cp(0x00ac, 0x00ae, 0x200a, 0x2010, 0x2065, 0x206a, 0xe0080, 0xdfff0 & 0xfffff)}`;
+    const plain = `caf${cp(0xe9)} ${cp(0x2013)} ${cp(0x1f600)} ${cp(0x00ac, 0x00ae, 0x200a, 0x2010, 0x2065, 0xe0080, 0xdfff0 & 0xfffff)}`;
     expect(toJsonText({ a: plain })).toBe(JSON.stringify({ a: plain }));
   });
 

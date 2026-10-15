@@ -72,6 +72,18 @@ describe("isBlockedAddress", () => {
     expect(isBlockedAddress("::ffff:8.8.8.8")).toBe(false);
   });
 
+  it("blocks the embedded-IPv4 and special IPv6 ranges (A11): local-use NAT64, 6to4, IPv4-compatible, Teredo, discard", () => {
+    for (const ip of ["64:ff9b:1::1", "64:ff9b:1:ffff::1", "2002:7f00:1::1", "2002:a9fe:a9fe::", "::7f00:1", "::a9fe:a9fe", "2001:0:4136:e378:8000:63bf:3fff:fdd2", "100::1", "100:0:0:0:ffff:ffff:ffff:ffff"]) {
+      expect(isBlockedAddress(ip), ip).toBe(true);
+    }
+  });
+
+  it("does not block the addresses next to the new ranges", () => {
+    for (const ip of ["2001:1::1", "2001:4860:4860::8888", "2003::1", "100:0:0:1::1", "64:ff9b:2::1", "::ffff:8.8.8.8"]) {
+      expect(isBlockedAddress(ip), ip).toBe(false);
+    }
+  });
+
   it("allows public addresses and blocks non-IPs", () => {
     expect(isBlockedAddress("8.8.8.8")).toBe(false);
     expect(isBlockedAddress("2606:4700:4700::1111")).toBe(false);

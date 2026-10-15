@@ -37,6 +37,21 @@ export function projectAssetList(universe: UniverseAsset[], status: StatusFile |
   };
 }
 
+/**
+ * A13: when an issuer verifies for a code but is not an issuer pinned for that code in data/assets.csv, say so.
+ * "verified" compares the issuer's home_domain with the pinned official domain; it does not compare the
+ * issuer account with the pinned one. Returns null when the issuer is pinned or the code has no pinned row.
+ */
+export function pinnedIssuerNote(universe: UniverseAsset[], code: string, issuer: string) {
+  const pinned = [...new Set(universe.filter((u) => u.asset_code === code).map((u) => u.issuer))];
+  if (pinned.length === 0 || pinned.includes(issuer)) return null;
+  return {
+    pinned_issuer_differs: true as const,
+    pinned_issuers: pinned,
+    note: `This issuer is not the one pinned in data/assets.csv for ${code} (pinned: ${pinned.join(", ")}). "verified" means the issuer's home domain matches the official domain and its stellar.toml lists the account; it does not mean this is the pinned issuer.`,
+  };
+}
+
 /** Raised flags and counts for the assets with this code (and issuer, if given). Never computes anything. */
 export function projectAssetStatus(status: StatusFile, code: string, issuer?: string) {
   const sameCode = status.assets.filter((a) => a.asset_code === code);

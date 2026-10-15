@@ -63,7 +63,7 @@ const GBENJI = status.status.assets.find((a) => a.asset_code === "gBENJI")!;
 const USTRY = status.status.assets.find((a) => a.asset_code === "USTRY")!;
 
 const summaryBody = async (query: string, data: GatewayData = real) => {
-  const res = await handleSummary(new NextRequest(`http://localhost/api/check?${query}`), { env: {}, data, limiter: createRateLimiter({ perIpPerMin: 1000, globalPerMin: 1000, trustProxy: false }) });
+  const res = await handleSummary(new NextRequest(`http://localhost/api/check?${query}`), { env: {}, data, limiter: createRateLimiter({ route: "check", log: () => {}, perIpPerMin: 1000, globalPerMin: 1000, trustProxy: false }) });
   return { status: res.status, body: await res.json() };
 };
 
@@ -380,7 +380,7 @@ describe("M8: both eras give the same structured content", () => {
 });
 
 describe("M11: invisible characters never travel as raw bytes", () => {
-  const BAD = [String.fromCodePoint(0x202e), String.fromCodePoint(0x2028), String.fromCodePoint(0xe0041)];
+  const BAD = [0x202e, 0x2028, 0xe0041, 0xfe0f, 0x85].map((c) => String.fromCodePoint(c));
   for (const era of ERAS) {
     it(`${era}: the wire has none, structuredContent keeps them, the text block shows them escaped`, async () => {
       await withClient(era, harness({ data: withInvisibleQuote() }), async ({ client, bodies }) => {
@@ -390,7 +390,7 @@ describe("M11: invisible characters never travel as raw bytes", () => {
         expect(quotes).toContain(QUOTE_WITH_INVISIBLES);
         const text = textOf(r);
         for (const ch of BAD) expect(text.includes(ch)).toBe(false);
-        for (const escape of ["\\u202e", "\\u2028", "\\udb40\\udc41"]) expect(text).toContain(escape);
+        for (const escape of ["\\u202e", "\\u2028", "\\udb40\\udc41", "\\ufe0f", "\\u0085"]) expect(text).toContain(escape);
         const raw = bodies.join("\n");
         for (const ch of BAD) expect(raw.includes(ch)).toBe(false);
         expect(raw).toContain("reversed");

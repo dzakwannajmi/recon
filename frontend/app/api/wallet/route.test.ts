@@ -16,6 +16,7 @@ let pub: string;
 let fromSecret: MockInstance;
 let fetchMock: ReturnType<typeof vi.fn>;
 
+const req = () => new Request("http://localhost/api/wallet");
 const tool = (name: string) => tools.find((t) => t.name === name)!;
 
 beforeEach(() => {
@@ -45,7 +46,7 @@ afterEach(() => {
 
 describe("GET /api/wallet with only the public key", () => {
   it("returns the configured address, its balance, and the explorer link", async () => {
-    const res = await GET();
+    const res = await GET(req());
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({
       address: pub,
@@ -56,7 +57,7 @@ describe("GET /api/wallet with only the public key", () => {
 
   it("answers 500 with a clear message when AGENT_PUBLIC_KEY is invalid", async () => {
     vi.stubEnv("AGENT_PUBLIC_KEY", "not-a-key");
-    const res = await GET();
+    const res = await GET(req());
     expect(res.status).toBe(500);
     expect((await res.json()).error).toMatch(/AGENT_PUBLIC_KEY is not a valid Stellar public key/);
   });
@@ -65,7 +66,7 @@ describe("GET /api/wallet with only the public key", () => {
 describe("POST /api/wallet with only the public key", () => {
   it("answers 409 with the refusal message, and writes or funds nothing", async () => {
     const before = fs.readFileSync(path.join(dir, ".agent-wallet.json"), "utf8");
-    const res = await POST();
+    const res = await POST(req());
     expect(res.status).toBe(409);
     expect((await res.json()).error).toMatch(/The wallet is set by AGENT_PUBLIC_KEY/);
     expect(fs.readFileSync(path.join(dir, ".agent-wallet.json"), "utf8")).toBe(before);
@@ -87,5 +88,18 @@ describe("the chat's wallet tools with only the public key", () => {
     expect(await tool("fund_my_wallet").run({}, {})).toEqual({ funded: true, address: pub });
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(String((fetchMock.mock.calls[0] as unknown[])[0])).toContain(`addr=${pub}`);
+  });
+});
+
+describe("the wallet route rate limit", () => {
+  it("answers 429 with Retry-After once the global limit is spent, before any wallet work", async () => {
+    let limited: Response | null = null;
+    for (let i = 0; i < 200 && !limited; i++) {
+      const res = await GET(req());
+      if (res.status === 429) limited = res;
+    }
+    expect(limited).not.toBeNull();
+    expect(Number(limited!.headers.get("retry-after"))).toBeGreaterThanOrEqual(1);
+    expect((await POST(req())).status).toBe(429);
   });
 });

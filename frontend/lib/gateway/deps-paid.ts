@@ -21,6 +21,7 @@ export function realDetailDeps(): DetailDeps {
     env: process.env,
     data: createGatewayData(),
     limiter: createRateLimiter({
+      route: "check_detail",
       perIpPerMin: positiveInt("PAID_RATE_LIMIT_PER_MIN", 10),
       globalPerMin: positiveInt("PAID_GLOBAL_RATE_LIMIT_PER_MIN", 30),
       trustProxy: process.env.TRUST_PROXY === "true",

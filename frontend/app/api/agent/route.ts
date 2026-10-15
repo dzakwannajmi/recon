@@ -3,6 +3,7 @@ import { BudgetExceededError, PROVIDER, apiKeyEnvName, budgetLeft, hasApiKey } f
 import { tools } from "@/agent/tools";
 import { WalletError } from "@/agent/wallet";
 import { positiveInt } from "@/lib/env";
+import { createRateLimiter, retryAfterHeader } from "@/lib/gateway/rate-limit";
 
 // Up to 5 model steps with a 60s timeout (agent/llm.ts).
 export const maxDuration = 60;
@@ -14,30 +15,13 @@ const TRUST_PROXY = process.env.TRUST_PROXY === "true";
 const MAX_BODY_BYTES = 100_000;
 const MAX_HISTORY = 20;
 const MAX_MESSAGE_CHARS = 4000;
-const MAX_TRACKED_CLIENTS = 10_000;
 
-// In-memory and per server instance: enough for testnet, not for production.
-const recentRequests = new Map<string, number[]>();
-
-function hit(key: string, limit: number, now: number) {
-  const recent = (recentRequests.get(key) ?? []).filter((t) => now - t < 60_000);
-  recent.push(now);
-  recentRequests.delete(key);
-  recentRequests.set(key, recent);
-  if (recentRequests.size > MAX_TRACKED_CLIENTS) {
-    const oldest = recentRequests.keys().next().value;
-    if (oldest !== undefined) recentRequests.delete(oldest);
-  }
-  return recent.length > limit;
-}
-
-function rateLimited(req: Request) {
-  const now = Date.now();
-  if (hit("global", GLOBAL_RATE_LIMIT_PER_MIN, now)) return true;
-  if (!TRUST_PROXY) return false;
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return ip ? hit(`ip:${ip}`, RATE_LIMIT_PER_MIN, now) : false;
-}
+const limiter = createRateLimiter({
+  route: "agent",
+  perIpPerMin: RATE_LIMIT_PER_MIN,
+  globalPerMin: GLOBAL_RATE_LIMIT_PER_MIN,
+  trustProxy: TRUST_PROXY,
+});
 
 // GET /api/agent -> setup status + the list of tools (shown on the page)
 export async function GET() {
@@ -59,8 +43,12 @@ export async function POST(req: Request) {
       : `Add ${apiKeyEnvName(PROVIDER) ?? "an API key for LLM_PROVIDER"} to frontend/.env, then restart \`npm run dev\`.`;
     return Response.json({ error }, { status: 500 });
   }
-  if (rateLimited(req)) {
-    return Response.json({ error: "Too many messages. Wait a minute and try again." }, { status: 429 });
+  const limit = limiter.check(req);
+  if (limit.limited) {
+    return Response.json(
+      { error: "Too many messages. Wait a minute and try again." },
+      { status: 429, headers: { "Retry-After": retryAfterHeader(limit) } },
+    );
   }
 
   if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) {

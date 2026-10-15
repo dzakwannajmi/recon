@@ -14,6 +14,7 @@ export function realSummaryDeps(): SummaryDeps {
     env: process.env,
     data: createGatewayData(),
     limiter: createRateLimiter({
+      route: "check",
       perIpPerMin: positiveInt("CHECK_RATE_LIMIT_PER_MIN", 30),
       globalPerMin: positiveInt("CHECK_GLOBAL_RATE_LIMIT_PER_MIN", 120),
       // Only trust X-Forwarded-For behind a proxy that overwrites it; otherwise clients could spoof it.

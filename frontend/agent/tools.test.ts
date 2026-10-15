@@ -2,13 +2,14 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { projectAssetList, projectAssetStatus } from "@/lib/agent-data/assets";
+import { pinnedIssuerNote, projectAssetList, projectAssetStatus } from "@/lib/agent-data/assets";
 import { MAX_CLAIMS, MAX_QUOTE_CHARS, projectClaims, readClaims } from "@/lib/agent-data/claims";
 import { loadUniverse, type UniverseAsset } from "@/lib/chain/universe";
 import type { Claim } from "@/lib/claims/store";
 import { FIELD_NAMES } from "@/lib/claims/fields";
 import { asset, raisedFlag, statusFile } from "@/lib/factsheet/fixtures";
-import { tools } from "./tools";
+import { INSTRUCTIONS } from "./agent";
+import { tools, withEscapedResults, type Tool } from "./tools";
 
 const tool = (name: string) => tools.find((t) => t.name === name)!;
 const run = (name: string, args: unknown) => tool(name).run(args, {}) as Promise<any>;
@@ -225,5 +226,54 @@ describe("tool result sizes (real data)", () => {
     console.log("tool result bytes", JSON.stringify(sizes));
     expect(sizes.list_assets).toBeLessThan(8000);
     expect(sizes.claims_USDY).toBeLessThan(6000);
+  });
+});
+
+describe("A5: tool results are escaped at value level", () => {
+  const cp = (...c: number[]) => String.fromCodePoint(...c);
+  const fake = (result: unknown): Tool => ({ name: "t", description: "", parameters: {}, run: async () => result });
+  const dirty = `pay${cp(0x202e)}evil${cp(0xfe0f)} c1${cp(0x85)}x ${cp(0xe0041)}tag\tkept\nkept`;
+
+  it("escapes every string and key in nested results, keeps tab and newline, and leaves other values alone", async () => {
+    const [t] = withEscapedResults([fake({ quote: dirty, nested: [{ [`k${cp(0x200b)}`]: dirty }], n: 5, ok: true, none: null })]);
+    const out = (await t.run({}, {})) as any;
+    const clean = "pay\\u202eevil\\ufe0f c1\\u0085x \\udb40\\udc41tag\tkept\nkept";
+    expect(out.quote).toBe(clean);
+    expect(out.nested[0]["k\\u200b"]).toBe(clean);
+    expect(out).toMatchObject({ n: 5, ok: true, none: null });
+    expect(JSON.stringify(out)).not.toMatch(/[\u202e\ufe0f\u0085\u200b]/u);
+  });
+
+  it("escapes the message of a thrown error too", async () => {
+    const boom: Tool = { name: "t", description: "", parameters: {}, run: async () => { throw new Error(`bad${cp(0x202e)}news${cp(0xfe0f)}`); } };
+    const [t] = withEscapedResults([boom]);
+    await expect(t.run({}, {})).rejects.toThrow("bad\\u202enews\\ufe0f");
+  });
+
+  it("the exported tools are the wrapped ones (every real tool's result goes through the escape)", async () => {
+    expect(tools.map((t) => t.name)).toEqual(["get_my_wallet", "fund_my_wallet", "list_assets", "get_asset_status", "get_verified_claims", "check_asset"]);
+    const out = await run("get_asset_status", { asset_code: "bad code!" });
+    expect(out).toHaveProperty("error");
+  });
+
+  it("the chat instruction tells the model to leave escapes as shown and to flag an altered quote", () => {
+    expect(INSTRUCTIONS).toContain("\\uXXXX");
+    expect(INSTRUCTIONS).toMatch(/do not clean them/);
+    expect(INSTRUCTIONS).toMatch(/altered by escaping/);
+    expect(INSTRUCTIONS).toMatch(/quote the claim verbatim/);
+  });
+});
+
+describe("A13: check_asset says when a verified issuer is not the pinned one", () => {
+  it("names the pinned issuers when the issuer differs", () => {
+    const out = pinnedIssuerNote(universe, "AAA", OTHER);
+    expect(out).toMatchObject({ pinned_issuer_differs: true, pinned_issuers: [A] });
+    expect(out?.note).toContain("not the one pinned in data/assets.csv");
+    expect(out?.note).toContain(A);
+  });
+
+  it("says nothing when the issuer is pinned or the code has no pinned row", () => {
+    expect(pinnedIssuerNote(universe, "AAA", A)).toBeNull();
+    expect(pinnedIssuerNote(universe, "ZZZ", A)).toBeNull();
   });
 });

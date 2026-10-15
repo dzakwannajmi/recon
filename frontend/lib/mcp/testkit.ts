@@ -80,7 +80,7 @@ export const withNullStatus = () =>
   dataWith((assets) => assets.map((a) => (a.asset_code === "gBENJI" ? { ...a, status: null, status_code: null, checked_at: null } : a)));
 
 export const TAG_CHAR = String.fromCodePoint(0xe0041);
-export const QUOTE_WITH_INVISIBLES = `before ${String.fromCodePoint(0x202e)}reversed${String.fromCodePoint(0x2028)}line ${TAG_CHAR}tag after`;
+export const QUOTE_WITH_INVISIBLES = `before ${String.fromCodePoint(0x202e)}reversed${String.fromCodePoint(0x2028)}line ${TAG_CHAR}tag${String.fromCodePoint(0xfe0f)} vs${String.fromCodePoint(0x85)}c1 after`;
 
 /** USTRY with one extra document evidence whose quote holds invisible characters. */
 export const withInvisibleQuote = () =>

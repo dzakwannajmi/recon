@@ -20,6 +20,7 @@ import { createGoogle } from "@ai-sdk/google";
 import { createGroq } from "@ai-sdk/groq";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { positiveInt } from "@/lib/env";
+import { escapeInvisible } from "@/lib/gateway/text";
 import type { Tool } from "./tools";
 
 export const PROVIDER = process.env.LLM_PROVIDER || "google";
@@ -182,7 +183,7 @@ export async function generateWithTools(opts: { instructions: string; messages: 
       onToolExecutionEnd: ({ toolCall, toolOutput }) => {
         steps.push(
           toolOutput.type === "tool-error"
-            ? { tool: toolCall.toolName, args: toolCall.input, result: { error: String(toolOutput.error) }, error: true }
+            ? { tool: toolCall.toolName, args: toolCall.input, result: { error: escapeInvisible(String(toolOutput.error)) }, error: true }
             : { tool: toolCall.toolName, args: toolCall.input, result: toolOutput.output },
         );
       },

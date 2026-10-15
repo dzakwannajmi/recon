@@ -20,7 +20,11 @@ fn l12_writes_extend_every_touched_key_to_120_days() {
     fx.client().resume_borrows(&a);
     assert_eq!(fx.market_ttl(&a), TTL_EXTEND_TO, "resume");
 
-    fx.mock(&b, "open_borrow", args3(&fx.env, b.clone(), a.clone(), 1i128));
+    fx.mock(
+        &b,
+        "open_borrow",
+        args3(&fx.env, b.clone(), a.clone(), 1i128),
+    );
     fx.client().open_borrow(&b, &a, &1);
     assert_eq!(fx.market_ttl(&a), TTL_EXTEND_TO, "open_borrow market");
     assert_eq!(fx.debt_ttl(&b, &a), TTL_EXTEND_TO, "open_borrow debt");
@@ -70,7 +74,11 @@ fn l12_reads_change_no_storage_event_or_ttl() {
     let a = fx.addr();
     let b = fx.addr();
     fx.open_market(&a);
-    fx.mock(&b, "open_borrow", args3(&fx.env, b.clone(), a.clone(), 3i128));
+    fx.mock(
+        &b,
+        "open_borrow",
+        args3(&fx.env, b.clone(), a.clone(), 3i128),
+    );
     fx.client().open_borrow(&b, &a, &3);
     // Past the threshold, so any bump would show.
     fx.advance(TTL_EXTEND_TO - TTL_THRESHOLD + 5);
@@ -100,7 +108,11 @@ fn l12_reads_change_no_storage_event_or_ttl() {
     c.markets();
     c.market(&a);
     c.debt(&b, &a);
-    assert_eq!(fx.env.events().all().events().len(), 0, "getters: no events");
+    assert_eq!(
+        fx.env.events().all().events().len(),
+        0,
+        "getters: no events"
+    );
 
     assert_eq!(ttls(&fx), ttl_before, "no TTL change");
     assert_eq!(fx.snapshot(&[a.clone()], &[b.clone()]), snap);

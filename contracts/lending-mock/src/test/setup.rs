@@ -49,7 +49,6 @@ pub struct Fx {
     /// The feed it reads (the real feed Wasm unless a test brings its own).
     pub feed_id: Address,
     pub admin: Address,
-    pub feed_admin: Address,
     pub feed_publisher: Address,
 }
 
@@ -66,15 +65,14 @@ impl Fx {
         env.ledger().set_sequence_number(SEQ);
         let feed_admin = Address::generate(&env);
         let feed_publisher = Address::generate(&env);
-        let feed_id = env.register(feed::WASM, (feed_admin.clone(), feed_publisher.clone()));
-        Self::on_feed(env, feed_id, feed_admin, feed_publisher, pause_at, max_age)
+        let feed_id = env.register(feed::WASM, (feed_admin, feed_publisher.clone()));
+        Self::on_feed(env, feed_id, feed_publisher, pause_at, max_age)
     }
 
     /// A market that reads `feed_id`, which the caller registered in `env`.
     pub fn on_feed(
         env: Env,
         feed_id: Address,
-        feed_admin: Address,
         feed_publisher: Address,
         pause_at: u32,
         max_age: u64,
@@ -89,7 +87,6 @@ impl Fx {
             id,
             feed_id,
             admin,
-            feed_admin,
             feed_publisher,
         }
     }
@@ -143,9 +140,8 @@ impl Fx {
         env.ledger().set_timestamp(NOW);
         env.ledger().set_sequence_number(SEQ);
         let feed_id = env.register(super::stub::StubFeed, (mode,));
-        let admin = Address::generate(&env);
         let publisher = Address::generate(&env);
-        Self::on_feed(env, feed_id, admin, publisher, 2, EIGHT_DAYS)
+        Self::on_feed(env, feed_id, publisher, 2, EIGHT_DAYS)
     }
 
     pub fn stub_mode(&self, mode: u32) {
@@ -267,7 +263,12 @@ impl Fx {
             .as_contract(&self.id, || self.env.storage().instance().get_ttl())
     }
 
-    pub fn paused_event(&self, asset: &Address, reason: u32, d: &Decision) -> soroban_sdk::xdr::ContractEvent {
+    pub fn paused_event(
+        &self,
+        asset: &Address,
+        reason: u32,
+        d: &Decision,
+    ) -> soroban_sdk::xdr::ContractEvent {
         BorrowsPaused {
             asset: asset.clone(),
             reason,

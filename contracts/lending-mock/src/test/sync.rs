@@ -130,15 +130,9 @@ fn l5_missing_entry_is_not_covered() {
     let fx = Fx::bare();
     let a = fx.addr();
     // `check` works for any asset, listed or not.
-    assert_eq!(
-        fx.client().check(&a),
-        zero_fields(&fx, REASON_NOT_COVERED)
-    );
+    assert_eq!(fx.client().check(&a), zero_fields(&fx, REASON_NOT_COVERED));
     fx.list(&a);
-    assert_eq!(
-        fx.client().check(&a),
-        zero_fields(&fx, REASON_NOT_COVERED)
-    );
+    assert_eq!(fx.client().check(&a), zero_fields(&fx, REASON_NOT_COVERED));
 }
 
 #[test]
@@ -245,7 +239,7 @@ fn l7_a_feed_address_with_no_contract_pauses_as_unavailable() {
     env.ledger().set_timestamp(NOW);
     env.ledger().set_sequence_number(SEQ);
     let nothing = Address::generate(&env);
-    let fx = Fx::on_feed(env, nothing.clone(), nothing.clone(), nothing, 2, EIGHT_DAYS);
+    let fx = Fx::on_feed(env, nothing.clone(), nothing, 2, EIGHT_DAYS);
     let a = fx.addr();
     fx.list(&a);
 

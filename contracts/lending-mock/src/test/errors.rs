@@ -14,7 +14,11 @@ fn l14_each_failing_call_changes_nothing() {
     let b = fx.addr();
     let unlisted = fx.addr();
     fx.open_market(&a);
-    fx.mock(&b, "open_borrow", args3(&fx.env, b.clone(), a.clone(), 4i128));
+    fx.mock(
+        &b,
+        "open_borrow",
+        args3(&fx.env, b.clone(), a.clone(), 4i128),
+    );
     fx.client().open_borrow(&b, &a, &4);
     fx.publish(&a, 2, NOW - 50, 2); // CRITICAL, not synced yet
 
@@ -31,7 +35,11 @@ fn l14_each_failing_call_changes_nothing() {
     );
     fx.assert_unchanged(&before, &assets, &borrowers);
 
-    fx.mock(&fx.admin, "resume_borrows", args1(&fx.env, unlisted.clone()));
+    fx.mock(
+        &fx.admin,
+        "resume_borrows",
+        args1(&fx.env, unlisted.clone()),
+    );
     assert_eq!(
         err(fx.client().try_resume_borrows(&unlisted)),
         MarketError::NotListed
@@ -52,20 +60,25 @@ fn l14_each_failing_call_changes_nothing() {
     );
     fx.assert_unchanged(&before, &assets, &borrowers);
 
-    assert_eq!(
-        err(fx.client().try_sync(&unlisted)),
-        MarketError::NotListed
-    );
+    assert_eq!(err(fx.client().try_sync(&unlisted)), MarketError::NotListed);
     fx.assert_unchanged(&before, &assets, &borrowers);
 
-    fx.mock(&b, "open_borrow", args3(&fx.env, b.clone(), unlisted.clone(), 1i128));
+    fx.mock(
+        &b,
+        "open_borrow",
+        args3(&fx.env, b.clone(), unlisted.clone(), 1i128),
+    );
     assert_eq!(
         err(fx.client().try_open_borrow(&b, &unlisted, &1)),
         MarketError::NotListed
     );
     fx.assert_unchanged(&before, &assets, &borrowers);
 
-    fx.mock(&b, "open_borrow", args3(&fx.env, b.clone(), a.clone(), 0i128));
+    fx.mock(
+        &b,
+        "open_borrow",
+        args3(&fx.env, b.clone(), a.clone(), 0i128),
+    );
     assert_eq!(
         err(fx.client().try_open_borrow(&b, &a, &0)),
         MarketError::InvalidAmount
@@ -78,7 +91,15 @@ fn l14_an_uninitialized_contract_reports_not_initialized() {
     // Not reachable through `register` (the constructor always runs); the
     // storage helpers still return an error instead of trapping.
     let env = Env::default();
-    let id = env.register(LendingMock, (Address::generate(&env), Address::generate(&env), 2u32, 3_600u64));
+    let id = env.register(
+        LendingMock,
+        (
+            Address::generate(&env),
+            Address::generate(&env),
+            2u32,
+            3_600u64,
+        ),
+    );
     env.as_contract(&id, || {
         env.storage().instance().remove(&DataKey::Policy);
     });

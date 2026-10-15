@@ -25,7 +25,11 @@ fn l10_borrower_auth_is_exact() {
     }
 
     // The borrower's auth for a different amount does not cover this call.
-    fx.mock(&b, "open_borrow", args3(&fx.env, b.clone(), a.clone(), 6i128));
+    fx.mock(
+        &b,
+        "open_borrow",
+        args3(&fx.env, b.clone(), a.clone(), 6i128),
+    );
     assert_auth_error(fx.client().try_open_borrow(&b, &a, &5));
     fx.assert_unchanged(&before, &[a.clone()], &[b.clone()]);
 
@@ -44,7 +48,11 @@ fn l10_borrower_auth_is_exact() {
 }
 
 fn borrow(fx: &Fx, b: &soroban_sdk::Address, a: &soroban_sdk::Address, amount: i128) {
-    fx.mock(b, "open_borrow", args3(&fx.env, b.clone(), a.clone(), amount));
+    fx.mock(
+        b,
+        "open_borrow",
+        args3(&fx.env, b.clone(), a.clone(), amount),
+    );
     fx.client().open_borrow(b, a, &amount);
 }
 
@@ -54,7 +62,11 @@ fn try_borrow(
     a: &soroban_sdk::Address,
     amount: i128,
 ) -> MarketError {
-    fx.mock(b, "open_borrow", args3(&fx.env, b.clone(), a.clone(), amount));
+    fx.mock(
+        b,
+        "open_borrow",
+        args3(&fx.env, b.clone(), a.clone(), amount),
+    );
     err(fx.client().try_open_borrow(b, a, &amount))
 }
 

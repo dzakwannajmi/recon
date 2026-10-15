@@ -1,0 +1,22 @@
+{
+  "purpose": "Synthetic scenario for the keeper demo. SYNTH is not a real asset and is never written to Recon's feed.",
+  "code": "SYNTH",
+  "issuer": "GBGRCB7V7EVWIEV3T36R47LRJJYMIYMRCBP4BRTGVJJBWJYVB6YLU2TS",
+  "steps": [
+    {
+      "id": "open",
+      "status": 0,
+      "flags": 0
+    },
+    {
+      "id": "critical",
+      "status": 2,
+      "flags": 1
+    },
+    {
+      "id": "clean",
+      "status": 0,
+      "flags": 0
+    }
+  ]
+}

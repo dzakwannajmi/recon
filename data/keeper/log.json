@@ -1,0 +1,46 @@
+[
+  {
+    "at": "2026-10-15T15:35:14.145Z",
+    "network": "testnet",
+    "market": "live",
+    "contract_id": "CAWODDEZFGNK5ORGNGWVRXBHDRGXO6EVQB2IWQMPVTKS22EGKPGTEWCA",
+    "method": "sync",
+    "asset_label": "BENJI",
+    "key": "CCDSDPD7FXB74PFB2SYCHGQRWLXQRYRTQSPCVSRJ7FAOLOUGWEYAXQ7A",
+    "tx_hash": "9107c8037a20d2585f2a9bc1b85c31ac6072ee68a7346ee8051183ef2adc1963",
+    "ledger": 5210985,
+    "decision": {
+      "reason": 0,
+      "reason_name": "CLEAR",
+      "status": 0,
+      "flags": 0,
+      "as_of": 1792076195,
+      "evidence_hash": "aad18645423850ee810d670f54546a143cc007367a28deb35eacae0df45eb1cd",
+      "published_ledger": 5210569
+    },
+    "borrow_enabled_before": true,
+    "borrow_enabled_after": true
+  },
+  {
+    "at": "2026-10-15T15:35:17.688Z",
+    "network": "testnet",
+    "market": "live",
+    "contract_id": "CAWODDEZFGNK5ORGNGWVRXBHDRGXO6EVQB2IWQMPVTKS22EGKPGTEWCA",
+    "method": "sync",
+    "asset_label": "USTRY",
+    "key": "CBLV4ATSIWU67CFSQU2NVRKINQIKUZ2ODSZBUJTJ43VJVRSBTZYOPNUR",
+    "tx_hash": "7988550a5fd8478b7b8cc79b59033ab45f4cf416436144c0abd4704f5a0c4722",
+    "ledger": 5210986,
+    "decision": {
+      "reason": 0,
+      "reason_name": "CLEAR",
+      "status": 1,
+      "flags": 24,
+      "as_of": 1792076203,
+      "evidence_hash": "45616b5cb75207b47396147546e2d89b4f4a445d14564cdcb5a001d5eb549447",
+      "published_ledger": 5210569
+    },
+    "borrow_enabled_before": true,
+    "borrow_enabled_after": true
+  }
+]

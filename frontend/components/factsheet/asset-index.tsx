@@ -14,24 +14,24 @@ export function AssetIndex({ lang, status }: { lang: Lang; status: StatusFile })
     <main lang={lang} className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8 sm:px-6">
       <div className="flex justify-end text-sm"><LangSwitch lang={lang} path="/assets" /></div>
       <header>
-        <h1 className="text-3xl font-semibold">{copy.index.title}</h1>
+        <h1 className="text-3xl">{copy.index.title}</h1>
         <p className="mt-2 text-sm text-muted-foreground">{copy.index.intro}</p>
       </header>
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
           <thead className="text-xs text-muted-foreground">
             <tr className="border-b border-border">
-              <th className="py-2 pr-4 font-medium">{copy.index.asset}</th>
-              <th className="py-2 pr-4 font-medium">{copy.index.issuer}</th>
-              <th className="py-2 pr-4 font-medium">{copy.index.type}</th>
-              <th className="py-2 pr-4 font-medium">{copy.index.status}</th>
-              <th className="py-2 font-medium">{copy.index.flagsRaised}</th>
+              <th className="py-2 pr-4">{copy.index.asset}</th>
+              <th className="py-2 pr-4">{copy.index.issuer}</th>
+              <th className="py-2 pr-4">{copy.index.type}</th>
+              <th className="py-2 pr-4">{copy.index.status}</th>
+              <th className="py-2">{copy.index.flagsRaised}</th>
             </tr>
           </thead>
           <tbody>
             {status.assets.map((a) => (
               <tr key={`${a.asset_code}:${a.issuer}`} className="border-b border-border/50 align-top">
-                <td className="py-2 pr-4 font-medium">
+                <td className="py-2 pr-4">
                   {findAsset(status, a.asset_code) ? (
                     <Link href={`/${lang}/assets/${encodeURIComponent(a.asset_code)}`} className="text-foreground underline-offset-4 hover:underline">{a.asset_code}</Link>
                   ) : (

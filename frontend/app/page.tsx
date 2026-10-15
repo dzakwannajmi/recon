@@ -216,7 +216,7 @@ export default function Home() {
 
               {messages.map((m, i) =>
                 m.role === "user" ? (
-                  <div key={i} className="max-w-[85%] self-end bg-primary px-4 py-2.5 font-medium text-primary-foreground">
+                  <div key={i} className="max-w-[85%] self-end bg-primary px-4 py-2.5 text-primary-foreground">
                     {m.text}
                   </div>
                 ) : (
@@ -274,12 +274,12 @@ export default function Home() {
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <p className="flex items-center font-mono text-xs font-medium tracking-[0.06em] text-muted-foreground uppercase">{children}</p>;
+  return <p className="flex items-center font-mono text-xs tracking-[0.06em] text-muted-foreground uppercase">{children}</p>;
 }
 
 function SectionTitle({ num, title }: { num: string; title: string }) {
   return (
-    <p className="font-mono text-xs font-medium tracking-[0.06em] uppercase">
+    <p className="font-mono text-xs tracking-[0.06em] uppercase">
       <span className="text-foreground">{num}</span>
       <span className="ml-3 text-muted-foreground">{title}</span>
     </p>
@@ -296,7 +296,7 @@ function SetupStep(props: { number: number; title: string; done: boolean; last?:
       <div className="flex flex-col items-center">
         <span
           className={cn(
-            "flex size-6 shrink-0 items-center justify-center border-2 font-mono text-xs font-bold",
+            "flex size-6 shrink-0 items-center justify-center border-2 font-mono text-xs",
             props.done ? "border-primary bg-primary text-primary-foreground" : "border-primary text-foreground"
           )}
         >

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -13,10 +13,14 @@ import { SectionTitle } from "@/components/chat/section-title";
 import { SetupSteps } from "@/components/chat/setup-steps";
 import { ToolsList } from "@/components/chat/tools-card";
 import { useAgent } from "@/components/chat/use-agent";
+import { CallOverlay } from "@/components/call/call-overlay";
+import { LiveThought } from "@/components/chat/thinking";
 
 export default function AgentPage() {
   const a = useAgent();
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [calling, setCalling] = useState(false);
+  const closeCall = useCallback(() => setCalling(false), []);
 
   useEffect(() => {
     if (a.messages.length > 0 || a.thinking) bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -82,20 +86,17 @@ export default function AgentPage() {
             <div className="flex flex-col gap-5 px-4 py-4">
               {a.messages.length === 0 && <EmptyState ready={a.ready} wallet={a.wallet} onPick={a.send} />}
               {a.messages.map((m, i) => <MessageView key={i} message={m} />)}
-              {a.thinking && (
-                <p role="status" className="flex items-center gap-2 font-mono text-sm text-muted-foreground">
-                  agent is thinking <span className="inline-block h-4 w-2 animate-pulse bg-primary" />
-                </p>
-              )}
+              {a.thinking && <LiveThought />}
               <div ref={bottomRef} />
             </div>
           </ScrollArea>
 
           <CardFooter className="border-t pt-4">
-            <Composer value={a.input} onChange={a.setInput} onSend={a.send} ready={a.ready} thinking={a.thinking} />
+            <Composer onSend={(t) => void a.send(t)} onStop={a.stop} onCall={() => setCalling(true)} ready={a.ready} thinking={a.thinking} />
           </CardFooter>
         </Card>
       </div>
+      <CallOverlay open={calling} onClose={closeCall} ask={a.send} />
     </main>
   );
 }

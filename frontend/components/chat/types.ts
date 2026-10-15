@@ -1,5 +1,7 @@
 export type Step = { tool: string; args: unknown; result: any; error?: boolean };
-export type Message = { role: "user" | "agent"; text: string; steps?: Step[]; error?: boolean };
+export type Message = { role: "user" | "agent"; text: string; steps?: Step[]; error?: boolean; /** Seconds the agent took to answer. */ elapsed?: number };
+/** What `send` hands back: the agent's reply as plain markdown text, or the error message. Null if nothing was sent or the request was stopped. */
+export type Reply = { text: string; error: boolean } | null;
 export type Status = { hasApiKey: boolean; provider?: string; keyEnv?: string | null; model: string; tools: { name: string; description: string }[] };
 export type WalletInfo = { address: string | null; balance?: string };
 

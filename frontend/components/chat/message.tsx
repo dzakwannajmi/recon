@@ -1,6 +1,7 @@
 import { CircleAlert } from "lucide-react";
 import { Markdown } from "./markdown";
 import { StepCard } from "./step-card";
+import { DoneThought } from "./thinking";
 import type { Message } from "./types";
 
 export function MessageView({ message: m }: { message: Message }) {
@@ -13,6 +14,7 @@ export function MessageView({ message: m }: { message: Message }) {
   }
   return (
     <div className="flex max-w-[92%] min-w-0 flex-col gap-2 self-start">
+      <DoneThought steps={m.steps} elapsed={m.elapsed} />
       {m.steps?.map((s, j) => <StepCard key={j} step={s} />)}
       {m.error ? (
         <div role="alert" className="flex gap-2 rounded-[16px] border border-destructive/30 bg-destructive/10 px-4 py-2.5 text-destructive [overflow-wrap:anywhere]">

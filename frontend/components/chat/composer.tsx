@@ -1,33 +1,64 @@
-import { SendHorizontal } from "lucide-react";
+"use client";
+
+import { useRef } from "react";
+import { Phone } from "lucide-react";
+import VoicePill from "@/components/effects/VoicePill";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { MinimalPrompt } from "./prompt-input";
+import { useDictation, useVoiceSupport } from "./use-dictation";
 
-type Props = { value: string; onChange: (v: string) => void; onSend: (v: string) => void; ready: boolean; thinking: boolean };
+type Props = {
+  onSend: (v: string) => void;
+  onStop: () => void;
+  onCall: () => void;
+  ready: boolean;
+  thinking: boolean;
+};
 
-export function Composer({ value, onChange, onSend, ready, thinking }: Props) {
+/** Prompt bar, a dictation pill, and the call button. The mic controls are hidden where the browser has no speech recognition. */
+export function Composer({ onSend, onStop, onCall, ready, thinking }: Props) {
+  const root = useRef<HTMLDivElement>(null);
+  const support = useVoiceSupport();
+  const dictation = useDictation(root);
+
   return (
-    <form
-      className="flex w-full gap-2"
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSend(value);
-      }}
-    >
-      <div className={cn("flex min-w-0 flex-1 items-center rounded-[10px] border border-input bg-background focus-within:border-foreground", !ready && "opacity-50")}>
-        <span className="pl-3 font-mono text-base whitespace-nowrap text-muted-foreground md:text-sm">~/agent $</span>
-        <Input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={ready ? "ask your agent something..." : "add your API key to start"}
-          aria-label="Message to the agent"
-          disabled={!ready}
-          className="h-11 min-w-0 border-0 bg-transparent font-mono focus-visible:ring-0 disabled:bg-transparent disabled:opacity-100 dark:bg-transparent dark:disabled:bg-transparent"
-        />
+    <div className="flex w-full flex-col gap-2">
+      <div className="flex flex-wrap items-end justify-end gap-2">
+        <div ref={root} inert={!ready} className={cn("min-w-0 basis-full sm:basis-0 sm:flex-1", !ready && "opacity-50")}>
+          <MinimalPrompt
+            placeholder={ready ? "ask your agent something..." : "add your API key to start"}
+            onSend={onSend}
+            busy={thinking}
+            onStop={onStop}
+          />
+        </div>
+        {support.dictation && (
+          <div className="flex h-11 shrink-0 items-center">
+            <VoicePill
+              key={dictation.pillKey}
+              mode="toggle"
+              size={44}
+              shape="rounded"
+              background="#ebe8e4"
+              accentColor="#151515"
+              iconColor="#151515"
+              slideToCancel={false}
+              disabled={!ready}
+              ariaLabel="Dictate"
+              onStart={dictation.start}
+              onStop={dictation.finish}
+            />
+          </div>
+        )}
+        {support.call && (
+          <Button variant="outline" className="h-11 shrink-0 rounded-[6px] px-4" onClick={onCall} disabled={!ready || thinking}>
+            <Phone /> Call
+          </Button>
+        )}
       </div>
-      <Button type="submit" className="h-auto rounded-[6px] px-5" disabled={!ready || thinking || !value.trim()} aria-label="Send">
-        <SendHorizontal />
-      </Button>
-    </form>
+      {support.dictation && <p className="text-xs text-muted-foreground">Voice uses your browser&apos;s speech service.</p>}
+      {dictation.error && <p role="alert" className="text-xs text-destructive">{dictation.error}</p>}
+    </div>
   );
 }

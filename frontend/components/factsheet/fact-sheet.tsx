@@ -8,7 +8,7 @@ import { LangSwitch } from "./lang-switch";
 import Link from "next/link";
 
 const EXTERNAL = { target: "_blank", rel: "noopener noreferrer nofollow" } as const;
-const linkCls = "text-primary underline-offset-4 hover:underline";
+const linkCls = "text-foreground underline-offset-4 hover:underline";
 
 /** Label for an asset type; an unknown type falls back to the raw string. */
 export function assetTypeLabel(lang: Lang, type: string): string {
@@ -54,7 +54,7 @@ export function FactSheet({ lang, asset, status }: { lang: Lang; asset: LoadedAs
       <header className="flex flex-col gap-4">
         <div>
           <p className="text-xs tracking-wide text-muted-foreground uppercase">{copy.header.eyebrow}</p>
-          <h1 className="mt-1 text-3xl font-semibold break-words">{asset.asset_code}</h1>
+          <h1 className="mt-1 text-3xl break-words">{asset.asset_code}</h1>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <StatusBadge status={asset.status} unpublished={copy.status.unpublishedBadge} />
@@ -91,18 +91,18 @@ export function FactSheet({ lang, asset, status }: { lang: Lang; asset: LoadedAs
       <NotEvaluatedSection copy={copy} asset={asset} />
 
       <section className="flex flex-col gap-4">
-        <h2 className="text-xl font-semibold">{copy.sections.methodTitle}</h2>
+        <h2 className="text-xl">{copy.sections.methodTitle}</h2>
         <ol className="flex list-decimal flex-col gap-2 pl-5 text-sm">
           {copy.method.steps.map((s, i) => <li key={i}>{s}</li>)}
         </ol>
-        <h3 className="font-medium">{copy.method.inputsTitle}</h3>
+        <h3 className="">{copy.method.inputsTitle}</h3>
         <dl className="flex flex-col gap-3 text-sm">
           <Input label={copy.method.checks} input={status.inputs.checks} />
           <Input label={copy.method.previousChecks} input={status.inputs.previous_checks} />
           <Input label={copy.method.examinations} input={status.inputs.examinations} />
           <Row label={copy.method.rulesVersion}><span className="font-mono text-xs">{status.rules_version}</span></Row>
         </dl>
-        <h3 className="font-medium">{copy.method.feedTitle}</h3>
+        <h3 className="">{copy.method.feedTitle}</h3>
         <dl className="flex flex-col gap-3 text-sm">
           <Row label={copy.method.bitmask}>
             <span className="font-mono text-xs">{asset.flags_bitmask} · {bitmaskBinary(asset.flags_bitmask)}</span>

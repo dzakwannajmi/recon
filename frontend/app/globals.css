@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-space-grotesk);
-    --font-sans: var(--font-space-grotesk);
+    --font-heading: var(--font-inter);
+    --font-sans: var(--font-inter);
     --font-mono: var(--font-jetbrains-mono);
     --color-ring: var(--ring);
     --color-input: var(--input);
@@ -38,28 +38,28 @@
 }
 
 :root {
-    /* Agentmaxxing palette */
-    --background: #0A0A0A;
-    --foreground: #F2F1EC;
-    --card: #111110;
-    --card-foreground: #F2F1EC;
-    --popover: #111110;
-    --popover-foreground: #F2F1EC;
-    --primary: #C8E850;
-    --primary-foreground: #0A0A0A;
-    --secondary: #2A2A28;
-    --secondary-foreground: #F2F1EC;
-    --muted: #1A1A19;
-    --muted-foreground: #9A9A93;
-    --accent: #2A2A28;
-    --accent-foreground: #F2F1EC;
-    --destructive: #FF6B5A;
-    --border: rgba(242, 241, 236, 0.13);
-    --input: rgba(242, 241, 236, 0.24);
-    --ring: #C8E850;
+    /* Light editorial theme. Accent: chartreuse from the logo sheet (#b4f03c), used as fill only. */
+    --background: #f4f2f0;
+    --foreground: #151515;
+    --card: #ffffff;
+    --card-foreground: #151515;
+    --popover: #ffffff;
+    --popover-foreground: #151515;
+    --primary: #b4f03c;
+    --primary-foreground: #151515;
+    --secondary: #ebe8e4;
+    --secondary-foreground: #151515;
+    --muted: #ebe8e4;
+    --muted-foreground: #66645f;
+    --accent: #ebe8e4;
+    --accent-foreground: #151515;
+    --destructive: #b42318;
+    --border: #e1ded9;
+    --input: #cfcbc5;
+    --ring: #151515;
     --blue: #2030D8;
     --blue-soft: #8C96FF;
-    --radius: 0rem;
+    --radius: 0.625rem;
 }
 
 
@@ -72,11 +72,7 @@
     }
   html {
     @apply font-sans;
+    font-feature-settings: "ss01" on, "cv11" on;
     }
-}
-/* Faint 6 column grid behind the page, like agentmaxxin.xyz */
-body {
-  background-image: linear-gradient(to right, rgba(242, 241, 236, 0.045) 1px, transparent 1px);
-  background-size: calc(100% / 6) 100%;
 }
 ::selection { background: var(--primary); color: var(--primary-foreground); }

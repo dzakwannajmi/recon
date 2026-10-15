@@ -12,7 +12,7 @@ function FlagTitle({ copy, flag }: { copy: FactSheetCopy; flag: ReviewedFlag["fl
   const name = copy.flags[flag]?.name ?? flag;
   return (
     <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
-      <h3 className="font-medium">{name}</h3>
+      <h3 className="">{name}</h3>
       <code className="font-mono text-xs text-muted-foreground break-all">{flag}</code>
     </div>
   );
@@ -21,13 +21,13 @@ function FlagTitle({ copy, flag }: { copy: FactSheetCopy; flag: ReviewedFlag["fl
 function SeverityBadge({ severity }: { severity: "WARNING" | "CRITICAL" }) {
   return severity === "CRITICAL"
     ? <Badge variant="destructive">{severity}</Badge>
-    : <Badge variant="outline" className="border-amber-500/40 bg-amber-500/10 text-amber-300">{severity}</Badge>;
+    : <Badge variant="outline" className="border-amber-700/40 bg-amber-500/15 text-amber-900">{severity}</Badge>;
 }
 
 const Section = ({ title, intro, children }: { title: string; intro?: string; children: React.ReactNode }) => (
   <section className="flex flex-col gap-3">
     <div>
-      <h2 className="text-xl font-semibold">{title}</h2>
+      <h2 className="text-xl">{title}</h2>
       {intro && <p className="mt-1 text-sm text-muted-foreground">{intro}</p>}
     </div>
     {children}

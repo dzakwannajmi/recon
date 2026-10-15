@@ -3,7 +3,7 @@ import type { FactSheetCopy } from "@/lib/factsheet/copy-types";
 import { evidenceView, fmt } from "@/lib/factsheet/view";
 
 const EXTERNAL = { target: "_blank", rel: "noopener noreferrer nofollow" } as const;
-const link = "text-primary underline-offset-4 hover:underline break-all";
+const link = "text-foreground underline-offset-4 hover:underline break-all";
 
 /** One evidence item. Quotes, URLs, and hashes come from the data and are shown as text only. */
 function EvidenceItem({ copy, item }: { copy: FactSheetCopy; item: EvidenceRef }) {

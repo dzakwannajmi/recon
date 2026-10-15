@@ -85,7 +85,10 @@ describe("G1: the check routes reach no LLM, no signing key, and no x402 client 
     const roots = files.filter((f) => /^(agent|app)\//.test(f) && !IS_TEST.test(f) && !f.startsWith("app/api/check/") && !f.startsWith("app/api/mcp/"));
     const set = reachable(roots, g);
     expect(roots).toContain("agent/tools.ts");
-    expect([...set].filter((f) => f.startsWith("lib/payer/") || f.startsWith("lib/gateway/") || f.startsWith("lib/mcp/"))).toEqual([]);
+    // Two pure gateway files are shared on purpose (threat model A4 and A5): the rate limiter and the invisible-character escape.
+    const SHARED = new Set(["lib/gateway/rate-limit.ts", "lib/gateway/text.ts"]);
+    expect([...set].filter((f) => f.startsWith("lib/payer/") || f.startsWith("lib/gateway/") || f.startsWith("lib/mcp/")).filter((f) => !SHARED.has(f))).toEqual([]);
+    expect(packageSpecifiers([...SHARED], g).size).toBe(0); // neither shared file imports a package
     expect(set.has("scripts/paid-check.ts")).toBe(false);
   });
 

@@ -5,7 +5,7 @@
  * Every error written here has a fixed sentence; no request value is ever echoed or logged.
  */
 import { isJsonContentType, type McpHttpHandler } from "@modelcontextprotocol/server";
-import { RETRY_AFTER_SECONDS, type RateLimiter } from "../gateway/rate-limit";
+import { retryAfterHeader, type RateLimiter } from "../gateway/rate-limit";
 import type { Env } from "../gateway/payment-config";
 import { escapeInvisible } from "../gateway/text";
 import { HTTP_MESSAGES } from "./copy";
@@ -127,7 +127,8 @@ export async function handleMcp(req: Request, deps: HttpDeps): Promise<Response>
   try {
     if (req.method !== "POST") return rpcError(405, -32000, HTTP_MESSAGES.method_not_allowed, { Allow: "POST" });
 
-    if (deps.limiter.limited(req)) return rpcError(429, -32000, HTTP_MESSAGES.rate_limited, { "Retry-After": RETRY_AFTER_SECONDS });
+    const limit = deps.limiter.check(req);
+    if (limit.limited) return rpcError(429, -32000, HTTP_MESSAGES.rate_limited, { "Retry-After": retryAfterHeader(limit) });
 
     const origin = req.headers.get("origin");
     if (origin !== null) {

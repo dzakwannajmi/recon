@@ -21,7 +21,7 @@ const SUMMARY = `http://localhost/api/check?asset_code=gBENJI&issuer=${gbenji.as
 const ENV = { X402_ENABLED: "true", X402_PAY_TO: PAY_TO, X402_TESTNET_AMOUNT: SENTINEL_AMOUNT };
 
 const get = (url: string, headers: Record<string, string> = {}) => new NextRequest(url, { headers });
-const limiter = (globalPerMin = 1000) => createRateLimiter({ perIpPerMin: 1000, globalPerMin, trustProxy: false });
+const limiter = (globalPerMin = 1000) => createRateLimiter({ route: "check", log: () => {}, perIpPerMin: 1000, globalPerMin, trustProxy: false });
 
 function setup(over: { env?: Record<string, string | undefined>; data?: DetailDeps["data"]; limiter?: DetailDeps["limiter"]; seen?: SeenSet } = {}) {
   const facilitator = fakeFacilitator();
@@ -110,7 +110,8 @@ describe("free summary route", () => {
     expect((await handleSummary(get(SUMMARY), deps)).status).toBe(200);
     const third = await handleSummary(get(SUMMARY), deps);
     expect(third.status).toBe(429);
-    expect(third.headers.get("retry-after")).toBe("60");
+    expect(Number(third.headers.get("retry-after"))).toBeGreaterThanOrEqual(1);
+    expect(Number(third.headers.get("retry-after"))).toBeLessThanOrEqual(60);
     expect(await third.json()).toMatchObject({ error: "rate_limited" });
   });
 

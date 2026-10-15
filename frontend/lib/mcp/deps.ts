@@ -23,6 +23,7 @@ export function realMcpDeps(): HttpDeps {
   cached = {
     env,
     limiter: createRateLimiter({
+      route: "mcp",
       perIpPerMin: positiveInt("MCP_RATE_LIMIT_PER_MIN", DEFAULT_RATE_PER_IP_PER_MIN),
       globalPerMin: positiveInt("MCP_GLOBAL_RATE_LIMIT_PER_MIN", DEFAULT_RATE_GLOBAL_PER_MIN),
       // Only trust X-Forwarded-For behind a proxy that overwrites it; otherwise clients could spoof it.

@@ -63,7 +63,7 @@ const GBENJI = status.status.assets.find((a) => a.asset_code === "gBENJI")!;
 const USTRY = status.status.assets.find((a) => a.asset_code === "USTRY")!;
 
 const summaryBody = async (query: string, data: GatewayData = real) => {
-  const res = await handleSummary(new NextRequest(`http://localhost/api/check?${query}`), { env: {}, data, limiter: createRateLimiter({ perIpPerMin: 1000, globalPerMin: 1000, trustProxy: false }) });
+  const res = await handleSummary(new NextRequest(`http://localhost/api/check?${query}`), { env: {}, data, limiter: createRateLimiter({ route: "check", log: () => {}, perIpPerMin: 1000, globalPerMin: 1000, trustProxy: false }) });
   return { status: res.status, body: await res.json() };
 };
 

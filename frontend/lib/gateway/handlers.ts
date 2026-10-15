@@ -14,7 +14,7 @@ import { MAX_DETAIL_BYTES, buildDetail, type EntryReader, type OnchainCache } fr
 import { jsonResponse, jsonTextResponse, toJsonText } from "./json";
 import { MAX_PAYMENT_HEADER_BYTES, paymentConfig, type Env, type PaymentConfig } from "./payment-config";
 import type { Logger } from "./paywall";
-import { RETRY_AFTER_SECONDS, type RateLimiter } from "./rate-limit";
+import { retryAfterHeader, type RateLimiter, type RateLimitResult } from "./rate-limit";
 import { parseQuery, resolutionErrorBody, resolveAsset, type Query, type ResolutionFailure } from "./resolve";
 import { buildSummary } from "./summary";
 
@@ -67,7 +67,7 @@ function fixedServerError(res: NextResponse) {
   return jsonResponse({ error: "internal_error", message: ERROR_MESSAGES.internal_error }, { status: res.status, headers });
 }
 
-const rateLimited = () =>errorResponse("rate_limited", 429, {}, { "Retry-After": RETRY_AFTER_SECONDS });
+const rateLimited = (r: Extract<RateLimitResult, { limited: true }>) => errorResponse("rate_limited", 429, {}, { "Retry-After": retryAfterHeader(r) });
 const invalidRequest = () => errorResponse("invalid_request", 400);
 const internalError = (where: string, e: unknown) => {
   // The error text names files and fields, never secrets or amounts. The caller gets the fixed sentence only.
@@ -86,7 +86,8 @@ function resolutionError(r: ResolutionFailure) {
 export async function handleSummary(req: NextRequest, deps: SummaryDeps): Promise<NextResponse> {
   if (req.method !== "GET") return methodNotAllowed();
   try {
-    if (deps.limiter.limited(req)) return rateLimited();
+    const limit = deps.limiter.check(req);
+    if (limit.limited) return rateLimited(limit);
     const query = parseQuery(req.nextUrl.searchParams);
     if (!query) return invalidRequest();
     const loaded = deps.data.status();
@@ -149,7 +150,8 @@ export async function handleDetail(req: NextRequest, deps: DetailDeps): Promise<
   // Next.js answers HEAD with the GET handler. A paid GET that returns no body to a HEAD client would be settled for nothing.
   if (req.method !== "GET") return methodNotAllowed();
   try {
-    if (deps.limiter.limited(req)) return rateLimited();
+    const limit = deps.limiter.check(req);
+    if (limit.limited) return rateLimited(limit);
     if (headerBytes(req, "payment-signature") > MAX_PAYMENT_HEADER_BYTES || headerBytes(req, "x-payment") > MAX_PAYMENT_HEADER_BYTES) return invalidRequest();
 
     const config = paymentConfig(deps.env);

@@ -35,7 +35,7 @@ export function harness(over: { env?: Record<string, string | undefined>; data?:
   let calls = 0;
   const deps: HttpDeps = {
     env,
-    limiter: createRateLimiter({ perIpPerMin: 100_000, globalPerMin: over.globalPerMin ?? 100_000, trustProxy: false }),
+    limiter: createRateLimiter({ route: "mcp", log: () => {}, perIpPerMin: 100_000, globalPerMin: over.globalPerMin ?? 100_000, trustProxy: false }),
     log,
     now,
     mcp: () => {

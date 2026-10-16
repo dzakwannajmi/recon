@@ -2,6 +2,7 @@ import Image from "next/image";
 import { FileClock, Hourglass, ScanSearch, Unlink } from "lucide-react";
 import { Container, SectionHeading, cardCls } from "./container";
 import { IconTile } from "./icon-tile";
+import { ProblemFolder } from "./problem-folder";
 
 const POINTS = [
   { icon: Unlink, text: "Documents sit in one place. The blockchain record sits in another." },
@@ -24,14 +25,19 @@ export function Problem() {
             sizes="(min-width: 768px) 40vw, 280px"
             className="mx-auto h-auto w-full max-w-[280px] md:max-w-none"
           />
-          <ul className="flex flex-col gap-4 md:gap-6">
-            {POINTS.map((p) => (
-              <li key={p.text} className={cardCls}>
-                <IconTile icon={p.icon} />
-                <p className="mt-2 text-lg leading-[1.3]">{p.text}</p>
-              </li>
-            ))}
-          </ul>
+          <ProblemFolder
+            points={POINTS.map((p) => p.text)}
+            fallback={
+              <ul className="flex w-full flex-col gap-4 md:gap-6">
+                {POINTS.map((p) => (
+                  <li key={p.text} className={cardCls}>
+                    <IconTile icon={p.icon} />
+                    <p className="mt-2 text-lg leading-[1.3]">{p.text}</p>
+                  </li>
+                ))}
+              </ul>
+            }
+          />
         </div>
       </Container>
     </section>

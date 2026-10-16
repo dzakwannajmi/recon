@@ -1,3 +1,4 @@
+import { loadPromptAssets } from "@/lib/agent-data/prompt-assets";
 import { DEMO_HREF, FACT_SHEETS_HREF } from "@/components/layout/links";
 import { ButtonLink } from "@/components/ui/button-link";
 import { AsciiBackground } from "./ascii-background";
@@ -22,7 +23,7 @@ export function Hero() {
           Recon reads tokenized real-world asset documents, compares them with Stellar on-chain data, and publishes dated facts and flags.
         </p>
         <div className="mt-8 flex w-full max-w-[640px] flex-col items-center gap-4">
-          <HeroPrompt />
+          <HeroPrompt assets={loadPromptAssets()} />
           <div className="flex flex-wrap items-center justify-center gap-3">
             <ButtonLink href={DEMO_HREF}>Try the agent</ButtonLink>
             <ButtonLink href={FACT_SHEETS_HREF} variant="outline">Browse fact sheets</ButtonLink>

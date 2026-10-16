@@ -1,14 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { MinimalPrompt } from "@/components/chat/prompt-input";
+import { PromptField } from "@/components/chat/prompt-input";
+import type { PromptAsset } from "@/components/chat/prompt-config";
 import { handoffFor, storeHandoff } from "@/components/chat/handoff";
 
 /** The hero's input. Sending opens /agent with the question; /agent asks it once, only for this handoff. */
-export function HeroPrompt() {
+export function HeroPrompt({ assets }: { assets: PromptAsset[] }) {
   const router = useRouter();
   return (
-    <MinimalPrompt
+    <PromptField
+      assets={assets}
       width={640}
       placeholder="Check USTRY on Stellar mainnet"
       onSend={(text) => {

@@ -1,5 +1,3 @@
-import { ButtonLink } from "@/components/ui/button-link";
-import { DEMO_HREF } from "@/components/layout/links";
 import { ChatDemo } from "./chat-demo";
 import { Container, SectionHeading } from "./container";
 import { loadDemo } from "./demo";
@@ -27,11 +25,6 @@ export function ChatSection() {
           </Laptop>
         </div>
       </div>
-      <Container>
-        <div className="mt-10 flex justify-center">
-          <ButtonLink href={DEMO_HREF}>Try the agent</ButtonLink>
-        </div>
-      </Container>
     </section>
   );
 }

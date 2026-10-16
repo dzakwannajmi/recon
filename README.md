@@ -211,11 +211,12 @@ Pipeline commands, also from `frontend/`:
 - `frontend/scripts/` - the pipeline commands above
 - `data/` - asset universe (`assets.csv`), chain checks, snapshots index, claims, examinations, status files
 - `agentmaxxing/` - checkpoint progress, proof, examples, and scope
-- `contracts/feed/` - Soroban feed contract in Rust, with tests (not deployed yet)
+- `contracts/feed/` - Soroban feed contract in Rust, with tests (deployed on Stellar testnet)
+- `contracts/lending-mock/` - example lending market that reads the feed, with a keeper that pauses new borrows on CRITICAL (testnet)
 
 ## Design notes
 
-- **The LLM proposes, code decides.** The model finds, reads, and extracts. Statuses, flags, and any future feed update come from deterministic code. A model can be wrong or be manipulated by a document, so it never sets a status.
+- **The LLM proposes, code decides.** The model finds, reads, and extracts. Statuses, flags, and feed updates come from deterministic code. A model can be wrong or be manipulated by a document, so it never sets a status.
 - **Quote or discard.** Each claim carries the exact quote, source URL, page, and the SHA-256 of the snapshot. A quote must appear exactly once in the snapshot text (only whitespace, typographic quotes, dashes, and PDF ligatures are normalized), and code parses the value from the document's own characters. Raw proposals are stored, so `--reverify` reproduces the result offline.
 - **`stellar.toml` is the identity anchor.** Asset codes are not unique (BENJI has 23 issuers on mainnet and USDY 37, as of 2026-10-15). `data/assets.csv` pins one `home_domain` per asset with evidence, and the issuer account must be listed in that domain's `stellar.toml`.
 - **Issuer documents are untrusted.** Instructions inside them are never followed. A document is an issuer claim only if it comes from the official domain or a link published there. SEC filings are a separate source class, `regulatory_filing`. Aggregators are for discovery only.
@@ -227,7 +228,7 @@ Pipeline commands, also from `frontend/`:
 
 ## Future scope
 
-**Shipped so far:** Week 1 chat agent with six tools; Week 2 the 7-day hold and the Soroban feed contract; Week 3 the feed on testnet, the MCP endpoint, x402 settlement on testnet, a threat model, and a lending keeper demo.
+**Shipped so far:** Week 1 chat agent with six tools; Week 2 document snapshots, claim extraction with the quote verifier, the Examiner, nine flag rules, fact sheets, the benchmark, and the review queue; Week 3 the feed contract with the 7-day hold, the feed on testnet, x402 settlement on testnet, the MCP endpoint, and a threat model; Week 4 so far, the lending keeper demo on testnet.
 
 **Next:**
 

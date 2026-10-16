@@ -51,6 +51,7 @@ export function PromptField({ placeholder, onSend, busy, onStop, assets, model, 
   return (
     <div
       ref={root}
+      data-prompt-bar=""
       className="w-full"
       // Tapping the mic off is a click on the "Stop dictation" button. The bar drops the pending result then, so close the mic here.
       onClickCapture={(e) => {

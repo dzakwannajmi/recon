@@ -1,4 +1,5 @@
 import { Nav } from "@/components/layout/nav";
+import { AssetsList } from "@/components/landing/assets-list";
 import { ChatSection } from "@/components/landing/chat-section";
 import { Features } from "@/components/landing/features";
 import { FinalCta } from "@/components/landing/final-cta";
@@ -18,6 +19,7 @@ export default function Page() {
         <WhyRecon />
         <HowItWorks />
         <Features />
+        <AssetsList />
         <ChatSection />
         <FinalCta />
       </main>

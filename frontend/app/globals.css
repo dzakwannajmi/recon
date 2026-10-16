@@ -80,3 +80,11 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   outline-offset: 2px;
 }
 ::selection { background: var(--primary); color: var(--primary-foreground); }
+
+/* Prompt bar: the textarea has no outline of its own; the whole bar shows focus (hairline to ink). */
+[data-prompt-bar] textarea:focus-visible {
+  outline: none;
+}
+[data-prompt-bar] [role="presentation"]:focus-within {
+  border-color: var(--foreground);
+}

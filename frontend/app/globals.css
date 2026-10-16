@@ -88,3 +88,36 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 [data-prompt-bar] [role="presentation"]:focus-within {
   border-color: var(--foreground);
 }
+
+/* Landing orbit: each ring turns and squashes; each logo counter-turns and un-squashes (see orbit-rotation.tsx). */
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes orbit-counter {
+  from {
+    transform: rotate(0deg) scaleY(2);
+  }
+  to {
+    transform: rotate(-360deg) scaleY(2);
+  }
+}
+.orbit-ring {
+  animation: orbit-spin linear infinite;
+}
+.orbit-logo {
+  /* Starts un-squashed even where animation is off. */
+  transform: scaleY(2);
+  animation: orbit-counter linear infinite;
+}
+.orbit:hover :is(.orbit-ring, .orbit-logo),
+.orbit:focus-within :is(.orbit-ring, .orbit-logo) {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit-ring,
+  .orbit-logo {
+    animation: none;
+  }
+}

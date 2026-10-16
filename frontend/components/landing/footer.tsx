@@ -21,6 +21,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: "How it works",
     links: [
+      { label: "Why Recon", href: "/#why-recon" },
       { label: "How it works", href: "/#how-it-works" },
       { label: "Key features", href: "/#key-features" },
     ],

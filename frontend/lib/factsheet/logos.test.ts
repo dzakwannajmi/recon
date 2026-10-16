@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
-import { FRANKLIN_ILLUSTRATION, initialsOf, LOGO_FILES, logoFor, orbitAssets } from "./logos";
+import { FRANKLIN_ILLUSTRATION, initialsOf, LOGO_FILES, logoFor, orbitCompanies } from "./logos";
 import { loadStatus } from "./load";
 import { groupByIssuer } from "./stats";
 
@@ -24,17 +24,21 @@ describe("logos", () => {
   });
 });
 
-describe("orbitAssets", () => {
-  it("keeps every asset, gives Franklin Templeton the illustration, and spreads a big group out", () => {
-    const out = orbitAssets([
-      { issuer: "WisdomTree", assets: [{ code: "GOLD" }, { code: "TIPS" }, { code: "TECH" }, { code: "EQTY" }] },
-      { issuer: "Franklin Templeton", assets: [{ code: "BENJI" }, { code: "X" }] },
-      { issuer: "Unknown", assets: [{ code: "NOPE" }] },
+describe("orbitCompanies", () => {
+  it("returns one entry per issuer, with the illustration for Franklin Templeton and null for unknown", () => {
+    const out = orbitCompanies(["Etherfuse", "Etherfuse", "Franklin Templeton", "Nobody"]);
+    expect(out).toEqual([
+      { issuer: "Etherfuse", src: "/logos/etherfuse-e.png" },
+      { issuer: "Franklin Templeton", src: FRANKLIN_ILLUSTRATION },
+      { issuer: "Nobody", src: null },
     ]);
-    expect(out).toHaveLength(7);
-    expect(out.find((o) => o.code === "BENJI")?.src).toBe(FRANKLIN_ILLUSTRATION);
-    expect(out.find((o) => o.code === "NOPE")?.src).toBeNull();
-    expect(out[0].issuer).not.toBe(out[1].issuer);
+  });
+  it("maps only to files that exist", () => {
+    const real = ["Ondo Finance", "Etherfuse", "WisdomTree, Inc.", "Bitbond Finance GmbH", "Figure Certificate Company"];
+    for (const c of orbitCompanies(real)) {
+      expect(c.src).not.toBeNull();
+      expect(fs.existsSync(path.join(process.cwd(), "public", c.src as string)), c.src as string).toBe(true);
+    }
   });
   it("points the illustration at a file that exists", () => {
     expect(fs.existsSync(path.join(process.cwd(), "public", FRANKLIN_ILLUSTRATION))).toBe(true);

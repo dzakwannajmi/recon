@@ -8,3 +8,6 @@ Token and organisation images, each published by the issuer in its own stellar.t
 - bitbond.png: https://www.bitbondsto.com/images/currencies/bb1.png
 - figure.svg: https://cdn.figure.com/frontend-markets/apps/ylds-marketing/ylds-circle-icon.svg (shown through an img tag only)
 - etherfuse-ustry.png, etherfuse-tesouro.png, etherfuse-eurob.png, etherfuse-ktb.png, etherfuse-gilts.png: https://stablebonds.s3.us-west-2.amazonaws.com/stablebond/spl-<code>.png
+
+- etherfuse-e.png: the Etherfuse mark, supplied by the project owner (2026-10-16), resized to 320 px. Used for the Etherfuse company mark in the landing orbit.
+- ondo.png: https://cdn.ondo.finance/brand/logos/ondo-icon-black_160x160.png (Ondo company mark in the landing orbit).

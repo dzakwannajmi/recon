@@ -78,7 +78,7 @@ export function Footer() {
 
           <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <img src="/logo-mark.svg" alt="" width={140} height={140} className="size-24 md:size-[140px]" />
-            <p className="text-xs text-muted-foreground md:text-right">All rights reserved. MIT License</p>
+            <p className="text-xs text-muted-foreground md:text-right">Copyright 2026 Muhammad Dzakwan Najmi. MIT License.</p>
           </div>
         </div>
       </Container>

@@ -21,7 +21,7 @@ export function AsciiBackground({ className }: { className?: string }) {
           cellSize={mode === "light" ? 22 : 16}
           dpr={mode === "light" ? 1 : 1.5}
           density={0.55}
-          glyphOpacity={0.22}
+          glyphOpacity={0.4}
           gradientOpacity={0}
           glow={0}
           flicker={0.1}

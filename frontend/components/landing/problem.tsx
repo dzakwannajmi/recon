@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FileClock, Hourglass, ScanSearch, Unlink } from "lucide-react";
+import { FileClock, Hourglass, Unlink } from "lucide-react";
 import { Container, SectionHeading, cardCls } from "./container";
 import { IconTile } from "./icon-tile";
 import { ProblemFolder } from "./problem-folder";
@@ -14,7 +14,6 @@ export function Problem() {
   return (
     <section aria-labelledby="problem-title" className="py-16 md:py-24">
       <Container className="flex flex-col items-center">
-        <IconTile icon={ScanSearch} className="mb-6" />
         <SectionHeading id="problem-title" lead="Issuer claims" tail="are hard to check" />
         <div className="mt-10 grid w-full items-center gap-8 md:mt-14 md:grid-cols-[2fr_3fr] md:gap-12">
           <Image

@@ -5,11 +5,11 @@ import { Container, SectionHeading, cardCls } from "./container";
 import { IconTile } from "./icon-tile";
 
 const FEATURES = [
-  { icon: Quote, title: "Quote or discard", body: "A claim without a verbatim quote in the saved document is dropped." },
-  { icon: Flag, title: "Flags set by code", body: "Flags come from deterministic code. The model never sets one." },
-  { icon: Languages, title: "English and Indonesian", body: "Fact sheets are available in both languages." },
-  { icon: Network, title: "Reads mainnet, writes testnet", body: "Recon reads Stellar mainnet and writes only to Stellar testnet." },
-  { icon: Bot, title: "Agent access", body: "Other agents can query checks through MCP. A detailed check can settle through x402 on Stellar testnet." },
+  { icon: Quote, title: "No quote, no claim", body: "Recon drops any claim that lacks a word-for-word quote in the saved document." },
+  { icon: Flag, title: "Code sets the flags", body: "Fixed rules in code set every flag. The AI sets none." },
+  { icon: Languages, title: "English and Indonesian", body: "Fact sheets come in both languages." },
+  { icon: Network, title: "Reads mainnet, writes testnet", body: "Recon reads the live Stellar network (mainnet). It writes only to the Stellar test network (testnet)." },
+  { icon: Bot, title: "Access for other agents", body: "Other AI agents can ask Recon for checks. A detailed check can be requested with a test payment on testnet." },
 ];
 
 export function Features() {

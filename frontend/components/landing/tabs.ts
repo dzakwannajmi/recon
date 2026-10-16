@@ -2,16 +2,16 @@ import type { Demo, FeedStatus } from "./demo";
 
 export const STEPS = [
   {
-    title: "The model finds and reads",
-    body: "An LLM reads the issuer's documents and extracts claims, each with an exact quote.",
+    title: "The AI finds and reads",
+    body: "An AI reads the issuer's documents and pulls out claims. Each claim comes with an exact quote.",
   },
   {
-    title: "Code checks the quote and the chain",
-    body: "Code confirms the quote appears word for word, then compares the claim with Stellar mainnet data.",
+    title: "Code checks the quote and the blockchain",
+    body: "Code confirms the quote appears word for word, then compares the claim with data from the live Stellar network, called mainnet.",
   },
   {
-    title: "The result goes to a Soroban feed",
-    body: "Flags and facts are written to a Soroban contract on Stellar testnet.",
+    title: "The result goes to a public feed",
+    body: "Code writes the flags and facts to a program on the Stellar test network, called testnet.",
   },
 ] as const;
 
@@ -28,9 +28,9 @@ export function stepRows(d: Demo, step: number): Row[] {
         ]
       : step === 1
         ? [
-            d.onchain ? { label: "On-chain", value: `${d.onchain} (as of ${d.asOf})` } : { label: "Flag", value: d.statement },
+            d.onchain ? { label: "Blockchain", value: `${d.onchain} (as of ${d.asOf})` } : { label: "Flag", value: d.statement },
             { label: "Quote", value: d.quote, mono: true },
-            d.sha256 ? { label: "Document hash", value: d.sha256, mono: true } : null,
+            d.sha256 ? { label: "Saved copy fingerprint", value: d.sha256, mono: true } : null,
           ]
         : [
             { label: "Asset", value: d.code },

@@ -62,7 +62,7 @@ export function AssetsList() {
           ))}
         </div>
         <p className="mx-auto mt-6 max-w-xl text-center text-xs text-muted-foreground">
-          Logos come from each issuer&apos;s own token list and belong to their owners. A listing here does not mean an issuer endorses Recon.
+          Logos come from each issuer&apos;s own stellar.toml and belong to their owners. Franklin Templeton publishes no token image, so its assets show letters. A listing here does not mean an issuer endorses Recon.
         </p>
       </Container>
     </section>

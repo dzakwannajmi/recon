@@ -16,11 +16,6 @@ export function DarkLink({ className, ...props }: ComponentProps<typeof Link>) {
   return <Link className={cn(base, "bg-foreground px-5 text-background hover:bg-[#2c2c2c]", className)} {...props} />;
 }
 
-/** Bordered quiet button. */
-export function OutlineLink({ className, ...props }: ComponentProps<typeof Link>) {
-  return <Link className={cn(base, "border px-5 text-foreground hover:bg-secondary", className)} {...props} />;
-}
-
 /** The quiet secondary action: ink text, a chevron, no border. */
 export function GhostLink({ className, children, ...props }: ComponentProps<typeof Link>) {
   return (

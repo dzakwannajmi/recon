@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ButtonLink, DarkLink, OutlineLink } from "@/components/ui/button-link";
+import { ButtonLink, DarkLink } from "@/components/ui/button-link";
 import { Logo } from "./logo";
-import { DEMO_HREF, FEED_URL, GITHUB_URL, NAV_LINKS } from "./links";
+import { DEMO_HREF, FEED_URL, NAV_LINKS } from "./links";
 
 const linkCls = "rounded-[6px] px-3 py-2 text-sm hover:bg-secondary focus-visible:outline-2 focus-visible:outline-foreground";
 const btnCls = "h-10 px-4 text-sm";
@@ -10,7 +10,7 @@ function NavLink({ link }: { link: (typeof NAV_LINKS)[number] }) {
   return <Link href={link.href} className={linkCls}>{link.label}</Link>;
 }
 
-/** Logo and links on the left, three buttons on the right (quiet, chartreuse, ink). */
+/** Logo and links on the left, two buttons on the right (chartreuse, ink). */
 export function Nav() {
   return (
     <header className="sticky top-0 z-40 border-b bg-card">
@@ -33,7 +33,6 @@ export function Nav() {
               <li><a href={FEED_URL} target="_blank" rel="noopener noreferrer" className={linkCls}>Live feed</a></li>
             </ul>
           </details>
-          <OutlineLink href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className={`${btnCls} hidden md:inline-flex`}>GitHub</OutlineLink>
           <ButtonLink href={FEED_URL} target="_blank" rel="noopener noreferrer" className={`${btnCls} hidden sm:inline-flex`}>Live feed</ButtonLink>
           <DarkLink href={DEMO_HREF} className={btnCls}>Ask the agent</DarkLink>
         </div>

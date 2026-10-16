@@ -6,10 +6,11 @@ export function Container({ children, className }: { children: ReactNode; classN
   return <div className={cn("mx-auto w-full max-w-[1200px] px-4 sm:px-6 md:px-8", className)}>{children}</div>;
 }
 
-export function SectionHeading({ id, children }: { id: string; children: ReactNode }) {
+/** Centered section title in two tones: the lead in ink, the tail in muted gray. */
+export function SectionHeading({ id, lead, tail, className }: { id: string; lead: string; tail: string; className?: string }) {
   return (
-    <h2 id={id} className="text-[32px] leading-[1.05] tracking-[-0.02em] md:text-[40px]">
-      {children}
+    <h2 id={id} className={cn("text-center text-[32px] leading-[1.1] tracking-[-0.02em] text-balance md:text-[44px]", className)}>
+      {lead} <span className="text-muted-foreground">{tail}</span>
     </h2>
   );
 }

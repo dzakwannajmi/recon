@@ -75,7 +75,7 @@ Six tools. Every tool is read-only except `fund_my_wallet`, which writes to test
 
 Models are switchable by environment variables: `LLM_PROVIDER` (`google`, `groq`, or `openrouter`) and `LLM_MODEL` for chat, and `LLM_EXTRACT_PROVIDER` and `LLM_EXTRACT_MODEL` for claim extraction. Only free-tier keys are used.
 
-Chat models are also switchable by the user: the model selector in the agent's prompt bar lists a fixed server allowlist (`gemini-flash-lite`, `gemini-flash`, `gpt-oss-120b`, `nemotron-3-super`), limited to providers that have a key on the server. The client sends only an allowlist id; the default is still the `LLM_PROVIDER` and `LLM_MODEL` pair. The Groq and OpenRouter entries are marked "not benchmarked for chat". Every model runs under the same daily token budget (counted per provider) and rate limits, and there is no silent fallback to another provider. Claim extraction stays pinned and is not selectable.
+Chat models are also switchable by the user: the model selector in the agent's prompt bar lists a fixed server allowlist (`gemini-flash-lite`, `gemini-flash`, `gpt-oss-120b`, `nemotron-3-super`), limited to providers that have a key on the server. The client sends only an allowlist id; the default is still the `LLM_PROVIDER` and `LLM_MODEL` pair. Every model runs under the same daily token budget (counted per provider) and rate limits, and there is no silent fallback to another provider. Claim extraction stays pinned and is not selectable.
 
 | Role | Provider | Model | Version note |
 | --- | --- | --- | --- |

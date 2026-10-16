@@ -14,13 +14,11 @@ export type ChatModel = { id: string; label: string; provider: string; model: st
 /** What the page may see: no provider, no model string, no key or env names. */
 export type PublicChatModel = { id: string; label: string; note: string | null; default: boolean };
 
-const NOT_BENCHMARKED = "not benchmarked for chat";
-
 export const CHAT_MODELS: readonly ChatModel[] = [
   { id: "gemini-flash-lite", label: "Gemini Flash-Lite", provider: "google", model: "gemini-flash-lite-latest" },
   { id: "gemini-flash", label: "Gemini Flash", provider: "google", model: "gemini-flash-latest" },
-  { id: "gpt-oss-120b", label: "GPT-OSS 120B", provider: "groq", model: "openai/gpt-oss-120b", note: NOT_BENCHMARKED },
-  { id: "nemotron-3-super", label: "Nemotron 3 Super", provider: "openrouter", model: "nvidia/nemotron-3-super-120b-a12b:free", note: NOT_BENCHMARKED },
+  { id: "gpt-oss-120b", label: "GPT-OSS 120B", provider: "groq", model: "openai/gpt-oss-120b" },
+  { id: "nemotron-3-super", label: "Nemotron 3 Super", provider: "openrouter", model: "nvidia/nemotron-3-super-120b-a12b:free" },
 ];
 
 /** The default entry: whatever the environment says. It takes the id and label of the allowlist entry it matches, else a plain "default" entry. */

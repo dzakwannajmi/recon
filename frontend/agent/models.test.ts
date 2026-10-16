@@ -110,8 +110,8 @@ describe("GET /api/agent models", () => {
     expect(data.models).toEqual([
       { id: "gemini-flash-lite", label: "Gemini Flash-Lite", note: null, default: true },
       { id: "gemini-flash", label: "Gemini Flash", note: null, default: false },
-      { id: "gpt-oss-120b", label: "GPT-OSS 120B", note: "not benchmarked for chat", default: false },
-      { id: "nemotron-3-super", label: "Nemotron 3 Super", note: "not benchmarked for chat", default: false },
+      { id: "gpt-oss-120b", label: "GPT-OSS 120B", note: null, default: false },
+      { id: "nemotron-3-super", label: "Nemotron 3 Super", note: null, default: false },
     ]);
     const text = JSON.stringify(data.models);
     expect(text).not.toMatch(/secret|API_KEY|openrouter|groq|google|openai\/|nvidia\//);

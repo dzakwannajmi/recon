@@ -1,4 +1,5 @@
 import { Nav } from "@/components/layout/nav";
+import { ChatSection } from "@/components/landing/chat-section";
 import { Features } from "@/components/landing/features";
 import { FinalCta } from "@/components/landing/final-cta";
 import { Footer } from "@/components/landing/footer";
@@ -16,6 +17,7 @@ export default function Page() {
         <Problem />
         <HowItWorks />
         <Features />
+        <ChatSection />
         <StatsExample />
         <FinalCta />
       </main>

@@ -144,8 +144,16 @@ export function budgetLeft(provider = PROVIDER) {
 }
 
 /** Run the model with tools for up to MAX_STEPS steps and return the answer plus every tool call. */
-export async function generateWithTools(opts: { instructions: string; messages: ModelMessage[]; tools: Tool[] }) {
-  if (budgetLeft() <= 0) throw new BudgetExceededError("Today's LLM budget is used up. Try again tomorrow.");
+export async function generateWithTools(opts: {
+  instructions: string;
+  messages: ModelMessage[];
+  tools: Tool[];
+  /** A validated allowlist entry (agent/models.ts). Defaults to the env chat model. */
+  chat?: { provider: string; model: string };
+}) {
+  const provider = opts.chat?.provider ?? PROVIDER;
+  const modelName = opts.chat?.model ?? MODEL;
+  if (budgetLeft(provider) <= 0) throw new BudgetExceededError("Today's LLM budget is used up. Try again tomorrow.");
 
   const steps: Step[] = [];
   const controller = new AbortController();
@@ -164,7 +172,7 @@ export async function generateWithTools(opts: { instructions: string; messages: 
 
   try {
     const result = await generateText({
-      model: languageModel(PROVIDER, MODEL),
+      model: languageModel(provider, modelName),
       instructions: opts.instructions,
       messages: opts.messages,
       tools: modelTools,
@@ -173,9 +181,9 @@ export async function generateWithTools(opts: { instructions: string; messages: 
       timeout: { totalMs: TIMEOUT_MS },
       abortSignal: controller.signal,
       onStepEnd: ({ usage, finishReason }) => {
-        recordUsage(PROVIDER, usage);
+        recordUsage(provider, usage);
         // Stop before the next step if this one used up the budget.
-        if (finishReason === "tool-calls" && budgetLeft() <= 0) {
+        if (finishReason === "tool-calls" && budgetLeft(provider) <= 0) {
           budgetRanOut = true;
           controller.abort();
         }

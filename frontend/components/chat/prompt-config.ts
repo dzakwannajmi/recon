@@ -1,4 +1,5 @@
 import { BankIcon } from "@hugeicons/core-free-icons";
+import type { ChatModelInfo } from "./types";
 import type { PromptBarCommand, PromptBarModel, PromptBarSource } from "@/components/effects/PromptBar";
 
 /**
@@ -30,8 +31,12 @@ export function promptSources(assets: PromptAsset[]): PromptBarSource[] {
   return assets.map((a) => ({ key: a.code, name: a.code, description: a.description, icon: BankIcon }));
 }
 
-/** The model the server reports, as a one-entry read-only list; none until the status has loaded. */
-export function promptModels(model: string | undefined): PromptBarModel[] {
+/**
+ * The models the user may pick (the server's allowlist; the default is first). The note shows as the row's tag,
+ * the default is tagged "default". Without a list the bar shows the one model the server reports, read-only; none until the status has loaded.
+ */
+export function promptModels(model: string | undefined, models?: ChatModelInfo[]): PromptBarModel[] {
+  if (models?.length) return models.map((m) => ({ key: m.id, name: m.label, tag: m.note ?? (m.default ? "default" : undefined) }));
   return model ? [{ key: model, name: model }] : [];
 }
 

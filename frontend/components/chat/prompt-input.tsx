@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import PromptBar from "@/components/effects/PromptBar";
 import { cn } from "@/lib/utils";
+import type { ChatModelInfo } from "./types";
 import { preparePrompt, promptModels, promptSources, PROMPT_COMMANDS, type PromptAsset } from "./prompt-config";
 
 type Props = {
@@ -12,8 +13,12 @@ type Props = {
   busy?: boolean;
   onStop?: () => void;
   assets: PromptAsset[];
-  /** The model the server reports. */
+  /** The model the server reports (shown read-only when there is no list). */
   model?: string;
+  /** The models the user may pick, and the chosen id. */
+  models?: ChatModelInfo[];
+  modelId?: string;
+  onModelChange?: (id: string) => void;
   /** Starts dictation; resolves when the session ends. Leave out where the browser has no speech recognition. */
   onDictate?: () => Promise<void>;
   /** Called when the user taps the mic off. */
@@ -38,9 +43,9 @@ const LOOK = [
 // One entry means nothing to choose, so no chevron.
 const SINGLE_MODEL = "[&_button[aria-label^=Choose]_svg]:hidden";
 
-export function PromptField({ placeholder, onSend, busy, onStop, assets, model, onDictate, onDictateEnd, micTitle, width = 9999, className }: Props) {
+export function PromptField({ placeholder, onSend, busy, onStop, assets, model, models: modelList, modelId, onModelChange, onDictate, onDictateEnd, micTitle, width = 9999, className }: Props) {
   const root = useRef<HTMLDivElement>(null);
-  const models = promptModels(model);
+  const models = promptModels(model, modelList);
 
   // PromptBar has no title prop for its mic: set it on the button.
   useEffect(() => {
@@ -68,6 +73,8 @@ export function PromptField({ placeholder, onSend, busy, onStop, assets, model, 
         sources={promptSources(assets)}
         commands={PROMPT_COMMANDS}
         models={models}
+        modelKey={modelId}
+        onModelChange={onModelChange}
         efforts={[]}
         busy={busy}
         onSend={(text) => onSend(preparePrompt(text, assets))}

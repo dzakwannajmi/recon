@@ -40,7 +40,7 @@ export function AgentScreen({ assets }: { assets: PromptAsset[] }) {
             </Button>
           </>
         }
-        composer={<Composer onSend={(t) => void a.send(t)} onStop={a.stop} ready={a.ready} thinking={a.thinking} assets={assets} model={a.status?.model} showVoiceNote={a.messages.length === 0} />}
+        composer={<Composer onSend={(t) => void a.send(t)} onStop={a.stop} ready={a.ready} thinking={a.thinking} assets={assets} model={a.status?.model} models={a.status?.models} modelId={a.modelId} onModelChange={a.setModelId} showVoiceNote={a.messages.length === 0} />}
       />
 
       <SetupPanel open={setupOpen} onClose={closeSetup}>

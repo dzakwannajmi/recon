@@ -31,19 +31,17 @@ export const initialsOf = (code: string): string => code.slice(0, 2).toUpperCase
  */
 export const FRANKLIN_ILLUSTRATION = "/logos/franklin.png";
 
-export type OrbitLogo = { src: string; name: string };
+export type OrbitAsset = { code: string; issuer: string; src: string | null };
 
-/** One logo per distinct image, for the landing orbit. `name` is the issuer, plus the code when one asset owns the image. */
-export function orbitLogos(groups: { issuer: string; assets: { code: string }[] }[]): OrbitLogo[] {
-  const bySrc = new Map<string, { issuer: string; codes: string[] }>();
-  for (const g of groups) {
-    for (const a of g.assets) {
-      const src = logoFor(a.code) ?? (g.issuer === "Franklin Templeton" ? FRANKLIN_ILLUSTRATION : null);
-      if (!src) continue;
-      const hit = bySrc.get(src) ?? { issuer: g.issuer, codes: [] };
-      hit.codes.push(a.code);
-      bySrc.set(src, hit);
-    }
-  }
-  return [...bySrc].map(([src, h]) => ({ src, name: h.codes.length === 1 ? `${h.issuer} ${h.codes[0]}` : h.issuer }));
+/** Every asset with its logo for the landing orbit, spread so that assets sharing one logo are not neighbours. */
+export function orbitAssets(groups: { issuer: string; assets: { code: string }[] }[]): OrbitAsset[] {
+  const all = groups.flatMap((g) =>
+    g.assets.map((a, i) => ({
+      pos: (i + 0.5) / g.assets.length,
+      code: a.code,
+      issuer: g.issuer,
+      src: logoFor(a.code) ?? (g.issuer === "Franklin Templeton" ? FRANKLIN_ILLUSTRATION : null),
+    })),
+  );
+  return all.sort((a, b) => a.pos - b.pos).map(({ code, issuer, src }) => ({ code, issuer, src }));
 }

@@ -1,8 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
-import { assetTypeLabel } from "@/components/factsheet/fact-sheet";
 import { loadStatus } from "@/lib/factsheet/load";
-import { orbitLogos } from "@/lib/factsheet/logos";
+import { initialsOf, orbitAssets } from "@/lib/factsheet/logos";
 import { groupByIssuer, statsFrom } from "@/lib/factsheet/stats";
 import { OrbitRotation } from "@/components/ui/orbit-rotation";
 import { Container, SectionHeading } from "./container";
@@ -11,8 +8,7 @@ import { Container, SectionHeading } from "./container";
 export function AssetsList() {
   const { status } = loadStatus();
   const stats = statsFrom(status);
-  // Biggest groups first (stable), so the cards pack into full rows.
-  const groups = groupByIssuer(status).sort((a, b) => b.assets.length - a.assets.length);
+  const groups = groupByIssuer(status);
   return (
     <section id="assets" aria-labelledby="assets-title" className="scroll-mt-16 py-16 md:py-24">
       <Container>
@@ -21,22 +17,14 @@ export function AssetsList() {
           {stats.assets} assets from {stats.issuers} issuers, as of <span className="whitespace-nowrap">{status.as_of}</span>.
         </p>
         <OrbitRotation
-          className="mt-10 h-[30rem] overflow-hidden md:mt-14 md:h-[36rem]"
-          items={orbitLogos(groups)}
-          center={<Image src="/logo-mark.svg" alt="" width={56} height={56} className="size-14" />}
+          className="mt-8 md:mt-12"
+          items={orbitAssets(groups).map((a) => ({
+            href: `/en/assets/${encodeURIComponent(a.code)}`,
+            src: a.src,
+            name: `${a.issuer} ${a.code}`,
+            short: initialsOf(a.code),
+          }))}
         />
-        {/* The orbit is decorative; the same assets stay reachable as plain links. */}
-        <ul className="sr-only">
-          {groups.flatMap((g) =>
-            g.assets.map((a) => (
-              <li key={a.code}>
-                <Link href={`/en/assets/${encodeURIComponent(a.code)}`}>
-                  {g.issuer} {a.code}, {assetTypeLabel("en", a.type)}
-                </Link>
-              </li>
-            )),
-          )}
-        </ul>
         <p className="mx-auto mt-6 max-w-xl text-center text-xs text-muted-foreground">
           Logos come from each issuer&apos;s own stellar.toml and belong to their owners. Franklin Templeton publishes no token image, so its mark here is an illustration of Benjamin Franklin, not the issuer's logo. A listing here does not mean an issuer endorses Recon.
         </p>

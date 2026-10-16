@@ -17,14 +17,17 @@ export function ChatSection() {
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-muted-foreground">
           A sample check on {demo.code}, replayed from the published fact sheet. It makes no live request.
         </p>
-        <div className="mt-10 md:mt-14">
-          {/* The screen is a picture of the chat: nothing in it takes focus or input. */}
-          <div inert>
-            <Laptop>
-              <ChatDemo script={buildScript(demo)} />
-            </Laptop>
-          </div>
+      </Container>
+      {/* Wider than the text column so the laptop can use up to 1200px. */}
+      <div className="mx-auto mt-10 w-full max-w-[1264px] px-4 sm:px-8 md:mt-14">
+        {/* The screen is a picture of the chat: nothing in it takes focus or input. */}
+        <div inert>
+          <Laptop>
+            <ChatDemo script={buildScript(demo)} />
+          </Laptop>
         </div>
+      </div>
+      <Container>
         <div className="mt-10 flex justify-center">
           <ButtonLink href={DEMO_HREF}>Try the agent</ButtonLink>
         </div>

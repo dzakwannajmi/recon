@@ -31,17 +31,22 @@ export const initialsOf = (code: string): string => code.slice(0, 2).toUpperCase
  */
 export const FRANKLIN_ILLUSTRATION = "/logos/franklin.png";
 
-export type OrbitAsset = { code: string; issuer: string; src: string | null };
+export type OrbitCompany = { issuer: string; src: string | null };
 
-/** Every asset with its logo for the landing orbit, spread so that assets sharing one logo are not neighbours. */
-export function orbitAssets(groups: { issuer: string; assets: { code: string }[] }[]): OrbitAsset[] {
-  const all = groups.flatMap((g) =>
-    g.assets.map((a, i) => ({
-      pos: (i + 0.5) / g.assets.length,
-      code: a.code,
-      issuer: g.issuer,
-      src: logoFor(a.code) ?? (g.issuer === "Franklin Templeton" ? FRANKLIN_ILLUSTRATION : null),
-    })),
-  );
-  return all.sort((a, b) => a.pos - b.pos).map(({ code, issuer, src }) => ({ code, issuer, src }));
+/** Company marks for the landing orbit: one per issuer, kept under public/logos (see SOURCES.md). */
+const COMPANY_LOGO_FILES: Readonly<Record<string, string>> = {
+  "Ondo Finance": "ondo.png",
+  Etherfuse: "etherfuse-e.png",
+  "WisdomTree, Inc.": "wisdomtree.png",
+  "Bitbond Finance GmbH": "bitbond.png",
+  "Figure Certificate Company": "figure.svg",
+};
+
+/** One entry per issuer, in the order given. An issuer without a published mark gets null (the orbit shows letters). */
+export function orbitCompanies(issuers: string[]): OrbitCompany[] {
+  return [...new Set(issuers)].map((issuer) => {
+    if (issuer === "Franklin Templeton") return { issuer, src: FRANKLIN_ILLUSTRATION };
+    const file = Object.hasOwn(COMPANY_LOGO_FILES, issuer) ? COMPANY_LOGO_FILES[issuer] : undefined;
+    return { issuer, src: file ? `/logos/${file}` : null };
+  });
 }

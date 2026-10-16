@@ -111,10 +111,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   transform: scaleY(2);
   animation: orbit-counter linear infinite;
 }
-.orbit:hover :is(.orbit-ring, .orbit-logo),
-.orbit:focus-within :is(.orbit-ring, .orbit-logo) {
-  animation-play-state: paused;
-}
 @media (prefers-reduced-motion: reduce) {
   .orbit-ring,
   .orbit-logo {

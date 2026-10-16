@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { cn } from "@/lib/utils";
 import { PromptField } from "./prompt-input";
 import type { PromptAsset } from "./prompt-config";
+import type { ChatModelInfo } from "./types";
 import { useDictation, useVoiceSupport } from "./use-dictation";
 
 type Props = {
@@ -14,6 +15,10 @@ type Props = {
   assets: PromptAsset[];
   /** The model the server reports. */
   model?: string;
+  /** The models the user may pick, and the chosen id. */
+  models?: ChatModelInfo[];
+  modelId?: string;
+  onModelChange?: (id: string) => void;
   /** Show the voice privacy note under the bar (the empty state). */
   showVoiceNote?: boolean;
 };
@@ -22,7 +27,7 @@ type Props = {
  * One bar: text on top; plus, model, mic and send in the bottom row.
  * The mic is hidden where the browser has no speech recognition.
  */
-export function Composer({ onSend, onStop, ready, thinking, assets, model, showVoiceNote }: Props) {
+export function Composer({ onSend, onStop, ready, thinking, assets, model, models, modelId, onModelChange, showVoiceNote }: Props) {
   const root = useRef<HTMLDivElement>(null);
   const support = useVoiceSupport();
   const dictation = useDictation(root);
@@ -38,6 +43,9 @@ export function Composer({ onSend, onStop, ready, thinking, assets, model, showV
           onStop={onStop}
           assets={assets}
           model={model}
+          models={models}
+          modelId={modelId}
+          onModelChange={onModelChange}
           onDictate={support.dictation ? dictation.dictate : undefined}
           onDictateEnd={dictation.finish}
           micTitle={note}

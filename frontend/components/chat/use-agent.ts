@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { effectiveModelId, readModelChoice, saveModelChoice } from "./model-choice";
 import { readHandoff, shouldAutoSend } from "./handoff";
 import type { Message, Reply, Status, Step, WalletInfo } from "./types";
 
@@ -13,6 +14,7 @@ export function useAgent() {
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
   const [creating, setCreating] = useState(false);
+  const [remembered, setRemembered] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const handoff = useRef<string | null>(null);
   const handoffSent = useRef(false);
@@ -20,6 +22,7 @@ export function useAgent() {
   const loadWallet = () => fetch("/api/wallet").then((r) => r.json()).then(setWallet);
 
   useEffect(() => {
+    setRemembered(readModelChoice());
     fetch("/api/agent").then((r) => r.json()).then(setStatus);
     loadWallet();
   }, []);
@@ -38,6 +41,13 @@ export function useAgent() {
     }
   }
 
+  /** The chosen chat model id: the remembered one if the server offers it, else the server's default. */
+  const modelId = effectiveModelId(remembered, status?.models);
+  function setModelId(id: string) {
+    setRemembered(id);
+    saveModelChoice(id);
+  }
+
   async function send(text: string): Promise<Reply> {
     if (!text.trim() || thinking) return null;
     const history: Message[] = [...messages, { role: "user", text }];
@@ -53,7 +63,7 @@ export function useAgent() {
       const res = await fetch("/api/agent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history.filter((m) => !m.error).map(({ role, text }) => ({ role, text })) }),
+        body: JSON.stringify({ messages: history.filter((m) => !m.error).map(({ role, text }) => ({ role, text })), ...(modelId ? { model: modelId } : {}) }),
         signal: controller.signal,
       });
       const data = await res.json();
@@ -97,6 +107,7 @@ export function useAgent() {
 
   return {
     status, wallet, walletError, messages, input, setInput, thinking, creating,
+    modelId, setModelId,
     ready,
     loadWallet, createWallet, send, stop,
     clear: () => setMessages([]),

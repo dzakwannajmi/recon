@@ -1,5 +1,6 @@
 import { MODEL, runAgent, type ChatMessage } from "@/agent/agent";
 import { BudgetExceededError, PROVIDER, apiKeyEnvName, budgetLeft, hasApiKey } from "@/agent/llm";
+import { availableChatModels, resolveChatModel, toPublic } from "@/agent/models";
 import { tools } from "@/agent/tools";
 import { WalletError } from "@/agent/wallet";
 import { positiveInt } from "@/lib/env";
@@ -31,18 +32,14 @@ export async function GET() {
     keyEnv: apiKeyEnvName(PROVIDER),
     model: MODEL,
     budgetLeft: budgetLeft(),
+    // The models the user may pick: id, label, note, default. No provider, model string, or key names.
+    models: toPublic(availableChatModels()),
     tools: tools.map((t) => ({ name: t.name, description: t.description })),
   });
 }
 
-// POST /api/agent { messages } -> the agent's answer + the tools it used
+// POST /api/agent { messages, model? } -> the agent's answer + the tools it used
 export async function POST(req: Request) {
-  if (!hasApiKey()) {
-    const error = process.env.VERCEL
-      ? "The demo has no LLM key configured yet."
-      : `Add ${apiKeyEnvName(PROVIDER) ?? "an API key for LLM_PROVIDER"} to frontend/.env, then restart \`npm run dev\`.`;
-    return Response.json({ error }, { status: 500 });
-  }
   const limit = limiter.check(req);
   if (limit.limited) {
     return Response.json(
@@ -57,7 +54,7 @@ export async function POST(req: Request) {
   const raw = await req.text();
   if (raw.length > MAX_BODY_BYTES) return Response.json({ error: "Message is too long." }, { status: 413 });
 
-  let body: { messages?: unknown };
+  let body: { messages?: unknown; model?: unknown };
   try {
     body = JSON.parse(raw);
   } catch {
@@ -79,8 +76,18 @@ export async function POST(req: Request) {
     return Response.json({ error: "The last message must be from the user." }, { status: 400 });
   }
 
+  // The client sends only an allowlist id. Anything else is refused; the id is never used as a model or provider name.
+  const chat = resolveChatModel(body.model);
+  if (!chat) return Response.json({ error: "That model is not available. Pick another one." }, { status: 400 });
+  if (!hasApiKey(chat.provider)) {
+    const error = process.env.VERCEL
+      ? "The demo has no LLM key configured yet."
+      : `Add ${apiKeyEnvName(chat.provider) ?? "an API key for LLM_PROVIDER"} to frontend/.env, then restart \`npm run dev\`.`;
+    return Response.json({ error }, { status: 500 });
+  }
+
   try {
-    return Response.json(await runAgent(history));
+    return Response.json(await runAgent(history, chat));
   } catch (err) {
     if (err instanceof BudgetExceededError) return Response.json({ error: err.message }, { status: 429 });
     if (err instanceof WalletError) return Response.json({ error: err.message }, { status: 500 });

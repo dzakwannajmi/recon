@@ -15,6 +15,19 @@ describe("prompt config", () => {
     expect(promptModels(undefined)).toEqual([]);
   });
 
+  it("lists the pickable models with the note or the default as the tag", () => {
+    const list = [
+      { id: "a", label: "A", note: null, default: true },
+      { id: "b", label: "B", note: "not benchmarked for chat", default: false },
+      { id: "c", label: "C", note: null, default: false },
+    ];
+    expect(promptModels("m1", list)).toEqual([
+      { key: "a", name: "A", tag: "default" },
+      { key: "b", name: "B", tag: "not benchmarked for chat" },
+      { key: "c", name: "C", tag: undefined },
+    ]);
+  });
+
   it("has the four commands", () => {
     expect(PROMPT_COMMANDS.map((c) => c.name)).toEqual(["/check", "/flags", "/status", "/claims"]);
   });

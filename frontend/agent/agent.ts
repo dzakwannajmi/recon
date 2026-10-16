@@ -25,10 +25,11 @@ export const INSTRUCTIONS = [
   "Keep answers short. Answer in short plain markdown, with no decorative symbols or emojis. Put verbatim quotes in code spans so markdown does not alter them.",
 ].join(" ");
 
-export async function runAgent(history: ChatMessage[]) {
+/** `chat` is a validated allowlist entry (agent/models.ts); without it the env default runs. */
+export async function runAgent(history: ChatMessage[], chat?: { provider: string; model: string }) {
   const messages: ModelMessage[] = history.map((m) =>
     m.role === "user" ? { role: "user", content: m.text } : { role: "assistant", content: m.text },
   );
-  const { text, steps } = await generateWithTools({ instructions: INSTRUCTIONS, messages, tools });
+  const { text, steps } = await generateWithTools({ instructions: INSTRUCTIONS, messages, tools, chat });
   return { answer: text || "I could not produce an answer. Try rephrasing.", steps };
 }

@@ -62,6 +62,9 @@ export interface PromptBarProps {
   commands?: PromptBarCommand[];
   models?: PromptBarModel[];
   defaultModel?: string;
+  /** Controlled model selection (a key from `models`). Without it the bar keeps its own choice. */
+  modelKey?: string;
+  onModelChange?: (key: string) => void;
   efforts?: string[];
   defaultEffort?: string;
   onEffortChange?: (effort: string) => void;
@@ -94,7 +97,7 @@ type Row = {
   attach?: boolean;
 };
 type Token = { kind: 'at' | 'slash'; query: string; start: number };
-type Latest = Pick<PromptBarProps, 'onSend' | 'onStop' | 'onAttach' | 'onDictate' | 'onEffortChange'>;
+type Latest = Pick<PromptBarProps, 'onSend' | 'onStop' | 'onAttach' | 'onDictate' | 'onEffortChange' | 'onModelChange'>;
 type Spark = {
   x: number;
   y: number;
@@ -220,6 +223,8 @@ const PromptBar: React.FC<PromptBarProps> = ({
   commands = DEFAULT_COMMANDS,
   models = DEFAULT_MODELS,
   defaultModel = '',
+  modelKey: controlledModelKey,
+  onModelChange,
   efforts = DEFAULT_EFFORTS,
   defaultEffort = '',
   onEffortChange,
@@ -254,11 +259,12 @@ const PromptBar: React.FC<PromptBarProps> = ({
   const lastOpen = useRef<string | null>(null);
   const dictation = useRef(0);
   const latest = useRef<Latest>({});
-  latest.current = { onSend, onStop, onAttach, onDictate, onEffortChange };
+  latest.current = { onSend, onStop, onAttach, onDictate, onEffortChange, onModelChange };
 
   const [draft, setDraft] = useState('');
   const [attachments, setAttachments] = useState<string[]>([]);
-  const [modelKey, setModelKey] = useState(defaultModel);
+  const [ownModelKey, setModelKey] = useState(defaultModel);
+  const modelKey = controlledModelKey ?? ownModelKey;
   const [plusOpen, setPlusOpen] = useState(false);
   const [modelOpen, setModelOpen] = useState(false);
   const [effortOpen, setEffortOpen] = useState(false);
@@ -473,6 +479,7 @@ const PromptBar: React.FC<PromptBarProps> = ({
   const pick = (row: Row) => {
     if (open === 'model') {
       setModelKey(row.key);
+      latest.current.onModelChange?.(row.key);
       setModelOpen(false);
       focusInput();
       return;

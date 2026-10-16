@@ -39,9 +39,9 @@ export function OrbitRotation({ items, className }: { items: OrbitItem[]; classN
         const size = `min(${ring.rem}rem, ${ring.vw}vw)`;
         const direction = o % 2 ? "reverse" : "normal";
         return (
-          <div key={o} className="absolute" style={{ width: size, height: size, transform: `scaleY(${FLAT})` }}>
+          <div key={o} className="pointer-events-none absolute" style={{ width: size, height: size, transform: `scaleY(${FLAT})` }}>
             <ul
-              className="orbit-ring absolute inset-0 m-0 list-none rounded-full border border-dashed border-muted-foreground/40 p-0"
+              className="orbit-ring pointer-events-none absolute inset-0 m-0 list-none rounded-full border border-dashed border-muted-foreground/40 p-0"
               style={{ animationDuration: `${ring.duration}s`, animationDirection: direction }}
             >
               {ring.slice.map((item, i) => {
@@ -58,7 +58,7 @@ export function OrbitRotation({ items, className }: { items: OrbitItem[]; classN
                       rel="noopener noreferrer"
                       title={item.name}
                       aria-label={`${item.name} (opens its site)`}
-                      className="orbit-logo flex size-14 items-center justify-center rounded-full transition-transform hover:scale-125 focus-visible:scale-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground md:size-[4.5rem]"
+                      className="orbit-logo pointer-events-auto flex size-14 items-center justify-center rounded-full transition-transform hover:scale-125 focus-visible:scale-125 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground md:size-[4.5rem]"
                       style={{ animationDuration: `${ring.duration}s`, animationDirection: direction }}
                     >
                       {item.src ? (

@@ -14,7 +14,7 @@ function messagesAt(script: Script, t: number): Message[] {
   const f = frameAt(t, script);
   if (!f.promptShown) return [];
   const out: Message[] = [{ role: "user", text: script.prompt }];
-  if (!f.thinking) out.push({ role: "agent", text: visibleParagraphs(script.paragraphs, f.typed).join("\n\n"), elapsed: script.thinkMs / 1000 });
+  if (!f.thinking) out.push({ role: "agent", text: visibleParagraphs(script.paragraphs, f.typed).join("\n\n") });
   return out;
 }
 

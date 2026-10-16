@@ -45,4 +45,11 @@ describe("ChatView", () => {
     expect(out).not.toContain("<script");
     expect(out).toContain("act");
   });
+
+  it("puts a brand slot in the header and the column classes around the messages and composer", () => {
+    const out = render({ brand: <a href="/" aria-label="Back to home">home</a>, column: "max-w-[760px]" });
+    expect(out).toContain('aria-label="Back to home"');
+    expect(out).not.toContain("/logo-mark.svg");
+    expect(out.match(/max-w-\[760px\]/g)?.length).toBe(2);
+  });
 });

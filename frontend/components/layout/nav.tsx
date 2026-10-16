@@ -6,11 +6,7 @@ import { DEMO_HREF, NAV_LINKS } from "./links";
 const linkCls = "rounded-[6px] px-3 py-2 text-sm hover:bg-secondary focus-visible:outline-2 focus-visible:outline-foreground";
 
 function NavLink({ link }: { link: (typeof NAV_LINKS)[number] }) {
-  return "external" in link ? (
-    <a href={link.href} className={linkCls} target="_blank" rel="noopener noreferrer">{link.label}</a>
-  ) : (
-    <Link href={link.href} className={linkCls}>{link.label}</Link>
-  );
+  return <Link href={link.href} className={linkCls}>{link.label}</Link>;
 }
 
 export function Nav() {

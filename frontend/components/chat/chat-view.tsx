@@ -21,13 +21,17 @@ type Props = {
   className?: string;
   /** Smaller type and padding, for a small fixed-size container. */
   compact?: boolean;
+  /** Replaces the logo mark at the left of the header, e.g. a link home. */
+  brand?: ReactNode;
+  /** Classes for the centered column that holds the messages and the composer (width, gap). */
+  column?: string;
 };
 
 /**
  * The chat screen, from props only: header row, message list, empty state, composer slot.
  * It fills its parent (h-full) and scrolls the list, so it fits a page column or a small screen mockup.
  */
-export function ChatView({ messages, thinking, ready, wallet = null, onPick, composer, headerActions, className, compact }: Props) {
+export function ChatView({ messages, thinking, ready, wallet = null, onPick, composer, headerActions, className, compact, brand, column }: Props) {
   const list = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -40,7 +44,7 @@ export function ChatView({ messages, thinking, ready, wallet = null, onPick, com
     <section aria-label="Chat" className={cn("flex h-full min-h-0 w-full flex-col bg-background", compact && "text-xs", className)}>
       <header className={cn("flex shrink-0 items-center justify-between gap-2 border-b", pad, compact ? "h-9" : "h-14")}>
         <div className="flex items-center gap-2">
-          <img src="/logo-mark.svg" alt="" width={24} height={24} className={compact ? "size-4" : "size-6"} />
+          {brand ?? <img src="/logo-mark.svg" alt="" width={24} height={24} className={compact ? "size-4" : "size-6"} />}
           <span
             role="img"
             aria-label={ready ? "Agent ready" : "Agent not ready"}
@@ -50,13 +54,17 @@ export function ChatView({ messages, thinking, ready, wallet = null, onPick, com
         {headerActions && <div className="flex items-center gap-1">{headerActions}</div>}
       </header>
 
-      <div ref={list} className={cn("flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain", pad, compact ? "gap-3 py-3" : "gap-6 py-6")}>
-        {messages.length === 0 && !thinking && <EmptyState ready={ready} wallet={wallet} onPick={onPick} compact={compact} />}
-        {messages.map((m, i) => <MessageView key={i} message={m} compact={compact} />)}
-        {thinking && <LiveThought compact={compact} />}
+      <div ref={list} className={cn("flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain", pad, compact ? "py-3" : "py-6")}>
+        <div className={cn("mx-auto flex w-full flex-1 flex-col", compact ? "gap-3" : "gap-6", column)}>
+          {messages.length === 0 && !thinking && <EmptyState ready={ready} wallet={wallet} onPick={onPick} compact={compact} />}
+          {messages.map((m, i) => <MessageView key={i} message={m} compact={compact} />)}
+          {thinking && <LiveThought compact={compact} />}
+        </div>
       </div>
 
-      <div className={cn("shrink-0", pad, compact ? "pt-2 pb-2" : "pt-3 pb-4")}>{composer}</div>
+      <div className={cn("shrink-0", pad, compact ? "pt-2 pb-2" : "pt-3 pb-4")}>
+        <div className={cn("mx-auto w-full", column)}>{composer}</div>
+      </div>
     </section>
   );
 }

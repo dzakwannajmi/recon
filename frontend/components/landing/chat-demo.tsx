@@ -93,8 +93,9 @@ export function ChatDemo({ script }: { script: Script }) {
         thinking={thinking}
         onPick={() => {}}
         composer={<DemoComposer />}
-        headerActions={<span className="rounded-full border px-2 py-0.5 text-[11px] text-muted-foreground">Sample</span>}
-        className="mx-auto max-w-[640px] border-x"
+        headerActions={<span className="rounded-full border px-3 py-0.5 text-[13px] text-muted-foreground">Sample</span>}
+        className="text-[18px] leading-[1.5]"
+        column="w-[70%] gap-6"
       />
     </div>
   );

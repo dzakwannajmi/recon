@@ -1,14 +1,12 @@
 import { loadStatus, type StatusFile } from "./load";
 
-export type LandingStats = { assets: number; issuers: number; feedEntries: number; asOf: string };
+export type LandingStats = { assets: number; issuers: number };
 
-/** Counts for the landing page, from the newest status file. Feed entries = assets that have a published status. */
+/** Counts for the landing hero pill, from the newest status file. */
 export function statsFrom(status: StatusFile): LandingStats {
   return {
     assets: status.assets.length,
     issuers: new Set(status.assets.map((a) => a.issuer_org)).size,
-    feedEntries: status.assets.filter((a) => a.status !== null).length,
-    asOf: status.as_of,
   };
 }
 

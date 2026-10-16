@@ -1,9 +1,11 @@
-import { Footer } from "@/components/layout/footer";
 import { Nav } from "@/components/layout/nav";
-import { Counters } from "@/components/landing/counters";
+import { Features } from "@/components/landing/features";
+import { FinalCta } from "@/components/landing/final-cta";
+import { Footer } from "@/components/landing/footer";
 import { Hero } from "@/components/landing/hero";
 import { HowItWorks } from "@/components/landing/how-it-works";
-import { ProductFrame } from "@/components/landing/product-frame";
+import { Problem } from "@/components/landing/problem";
+import { StatsExample } from "@/components/landing/stats-example";
 
 export default function Page() {
   return (
@@ -11,9 +13,11 @@ export default function Page() {
       <Nav />
       <main>
         <Hero />
-        <ProductFrame />
+        <Problem />
         <HowItWorks />
-        <Counters />
+        <Features />
+        <StatsExample />
+        <FinalCta />
       </main>
       <Footer />
     </>

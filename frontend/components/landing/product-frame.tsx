@@ -4,7 +4,7 @@ import { assetTypeLabel } from "@/components/factsheet/fact-sheet";
 import { COPY } from "@/lib/factsheet/copy";
 import { loadStatus } from "@/lib/factsheet/load";
 import { explorerLinks, fmt, safeHttpUrl } from "@/lib/factsheet/view";
-import { Container, SectionHeading } from "./container";
+import { Container } from "./container";
 import { pickSample } from "./sample";
 
 const copy = COPY.en;
@@ -20,14 +20,9 @@ export function ProductFrame() {
   const links = explorerLinks(asset.asset_code, asset.issuer);
 
   return (
-    <section id="what-you-get" aria-labelledby="get-title" className="scroll-mt-16 py-16 md:py-24">
-      <Container>
-        <SectionHeading id="get-title">What you get</SectionHeading>
-        <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          For each asset: the claims found, each with its quote, source link, page, and document hash. Flags are listed with dates and evidence.
-        </p>
-
-        <figure className="mt-10 overflow-hidden rounded-[16px] border bg-card">
+    <Container className="pt-16 md:pt-24">
+      <figure>
+        <div className="overflow-hidden rounded-[16px] border bg-card">
           <div className="flex items-center gap-3 border-b bg-secondary px-4 py-2.5">
             <span aria-hidden className="flex gap-1.5">
               <i className="size-2.5 rounded-full border border-input bg-card" />
@@ -105,8 +100,11 @@ export function ProductFrame() {
               </dl>
             </div>
           </div>
-        </figure>
-      </Container>
-    </section>
+        </div>
+        <figcaption className="mt-4 max-w-2xl text-sm text-muted-foreground">
+          Sample fact sheet for {asset.asset_code}. Each claim shows its quote, source, location in the document, and document hash.
+        </figcaption>
+      </figure>
+    </Container>
   );
 }

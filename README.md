@@ -38,7 +38,7 @@ Issuers of tokenized treasuries, funds, bonds, and commodities publish their cla
 
 Recon is an agent that does this comparison. It reads each issuer's `stellar.toml` and official documents, extracts claims with exact quotes, reads Stellar mainnet, and computes flags in deterministic code. It reports facts and flags, never grades. It reads mainnet and writes only to testnet.
 
-The scope is non-stablecoin real-world assets on Stellar: tokenized treasuries, funds, bonds, and commodities. Yield-bearing dollar products such as USDY are in scope and labeled `yield-bearing`. Stablecoins are out of scope. The current universe has 27 assets from six issuers ([`data/assets.csv`](data/assets.csv), as of 2026-10-08).
+The scope is non-stablecoin real-world assets on Stellar: tokenized treasuries, funds, bonds, and commodities. Yield-bearing dollar products such as USDY are in scope and labeled `yield-bearing`. Stablecoins are out of scope. The current universe has 27 assets from six issuers ([`data/assets.csv`](data/assets.csv), as of 2026-10-15).
 
 ## Key features
 
@@ -50,6 +50,11 @@ The scope is non-stablecoin real-world assets on Stellar: tokenized treasuries, 
 - **Issuer identity anchored to `stellar.toml`.** Asset codes are not unique, so each asset is pinned to one `home_domain` with evidence.
 - **Issuer documents are untrusted data.** Instructions inside them are never followed. SEC filings are a separate source class, `regulatory_filing`.
 - **Operator review queue.** Failed or empty extractions are listed. Reviewed proposals pass through the same verifier.
+- **7-day hold.** A change to an issuer's authorization flags or signers keeps its flag for seven days after it was first seen. Code decides, not the model.
+- **Feed on Stellar testnet.** Lending protocols and other agents read each asset's status, flag bitmask, evidence hash, and as-of time from a Soroban contract the agent's own wallet writes to.
+- **Example consumer.** A mock lending market and a keeper that pauses new borrows when the feed reports CRITICAL. The CRITICAL path is shown only on a synthetic, clearly labeled demo feed.
+- **MCP endpoint.** Other agents call `check_asset`, `get_fact_sheet`, and `list_flags` at `POST /api/mcp`.
+- **Paid detail with x402 (testnet).** `GET /api/check/detail` returns the full evidence bundle for a test payment settled on Stellar testnet. The free summary stays free. It is off on the live app and runs from a local setup.
 - **Testnet agent wallet.** The agent has its own Stellar testnet wallet, funded by Friendbot.
 - **Capped LLM spend.** Daily token budget, output cap, step limit, and rate limits. Only free-tier API keys are used.
 
@@ -100,7 +105,7 @@ Models are switchable by environment variables: `LLM_PROVIDER` (`google`, `groq`
 | Tests | vitest | 5.0.3 |
 | Hosting | Vercel | n/a |
 
-**Built and tested, not deployed yet:** the Soroban feed contract in Rust, in `contracts/feed/`, with `soroban-sdk` 29.0.0 and stellar-cli 28.1.0. The testnet deploy comes in Week 3.
+**Contracts (Rust, `soroban-sdk` 29.0.0, stellar-cli 28.1.0):** the feed in `contracts/feed/`, deployed on Stellar testnet at `CAXEHTAMDRASNGUPGRRPZZAUAOOB5MMAUNLLA5O43KH3BQWZ4LQSX2PR`, and an example lending market in `contracts/lending-mock/` that reads it.
 
 ## How it works
 
@@ -118,8 +123,9 @@ flowchart LR
   fs["Fact sheets<br/>EN and ID"]
   chat["Chat agent<br/>six tools and a testnet wallet"]
   stored["Stored-data tools<br/>list_assets, get_asset_status, get_verified_claims"]
-  feed["Soroban feed<br/>testnet"]:::future
-  mcp["MCP and x402 check<br/>testnet"]:::future
+  feed["Soroban feed<br/>testnet"]
+  mcp["MCP endpoint and free summary"]
+  x402["Paid detail, x402<br/>testnet, local setup"]:::future
 
   issuer --> inv
   sec --> inv
@@ -134,14 +140,15 @@ flowchart LR
   chat -->|"live read"| chain
   status --> stored
   stored --> chat
-  status -.-> feed
-  status -.-> mcp
+  status --> feed
+  status --> mcp
+  status -.-> x402
   classDef future stroke-dasharray: 5 5
 ```
 
 The Investigator finds documents on the issuer's official domain (the domain whose `stellar.toml` lists the issuer account), snapshots them, and asks an LLM to propose claims. Code keeps a claim only if its exact quote appears in the snapshot. Documents where extraction fails go to a review queue and pass through the same verifier.
 
-The Examiner compares verified claims and filings with Stellar mainnet data. Flag rules are pure functions over the stored evidence, so the same inputs always produce the same status file. Fact sheets are built from that file. The dashed nodes are not shipped yet.
+The Examiner compares verified claims and filings with Stellar mainnet data. Flag rules are pure functions over the stored evidence, so the same inputs always produce the same status file. Fact sheets are built from that file. The dashed node is not on the live app.
 
 ## Demo video and links
 
@@ -210,7 +217,7 @@ Pipeline commands, also from `frontend/`:
 
 - **The LLM proposes, code decides.** The model finds, reads, and extracts. Statuses, flags, and any future feed update come from deterministic code. A model can be wrong or be manipulated by a document, so it never sets a status.
 - **Quote or discard.** Each claim carries the exact quote, source URL, page, and the SHA-256 of the snapshot. A quote must appear exactly once in the snapshot text (only whitespace, typographic quotes, dashes, and PDF ligatures are normalized), and code parses the value from the document's own characters. Raw proposals are stored, so `--reverify` reproduces the result offline.
-- **`stellar.toml` is the identity anchor.** Asset codes are not unique (BENJI has 23 issuers on mainnet and USDY 37, as of 2026-10-08). `data/assets.csv` pins one `home_domain` per asset with evidence, and the issuer account must be listed in that domain's `stellar.toml`.
+- **`stellar.toml` is the identity anchor.** Asset codes are not unique (BENJI has 23 issuers on mainnet and USDY 37, as of 2026-10-15). `data/assets.csv` pins one `home_domain` per asset with evidence, and the issuer account must be listed in that domain's `stellar.toml`.
 - **Issuer documents are untrusted.** Instructions inside them are never followed. A document is an issuer claim only if it comes from the official domain or a link published there. SEC filings are a separate source class, `regulatory_filing`. Aggregators are for discovery only.
 - **Fetching untrusted domains is SSRF-guarded.** A `home_domain` can be set by anyone. Fetches use https, public DNS names only, a checked address at connect time, a redirect limit, a deadline, and a size cap.
 - **Flags are pure functions of stored files.** The same stored files always produce the same flags and statuses. Every flag ends as raised, clear, or not evaluated, and raised and clear results carry evidence references. A mismatch statement reads `Mismatch between {document} ({page}) and on-chain {value} as of {date}.` Every statement is a dated fact, with no grades.
@@ -220,16 +227,16 @@ Pipeline commands, also from `frontend/`:
 
 ## Future scope
 
-- **Week 2 (recon.v2, by 2026-10-16):** the Soroban feed contract built and tested; a 7-day hold for issuer flag and signer changes, with the time a change was first seen stored in the status file; a walkthrough demo.
-- **Week 3 (recon.v3, by 2026-10-23):**
-  - A Soroban feed contract on Stellar testnet that lending protocols and other agents can read, written by the agent's own wallet.
-  - An x402-protected check endpoint that settles on Stellar testnet.
-  - An MCP server so other agents can query asset status and verified claims.
-  - A threat model for the agent and the feed.
-- **After:**
-  - More assets in the universe.
-  - Monitoring: re-check cadence and reaction to on-chain events such as signer changes and large mints or burns.
-  - Cited Q&A over stored evidence.
+**Shipped so far:** Week 1 chat agent with six tools; Week 2 the 7-day hold and the Soroban feed contract; Week 3 the feed on testnet, the MCP endpoint, x402 settlement on testnet, a threat model, and a lending keeper demo.
+
+**Next:**
+
+- **Monitor.** Re-check cadence per asset and reaction to on-chain events such as signer or flag changes and large mints or burns.
+- **Cited Q&A.** Answers in chat that cite only stored evidence.
+- **Public fact-sheet pages** with the final flag wording.
+- **Report** "State of RWA Transparency on Stellar", with numbers traced to the stored data.
+- **Paid detail from the chat,** with the payment signed by the user's own wallet, never by the server.
+- **More assets** in the universe, and a feed on mainnet once the rules are stable.
 
 ## Social links
 

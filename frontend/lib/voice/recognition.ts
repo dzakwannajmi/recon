@@ -29,7 +29,6 @@ function ctor(): Ctor | null {
 }
 
 export const isRecognitionSupported = () => ctor() !== null;
-export const isSynthesisSupported = () => typeof window !== "undefined" && "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
 
 /** Plain-words message for a SpeechRecognition error code. `fatal` means retrying would not help. */
 export function recognitionError(code: string): { message: string; fatal: boolean } | null {
@@ -95,28 +94,5 @@ export function createRecognizer(opts: { continuous: boolean; interim: boolean; 
     },
     stop: () => r.stop(),
     abort: () => r.abort(),
-  };
-}
-
-/** Speaks text in pieces, one after the other. `cancel` stops at once and does not call onEnd. */
-export function speak(chunks: string[], onEnd: () => void): { cancel: () => void } {
-  const synth = window.speechSynthesis;
-  let live = true;
-  let i = 0;
-  const next = () => {
-    if (!live) return;
-    if (i >= chunks.length) return onEnd();
-    const u = new SpeechSynthesisUtterance(chunks[i++]);
-    u.onend = next;
-    u.onerror = next;
-    synth.speak(u);
-  };
-  synth.cancel();
-  next();
-  return {
-    cancel: () => {
-      live = false;
-      synth.cancel();
-    },
   };
 }

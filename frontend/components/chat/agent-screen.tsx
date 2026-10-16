@@ -6,6 +6,7 @@ import { RotateCcw, Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { PromptAsset } from "@/components/chat/prompt-config";
 import { ChatView } from "@/components/chat/chat-view";
+import { Logo } from "@/components/layout/logo";
 import { Composer } from "@/components/chat/composer";
 import { SectionTitle } from "@/components/chat/section-title";
 import { SetupPanel } from "@/components/chat/setup-panel";
@@ -19,13 +20,15 @@ export function AgentScreen({ assets }: { assets: PromptAsset[] }) {
   const closeSetup = useCallback(() => setSetupOpen(false), []);
 
   return (
-    <main className="mx-auto h-[calc(100dvh-65px)] max-w-[760px]">
+    <main className="h-dvh w-full">
       <h1 className="sr-only">Agent</h1>
       <ChatView
         messages={a.messages}
         thinking={a.thinking}
         ready={a.ready}
         wallet={a.wallet}
+        brand={<Logo label="Back to home" />}
+        column="max-w-[760px]"
         onPick={(t) => void a.send(t)}
         headerActions={
           <>

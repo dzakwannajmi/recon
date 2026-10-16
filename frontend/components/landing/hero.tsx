@@ -3,7 +3,6 @@ import { ChevronRight } from "lucide-react";
 import { DEMO_HREF, FACT_SHEETS_HREF } from "@/components/layout/links";
 import { ButtonLink, GhostLink } from "@/components/ui/button-link";
 import { loadLandingStats } from "@/lib/factsheet/stats";
-import { AsciiBackground } from "./ascii-background";
 import { Container } from "./container";
 import { Mascot } from "./mascot";
 
@@ -11,12 +10,6 @@ export function Hero() {
   const stats = loadLandingStats();
   return (
     <section aria-labelledby="hero-title" className="relative isolate overflow-hidden bg-background">
-      <AsciiBackground className="absolute inset-0 -z-20" />
-      {/* Keeps the text on a calm ground: the glyphs show mostly around the robot. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 [background:radial-gradient(60%_70%_at_25%_45%,rgba(244,242,240,0.94),rgba(244,242,240,0.7)_60%,transparent)]"
-      />
       <Container className="grid items-center gap-6 py-12 md:grid-cols-2 md:gap-8 md:py-16">
         <div className="flex flex-col items-start">
           <Link

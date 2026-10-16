@@ -27,13 +27,13 @@ export function Hero() {
             <ChevronRight aria-hidden className="size-3" />
           </Link>
           <h1 id="hero-title" className="mt-5 text-[40px] leading-[1.05] tracking-[-0.03em] sm:text-[52px] md:text-[60px]">
-            Check what issuers say <span className="text-muted-foreground">against the ledger.</span>
+            Check what issuers say <span className="text-muted-foreground">against the blockchain.</span>
           </h1>
           <p className="mt-5 max-w-lg text-lg text-foreground md:text-xl md:leading-[1.3]">
-            Recon reads tokenized real-world asset documents, compares them with Stellar on-chain data, and publishes dated facts and flags.
+            Recon reads the documents behind tokenized real-world assets, such as treasuries and funds turned into digital tokens. It checks them against Stellar, a public blockchain, and publishes dated facts and flags.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <ButtonLink href={DEMO_HREF}>Try the agent</ButtonLink>
+            <ButtonLink href={DEMO_HREF}>Ask the agent</ButtonLink>
             <GhostLink href={FACT_SHEETS_HREF}>Browse fact sheets</GhostLink>
           </div>
         </div>

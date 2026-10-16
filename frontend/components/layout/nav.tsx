@@ -30,7 +30,7 @@ export function Nav() {
               ))}
             </ul>
           </details>
-          <ButtonLink href={DEMO_HREF} className="h-10 px-3 text-sm sm:px-5 sm:text-base">Try the agent</ButtonLink>
+          <ButtonLink href={DEMO_HREF} className="h-10 px-3 text-sm sm:px-5 sm:text-base">Ask the agent</ButtonLink>
         </div>
       </nav>
     </header>

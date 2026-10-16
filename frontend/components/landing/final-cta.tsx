@@ -8,10 +8,10 @@ export function FinalCta() {
     <section aria-labelledby="cta-title" className="py-16 md:py-24">
       <Container className="grid items-center gap-10 md:grid-cols-2 md:gap-12">
         <div className="flex flex-col items-center text-center md:items-start md:text-left">
-          <h2 id="cta-title" className="text-[32px] leading-[1.05] tracking-[-0.02em] md:text-[48px]">Read the facts. Check the ledger.</h2>
+          <h2 id="cta-title" className="text-[32px] leading-[1.05] tracking-[-0.02em] md:text-[48px]">Read the facts. Check the record.</h2>
           <p className="mt-4 max-w-xl text-lg text-muted-foreground">Open a fact sheet or ask the agent about an asset.</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start">
-            <ButtonLink href={DEMO_HREF}>Try the agent</ButtonLink>
+            <ButtonLink href={DEMO_HREF}>Ask the agent</ButtonLink>
             <GhostLink href={FACT_SHEETS_HREF}>Browse fact sheets</GhostLink>
           </div>
         </div>

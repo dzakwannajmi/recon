@@ -11,7 +11,7 @@ export function buildScript(d: Demo): Script {
     thinkMs: TIMING.thinkMs,
     paragraphs: [
       `${d.code} (${d.issuerOrg}) has status ${d.status} as of ${d.asOf}.`,
-      `Flag raised: ${d.flagName}.`,
+      `Flag: ${d.flagName}.`,
       d.statement,
       `Quote from the document: ${d.quote}`,
     ],

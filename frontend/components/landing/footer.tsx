@@ -13,7 +13,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Product",
     links: [
-      { label: "Try the agent", href: DEMO_HREF },
+      { label: "Ask the agent", href: DEMO_HREF },
       { label: "Fact sheets", href: FACT_SHEETS_HREF },
       { label: "Fact sheets in Indonesian", href: "/id/assets" },
     ],
@@ -79,7 +79,7 @@ export function Footer() {
 
           <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <img src="/logo-mark.svg" alt="" width={140} height={140} className="size-24 md:size-[140px]" />
-            <p className="text-xs text-muted-foreground md:text-right">Copyright 2026 Muhammad Dzakwan Najmi. MIT License.</p>
+            <p className="text-xs text-muted-foreground md:text-right">Copyright 2026 Muhammad Dzakwan Najmi. Open source under the MIT License.</p>
           </div>
         </div>
       </Container>

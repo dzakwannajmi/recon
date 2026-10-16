@@ -35,9 +35,9 @@ describe("nextTab", () => {
 describe("stepRows", () => {
   it("has the three steps of the approved copy", () => {
     expect(STEPS.map((s) => s.title)).toEqual([
-      "The model finds and reads",
-      "Code checks the quote and the chain",
-      "The result goes to a Soroban feed",
+      "The AI finds and reads",
+      "Code checks the quote and the blockchain",
+      "The result goes to a public feed",
     ]);
   });
   it("step 1 shows the quote with its source and location", () => {
@@ -49,9 +49,9 @@ describe("stepRows", () => {
   });
   it("step 2 puts the on-chain value next to the quote and the hash", () => {
     expect(stepRows(demo, 1).map((r) => [r.label, r.value])).toEqual([
-      ["On-chain", "supply 5 (as of 2026-10-15)"],
+      ["Blockchain", "supply 5 (as of 2026-10-15)"],
       ["Quote", "q"],
-      ["Document hash", "ff"],
+      ["Saved copy fingerprint", "ff"],
     ]);
   });
   it("step 3 shows the feed status and the date", () => {

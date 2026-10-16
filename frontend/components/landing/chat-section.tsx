@@ -13,7 +13,7 @@ export function ChatSection() {
       <Container>
         <SectionHeading id="chat-title" lead="Ask the agent" tail="about an asset." />
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-muted-foreground">
-          A sample check on {demo.code}, replayed from its published fact sheet. Nothing here runs live.
+          Ask about any asset we track. This sample is replayed from a published fact sheet; nothing here runs live.
         </p>
       </Container>
       {/* Wider than the text column so the laptop can use up to 1200px. */}

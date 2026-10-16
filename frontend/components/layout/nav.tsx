@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ButtonLink, DarkLink, OutlineLink } from "@/components/ui/button-link";
 import { Logo } from "./logo";
-import { DEMO_HREF, FACT_SHEETS_HREF, GITHUB_URL, NAV_LINKS } from "./links";
+import { DEMO_HREF, FEED_URL, GITHUB_URL, NAV_LINKS } from "./links";
 
 const linkCls = "rounded-[6px] px-3 py-2 text-sm hover:bg-secondary focus-visible:outline-2 focus-visible:outline-foreground";
 const btnCls = "h-10 px-4 text-sm";
@@ -30,11 +30,11 @@ export function Nav() {
               {NAV_LINKS.map((l) => (
                 <li key={l.label}><NavLink link={l} /></li>
               ))}
-              <li><Link href={FACT_SHEETS_HREF} className={linkCls}>Fact sheets</Link></li>
+              <li><a href={FEED_URL} target="_blank" rel="noopener noreferrer" className={linkCls}>Live feed</a></li>
             </ul>
           </details>
           <OutlineLink href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className={`${btnCls} hidden md:inline-flex`}>GitHub</OutlineLink>
-          <ButtonLink href={FACT_SHEETS_HREF} className={`${btnCls} hidden sm:inline-flex`}>Fact sheets</ButtonLink>
+          <ButtonLink href={FEED_URL} target="_blank" rel="noopener noreferrer" className={`${btnCls} hidden sm:inline-flex`}>Live feed</ButtonLink>
           <DarkLink href={DEMO_HREF} className={btnCls}>Ask the agent</DarkLink>
         </div>
       </nav>

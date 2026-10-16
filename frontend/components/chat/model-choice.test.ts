@@ -29,6 +29,23 @@ describe("model choice", () => {
     expect(readModelChoice(undefined)).toBeNull();
   });
 
+  it("does not throw when merely reading localStorage throws", () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, "localStorage");
+    Object.defineProperty(globalThis, "localStorage", {
+      configurable: true,
+      get() {
+        throw new Error("SecurityError");
+      },
+    });
+    try {
+      expect(readModelChoice()).toBeNull();
+      expect(() => saveModelChoice("b")).not.toThrow();
+    } finally {
+      if (original) Object.defineProperty(globalThis, "localStorage", original);
+      else delete (globalThis as { localStorage?: unknown }).localStorage;
+    }
+  });
+
   it("round-trips through storage", () => {
     const map = new Map<string, string>();
     const storage = { getItem: (k: string) => map.get(k) ?? null, setItem: (k: string, v: string) => void map.set(k, v) };

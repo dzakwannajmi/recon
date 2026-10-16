@@ -3,17 +3,18 @@ import type { ChatModelInfo } from "./types";
 const KEY = "chat-model";
 
 /** The remembered model id, or null (no storage, blocked storage, or nothing saved). */
-export function readModelChoice(storage: Pick<Storage, "getItem"> | undefined = globalThis.localStorage): string | null {
+export function readModelChoice(storage?: Pick<Storage, "getItem">): string | null {
   try {
-    return storage?.getItem(KEY) || null;
+    // Reading `localStorage` itself can throw when storage is blocked, so it happens inside the try.
+    return (storage ?? globalThis.localStorage)?.getItem(KEY) || null;
   } catch {
     return null;
   }
 }
 
-export function saveModelChoice(id: string, storage: Pick<Storage, "setItem"> | undefined = globalThis.localStorage) {
+export function saveModelChoice(id: string, storage?: Pick<Storage, "setItem">) {
   try {
-    storage?.setItem(KEY, id);
+    (storage ?? globalThis.localStorage)?.setItem(KEY, id);
   } catch {
     // Private mode or blocked storage: the choice just is not remembered.
   }

@@ -136,6 +136,15 @@ describe("per-provider daily usage", () => {
     expect(llm.budgetLeft()).toBe(600); // default is the chat provider (google)
   });
 
+  it("gates a chat call on the chosen provider's budget, not the default's", async () => {
+    write("llm-usage-groq.json", 1000);
+    const llm = await load();
+    await expect(
+      llm.generateWithTools({ instructions: "i", messages: [], tools: [], chat: { provider: "groq", model: "openai/gpt-oss-120b" } }),
+    ).rejects.toBeInstanceOf(llm.BudgetExceededError);
+    expect(llm.budgetLeft("google")).toBe(1000); // the default provider is untouched
+  });
+
   it("starts a new day at zero, and fails closed for the provider whose file is unreadable", async () => {
     write("llm-usage.json", 400, "2000-01-01");
     fs.writeFileSync(path.join(dir, ".cache", "llm-usage-groq.json"), "not json");

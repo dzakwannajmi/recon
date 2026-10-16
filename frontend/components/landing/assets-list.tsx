@@ -17,7 +17,7 @@ export function AssetsList() {
       <Container>
         <SectionHeading id="assets-title" lead="Assets we" tail="check" />
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-muted-foreground">
-          {stats.assets} assets from {stats.issuers} issuers, as of <span className="whitespace-nowrap">{status.as_of}</span>.
+          {stats.assets} assets from {stats.issuers} issuers.
         </p>
         <OrbitRotation
           className="mt-8 md:mt-12"
@@ -28,9 +28,6 @@ export function AssetsList() {
             short: initialsOf(c.issuer),
           }))}
         />
-        <p className="mx-auto mt-6 max-w-xl text-center text-xs text-muted-foreground">
-          Each logo opens that issuer&apos;s official site, the domain pinned in our asset list. Logos belong to their owners. Franklin Templeton&apos;s mark here is an illustration of Benjamin Franklin, not the issuer&apos;s logo. A listing here does not mean an issuer endorses Recon.
-        </p>
       </Container>
     </section>
   );

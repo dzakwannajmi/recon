@@ -16,7 +16,7 @@ const FLAT = 0.5;
 /**
  * Logos on three tilted rings. Each ring is a circle squashed to an ellipse and turned; every logo counter-turns
  * and counter-squashes so it stays upright and round. Pure CSS (orbit-spin / orbit-counter in globals.css):
- * it renders on the server, pauses on hover or focus so a logo can be clicked, and stops under reduced motion.
+ * it renders on the server, keeps turning on hover, and stops under reduced motion.
  */
 export function OrbitRotation({ items, className }: { items: OrbitItem[]; className?: string }) {
   // Share the logos between the rings in proportion to each ring's length.

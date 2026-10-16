@@ -15,7 +15,7 @@ export function Hero() {
       {/* Keeps the text on a calm ground: the glyphs show mostly around the robot. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 [background:radial-gradient(60%_70%_at_25%_45%,rgba(250,249,247,0.94),rgba(250,249,247,0.7)_60%,transparent)]"
+        className="absolute inset-0 -z-10 [background:radial-gradient(60%_70%_at_25%_45%,rgba(250,249,247,0.9),rgba(250,249,247,0.55)_60%,transparent)]"
       />
       <Container className="grid items-center gap-6 py-12 md:grid-cols-2 md:gap-8 md:py-16">
         <div className="flex flex-col items-start">

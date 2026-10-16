@@ -88,3 +88,20 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 [data-prompt-bar] [role="presentation"]:focus-within {
   border-color: var(--foreground);
 }
+
+/* Landing orbit: rings turn, logos counter-turn to stay upright. */
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.orbit-ring,
+.orbit-logo {
+  animation: orbit-spin linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit-ring,
+  .orbit-logo {
+    animation: none;
+  }
+}

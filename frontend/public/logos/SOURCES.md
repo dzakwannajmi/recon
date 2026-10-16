@@ -1,6 +1,6 @@
 # Logo sources
 
-Token and organisation images, each published by the issuer in its own stellar.toml (checked 2026-10-16 in data/snapshots). Downloaded once over HTTPS and resized to at most 160 px. They belong to their owners. Franklin Templeton publishes no token image (its toml only has a white footer logo), so its assets use a letter tile.
+Token and organisation images, each published by the issuer in its own stellar.toml (checked 2026-10-16 in data/snapshots). Downloaded once over HTTPS and resized to at most 160 px. They belong to their owners. Franklin Templeton publishes no token image (its toml only has a white footer logo), so its assets use a letter tile on fact sheets. The landing orbit shows `franklin.png`, an engraved portrait of Benjamin Franklin supplied by the project owner: an illustration, not a logo the issuer published.
 
 - ondo.png: https://cdn.ondo.finance/brand/logos/ondo-icon-black_160x160.png
 - usdy.png: https://cdn.ondo.finance/tokens/logos/usdy_160x160.png

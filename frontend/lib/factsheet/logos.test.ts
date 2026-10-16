@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
-import { initialsOf, LOGO_FILES, logoFor } from "./logos";
+import { FRANKLIN_ILLUSTRATION, initialsOf, LOGO_FILES, logoFor, orbitLogos } from "./logos";
 import { loadStatus } from "./load";
 import { groupByIssuer } from "./stats";
 
@@ -21,6 +21,25 @@ describe("logos", () => {
   });
   it("makes initials", () => {
     expect(initialsOf("gBENJI")).toBe("GB");
+  });
+});
+
+describe("orbitLogos", () => {
+  it("lists each image once and gives Franklin Templeton the illustration", () => {
+    const logos = orbitLogos([
+      { issuer: "WisdomTree", assets: [{ code: "GOLD" }, { code: "TIPS" }] },
+      { issuer: "Ondo", assets: [{ code: "USDY" }] },
+      { issuer: "Franklin Templeton", assets: [{ code: "BENJI" }] },
+      { issuer: "Unknown", assets: [{ code: "NOPE" }] },
+    ]);
+    expect(logos).toEqual([
+      { src: "/logos/wisdomtree.png", name: "WisdomTree" },
+      { src: "/logos/usdy.png", name: "Ondo USDY" },
+      { src: FRANKLIN_ILLUSTRATION, name: "Franklin Templeton BENJI" },
+    ]);
+  });
+  it("points the illustration at a file that exists", () => {
+    expect(fs.existsSync(path.join(process.cwd(), "public", FRANKLIN_ILLUSTRATION))).toBe(true);
   });
 });
 

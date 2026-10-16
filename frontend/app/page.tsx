@@ -6,6 +6,7 @@ import { Footer } from "@/components/landing/footer";
 import { Hero } from "@/components/landing/hero";
 import { HowItWorks } from "@/components/landing/how-it-works";
 import { Problem } from "@/components/landing/problem";
+import { WhyRecon } from "@/components/landing/why-recon";
 
 export default function Page() {
   return (
@@ -14,6 +15,7 @@ export default function Page() {
       <main>
         <Hero />
         <Problem />
+        <WhyRecon />
         <HowItWorks />
         <Features />
         <ChatSection />

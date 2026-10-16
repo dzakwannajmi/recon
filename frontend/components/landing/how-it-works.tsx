@@ -1,38 +1,17 @@
-import { Ball } from "./ball";
 import { Container, SectionHeading } from "./container";
+import { loadDemo } from "./demo";
+import { HowTabs } from "./how-tabs";
+import { STEPS, stepRows } from "./tabs";
 
-const STEPS = [
-  {
-    title: "The model finds and reads",
-    body: "An LLM reads the issuer's documents and extracts claims, each with an exact quote.",
-  },
-  {
-    title: "Code checks the quote and the chain",
-    body: "Code confirms the quote appears word for word, then compares the claim with Stellar mainnet data.",
-  },
-  {
-    title: "The result goes to a Soroban feed",
-    body: "Flags and facts are written to a Soroban contract on Stellar testnet.",
-  },
-];
-
+/** The three steps as tabs. Each panel shows real data from the sample asset, read from the status file at build time. */
 export function HowItWorks() {
+  const demo = loadDemo();
+  const steps = STEPS.map((s, i) => ({ ...s, rows: demo ? stepRows(demo, i) : [] }));
   return (
     <section id="how-it-works" aria-labelledby="how-title" className="scroll-mt-16 py-16 md:py-24">
       <Container>
-        <div className="flex items-end justify-between gap-6">
-          <SectionHeading id="how-title">How it works</SectionHeading>
-          <Ball className="size-28 shrink-0 md:size-40" />
-        </div>
-        <ol className="mt-8 grid gap-8 md:grid-cols-3 md:gap-10">
-          {STEPS.map((s, i) => (
-            <li key={s.title} className="flex flex-col gap-3 border-t border-foreground pt-4">
-              <span aria-hidden className="text-[10px] tracking-[0.18em] text-muted-foreground uppercase">0{i + 1}</span>
-              <h3 className="text-xl leading-[1.3]">{s.title}</h3>
-              <p className="text-muted-foreground">{s.body}</p>
-            </li>
-          ))}
-        </ol>
+        <SectionHeading id="how-title" lead="How" tail="it works" />
+        <HowTabs steps={steps} sample={demo ? `Sample data from ${demo.code}, as of ${demo.asOf}.` : null} />
       </Container>
     </section>
   );

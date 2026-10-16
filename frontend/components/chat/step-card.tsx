@@ -12,16 +12,16 @@ function Json({ label, value }: { label: string; value: unknown }) {
   );
 }
 
+/** A tool step as a small chip. Opening it shows the real input and output. */
 export function StepCard({ step }: { step: Step }) {
   return (
-    <Collapsible className="rounded-[10px] border bg-card font-mono text-xs">
-      <CollapsibleTrigger className="group flex w-full items-center gap-2 rounded-[10px] px-3 py-2 text-left hover:bg-muted focus-visible:outline-2 focus-visible:outline-foreground">
-        <ChevronRight className="size-3.5 transition-transform group-data-[panel-open]:rotate-90" />
-        <span className="text-muted-foreground uppercase">Tool</span>
+    <Collapsible className="max-w-full font-mono text-xs">
+      <CollapsibleTrigger className="group inline-flex max-w-full items-center gap-1.5 rounded-full border bg-card px-2.5 py-1 text-left hover:bg-muted focus-visible:outline-2 focus-visible:outline-foreground">
+        <ChevronRight className="size-3 shrink-0 transition-transform group-data-[panel-open]:rotate-90" />
         <span className="min-w-0 truncate text-foreground">{step.tool}</span>
-        {step.error && <Badge variant="destructive" className="ml-auto font-mono uppercase">Failed</Badge>}
+        {step.error && <Badge variant="destructive" className="ml-1 font-mono uppercase">Failed</Badge>}
       </CollapsibleTrigger>
-      <CollapsibleContent className="flex flex-col gap-2 border-t px-3 py-2">
+      <CollapsibleContent className="mt-2 flex flex-col gap-2 rounded-[10px] border bg-card px-3 py-2">
         <Json label="Input" value={step.args} />
         <Json label="Output" value={step.result} />
       </CollapsibleContent>

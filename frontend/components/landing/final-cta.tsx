@@ -1,5 +1,5 @@
 import { DEMO_HREF, FACT_SHEETS_HREF } from "@/components/layout/links";
-import { ButtonLink } from "@/components/ui/button-link";
+import { ButtonLink, GhostLink } from "@/components/ui/button-link";
 import { Container } from "./container";
 
 export function FinalCta() {
@@ -10,7 +10,7 @@ export function FinalCta() {
         <p className="mt-4 max-w-xl text-lg text-muted-foreground">Open a fact sheet or ask the agent about an asset.</p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <ButtonLink href={DEMO_HREF}>Try the agent</ButtonLink>
-          <ButtonLink href={FACT_SHEETS_HREF} variant="outline">Browse fact sheets</ButtonLink>
+          <GhostLink href={FACT_SHEETS_HREF}>Browse fact sheets</GhostLink>
         </div>
       </Container>
     </section>

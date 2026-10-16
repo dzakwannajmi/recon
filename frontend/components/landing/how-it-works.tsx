@@ -4,15 +4,15 @@ import { Container, SectionHeading } from "./container";
 const STEPS = [
   {
     title: "The model finds and reads",
-    body: "An LLM starts from the issuer's stellar.toml, follows links on the issuer's official domain, and pulls claims out of the documents. Every claim carries an exact quote.",
+    body: "An LLM reads the issuer's documents and extracts claims, each with an exact quote.",
   },
   {
     title: "Code checks the quote and the chain",
-    body: "Code confirms the quote appears word for word in the saved document. If it does not, the claim is dropped. Code then compares the claim with Stellar mainnet data and sets the flags. The model never sets a flag.",
+    body: "Code confirms the quote appears word for word, then compares the claim with Stellar mainnet data.",
   },
   {
     title: "The result goes to a Soroban feed",
-    body: "Flags and facts are written to a Soroban contract on Stellar testnet, so other programs can read them.",
+    body: "Flags and facts are written to a Soroban contract on Stellar testnet.",
   },
 ];
 

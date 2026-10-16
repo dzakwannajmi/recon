@@ -1,3 +1,4 @@
+import { DEMO_HREF, FACT_SHEETS_HREF } from "@/components/layout/links";
 import { ButtonLink } from "@/components/ui/button-link";
 import { AsciiBackground } from "./ascii-background";
 import { Container } from "./container";
@@ -22,7 +23,10 @@ export function Hero() {
         </p>
         <div className="mt-8 flex w-full max-w-[640px] flex-col items-center gap-4">
           <HeroPrompt />
-          <ButtonLink href="#scope" variant="outline" className="w-fit">Read the scope</ButtonLink>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <ButtonLink href={DEMO_HREF}>Try the agent</ButtonLink>
+            <ButtonLink href={FACT_SHEETS_HREF} variant="outline">Browse fact sheets</ButtonLink>
+          </div>
         </div>
       </Container>
       {/* The mascot is taller than its window; the section edge crops it. */}

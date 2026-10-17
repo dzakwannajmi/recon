@@ -10,6 +10,7 @@ import path from "path";
 import { getAssetFacts } from "../lib/chain/asset";
 import { checkIssuerIdentity } from "../lib/chain/identity";
 import { loadUniverse } from "../lib/chain/universe";
+import { assertWritable } from "../lib/monitor/frozen";
 
 const DELAY_MS = 500; // be polite to Horizon, StellarExpert, and issuer sites
 
@@ -23,6 +24,9 @@ async function main() {
   }
 
   const checkedAt = new Date().toISOString();
+  // Write-once evidence (D-047): stop before any network read when a published status used today's file.
+  const target = `data/checks/${checkedAt.slice(0, 10)}.json`;
+  assertWritable(target);
   const results = [];
   let failed = 0;
   for (const [i, asset] of universe.entries()) {
@@ -43,6 +47,7 @@ async function main() {
     }
   }
 
+  assertWritable(target); // again, in case a publish landed during the run
   const outDir = path.join(process.cwd(), "..", "data", "checks");
   fs.mkdirSync(outDir, { recursive: true });
   const outFile = path.join(outDir, `${checkedAt.slice(0, 10)}.json`);

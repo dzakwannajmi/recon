@@ -40,8 +40,8 @@ const short = (key: string) => `${key.slice(0, 4)}…${key.slice(-4)}`;
 const DAY_MS = 86_400_000;
 const dayMs = (d: string) => Date.parse(`${d}T00:00:00Z`);
 /** Whole UTC days from one YYYY-MM-DD day to another. */
-const wholeDays = (from: string, to: string) => Math.round((dayMs(to) - dayMs(from)) / DAY_MS);
-const addDays = (d: string, n: number) => new Date(dayMs(d) + n * DAY_MS).toISOString().slice(0, 10);
+export const wholeDays = (from: string, to: string) => Math.round((dayMs(to) - dayMs(from)) / DAY_MS);
+export const addDays = (d: string, n: number) => new Date(dayMs(d) + n * DAY_MS).toISOString().slice(0, 10);
 
 type Diff = { changes: string[]; extra?: Record<string, unknown> };
 

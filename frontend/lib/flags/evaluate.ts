@@ -3,7 +3,9 @@ import type { UniverseAsset } from "../chain/universe";
 import { currentRecords, type SnapshotRecord } from "../documents/store";
 import type { CheckResult } from "../examine/checks";
 import type { StoredSourceFact } from "../examine/sources";
-import { flagFlagChange, flagSignerChange, type ChecksSeries } from "./changes";
+import type { IssuanceFile } from "../monitor/types";
+import { mintBurnInputFor } from "../monitor/issuance";
+import { chainCheckedAt, flagFlagChange, flagSignerChange, type ChecksSeries } from "./changes";
 import { flagNoPublicDocs } from "./docs";
 import { flagIssuerIdentity } from "./identity";
 import { examChecksFor, reportDatesFor, rowFor } from "./inputs";
@@ -11,7 +13,7 @@ import { flagLargeMintBurn, flagPriceDeviation } from "./monitor";
 import { flagStaleAttestation } from "./stale";
 import { flagSupplyMismatch } from "./supply";
 import { flagTomlInconsistent } from "./toml";
-import type { ChecksRow, Evaluation } from "./types";
+import { day, type ChecksRow, type Evaluation } from "./types";
 
 /** The stored run files one run reads. */
 export type RunInputs = {
@@ -24,6 +26,8 @@ export type RunInputs = {
   claims: readonly Claim[];
   sources: readonly StoredSourceFact[];
   snapshots: readonly SnapshotRecord[];
+  /** The newest daily issuance file dated on or before as-of (D-047), or null when there is none. */
+  issuance: { file: string; data: IssuanceFile } | null;
 };
 
 /** One asset's rows over every checks file, oldest first, the current file's row last (undefined when it is missing there). */
@@ -31,11 +35,13 @@ export function seriesFor(asset: UniverseAsset, run: RunInputs): ChecksSeries {
   return [...run.earlierChecks, run.checks].map((rows) => rowFor(rows, asset.asset_code, asset.issuer));
 }
 
-/** All nine evaluations for one asset, in feed bit order. Monitor flags get no input in v1. */
+/** All nine evaluations for one asset, in feed bit order. LARGE_MINT_BURN reads the Monitor's issuance file; PRICE_DEVIATION has no input yet. */
 export function evaluateAsset(asset: UniverseAsset, run: RunInputs): Evaluation[] {
   const key = `${asset.asset_code}:${asset.issuer}`;
   const series = seriesFor(asset, run);
   const row = series[series.length - 1];
+  const checkedAt = chainCheckedAt(row);
+  const checkedDay = checkedAt ? day(checkedAt) : null;
   const exam = run.examinations ? examChecksFor(run.examinations.checks, key, run.examinations.file) : [];
   return [
     flagIssuerIdentity(row),
@@ -43,7 +49,7 @@ export function evaluateAsset(asset: UniverseAsset, run: RunInputs): Evaluation[
     flagStaleAttestation({ assetType: asset.asset_type, reports: reportDatesFor(key, run.sources, run.claims, run.snapshots), asOf: run.asOf }),
     flagFlagChange(series),
     flagSignerChange(series),
-    flagLargeMintBurn(null),
+    flagLargeMintBurn(run.issuance ? mintBurnInputFor(run.issuance.data, key) : null, checkedDay),
     flagPriceDeviation(null),
     flagNoPublicDocs(currentRecords(run.snapshots), key),
     flagTomlInconsistent(row, exam),

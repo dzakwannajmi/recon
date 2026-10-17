@@ -196,7 +196,7 @@ function feedStatus(loaded: LoadedStatus): FeedStatusFile {
   return parsed;
 }
 
-const INPUT_NAMES = ["checks", "previous_checks", "examinations", "claims", "sources", "snapshots", "reviews"] as const;
+const INPUT_NAMES = ["checks", "previous_checks", "examinations", "claims", "sources", "snapshots", "issuance", "reviews"] as const;
 
 function evidenceInputs(inputs: Record<string, unknown>) {
   const out: { name: string; path: string; sha256: string }[] = [];

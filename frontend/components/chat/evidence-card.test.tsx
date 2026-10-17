@@ -69,7 +69,7 @@ describe("BundleBody compact view", () => {
   const long = "The Fund is available on Stellar, Ethereum and Polygon.";
   const view: BundleView = {
     ...base,
-    flags: [{ flag: "F1", outcome: "raised", severity: "WARNING", text: "Mismatch between doc (p3) and on-chain 5 as of 2026-10-08.", as_of: "2026-10-08", evidence: [] }],
+    flags: [{ flag: "F1", outcome: "raised", severity: "WARNING", text: "Mismatch between doc (p3) and on-chain 5 as of 2026-10-08.", as_of: "2026-10-08", evidence: [{ quote: "<i>fq</i>", source_url: "https://issuer.example/f.pdf", snapshot_sha256: "ff", where: "p3" }] }],
     claims: [claim({ quote: "The Fund is available on Stellar" }), claim({ quote: long }), claim({ field: "custodian", value_text: "Bank", quote: "Custodian is Bank" })],
   };
 
@@ -81,6 +81,7 @@ describe("BundleBody compact view", () => {
     expect(out).toContain(`Evidence hash ${"e".repeat(10)}…${"e".repeat(8)}`);
     expect(out).not.toContain("e".repeat(64) + "</p>"); // the full hash is only in the tooltip
     expect(out).toContain("Mismatch between doc (p3) and on-chain 5 as of 2026-10-08.");
+    expect(out).toContain("Issuer claims (2 shown of 3, overlapping quotes collapsed)");
     expect(out).toContain("networks (1)");
     expect(out).toContain("custodian (1)");
     expect(out).toContain("1 overlapping quote collapsed");
@@ -88,9 +89,18 @@ describe("BundleBody compact view", () => {
     expect(out).not.toContain("Quote: The Fund is available on Stellar</p>");
   });
 
+  it("keeps each raised flag's evidence in a collapsed details block, as plain text", () => {
+    const out = renderToStaticMarkup(<BundleBody view={view} />);
+    expect(out).toContain("Evidence (1)");
+    expect(out).toContain("Quote: &lt;i&gt;fq&lt;/i&gt;");
+    expect(out).toContain("Source: https://issuer.example/f.pdf (p3)");
+    expect(out).toContain("Snapshot SHA-256: ff");
+    expect(out).not.toContain("<i>fq");
+  });
+
   it("makes each claim collapsible (native details) with quote, source URL, page, and snapshot hash", () => {
     const out = renderToStaticMarkup(<BundleBody view={view} />);
-    expect(out.match(/<details/g)).toHaveLength(2);
+    expect(out.match(/<details/g)).toHaveLength(3); // one flag evidence, two claims
     expect(out).toContain("Source: https://issuer.example/a.pdf");
     expect(out).toContain("Page: 3");
     expect(out).toContain("Snapshot SHA-256: ab");

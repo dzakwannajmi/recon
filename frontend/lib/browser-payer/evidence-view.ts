@@ -17,18 +17,21 @@ export type ClaimGroup = { field: string; items: { claim: ClaimView; collapsed: 
 const norm = (s: string | null) => (s ?? "").trim().replace(/\s+/g, " ");
 
 /**
- * Claims grouped by field (in order of first appearance), with overlapping quotes collapsed. A claim is hidden
- * when another claim of the same field, source, and snapshot has a longer quote that starts with its quote, or
- * the same quote and an earlier place in the list. The longest quote is kept; the kept claim records how many it absorbed.
+ * Claims grouped by field (in order of first appearance). With `collapse` (the on-screen view), a claim is hidden only
+ * when another claim of the same field, source, snapshot, value, and page has a longer quote that starts with its quote,
+ * or the same quote and an earlier place in the list: a claim that differs in any of these is never hidden. The longest
+ * quote is kept; the kept claim records how many it absorbed. Without `collapse` (the print page) every claim is listed.
  */
-export function groupClaims(claims: ClaimView[]): ClaimGroup[] {
+export function groupClaims(claims: ClaimView[], opts: { collapse?: boolean } = {}): ClaimGroup[] {
+  const collapse = opts.collapse ?? true;
   const groups = new Map<string, ClaimView[]>();
   for (const c of claims) {
     const key = c.field ?? "unknown field";
     groups.set(key, [...(groups.get(key) ?? []), c]);
   }
   return [...groups].map(([field, list]) => {
-    const same = (a: ClaimView, b: ClaimView) => a.source_url === b.source_url && a.snapshot_sha256 === b.snapshot_sha256;
+    const same = (a: ClaimView, b: ClaimView) =>
+      a.source_url === b.source_url && a.snapshot_sha256 === b.snapshot_sha256 && a.value_text === b.value_text && a.page === b.page;
     const covers = (big: ClaimView, small: ClaimView, bigIndex: number, smallIndex: number) => {
       if (!same(big, small)) return false;
       const b = norm(big.quote);
@@ -36,6 +39,7 @@ export function groupClaims(claims: ClaimView[]): ClaimGroup[] {
       if (s === "" || b === "") return false;
       return b.length > s.length ? b.startsWith(s) : b === s && bigIndex < smallIndex;
     };
+    if (!collapse) return { field, items: list.map((claim) => ({ claim, collapsed: 0 })) };
     const kept = list.flatMap((c, i) => {
       const hidden = list.some((o, j) => j !== i && covers(o, c, j, i));
       return hidden ? [] : [{ claim: c, collapsed: list.filter((o, j) => j !== i && covers(c, o, i, j)).length }];
@@ -80,7 +84,7 @@ export function printableHtml(view: BundleView): string {
         .join("")}</div>`,
     )
     .join("");
-  const claims = groupClaims(view.claims)
+  const claims = groupClaims(view.claims, { collapse: false })
     .map(
       (g) => `<h3>${escapeHtml(g.field)} (${g.items.length})</h3>${g.items
         .map(
@@ -108,9 +112,9 @@ export function printableHtml(view: BundleView): string {
 
 // ---------------------------------------------------------------- browser actions (DOM injected for tests)
 
-type DownloadDeps = { createObjectURL: (b: Blob) => string; revokeObjectURL: (u: string) => void; document: Pick<Document, "createElement" | "body"> };
+type DownloadDeps = { createObjectURL: (b: Blob) => string; revokeObjectURL: (u: string) => void; document: Pick<Document, "createElement" | "body">; later?: (f: () => void) => void };
 
-/** Saves text as a file. The anchor is clicked once and removed; the object URL is released. */
+/** Saves text as a file. The anchor is clicked once and removed; the object URL is released a moment later, so the download is not cancelled. */
 export function downloadText(name: string, text: string, mime: string, deps?: DownloadDeps): void {
   const d = deps ?? { createObjectURL: (b: Blob) => URL.createObjectURL(b), revokeObjectURL: (u: string) => URL.revokeObjectURL(u), document };
   const url = d.createObjectURL(new Blob([text], { type: mime }));
@@ -121,7 +125,7 @@ export function downloadText(name: string, text: string, mime: string, deps?: Do
   d.document.body.appendChild(a);
   a.click();
   a.remove();
-  d.revokeObjectURL(url);
+  (d.later ?? ((f) => void setTimeout(f, 1000)))(() => d.revokeObjectURL(url));
 }
 
 type PrintWindow = { document: { write(s: string): void; close(): void }; focus(): void; print(): void; opener: unknown };

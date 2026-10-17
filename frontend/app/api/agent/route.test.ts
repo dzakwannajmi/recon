@@ -2,6 +2,7 @@
  * POST /api/agent: how provider trouble reaches the page. No network: the agent run is stubbed.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { resetChatLimiter } from "@/lib/chat-limiter";
 
 const runAgent = vi.fn();
 vi.mock("@/agent/agent", () => ({ MODEL: "gemini-flash-latest", runAgent: (...a: unknown[]) => runAgent(...a) }));
@@ -23,6 +24,7 @@ describe("POST /api/agent errors", () => {
     vi.stubEnv("LLM_MODEL", "gemini-flash-latest");
     vi.stubEnv("TRUST_PROXY", "");
     runAgent.mockReset();
+    resetChatLimiter();
     vi.spyOn(console, "error").mockImplementation(() => {});
   });
   afterEach(() => {
@@ -37,6 +39,17 @@ describe("POST /api/agent errors", () => {
     expect(res.status).toBe(429);
     expect(res.headers.get("Retry-After")).toBe("42");
     expect((await res.json()).error).toBe("This model's request limit is reached. Pick another model or try later.");
+  });
+
+  it("finds our own request limit inside a retry wrapper and answers it with the clear 429 and Retry-After", async () => {
+    const { route, llm } = await load();
+    runAgent.mockRejectedValueOnce(retry(new llm.RequestLimitError(17)));
+    const res = await post(route);
+    expect(res.status).toBe(429);
+    expect(res.headers.get("Retry-After")).toBe("17");
+    expect((await res.json()).error).toBe("This model's request limit is reached. Pick another model or try later.");
+    runAgent.mockRejectedValueOnce(Object.assign(new Error("outer"), { cause: retry(new llm.RequestLimitError(9)) }));
+    expect((await post(route)).headers.get("Retry-After")).toBe("9");
   });
 
   it("maps a provider 429 behind AI_RetryError to 429, and a 503 to 503, with fixed words only", async () => {

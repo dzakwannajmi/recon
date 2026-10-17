@@ -2,6 +2,7 @@
  * POST /api/command: slash commands that skip the model. No network: the tools are stubbed.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { resetChatLimiter } from "@/lib/chat-limiter";
 
 const calls: { name: string; args: unknown }[] = [];
 const fake = (name: string, result: unknown) => ({
@@ -37,6 +38,7 @@ const post = (route: Awaited<ReturnType<typeof load>>, body: unknown, headers: R
 describe("POST /api/command", () => {
   beforeEach(() => {
     calls.length = 0;
+    resetChatLimiter();
     vi.stubEnv("TRUST_PROXY", "");
     vi.stubEnv("CHAT_RATE_LIMIT_PER_MIN", "");
     vi.stubEnv("GLOBAL_RATE_LIMIT_PER_MIN", "");

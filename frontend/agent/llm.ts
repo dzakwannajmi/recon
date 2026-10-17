@@ -154,6 +154,27 @@ export function budgetLeft(provider = PROVIDER) {
   return Math.max(0, DAILY_TOKEN_BUDGET - readUsage(provider).tokens);
 }
 
+/**
+ * The RequestLimitError inside an error, if any. The AI SDK wraps what a retried call throws (AI_RetryError.lastError,
+ * `errors`, or a cause), so the limit may sit one or two levels down.
+ */
+export function findRequestLimit(err: unknown): RequestLimitError | null {
+  const seen = new Set<unknown>();
+  const walk = (e: unknown, depth: number): RequestLimitError | null => {
+    if (e instanceof RequestLimitError) return e;
+    if (!(e instanceof Error) || seen.has(e) || depth > 5) return null;
+    seen.add(e);
+    const w = e as Error & { lastError?: unknown; errors?: unknown; cause?: unknown };
+    const next = [w.lastError, w.cause, ...(Array.isArray(w.errors) ? w.errors : [])];
+    for (const n of next) {
+      const hit = walk(n, depth + 1);
+      if (hit) return hit;
+    }
+    return null;
+  };
+  return walk(err, 0);
+}
+
 // ---------------------------------------------------------------- provider requests (chat only)
 
 /**

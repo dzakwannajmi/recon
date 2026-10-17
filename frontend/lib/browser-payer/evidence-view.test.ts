@@ -38,7 +38,7 @@ describe("groupClaims", () => {
       claim({ quote: "The Fund is available on Stellar" }),
       claim({ quote: "The Fund is available on Stellar, Ethereum" }),
       claim({ quote: long }),
-      claim({ quote: "The Fund is available on Stellar", value_text: "again" }),
+      claim({ quote: "The Fund is available on Stellar" }),
     ]);
     expect(g).toHaveLength(1);
     expect(g[0].items).toHaveLength(1);
@@ -47,8 +47,23 @@ describe("groupClaims", () => {
   });
 
   it("collapses an exact duplicate to its first occurrence", () => {
-    const g = groupClaims([claim({ quote: "same", value_text: "a" }), claim({ quote: "same", value_text: "b" })]);
-    expect(g[0].items.map((i) => i.claim.value_text)).toEqual(["a"]);
+    const g = groupClaims([claim({ quote: "same" }), claim({ quote: "same" })]);
+    expect(g[0].items).toHaveLength(1);
+  });
+
+  it("never hides a claim that differs in value or page, even when its quote is a prefix", () => {
+    const g = groupClaims([
+      claim({ quote: "Stellar", value_text: "Stellar" }),
+      claim({ quote: "Stellar and Ethereum", value_text: "Stellar, Ethereum" }),
+      claim({ quote: "Stellar and Ethereum", value_text: "Stellar", page: "9" }),
+    ]);
+    expect(g[0].items).toHaveLength(3);
+  });
+
+  it("lists every claim when not collapsing", () => {
+    const list = [claim({ quote: "a" }), claim({ quote: "a b" }), claim({ quote: "a b c" })];
+    expect(groupClaims(list)[0].items).toHaveLength(1);
+    expect(groupClaims(list, { collapse: false })[0].items).toHaveLength(3);
   });
 
   it("keeps quotes that are not prefixes, or that come from another source, snapshot, or field", () => {
@@ -85,6 +100,13 @@ describe("printableHtml", () => {
     expect(html).toContain("Mismatch between doc (p3) and on-chain 5 as of 2026-10-08.");
   });
 
+  it("lists every claim, so its count matches the list", () => {
+    const html = printableHtml(view({ claims: [claim({ quote: "Stellar" }), claim({ quote: "Stellar and Ethereum" }), claim({ field: "custodian", quote: "Bank" })] }));
+    expect(html).toContain("Issuer claims (3)");
+    expect(html).toContain("networks (2)");
+    expect(html.match(/Quote: /g)).toHaveLength(4); // three claims and one flag evidence
+  });
+
   it("states empty sections, and shows no amounts", () => {
     const html = printableHtml(view({ flags: [], claims: [] }));
     expect(html).toContain("None raised.");
@@ -104,9 +126,12 @@ describe("downloads", () => {
     let blob!: Blob;
     const a = { href: "", download: "", rel: "", click: vi.fn(), remove: vi.fn() };
     const append = vi.fn();
+    const revoke = vi.fn();
+    let later!: () => void;
     downloadText("f.json", text, "application/json", {
       createObjectURL: (b) => ((blob = b), "blob:x"),
-      revokeObjectURL: vi.fn(),
+      revokeObjectURL: revoke,
+      later: (f) => (later = f),
       document: { createElement: () => a as never, body: { appendChild: append } as never },
     });
     expect(await blob.text()).toBe(text);
@@ -114,6 +139,9 @@ describe("downloads", () => {
     expect(a).toMatchObject({ href: "blob:x", download: "f.json" });
     expect(a.click).toHaveBeenCalledTimes(1);
     expect(a.remove).toHaveBeenCalledTimes(1);
+    expect(revoke).not.toHaveBeenCalled(); // released later, so the download is not cancelled
+    later();
+    expect(revoke).toHaveBeenCalledWith("blob:x");
   });
 
   it("openPrintTab writes the page, cuts the opener, and prints; it reports a blocked tab", () => {

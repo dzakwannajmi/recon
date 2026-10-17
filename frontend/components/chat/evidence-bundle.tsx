@@ -21,6 +21,7 @@ export function BundleBody({ view, raw }: { view: BundleView; raw?: string }) {
   const h = "font-mono text-muted-foreground uppercase";
   const box = "flex flex-col gap-1 rounded-[6px] bg-secondary p-2 [overflow-wrap:anywhere] whitespace-pre-wrap";
   const groups = groupClaims(view.claims);
+  const shown = groups.reduce((n, g) => n + g.items.length, 0);
 
   return (
     <div className="flex flex-col gap-3 border-t pt-3" data-testid="bundle">
@@ -54,13 +55,25 @@ export function BundleBody({ view, raw }: { view: BundleView; raw?: string }) {
             <li key={i} className={box}>
               <p>{dash(f.text)}</p>
               <p className="text-muted-foreground">{dash(f.flag)} ({dash(f.severity)}), as of {dash(f.as_of)}</p>
+              {f.evidence.length > 0 && (
+                <details>
+                  <summary className="cursor-pointer focus-visible:outline-2 focus-visible:outline-foreground">Evidence ({f.evidence.length})</summary>
+                  {f.evidence.map((ev, j) => (
+                    <div key={j} className="mt-1 border-l-2 pl-2">
+                      <p>Quote: {dash(ev.quote)}</p>
+                      <p>Source: {dash(ev.source_url)}{ev.where ? ` (${ev.where})` : ""}</p>
+                      <p className="font-mono">Snapshot SHA-256: {dash(ev.snapshot_sha256)}</p>
+                    </div>
+                  ))}
+                </details>
+              )}
             </li>
           ))}
         </ul>
       </div>
 
       <div>
-        <p className={h}>Issuer claims ({view.claims.length})</p>
+        <p className={h}>Issuer claims ({shown}{shown !== view.claims.length ? ` shown of ${view.claims.length}, overlapping quotes collapsed` : ""})</p>
         {groups.length === 0 && <p>None on file.</p>}
         {groups.map((g) => (
           <div key={g.field} className="mt-2">

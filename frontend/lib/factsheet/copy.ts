@@ -66,11 +66,11 @@ export const COPY: Record<Lang, FactSheetCopy> = {
       },
       FLAG_CHANGE: {
         name: "Authorization setting changes",
-        checks: "Compares the issuer account's authorization settings on Stellar, such as the revocable and clawback flags, between two consecutive mainnet checks.",
+        checks: "Compares the issuer account's authorization settings on Stellar, such as the revocable and clawback flags, between mainnet checks. A change keeps the flag raised for 7 days after it is first seen.",
       },
       SIGNER_CHANGE: {
         name: "Signer changes",
-        checks: "Compares the issuer account's signers and thresholds between two consecutive mainnet checks.",
+        checks: "Compares the issuer account's signers and thresholds between mainnet checks. A change keeps the flag raised for 7 days after it is first seen.",
       },
       LARGE_MINT_BURN: {
         name: "Large mint or burn",
@@ -201,11 +201,11 @@ export const COPY: Record<Lang, FactSheetCopy> = {
       },
       FLAG_CHANGE: {
         name: "Perubahan pengaturan otorisasi",
-        checks: "Membandingkan pengaturan otorisasi akun penerbit di Stellar, seperti flag revocable dan clawback, antara dua pengecekan mainnet berturut-turut.",
+        checks: "Membandingkan pengaturan otorisasi akun penerbit di Stellar, seperti flag revocable dan clawback, antara pengecekan mainnet. Perubahan mempertahankan flag selama 7 hari sejak pertama kali terlihat.",
       },
       SIGNER_CHANGE: {
         name: "Perubahan signer",
-        checks: "Membandingkan signer dan threshold akun penerbit antara dua pengecekan mainnet berturut-turut.",
+        checks: "Membandingkan signer dan threshold akun penerbit antara pengecekan mainnet. Perubahan mempertahankan flag selama 7 hari sejak pertama kali terlihat.",
       },
       LARGE_MINT_BURN: {
         name: "Mint atau burn besar",

@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { resetChatLimiter } from "@/lib/chat-limiter";
 
 const runAgent = vi.fn(async (..._args: unknown[]) => ({ answer: "ok", steps: [] }));
 vi.mock("@/agent/agent", () => ({ runAgent, MODEL: "x" }));
@@ -10,6 +11,7 @@ const KEYS = { GEMINI_API_KEY: "g-secret", GROQ_API_KEY: "q-secret", OPENROUTER_
 /** llm.ts and models.ts read env at import time, so each test loads fresh copies. */
 async function load(env: Record<string, string> = {}) {
   vi.resetModules();
+  resetChatLimiter(); // the limiter lives on globalThis, so a fresh copy of the route needs a fresh limiter
   for (const k of ["LLM_PROVIDER", "LLM_MODEL", "GEMINI_API_KEY", "GROQ_API_KEY", "OPENROUTER_API_KEY", "VERCEL", "TRUST_PROXY"]) vi.stubEnv(k, "");
   for (const [k, v] of Object.entries(env)) vi.stubEnv(k, v);
   return { models: await import("./models"), route: await import("@/app/api/agent/route") };

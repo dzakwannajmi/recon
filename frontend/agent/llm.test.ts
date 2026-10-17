@@ -178,3 +178,116 @@ describe("per-provider daily usage", () => {
     expect(llm.budgetLeft("groq")).toBe(1000);
   });
 });
+
+describe("provider request limits (chat)", () => {
+  let dir: string;
+  beforeEach(() => {
+    dir = fs.mkdtempSync(path.join(os.tmpdir(), "llm-requests-test-"));
+    vi.spyOn(process, "cwd").mockReturnValue(dir);
+    for (const k of ["VERCEL", "LLM_DAILY_REQUEST_BUDGET", "LLM_MINUTE_REQUEST_BUDGET"]) vi.stubEnv(k, "");
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+    fs.rmSync(dir, { recursive: true, force: true });
+  });
+
+  const day = () => new Date().toISOString().slice(0, 10);
+  const file = (name: string) => path.join(dir, ".cache", name);
+  const writeRequests = (name: string, count: number, recent: number[] = [], d = day()) => {
+    fs.mkdirSync(path.join(dir, ".cache"), { recursive: true });
+    fs.writeFileSync(file(name), JSON.stringify({ day: d, count, recent }));
+  };
+
+  it("defaults to a conservative limit for google only, and lets the environment set one for every provider", async () => {
+    const llm = await load();
+    expect(llm.requestLimits("google")).toEqual({ day: 18, minute: 4 });
+    expect(llm.requestLimits("groq")).toEqual({ day: null, minute: null });
+    expect(llm.requestLimits("openrouter")).toEqual({ day: null, minute: null });
+    const set = await load({ LLM_DAILY_REQUEST_BUDGET: "7", LLM_MINUTE_REQUEST_BUDGET: "2" });
+    expect(set.requestLimits("google")).toEqual({ day: 7, minute: 2 });
+    expect(set.requestLimits("groq")).toEqual({ day: 7, minute: 2 });
+    // A typo falls back to the default; it cannot switch google's limit off.
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const typo = await load({ LLM_DAILY_REQUEST_BUDGET: "20/day" });
+    expect(typo.requestLimits("google").day).toBe(18);
+    expect(typo.requestLimits("groq").day).toBeNull();
+  });
+
+  it("counts a request per call and refuses at the minute limit, then frees up as the minute passes", async () => {
+    const llm = await load();
+    const t0 = 1_000_000_000_000;
+    for (let i = 0; i < 4; i++) llm.takeRequest("google", { now: t0 + i * 1000 });
+    expect(JSON.parse(fs.readFileSync(file("llm-requests.json"), "utf8")).count).toBe(4);
+    try {
+      llm.takeRequest("google", { now: t0 + 10_000 });
+      throw new Error("should have been refused");
+    } catch (err) {
+      expect(err).toBeInstanceOf(llm.RequestLimitError);
+      expect((err as Error).message).toBe("This model's request limit is reached. Pick another model or try later.");
+      expect((err as InstanceType<typeof llm.RequestLimitError>).retryAfterSeconds).toBe(50); // the oldest leaves the window at t0 + 60s, now is t0 + 10s
+    }
+    expect(JSON.parse(fs.readFileSync(file("llm-requests.json"), "utf8")).count).toBe(4); // a refusal is not counted
+    expect(() => llm.takeRequest("google", { now: t0 + 61_000 })).not.toThrow(); // the first request is more than a minute old
+  });
+
+  it("refuses at the daily limit until the UTC day changes, without touching other providers", async () => {
+    writeRequests("llm-requests.json", 18);
+    const llm = await load();
+    expect(() => llm.takeRequest("google")).toThrow(llm.RequestLimitError);
+    expect(() => llm.takeRequest("groq")).not.toThrow(); // no limit set for groq
+    expect(fs.existsSync(file("llm-requests-groq.json"))).toBe(false);
+    writeRequests("llm-requests.json", 18, [], "2000-01-01");
+    expect(() => llm.takeRequest("google")).not.toThrow();
+  });
+
+  it("keeps a separate count per provider when the environment limits them", async () => {
+    const llm = await load({ LLM_MINUTE_REQUEST_BUDGET: "1" });
+    llm.takeRequest("google");
+    llm.takeRequest("groq");
+    expect(() => llm.takeRequest("google")).toThrow(llm.RequestLimitError);
+    expect(() => llm.takeRequest("groq")).toThrow(llm.RequestLimitError);
+    expect(fs.existsSync(file("llm-requests.json"))).toBe(true);
+    expect(fs.existsSync(file("llm-requests-groq.json"))).toBe(true);
+  });
+
+  it("fails closed when the count cannot be read, and only for that provider", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    fs.mkdirSync(path.join(dir, ".cache"), { recursive: true });
+    fs.writeFileSync(file("llm-requests.json"), "not json");
+    const llm = await load();
+    expect(() => llm.takeRequest("google")).toThrow(llm.RequestLimitError);
+    writeRequests("llm-requests.json", 0); // even a repaired file stays blocked until the server restarts
+    expect(() => llm.takeRequest("google")).toThrow(llm.RequestLimitError);
+    const other = await load({ LLM_DAILY_REQUEST_BUDGET: "5" });
+    expect(() => other.takeRequest("groq")).not.toThrow();
+  });
+
+  it("fails closed when the count cannot be saved", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    fs.mkdirSync(path.join(dir, ".cache"));
+    fs.mkdirSync(file("llm-requests.json")); // a directory where the file should be: reads and writes fail
+    const llm = await load();
+    expect(() => llm.takeRequest("google")).toThrow(llm.RequestLimitError);
+  });
+
+  it("refuses a chat call before any provider call when the allowance is gone", async () => {
+    writeRequests("llm-requests.json", 18);
+    const llm = await load();
+    const ai = await import("ai");
+    await expect(llm.generateWithTools({ instructions: "i", messages: [], tools: [] })).rejects.toBeInstanceOf(llm.RequestLimitError);
+    expect(ai.generateText).not.toHaveBeenCalled();
+  });
+
+  it("counts every provider request the wrapped model sends (each step and each retry), and sends none once the limit is reached", async () => {
+    const llm = await load({ LLM_MINUTE_REQUEST_BUDGET: "2", LLM_DAILY_REQUEST_BUDGET: "50" });
+    const doGenerate = vi.fn(async () => ({ content: [], finishReason: "stop", usage: {}, warnings: [] }));
+    const fake = { specificationVersion: "v3", provider: "google.generative-ai", modelId: "m", supportedUrls: {}, doGenerate, doStream: vi.fn() };
+    const model = llm.withRequestCount(fake as never, "google");
+    await model.doGenerate({ prompt: [] } as never);
+    await model.doGenerate({ prompt: [] } as never);
+    await expect(model.doGenerate({ prompt: [] } as never)).rejects.toBeInstanceOf(llm.RequestLimitError);
+    expect(doGenerate).toHaveBeenCalledTimes(2);
+    expect(JSON.parse(fs.readFileSync(file("llm-requests.json"), "utf8")).count).toBe(2);
+  });
+});

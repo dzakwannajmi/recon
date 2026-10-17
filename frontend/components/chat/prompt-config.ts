@@ -1,4 +1,5 @@
 import { BankIcon } from "@hugeicons/core-free-icons";
+import { parseTyped } from "@/lib/commands";
 import type { ChatModelInfo } from "./types";
 import type { PromptBarCommand, PromptBarModel, PromptBarSource } from "@/components/effects/PromptBar";
 
@@ -16,9 +17,13 @@ export const PROMPT_COMMANDS: PromptBarCommand[] = [
   { key: "flags", name: "/flags", description: "List flags for <asset>" },
   { key: "status", name: "/status", description: "Status of <asset>" },
   { key: "claims", name: "/claims", description: "Show verified claims for <asset>" },
+  { key: "evidence", name: "/evidence", description: "Unlock evidence for <asset> (pays with your test wallet)" },
 ];
 
-/** The prompt each command stands for. Each one maps to a tool the agent already has. */
+/**
+ * The prompt each command stands for when it carries extra words ("/check USTRY and the supply"). A command with
+ * nothing after the asset code is not sent to the model at all: the page runs it directly (see use-agent.ts).
+ */
 const TEMPLATES: Record<string, (asset: string) => string> = {
   check: (a) => `Check ${a} on Stellar mainnet`,
   flags: (a) => `List the flags for ${a}`,
@@ -54,5 +59,12 @@ export function expandCommand(text: string): string {
   return m[3]?.trim() ? `${base}. ${m[3].trim()}` : base;
 }
 
-/** What is sent to the agent for what the user typed or picked. */
-export const preparePrompt = (text: string, assets: PromptAsset[]) => expandCommand(stripAssetMentions(text, assets));
+/**
+ * What is handed to the page for what the user typed or picked. A whole command ("/status USTRY", "/evidence @USTRY")
+ * stays as a command, with the mention stripped; extra words turn a read command into a prompt for the model.
+ */
+export function preparePrompt(text: string, assets: PromptAsset[]): string {
+  const plain = stripAssetMentions(text, assets);
+  const typed = parseTyped(plain);
+  return typed ? `/${typed.command} ${typed.code}` : expandCommand(plain);
+}

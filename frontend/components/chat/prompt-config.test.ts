@@ -28,8 +28,8 @@ describe("prompt config", () => {
     ]);
   });
 
-  it("has the four commands", () => {
-    expect(PROMPT_COMMANDS.map((c) => c.name)).toEqual(["/check", "/flags", "/status", "/claims"]);
+  it("has the commands, including /evidence", () => {
+    expect(PROMPT_COMMANDS.map((c) => c.name)).toEqual(["/check", "/flags", "/status", "/claims", "/evidence"]);
   });
 
   it("strips @ only for tracked codes", () => {
@@ -46,7 +46,16 @@ describe("prompt config", () => {
     expect(expandCommand("hello /check USTRY")).toBe("hello /check USTRY");
   });
 
-  it("prepares a prompt typed with a mention", () => {
-    expect(preparePrompt("/check @USTRY ", assets)).toBe("Check USTRY on Stellar mainnet");
+  it("keeps a whole command as a command (the page runs it without the model), with the mention stripped", () => {
+    expect(preparePrompt("/check @USTRY ", assets)).toBe("/check USTRY");
+    expect(preparePrompt("/evidence @BENJI", assets)).toBe("/evidence BENJI");
+    expect(preparePrompt("/status BENJI", assets)).toBe("/status BENJI");
+  });
+
+  it("sends a command with extra words to the model as a prompt, and unknown commands as text", () => {
+    expect(preparePrompt("/claims USTRY and the custodian", assets)).toBe("Show the verified claims for USTRY. and the custodian");
+    expect(preparePrompt("/evidence USTRY please", assets)).toBe("/evidence USTRY please");
+    expect(preparePrompt("/nope USTRY", assets)).toBe("/nope USTRY");
+    expect(preparePrompt("/check", assets)).toBe("/check");
   });
 });

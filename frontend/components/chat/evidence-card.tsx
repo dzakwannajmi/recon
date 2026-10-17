@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
 import { ExternalLink, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { decideAutoPay } from "@/lib/browser-payer/auto";
 import { EXPLORER_ACCOUNT, EXPLORER_TX } from "@/lib/browser-payer/constants";
 import type { Offer } from "@/lib/browser-payer/offer";
 import { BundleBody } from "./evidence-bundle";
@@ -22,8 +24,14 @@ const STATE_LINE = {
  * "Unlock evidence": the USER pays for the detail with a testnet wallet kept in this browser (x402, Stellar testnet).
  * The agent never pays and never sees the result: the bundle is shown here and goes nowhere else.
  */
-export function EvidenceCard({ offer }: { offer: Offer }) {
+export function EvidenceCard({ offer, autoPayId }: { offer: Offer; /** Set only for a card made by a command the user typed (`/evidence CODE`): it may pay once, without a click, when the wallet is ready. */ autoPayId?: string }) {
   const p = usePayer();
+
+  // At most one decision per typed command (lib/browser-payer/auto.ts). A card the model offered has no id and never pays by itself.
+  useEffect(() => {
+    const d = decideAutoPay({ id: autoPayId, settled: p.settled, state: p.state, pay: p.pay.kind, hasUrl: Boolean(offer.available && offer.url) });
+    if (d === "pay" && offer.url) void p.payFor(offer.url);
+  });
 
   if (!offer.available || !offer.url) {
     return (
@@ -82,7 +90,7 @@ export function EvidenceCard({ offer }: { offer: Offer }) {
         {p.address && p.pay.kind !== "paying" && <Button size="sm" variant="ghost" onClick={p.forget}>Forget wallet</Button>}
       </div>
 
-      {p.pay.kind === "paid" && (p.bundle ? <BundleBody view={p.bundle} /> : <p role="alert">The payment settled, but the response was not a recognised evidence bundle.</p>)}
+      {p.pay.kind === "paid" && (p.bundle ? <BundleBody view={p.bundle} raw={p.raw ?? undefined} /> : <p role="alert">The payment settled, but the response was not a recognised evidence bundle.</p>)}
     </section>
   );
 }

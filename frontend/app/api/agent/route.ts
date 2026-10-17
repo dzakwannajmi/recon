@@ -1,29 +1,18 @@
-import { describeError } from "@/lib/llm-errors";
+import { describeError, providerFailure } from "@/lib/llm-errors";
 import { MODEL, runAgent, type ChatMessage } from "@/agent/agent";
-import { BudgetExceededError, PROVIDER, apiKeyEnvName, budgetLeft, hasApiKey } from "@/agent/llm";
+import { BudgetExceededError, PROVIDER, apiKeyEnvName, budgetLeft, findRequestLimit, hasApiKey } from "@/agent/llm";
 import { availableChatModels, resolveChatModel, toPublic } from "@/agent/models";
 import { tools } from "@/agent/tools";
 import { WalletError } from "@/agent/wallet";
-import { positiveInt } from "@/lib/env";
-import { createRateLimiter, retryAfterHeader } from "@/lib/gateway/rate-limit";
+import { retryAfterHeader } from "@/lib/gateway/rate-limit";
+import { chatLimiter } from "@/lib/chat-limiter";
 
 // Up to 5 model steps with a 60s timeout (agent/llm.ts).
 export const maxDuration = 60;
 
-const RATE_LIMIT_PER_MIN = positiveInt("CHAT_RATE_LIMIT_PER_MIN", 10);
-const GLOBAL_RATE_LIMIT_PER_MIN = positiveInt("GLOBAL_RATE_LIMIT_PER_MIN", 30);
-// Only trust X-Forwarded-For behind a proxy that overwrites it; otherwise clients could spoof it.
-const TRUST_PROXY = process.env.TRUST_PROXY === "true";
 const MAX_BODY_BYTES = 100_000;
 const MAX_HISTORY = 20;
 const MAX_MESSAGE_CHARS = 4000;
-
-const limiter = createRateLimiter({
-  route: "agent",
-  perIpPerMin: RATE_LIMIT_PER_MIN,
-  globalPerMin: GLOBAL_RATE_LIMIT_PER_MIN,
-  trustProxy: TRUST_PROXY,
-});
 
 // GET /api/agent -> setup status + the list of tools (shown on the page)
 export async function GET() {
@@ -41,7 +30,7 @@ export async function GET() {
 
 // POST /api/agent { messages, model? } -> the agent's answer + the tools it used
 export async function POST(req: Request) {
-  const limit = limiter.check(req);
+  const limit = chatLimiter().check(req);
   if (limit.limited) {
     return Response.json(
       { error: "Too many messages. Wait a minute and try again." },
@@ -91,8 +80,14 @@ export async function POST(req: Request) {
     return Response.json(await runAgent(history, chat));
   } catch (err) {
     if (err instanceof BudgetExceededError) return Response.json({ error: err.message }, { status: 429 });
+    // Checked first: a retry wrapper can hold our own request-limit error (AI_RetryError.lastError).
+    const limited = findRequestLimit(err);
+    if (limited) return Response.json({ error: limited.message }, { status: 429, headers: { "Retry-After": String(limited.retryAfterSeconds) } });
     if (err instanceof WalletError) return Response.json({ error: err.message }, { status: 500 });
     console.error("Agent request failed:", describeError(err));
+    // A provider 429 or 503 gets a plain answer with advice; there is no silent fallback to another provider.
+    const busy = providerFailure(err);
+    if (busy) return Response.json({ error: busy.message }, { status: busy.status });
     return Response.json({ error: "Something went wrong. Try again in a moment." }, { status: 500 });
   }
 }

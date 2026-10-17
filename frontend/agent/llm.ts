@@ -14,7 +14,7 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { generateText, isStepCount, jsonSchema, Output, tool, type LanguageModelUsage, type ModelMessage } from "ai";
+import { generateText, isStepCount, jsonSchema, Output, tool, wrapLanguageModel, type LanguageModelUsage, type ModelMessage } from "ai";
 import type { z } from "zod";
 import { createGoogle } from "@ai-sdk/google";
 import { createGroq } from "@ai-sdk/groq";
@@ -51,6 +51,17 @@ export type Step = { tool: string; args: unknown; result: unknown; error?: boole
 
 /** The daily budget is used up. Its message is safe to show. */
 export class BudgetExceededError extends Error {}
+
+/** The words shown when a provider's request limit (per day or per minute) is reached. */
+export const REQUEST_LIMIT_MESSAGE = "This model's request limit is reached. Pick another model or try later.";
+
+/** A provider's request limit (per day or per minute) is reached; no provider call was made. Its message is safe to show. */
+export class RequestLimitError extends Error {
+  constructor(readonly retryAfterSeconds: number) {
+    super(REQUEST_LIMIT_MESSAGE);
+    this.name = "RequestLimitError";
+  }
+}
 
 /**
  * Batch extraction on another provider than chat needs its own model: the chat default is a
@@ -143,6 +154,134 @@ export function budgetLeft(provider = PROVIDER) {
   return Math.max(0, DAILY_TOKEN_BUDGET - readUsage(provider).tokens);
 }
 
+/**
+ * The RequestLimitError inside an error, if any. The AI SDK wraps what a retried call throws (AI_RetryError.lastError,
+ * `errors`, or a cause), so the limit may sit one or two levels down.
+ */
+export function findRequestLimit(err: unknown): RequestLimitError | null {
+  const seen = new Set<unknown>();
+  const walk = (e: unknown, depth: number): RequestLimitError | null => {
+    if (e instanceof RequestLimitError) return e;
+    if (!(e instanceof Error) || seen.has(e) || depth > 5) return null;
+    seen.add(e);
+    const w = e as Error & { lastError?: unknown; errors?: unknown; cause?: unknown };
+    const next = [w.lastError, w.cause, ...(Array.isArray(w.errors) ? w.errors : [])];
+    for (const n of next) {
+      const hit = walk(n, depth + 1);
+      if (hit) return hit;
+    }
+    return null;
+  };
+  return walk(err, 0);
+}
+
+// ---------------------------------------------------------------- provider requests (chat only)
+
+/**
+ * Free tiers limit REQUESTS, not just tokens (Gemini's free key: 5 per minute, 20 per day), and every tool step and
+ * every SDK retry is one request. So the chat counts requests per provider, per UTC day and per rolling minute, in
+ * its own file next to the token count, and refuses before a call that would go over. Same fail-closed rule: if the
+ * count cannot be read or saved, no call starts. Extraction runs from operator scripts, not from the page, and is
+ * left out. LLM_DAILY_REQUEST_BUDGET and LLM_MINUTE_REQUEST_BUDGET, when set, apply to every provider; when unset,
+ * google gets the conservative defaults below and the others have no request limit.
+ */
+const GOOGLE_DAILY_REQUESTS = 18;
+const GOOGLE_MINUTE_REQUESTS = 4;
+const MINUTE_MS = 60_000;
+
+/** The request limits of a provider; null means no limit. Read from the environment at call time. */
+export function requestLimits(provider: string): { day: number | null; minute: number | null } {
+  const google = provider === "google";
+  const day = (process.env.LLM_DAILY_REQUEST_BUDGET ?? "").trim() !== "" ? positiveInt("LLM_DAILY_REQUEST_BUDGET", google ? GOOGLE_DAILY_REQUESTS : 0) : google ? GOOGLE_DAILY_REQUESTS : 0;
+  const minute = (process.env.LLM_MINUTE_REQUEST_BUDGET ?? "").trim() !== "" ? positiveInt("LLM_MINUTE_REQUEST_BUDGET", google ? GOOGLE_MINUTE_REQUESTS : 0) : google ? GOOGLE_MINUTE_REQUESTS : 0;
+  return { day: day > 0 ? day : null, minute: minute > 0 ? minute : null };
+}
+
+type RequestCount = { day: string; count: number; /** Start times (ms) of the requests in the last minute. */ recent: number[] };
+
+const requestsUnavailable = new Set<string>();
+
+function requestFile(provider: string) {
+  keyEnv(provider);
+  return path.join(USAGE_DIR(), provider === "google" ? "llm-requests.json" : `llm-requests-${provider}.json`);
+}
+
+/** The count for today and the last minute. Throws when the file exists but cannot be read (the caller fails closed). */
+function readRequests(provider: string, now: number): RequestCount {
+  const fresh: RequestCount = { day: today(), count: 0, recent: [] };
+  let raw: string;
+  try {
+    raw = fs.readFileSync(requestFile(provider), "utf8");
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") return fresh;
+    throw err;
+  }
+  const saved = JSON.parse(raw) as RequestCount;
+  if (typeof saved.day !== "string" || !Number.isInteger(saved.count) || !Array.isArray(saved.recent)) throw new Error("bad request count");
+  const recent = saved.recent.filter((t) => Number.isFinite(t) && t <= now && now - t < MINUTE_MS);
+  return saved.day === fresh.day ? { day: saved.day, count: saved.count, recent } : { ...fresh, recent };
+}
+
+/** Seconds until the limit that is hit frees up: the oldest request leaves the minute, or the UTC day ends. At least 1. */
+function retryAfter(c: RequestCount, limits: ReturnType<typeof requestLimits>, now: number) {
+  const dayHit = limits.day !== null && c.count >= limits.day;
+  if (dayHit) return Math.max(1, Math.ceil((Date.parse(`${today()}T00:00:00Z`) + 86_400_000 - now) / 1000));
+  return Math.max(1, Math.ceil(((c.recent[0] ?? now) + MINUTE_MS - now) / 1000));
+}
+
+/**
+ * Takes one request from the provider's day and minute allowance, or throws RequestLimitError. With `reserve: false`
+ * it only checks. Synchronous from read to write, so concurrent requests in one server cannot both take the last one.
+ */
+export function takeRequest(provider: string, opts: { reserve?: boolean; now?: number } = {}) {
+  const limits = requestLimits(provider);
+  if (limits.day === null && limits.minute === null) return;
+  const now = opts.now ?? Date.now();
+  if (requestsUnavailable.has(provider)) throw new RequestLimitError(60);
+  let c: RequestCount;
+  try {
+    c = readRequests(provider, now);
+  } catch {
+    requestsUnavailable.add(provider);
+    console.error(`LLM request count could not be read for provider "${provider}"; its chat calls are blocked until the server restarts.`);
+    throw new RequestLimitError(60);
+  }
+  if ((limits.day !== null && c.count >= limits.day) || (limits.minute !== null && c.recent.length >= limits.minute)) {
+    throw new RequestLimitError(retryAfter(c, limits, now));
+  }
+  if (opts.reserve === false) return;
+  c.count += 1;
+  c.recent.push(now);
+  try {
+    const file = requestFile(provider);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    const tmp = `${file}.${process.pid}.tmp`;
+    fs.writeFileSync(tmp, JSON.stringify(c));
+    fs.renameSync(tmp, file);
+  } catch (err) {
+    requestsUnavailable.add(provider);
+    console.error("LLM request count could not be saved:", (err as Error).name);
+    throw new RequestLimitError(60);
+  }
+}
+
+/** Wraps a model so that every request it sends to the provider (each step, each retry) is counted first. */
+export function withRequestCount<M extends Parameters<typeof wrapLanguageModel>[0]["model"]>(model: M, provider: string) {
+  return wrapLanguageModel({
+    model,
+    middleware: {
+      wrapGenerate: async ({ doGenerate }) => {
+        takeRequest(provider);
+        return doGenerate();
+      },
+      wrapStream: async ({ doStream }) => {
+        takeRequest(provider);
+        return doStream();
+      },
+    },
+  });
+}
+
 /** Run the model with tools for up to MAX_STEPS steps and return the answer plus every tool call. */
 export async function generateWithTools(opts: {
   instructions: string;
@@ -154,6 +293,8 @@ export async function generateWithTools(opts: {
   const provider = opts.chat?.provider ?? PROVIDER;
   const modelName = opts.chat?.model ?? MODEL;
   if (budgetLeft(provider) <= 0) throw new BudgetExceededError("Today's LLM budget is used up. Try again tomorrow.");
+  // Refuse before any provider call when the request allowance is gone (each model step then takes one more).
+  takeRequest(provider, { reserve: false });
 
   const steps: Step[] = [];
   const controller = new AbortController();
@@ -172,7 +313,7 @@ export async function generateWithTools(opts: {
 
   try {
     const result = await generateText({
-      model: languageModel(provider, modelName),
+      model: withRequestCount(languageModel(provider, modelName), provider),
       instructions: opts.instructions,
       messages: opts.messages,
       tools: modelTools,

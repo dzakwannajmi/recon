@@ -18,3 +18,23 @@ export function describeError(err: unknown): string {
   }
   return text.slice(0, 120);
 }
+
+/** Words safe to show when a provider refuses or is down. They name what to do and never carry provider text. */
+export const PROVIDER_BUSY_MESSAGE = "This model's provider is busy (rate limited). Pick another model or try later.";
+export const PROVIDER_DOWN_MESSAGE = "This model's provider is unavailable right now. Pick another model or try later.";
+
+/**
+ * The HTTP status a provider answered with, looking through a retry wrapper (AI_RetryError.lastError) and error causes.
+ * Only 429 and 503 are mapped; anything else stays a generic failure. Never returns provider text.
+ */
+export function providerFailure(err: unknown): { status: 429 | 503; message: string } | null {
+  const seen = new Set<unknown>();
+  for (let e: unknown = err; e instanceof Error && !seen.has(e) && seen.size < 6; ) {
+    seen.add(e);
+    const status = (e as { statusCode?: unknown }).statusCode;
+    if (status === 429) return { status: 429, message: PROVIDER_BUSY_MESSAGE };
+    if (status === 503) return { status: 503, message: PROVIDER_DOWN_MESSAGE };
+    e = (e as { lastError?: unknown }).lastError ?? (e as { cause?: unknown }).cause;
+  }
+  return null;
+}

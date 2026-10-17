@@ -10,7 +10,7 @@ import { offersOf, parseOffer } from "./offer";
 import { detailUrl, payForDetail } from "./pay";
 import { refuseReason } from "./policy";
 import { IDLE, payReducer, type PayState } from "./state";
-import { browserStore, burnerKey, createBurner, forgetSecret, loadSecret, type KeyStore } from "./storage";
+import { browserStore, burnerKey, clearUnknown, createBurner, forgetSecret, loadSecret, loadUnknown, saveUnknown, type KeyStore } from "./storage";
 
 const A = "GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5";
 const memory = (): KeyStore & { data: Map<string, string> } => {
@@ -66,6 +66,32 @@ describe("wallet storage", () => {
   it("the burner key exposes the address and signs", () => {
     const kp = Keypair.random();
     expect(burnerKey(kp.secret()).address).toBe(kp.publicKey());
+  });
+});
+
+describe("the unknown-outcome marker", () => {
+  const TX = "ab".repeat(32);
+  it("is kept across loads, shared through the store, and survives forgetting the wallet", () => {
+    const store = memory();
+    expect(loadUnknown(store)).toBeNull();
+    saveUnknown(store, { tx: null });
+    expect(loadUnknown(store)).toEqual({ tx: null });
+    saveUnknown(store, { tx: TX });
+    expect(loadUnknown(store)).toEqual({ tx: TX });
+    createBurner(store);
+    forgetSecret(store);
+    expect(loadUnknown(store)).toEqual({ tx: TX });
+    clearUnknown(store);
+    expect(loadUnknown(store)).toBeNull();
+  });
+  it("ignores junk and tolerates blocked storage", () => {
+    const store = memory();
+    store.setItem("testnet-payer-unknown-outcome", "unknown:not-a-hash");
+    expect(loadUnknown(store)).toBeNull();
+    expect(loadUnknown(blocked)).toBeNull();
+    expect(() => saveUnknown(blocked, { tx: null })).not.toThrow();
+    expect(() => clearUnknown(blocked)).not.toThrow();
+    expect(loadUnknown(null)).toBeNull();
   });
 });
 
@@ -171,6 +197,16 @@ describe("pay state machine", () => {
     const paid: PayState = { kind: "paid", tx: "t" };
     expect(reduce(paid, { type: "start" })).toBe(paid);
     expect(reduce(paid, { type: "acknowledge" })).toBe(paid);
+  });
+  it("sync follows the shared marker: a card on a reload or beside another card is unknown until the user acknowledges", () => {
+    const unknown = reduce(IDLE, { type: "sync", unknown: { tx: null } });
+    expect(unknown).toEqual({ kind: "unknown", tx: null });
+    expect(reduce(unknown, { type: "start" })).toBe(unknown);
+    expect(reduce(unknown, { type: "sync", unknown: null })).toEqual(IDLE); // cleared by the user in another card
+    const paying = reduce(IDLE, { type: "start" });
+    expect(reduce(paying, { type: "sync", unknown: { tx: null } })).toBe(paying);
+    const paid: PayState = { kind: "paid", tx: "t" };
+    expect(reduce(paid, { type: "sync", unknown: null })).toBe(paid);
   });
   it("a result without a start is ignored", () => {
     expect(reduce(IDLE, { type: "result", outcome: { kind: "paid", tx: "t", body: {} } })).toBe(IDLE);

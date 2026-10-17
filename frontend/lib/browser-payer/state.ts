@@ -14,7 +14,8 @@ export type PayOutcome =
   | { kind: "failed"; message: string }
   | { kind: "unknown"; tx: string | null };
 
-export type PayEvent = { type: "start" } | { type: "result"; outcome: PayOutcome } | { type: "acknowledge" };
+/** `sync` brings a card in line with the shared marker in storage (another card, a reload, another tab). */
+export type PayEvent = { type: "start" } | { type: "result"; outcome: PayOutcome } | { type: "acknowledge" } | { type: "sync"; unknown: { tx: string | null } | null };
 
 export const IDLE: PayState = { kind: "idle" };
 
@@ -29,6 +30,11 @@ export function payReducer(state: PayState, event: PayEvent): PayState {
       if (o.kind === "paid") return { kind: "paid", tx: o.tx };
       if (o.kind === "failed") return { kind: "failed", message: o.message };
       return { kind: "unknown", tx: o.tx };
+    }
+    case "sync": {
+      if (state.kind === "paying" || state.kind === "paid") return state;
+      if (event.unknown) return state.kind === "unknown" ? state : { kind: "unknown", tx: event.unknown.tx };
+      return state.kind === "unknown" ? IDLE : state;
     }
     case "acknowledge":
       // The user checked the explorer; this is the only way out of "unknown". A paid state stays paid.

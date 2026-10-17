@@ -7,20 +7,26 @@
  * pure mirror of `paymentConfig(env).ok`. evidence.test.ts checks the two agree on a table of environments.
  */
 import { StrKey } from "@stellar/stellar-sdk";
+import { ExactStellarScheme } from "@x402/stellar/exact/server";
 import type { StatusFile } from "../factsheet/load";
 
 const TESTNET = "stellar:testnet";
 const FACILITATOR_DEFAULT = "https://x402.org/facilitator";
 const FACILITATOR_HOSTS = ["x402.org", "www.x402.org"];
+const USDC_TESTNET_SAC = "CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA";
+
+/** Same check as `pinnedAssetMatchesPackage()`: the installed x402 package must still know the pinned testnet USDC (7 decimals). */
+export const pinnedAssetMatchesPackage = (): boolean => new ExactStellarScheme().getAssetDecimals(USDC_TESTNET_SAC, TESTNET) === 7;
 
 type Env = Record<string, string | undefined>;
 const unset = (v: string | undefined) => v === undefined || v.trim() === "";
 
 /** True exactly when the paid detail route is switched on and configured (same rules as `paymentConfig(env).ok`). */
-export function paidDetailAvailable(env: Env): boolean {
+export function paidDetailAvailable(env: Env, assetMatches: () => boolean = pinnedAssetMatchesPackage): boolean {
   if (!unset(env.PRICING_ENABLED) && env.PRICING_ENABLED !== "false") return false;
   if (env.X402_ENABLED !== "true") return false;
   if (!unset(env.X402_NETWORK) && env.X402_NETWORK !== TESTNET) return false;
+  if (!assetMatches()) return false;
   const payTo = (env.X402_PAY_TO ?? "").trim();
   if (payTo.startsWith("S") || !StrKey.isValidEd25519PublicKey(payTo)) return false;
   if (!/^[1-9][0-9]{0,11}$/.test((env.X402_TESTNET_AMOUNT ?? "").trim())) return false;

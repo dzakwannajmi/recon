@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { paymentConfig } from "@/lib/gateway/payment-config";
 import { asset, statusFile } from "@/lib/factsheet/fixtures";
-import { paidDetailAvailable, projectEvidenceOffer } from "./evidence";
+import { paidDetailAvailable, pinnedAssetMatchesPackage, projectEvidenceOffer } from "./evidence";
 
 const G = "GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5";
 const ON = { X402_ENABLED: "true", X402_PAY_TO: G, X402_TESTNET_AMOUNT: "100" };
@@ -27,7 +27,13 @@ describe("paidDetailAvailable agrees with paymentConfig(env).ok", () => {
   };
   for (const [name, env] of Object.entries(cases)) {
     it(name, () => expect(paidDetailAvailable(env)).toBe(paymentConfig(env).ok));
+    it(`${name}, package asset mismatch`, () => expect(paidDetailAvailable(env, () => false)).toBe(paymentConfig(env, () => false).ok));
   }
+  it("a package that no longer knows the pinned asset closes the tool, as it closes the route", () => {
+    expect(paidDetailAvailable(ON, () => false)).toBe(false);
+    expect(paymentConfig(ON, () => false)).toEqual({ ok: false, reason: "asset_constant_mismatch" });
+    expect(pinnedAssetMatchesPackage()).toBe(true);
+  });
 });
 
 describe("projectEvidenceOffer", () => {

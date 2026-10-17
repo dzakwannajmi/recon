@@ -6,7 +6,7 @@
 import { Keypair, StrKey, type Transaction } from "@stellar/stellar-sdk";
 import { createEd25519Signer } from "@x402/stellar";
 import type { ClientStellarSigner } from "@x402/stellar";
-import { NETWORK, STORAGE_KEY } from "./constants";
+import { NETWORK, STORAGE_KEY, UNKNOWN_KEY } from "./constants";
 
 export type KeyStore = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
@@ -67,5 +67,38 @@ export function forgetSecret(store: KeyStore | null): void {
     store?.removeItem(STORAGE_KEY);
   } catch {
     // nothing kept, or storage blocked: nothing to forget
+  }
+}
+
+/**
+ * The "payment outcome unknown" marker. Shared by every card, kept across reloads, and NOT removed by "Forget wallet":
+ * only the user's "I checked the explorer" clears it. It holds the settlement transaction hash when there was one.
+ */
+export type UnknownMarker = { tx: string | null };
+
+export function loadUnknown(store: KeyStore | null): UnknownMarker | null {
+  try {
+    const v = store?.getItem(UNKNOWN_KEY);
+    if (v === "unknown") return { tx: null };
+    const m = typeof v === "string" ? /^unknown:([0-9a-f]{64})$/i.exec(v) : null;
+    return m ? { tx: m[1] } : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveUnknown(store: KeyStore | null, marker: UnknownMarker): void {
+  try {
+    store?.setItem(UNKNOWN_KEY, marker.tx ? `unknown:${marker.tx}` : "unknown");
+  } catch {
+    // storage blocked: the marker then lives in this card's memory only
+  }
+}
+
+export function clearUnknown(store: KeyStore | null): void {
+  try {
+    store?.removeItem(UNKNOWN_KEY);
+  } catch {
+    // nothing kept, or storage blocked
   }
 }

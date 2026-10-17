@@ -62,6 +62,10 @@ describe("golden rules 1 and 8: nothing the app can reach touches the signing pa
     expect(g.read("components/chat/use-payer.ts").trimStart().startsWith('"use client"')).toBe(true);
     // No server entry (agent/, app/api/, app/**/route, server actions) reaches it directly; only the client hook does.
     for (const f of importers.filter((f) => /^(agent|app)\//.test(f))) expect(f, "server code imports the browser key file").toBe("");
+    // Not even transitively: nothing reachable from agent/ or app/api/ (the server entries) reaches the key file.
+    const serverRoots = [...g.index.values()].filter((f) => /^(agent|app\/api)\//.test(f) && !IS_TEST.test(f) && f.toLowerCase() !== SIGNER);
+    expect(serverRoots.length).toBeGreaterThan(8);
+    expect(reachable(serverRoots, g).has(BROWSER_KEY_FILE)).toBe(false);
     for (const f of [...g.index.values()].filter((f) => f.startsWith("lib/browser-payer/") && !IS_TEST.test(f))) {
       expect(g.read(f), f).not.toMatch(/process\.env|node:fs|\bfs\b.*from|readFileSync/);
       expect(g.read(f), f).not.toMatch(/AGENT_SECRET_KEY|getAgentKeypair|\.agent-wallet/i);

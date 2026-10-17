@@ -17,3 +17,4 @@ export const EXPLORER_TX = "https://stellar.expert/explorer/testnet/tx";
 export const DETAIL_SCHEMA = "check-detail/1";
 
 export const STORAGE_KEY = "testnet-payer-secret";
+export const UNKNOWN_KEY = "testnet-payer-unknown-outcome";

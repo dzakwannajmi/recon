@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "r
 import { addTrustline, friendbot, readSnapshot, walletState, type Snapshot, type WalletState } from "@/lib/browser-payer/chain";
 import { payForDetail } from "@/lib/browser-payer/pay";
 import { IDLE, payReducer, type PayState } from "@/lib/browser-payer/state";
-import { browserStore, burnerKey, createBurner, forgetSecret, loadSecret, type PayerKey } from "@/lib/browser-payer/storage";
+import { browserStore, burnerKey, clearUnknown, createBurner, forgetSecret, loadSecret, loadUnknown, saveUnknown, type PayerKey } from "@/lib/browser-payer/storage";
 import { toBundleView, type BundleView } from "@/lib/browser-payer/bundle";
 
 const CHANGED = "payer-wallet-changed";
@@ -40,7 +40,11 @@ export function usePayer() {
   }, [key]);
 
   useEffect(() => {
-    const load = () => setSecret(loadSecret(browserStore()));
+    const load = () => {
+      const store = browserStore();
+      setSecret(loadSecret(store));
+      dispatch({ type: "sync", unknown: loadUnknown(store) });
+    };
     load();
     window.addEventListener(CHANGED, load);
     window.addEventListener("storage", load);
@@ -68,7 +72,7 @@ export function usePayer() {
     setSecret(null);
     setSnap(null);
     setBundle(null);
-    dispatch({ type: "acknowledge" });
+    // The unknown-outcome marker is deliberately kept: forgetting the wallet does not make a possible payment safe to repeat.
     announce();
   }
 
@@ -99,6 +103,10 @@ export function usePayer() {
     try {
       const outcome = await payForDetail({ url, key, balanceBase: snap.usdcBase, fetchFn: fetch });
       if (outcome.kind === "paid") setBundle(toBundleView(outcome.body));
+      if (outcome.kind === "unknown") {
+        saveUnknown(browserStore(), { tx: outcome.tx });
+        announce();
+      }
       dispatch({ type: "result", outcome });
     } finally {
       inFlight.current = false;
@@ -106,6 +114,13 @@ export function usePayer() {
     void refresh();
   }
 
+  /** Only the user's click clears the shared marker. */
+  function acknowledge() {
+    clearUnknown(browserStore());
+    dispatch({ type: "acknowledge" });
+    announce();
+  }
+
   const state: WalletState = walletState(Boolean(key), snap === "unreadable" ? null : snap);
-  return { address: key?.address ?? null, kept, snap, state, busy, notice, pay, bundle, create, forget, fund, trust, refresh, payFor, acknowledge: () => dispatch({ type: "acknowledge" }) };
+  return { address: key?.address ?? null, kept, snap, state, busy, notice, pay, bundle, create, forget, fund, trust, refresh, payFor, acknowledge };
 }

@@ -51,7 +51,7 @@ The scope is non-stablecoin real-world assets on Stellar: tokenized treasuries, 
 - **Issuer documents are untrusted data.** Instructions inside them are never followed. SEC filings are a separate source class, `regulatory_filing`.
 - **Operator review queue.** Failed or empty extractions are listed. Reviewed proposals pass through the same verifier.
 - **7-day hold.** A change to an issuer's authorization flags or signers keeps its flag for seven days after it was first seen. Code decides, not the model.
-- **Feed on Stellar testnet.** Lending protocols and other agents read each asset's status, flag bitmask, evidence hash, and as-of time from a Soroban contract the agent's own wallet writes to.
+- **Feed on Stellar testnet.** Lending protocols and other agents read each asset's status, flag bitmask, evidence hash, and as-of time from a Soroban contract the agent's own wallet writes to. Each entry is keyed by the asset's mainnet Stellar Asset Contract id, so that id exists on mainnet and shows as not found on the testnet explorer; only the feed contract itself lives on testnet.
 - **Example consumer.** A mock lending market and a keeper that pauses new borrows when the feed reports CRITICAL. The CRITICAL path is shown only on a synthetic, clearly labeled demo feed.
 - **MCP endpoint.** Other agents call `check_asset`, `get_fact_sheet`, and `list_flags` at `POST /api/mcp`.
 - **Paid detail with x402 (testnet).** `GET /api/check/detail` returns the full evidence bundle for a test payment settled on Stellar testnet. The free summary stays free. It is off on the live app and runs from a local setup.

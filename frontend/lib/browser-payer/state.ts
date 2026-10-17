@@ -10,7 +10,7 @@ export type PayState =
   | { kind: "unknown"; tx: string | null };
 
 export type PayOutcome =
-  | { kind: "paid"; tx: string; body: unknown }
+  | { kind: "paid"; tx: string; body: unknown; /** The response text exactly as received (for the JSON download). */ raw?: string }
   | { kind: "failed"; message: string }
   | { kind: "unknown"; tx: string | null };
 

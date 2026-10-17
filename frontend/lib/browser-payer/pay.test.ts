@@ -63,4 +63,14 @@ describe("payForDetail after the paid request is sent", () => {
     expect(Object.keys(seen[0].headers)).toHaveLength(0);
     expect(Object.keys(seen[1].headers).join(",")).toMatch(/PAYMENT-SIGNATURE/i);
   });
+
+  it("keeps the paid response text exactly as received, next to its parsed form, after one paid request", async () => {
+    const tx = "a".repeat(64);
+    const text = '{ "schema": "check-detail/1",\n  "n": 1.0 }\n';
+    const settle = btoa(JSON.stringify({ success: true, transaction: tx, network: NETWORK, payer: PAY_TO }));
+    const f = vi.fn().mockImplementationOnce(async () => unpaid()).mockImplementationOnce(async () => new Response(text, { status: 200, headers: { "PAYMENT-RESPONSE": settle } }));
+    const out = await payForDetail({ url, key, balanceBase: 100n, fetchFn: f as never });
+    expect(out).toEqual({ kind: "paid", tx, body: { schema: "check-detail/1", n: 1 }, raw: text });
+    expect(f).toHaveBeenCalledTimes(2);
+  });
 });

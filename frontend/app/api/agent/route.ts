@@ -1,5 +1,6 @@
+import { describeError, providerFailure } from "@/lib/llm-errors";
 import { MODEL, runAgent, type ChatMessage } from "@/agent/agent";
-import { BudgetExceededError, PROVIDER, apiKeyEnvName, budgetLeft, hasApiKey } from "@/agent/llm";
+import { BudgetExceededError, PROVIDER, RequestLimitError, apiKeyEnvName, budgetLeft, hasApiKey } from "@/agent/llm";
 import { availableChatModels, resolveChatModel, toPublic } from "@/agent/models";
 import { tools } from "@/agent/tools";
 import { WalletError } from "@/agent/wallet";
@@ -90,8 +91,14 @@ export async function POST(req: Request) {
     return Response.json(await runAgent(history, chat));
   } catch (err) {
     if (err instanceof BudgetExceededError) return Response.json({ error: err.message }, { status: 429 });
+    if (err instanceof RequestLimitError) {
+      return Response.json({ error: err.message }, { status: 429, headers: { "Retry-After": String(err.retryAfterSeconds) } });
+    }
     if (err instanceof WalletError) return Response.json({ error: err.message }, { status: 500 });
-    console.error("Agent request failed:", (err as Error).name);
+    console.error("Agent request failed:", describeError(err));
+    // A provider 429 or 503 gets a plain answer with advice; there is no silent fallback to another provider.
+    const busy = providerFailure(err);
+    if (busy) return Response.json({ error: busy.message }, { status: busy.status });
     return Response.json({ error: "Something went wrong. Try again in a moment." }, { status: 500 });
   }
 }

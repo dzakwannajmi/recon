@@ -64,7 +64,8 @@ export async function payForDetail({ url, key, balanceBase, fetchFn }: PayInput)
   }
   if (res.status !== 200 || !tx) return { kind: "unknown", tx };
   try {
-    return { kind: "paid", tx, body: await res.json() };
+    const raw = await res.text();
+    return { kind: "paid", tx, body: JSON.parse(raw), raw };
   } catch {
     return { kind: "unknown", tx };
   }

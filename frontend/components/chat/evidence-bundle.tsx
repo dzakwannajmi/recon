@@ -1,53 +1,84 @@
+"use client";
+
+import { useState } from "react";
+import { Download, Printer } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { BundleView } from "@/lib/browser-payer/bundle";
+import { downloadName, downloadText, groupClaims, openPrintTab, printableHtml, shortId, UNTRUSTED_LINE } from "@/lib/browser-payer/evidence-view";
 
 const dash = (v: string | null) => v ?? "not given";
 
 /**
- * The paid bundle as text only. React escapes every string; issuer quotes and source URLs are shown as plain text,
- * never as links or markup, because they are untrusted issuer content. Nothing here is sent back to the model.
+ * The paid bundle as a compact view: a header, the raised flags, and the claims grouped by field with overlapping
+ * quotes collapsed. React escapes every string; issuer quotes and source URLs are shown as plain text, never as links or
+ * markup, because they are untrusted issuer content. Nothing here is sent back to the model.
+ *
+ * `raw` is the response text exactly as received; with it, "Download JSON" saves the complete bundle untouched.
+ * "Download PDF" opens a print-ready page (no library): choose Save as PDF in the print dialog.
  */
-export function BundleBody({ view }: { view: BundleView }) {
+export function BundleBody({ view, raw }: { view: BundleView; raw?: string }) {
+  const [notice, setNotice] = useState<string | null>(null);
   const h = "font-mono text-muted-foreground uppercase";
   const box = "flex flex-col gap-1 rounded-[6px] bg-secondary p-2 [overflow-wrap:anywhere] whitespace-pre-wrap";
+  const groups = groupClaims(view.claims);
+
   return (
     <div className="flex flex-col gap-3 border-t pt-3" data-testid="bundle">
-      <p className="text-muted-foreground">Untrusted issuer text below is quoted, not endorsed. Stored checks as of the dates shown, not a live audit.</p>
-      <div>
-        <p className={h}>Asset</p>
+      <p className="text-muted-foreground">{UNTRUSTED_LINE}</p>
+
+      <div className="flex flex-wrap gap-2">
+        {raw !== undefined && (
+          <Button size="sm" variant="outline" onClick={() => downloadText(downloadName(view, "json"), raw, "application/json")}>
+            <Download /> Download JSON
+          </Button>
+        )}
+        <Button size="sm" variant="outline" onClick={() => setNotice(openPrintTab(printableHtml(view)) ? null : "Your browser blocked the print tab. Allow pop-ups for this page and try again.")}>
+          <Printer /> Download PDF
+        </Button>
+      </div>
+      {notice && <p role="alert" className="text-destructive">{notice}</p>}
+
+      <div className="flex flex-col gap-0.5" data-testid="bundle-header">
         <p>{dash(view.asset.code)} issued by {dash(view.asset.issuer_org)}</p>
-        <p className="font-mono">{dash(view.asset.issuer)}</p>
+        <p className="font-mono" title={dash(view.asset.issuer)}>Issuer {shortId(view.asset.issuer)}</p>
         <p>Stored status {dash(view.status.value)}, as of {dash(view.status.as_of)}</p>
         <p>Testnet feed read: {dash(view.feed.read)}{view.feed.matches === null ? "" : view.feed.matches ? ", matches the stored file" : ", does not match the stored file"}</p>
+        <p className="font-mono" title={dash(view.evidence_hash)}>Evidence hash {shortId(view.evidence_hash, 10, 8)}</p>
       </div>
+
       <div>
         <p className={h}>Raised flags ({view.flags.length})</p>
         {view.flags.length === 0 && <p>None raised.</p>}
-        {view.flags.map((f, i) => (
-          <div key={i} className={`${box} mt-1`}>
-            <p>{dash(f.flag)} ({dash(f.severity)}), as of {dash(f.as_of)}</p>
-            <p>{dash(f.text)}</p>
-            {f.evidence.map((e, j) => (
-              <div key={j} className="border-l-2 pl-2">
-                <p>Quote: {dash(e.quote)}</p>
-                <p>Source: {dash(e.source_url)} {e.where ? `(${e.where})` : ""}</p>
-                <p className="font-mono">Snapshot SHA-256: {dash(e.snapshot_sha256)}</p>
-              </div>
+        <ul className="mt-1 flex list-none flex-col gap-1 p-0">
+          {view.flags.map((f, i) => (
+            <li key={i} className={box}>
+              <p>{dash(f.text)}</p>
+              <p className="text-muted-foreground">{dash(f.flag)} ({dash(f.severity)}), as of {dash(f.as_of)}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <p className={h}>Issuer claims ({view.claims.length})</p>
+        {groups.length === 0 && <p>None on file.</p>}
+        {groups.map((g) => (
+          <div key={g.field} className="mt-2">
+            <p className="font-medium">{g.field} ({g.items.length})</p>
+            {g.items.map(({ claim: c, collapsed }, i) => (
+              <details key={i} className={`${box} mt-1`}>
+                <summary className="cursor-pointer focus-visible:outline-2 focus-visible:outline-foreground">
+                  {dash(c.value_text)}{collapsed > 0 ? ` (${collapsed} overlapping ${collapsed === 1 ? "quote" : "quotes"} collapsed)` : ""}
+                </summary>
+                <p className="mt-1">Quote: {dash(c.quote)}</p>
+                <p>Source: {dash(c.source_url)}</p>
+                <p>Page: {dash(c.page)} ({dash(c.source_class)})</p>
+                <p className="font-mono">Snapshot SHA-256: {dash(c.snapshot_sha256)}</p>
+              </details>
             ))}
           </div>
         ))}
       </div>
-      <div>
-        <p className={h}>Issuer claims ({view.claims.length})</p>
-        {view.claims.map((c, i) => (
-          <div key={i} className={`${box} mt-1`}>
-            <p>{dash(c.field)}: {dash(c.value_text)}</p>
-            <p>Quote: {dash(c.quote)}</p>
-            <p>Source: {dash(c.source_url)} ({dash(c.source_class)}, page {dash(c.page)})</p>
-            <p className="font-mono">Snapshot SHA-256: {dash(c.snapshot_sha256)}</p>
-          </div>
-        ))}
-      </div>
-      <p className="font-mono">Evidence hash: {dash(view.evidence_hash)}</p>
     </div>
   );
 }

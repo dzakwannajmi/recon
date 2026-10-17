@@ -2,8 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { effectiveModelId, readModelChoice, saveModelChoice } from "./model-choice";
+import { parseTyped, type TypedCommand } from "@/lib/commands";
 import { readHandoff, shouldAutoSend } from "./handoff";
 import type { Message, Reply, Status, Step, WalletInfo } from "./types";
+
+/** A fresh id for one typed command. Never reused, so its decision (lib/browser-payer/auto.ts) is made once. */
+const newCommandId = () => (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
 
 /** State and fetch calls for the agent console: status, wallet, and the chat history. */
 export function useAgent() {
@@ -84,6 +88,58 @@ export function useAgent() {
     return reply;
   }
 
+  /**
+   * Runs a slash command without the model: POST /api/command runs the matching tool and answers with a short text
+   * and the tool step, shown like any chat answer. A typed `/evidence CODE` gets a fresh id, which lets its card pay once
+   * without a click when the wallet is ready (lib/browser-payer/auto.ts); every other card keeps its Pay button.
+   */
+  async function runCommand(typed: TypedCommand, text: string): Promise<Reply> {
+    if (thinking) return null;
+    setMessages((m) => [...m, { role: "user", text }]);
+    setInput("");
+    setThinking(true);
+    const controller = new AbortController();
+    abortRef.current = controller;
+    const started = performance.now();
+    let reply: Reply;
+    try {
+      const res = await fetch("/api/command", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command: typed.command, code: typed.code }),
+        signal: controller.signal,
+      });
+      const data = await res.json().catch(() => ({}));
+      const elapsed = (performance.now() - started) / 1000;
+      if (!res.ok || data.error || !Array.isArray(data.steps)) {
+        reply = { text: String(data.error ?? "The command could not be completed. Try again in a moment."), error: true };
+        setMessages((m) => [...m, { role: "agent", text: reply!.text, error: true }]);
+      } else {
+        reply = { text: String(data.text ?? ""), error: false };
+        setMessages((m) => [
+          ...m,
+          { role: "agent", text: reply!.text, steps: data.steps, elapsed, ...(typed.command === "evidence" ? { autoPayId: newCommandId() } : {}) },
+        ]);
+      }
+    } catch (e) {
+      if (controller.signal.aborted || (e as Error).name === "AbortError") {
+        reply = null;
+      } else {
+        reply = { text: "Could not reach the server. Try again in a moment.", error: true };
+        setMessages((m) => [...m, { role: "agent", text: reply!.text, error: true }]);
+      }
+    }
+    abortRef.current = null;
+    setThinking(false);
+    return reply;
+  }
+
+  /** What the user typed or picked in the prompt bar: a whole slash command runs directly, anything else goes to the model. */
+  function submit(text: string): Promise<Reply> {
+    const typed = parseTyped(text);
+    return typed ? runCommand(typed, text.trim()) : send(text);
+  }
+
   /** Stops waiting for the answer. The server may still finish; the reply is dropped. */
   function stop() {
     abortRef.current?.abort();
@@ -109,7 +165,7 @@ export function useAgent() {
     status, wallet, walletError, messages, input, setInput, thinking, creating,
     modelId, setModelId,
     ready,
-    loadWallet, createWallet, send, stop,
+    loadWallet, createWallet, send, submit, stop,
     clear: () => setMessages([]),
   };
 }

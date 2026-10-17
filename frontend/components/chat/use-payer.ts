@@ -22,6 +22,10 @@ export function usePayer() {
   const [notice, setNotice] = useState<string | null>(null);
   const [pay, dispatch] = useReducer(payReducer, IDLE as PayState);
   const [bundle, setBundle] = useState<BundleView | null>(null);
+  /** The paid response exactly as received, for the JSON download. Kept in memory only. */
+  const [raw, setRaw] = useState<string | null>(null);
+  /** The stored wallet and marker have been read once (before that, "no wallet" only means "not read yet"). */
+  const [loaded, setLoaded] = useState(false);
   const inFlight = useRef(false);
 
   const key: PayerKey | null = useMemo(() => {
@@ -44,6 +48,7 @@ export function usePayer() {
       const store = browserStore();
       setSecret(loadSecret(store));
       dispatch({ type: "sync", unknown: loadUnknown(store) });
+      setLoaded(true);
     };
     load();
     window.addEventListener(CHANGED, load);
@@ -72,6 +77,7 @@ export function usePayer() {
     setSecret(null);
     setSnap(null);
     setBundle(null);
+    setRaw(null);
     // The unknown-outcome marker is deliberately kept: forgetting the wallet does not make a possible payment safe to repeat.
     announce();
   }
@@ -102,7 +108,10 @@ export function usePayer() {
     dispatch({ type: "start" });
     try {
       const outcome = await payForDetail({ url, key, balanceBase: snap.usdcBase, fetchFn: fetch });
-      if (outcome.kind === "paid") setBundle(toBundleView(outcome.body));
+      if (outcome.kind === "paid") {
+        setBundle(toBundleView(outcome.body));
+        setRaw(outcome.raw ?? null);
+      }
       if (outcome.kind === "unknown") {
         saveUnknown(browserStore(), { tx: outcome.tx });
         announce();
@@ -122,5 +131,7 @@ export function usePayer() {
   }
 
   const state: WalletState = walletState(Boolean(key), snap === "unreadable" ? null : snap);
-  return { address: key?.address ?? null, kept, snap, state, busy, notice, pay, bundle, create, forget, fund, trust, refresh, payFor, acknowledge };
+  /** The wallet and its balances are known, so the state above can be trusted. */
+  const settled = loaded && (!key || snap !== null);
+  return { address: key?.address ?? null, kept, snap, state, settled, busy, notice, pay, bundle, raw, create, forget, fund, trust, refresh, payFor, acknowledge };
 }

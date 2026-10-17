@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Runs `npm run monitor` every 6 hours (00:17, 06:17, 12:17, 18:17 local time) on the operator's Mac.
+  Replace the three placeholders before use (see README.md in this folder):
+    __NPM__   absolute path of npm, e.g. /opt/homebrew/bin/npm
+    __REPO__  absolute path of the repository checkout
+    __HOME__  your home folder
+  The job reads Stellar mainnet through Horizon and writes only inside data/. It sets no secret,
+  loads no environment file, and never runs git or the feed publisher.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>local.monitor.watch</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>__NPM__</string>
+    <string>run</string>
+    <string>monitor</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>__REPO__/frontend</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Hour</key><integer>0</integer><key>Minute</key><integer>17</integer></dict>
+    <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>17</integer></dict>
+    <dict><key>Hour</key><integer>12</integer><key>Minute</key><integer>17</integer></dict>
+    <dict><key>Hour</key><integer>18</integer><key>Minute</key><integer>17</integer></dict>
+  </array>
+
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/monitor.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/monitor.log</string>
+</dict>
+</plist>

@@ -11,7 +11,7 @@ const FILE = { feed_schema: 1, rules_version: "flags-v2", inputs: { checks: { pa
 const asset = { asset_code: "BB1", issuer: ISSUER, issuer_org: "Bit Bond", asset_type: "fund" } as UniverseAsset;
 const toml = snapshot({ sha256: "sha-toml", sourceClass: "issuer_toml", text: { kind: "text", chars: 900, pages: null, sha256: "t", extractor: "x" } });
 const base = (over: Partial<RunInputs> = {}): RunInputs => ({
-  asOf: "2026-10-08", checks: [row()], earlierChecks: [], examinations: { file: "data/examinations/2026-10-08.json", checks: [] }, claims: [], sources: [], snapshots: [], ...over,
+  asOf: "2026-10-08", checks: [row()], earlierChecks: [], examinations: { file: "data/examinations/2026-10-08.json", checks: [] }, claims: [], sources: [], snapshots: [], issuance: null, ...over,
 });
 const text = (e: Evaluation) => (e.outcome === "raised" ? e.statement : e.reason);
 
@@ -20,7 +20,7 @@ describe("evaluateAsset", () => {
     expect(evaluateAsset(asset, base()).map((e) => e.flag)).toEqual(FLAG_ORDER);
   });
 
-  it("leaves the Monitor flags not evaluated in v1", () => {
+  it("leaves the Monitor flags not evaluated without Monitor data", () => {
     const byFlag = Object.fromEntries(evaluateAsset(asset, base()).map((e) => [e.flag, e.outcome]));
     expect(byFlag).toMatchObject({ LARGE_MINT_BURN: "not_evaluated", PRICE_DEVIATION: "not_evaluated", FLAG_CHANGE: "not_evaluated", SIGNER_CHANGE: "not_evaluated" });
   });

@@ -21,6 +21,7 @@ import { SnapshotStore, assetKey, currentRecords } from "../lib/documents/store"
 import { ClaimStore, type Claim } from "../lib/claims/store";
 import { checkFiledShares, checkMaxIssuance, checkTomlFixedNumber, checkTomlMaxNumber, type CheckResult, type Reference } from "../lib/examine/checks";
 import { investigateIdentityMismatch, investigateSupplyMismatch, lineStats, orgName, type Investigation } from "../lib/examine/investigate";
+import { assertDay, assertWritable } from "../lib/monitor/frozen";
 import { parseNmfp3, parseNport, tomlSupplyFields, type SourceFact, type StoredSourceFact } from "../lib/examine/sources";
 
 const DATA = path.join(process.cwd(), "..", "data");
@@ -113,6 +114,10 @@ async function main() {
   const sources = readSourceFacts(snapshots, loadSecMap());
 
   const checkedAt = new Date().toISOString();
+  assertDay(checkedAt, process.argv.slice(2));
+  // Write-once evidence (D-047): stop before any network read or write when a published status used today's file.
+  const target = `data/examinations/${checkedAt.slice(0, 10)}.json`;
+  assertWritable(target);
   const checks: CheckResult[] = [];
   const investigations: Investigation[] = [];
   const errors: { asset: string; step: string; error: string }[] = [];
@@ -259,6 +264,8 @@ async function main() {
       statement: `Account ${g.funder} created ${g.accounts.length} of the investigated issuer accounts (${g.accounts.join(", ")}), which issue ${g.codes.join(", ")}.`,
     }));
   for (const p of patterns) console.log(`pattern  ${p.statement}`);
+
+  assertWritable(target); // again, in case a publish landed during the run
 
   // Third-party tomls not seen in this run belong to earlier runs' investigations.
   const stale = snapshots.remove((r) => r.sourceClass === "third_party_toml" && r.lastSeenAt < checkedAt);

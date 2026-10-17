@@ -81,6 +81,8 @@ const statusSchema = z.object({
     previous_checks: inputSchema,
     checks_history: z.array(historyEntrySchema).optional(),
     examinations: inputSchema,
+    /** The Monitor's daily issuance file (flags-v4); absent in older status files. */
+    issuance: inputSchema.optional(),
   }).loose(),
   bits: z.record(z.string(), z.number()),
   status_codes: z.record(z.string(), z.number()),
@@ -102,6 +104,7 @@ export type StatusFile = {
     previous_checks: StatusInput;
     checks_history?: { path: string; sha256: string; checked_at?: string }[];
     examinations: StatusInput;
+    issuance?: StatusInput;
   };
   bits: Record<string, number>;
   status_codes: Record<string, number>;

@@ -10,6 +10,7 @@
  */
 import { pinnedIssuerNote, projectAssetList, projectAssetStatus } from "@/lib/agent-data/assets";
 import { projectClaims, readClaims } from "@/lib/agent-data/claims";
+import { paidDetailAvailable, projectEvidenceOffer } from "@/lib/agent-data/evidence";
 import { getAssetFacts } from "@/lib/chain/asset";
 import { listIssuers } from "@/lib/chain/horizon";
 import { checkIssuerIdentity } from "@/lib/chain/identity";
@@ -120,6 +121,32 @@ const rawTools: Tool[] = [
         return { error: "The stored claims could not be loaded." };
       }
       return projectClaims(claims, loadUniverse(), asset_code, issuer || undefined, (field as string) || undefined);
+    },
+  },
+  {
+    name: "get_evidence_bundle",
+    description:
+      "Premium evidence for one asset. This tool does NOT pay and does NOT return evidence: it only says whether paid detail exists for the asset. When it does, the chat shows the user an 'Unlock evidence' card and the USER pays with their own testnet browser wallet (x402, Stellar testnet). You cannot pay, never claim that you paid or that you can read the paid bundle, and never invent its contents. Use the free tools for answers.",
+    parameters: {
+      type: "object",
+      properties: {
+        asset_code: { type: "string", description: "Asset code, e.g. USTRY (case-sensitive)" },
+        issuer: { type: "string", description: "Optional issuer account ID (G...)" },
+      },
+      required: ["asset_code"],
+    },
+    run: async ({ asset_code, issuer }: { asset_code: unknown; issuer?: unknown }) => {
+      if (!isAssetCode(asset_code)) return { error: "asset_code must be 1-12 letters or digits." };
+      if (issuer !== undefined && issuer !== "" && !isAccountId(issuer)) {
+        return { error: "issuer must be a valid Stellar account ID (G..., 56 characters)." };
+      }
+      let status = null;
+      try {
+        status = loadStatus().status;
+      } catch {
+        // projectEvidenceOffer answers "not available" without a status file.
+      }
+      return projectEvidenceOffer(status, asset_code, (issuer as string) || undefined, paidDetailAvailable(process.env));
     },
   },
   {

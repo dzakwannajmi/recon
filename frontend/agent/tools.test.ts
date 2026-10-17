@@ -251,7 +251,7 @@ describe("A5: tool results are escaped at value level", () => {
   });
 
   it("the exported tools are the wrapped ones (every real tool's result goes through the escape)", async () => {
-    expect(tools.map((t) => t.name)).toEqual(["get_my_wallet", "fund_my_wallet", "list_assets", "get_asset_status", "get_verified_claims", "check_asset"]);
+    expect(tools.map((t) => t.name)).toEqual(["get_my_wallet", "fund_my_wallet", "list_assets", "get_asset_status", "get_verified_claims", "get_evidence_bundle", "check_asset"]);
     const out = await run("get_asset_status", { asset_code: "bad code!" });
     expect(out).toHaveProperty("error");
   });
@@ -275,5 +275,49 @@ describe("A13: check_asset says when a verified issuer is not the pinned one", (
   it("says nothing when the issuer is pinned or the code has no pinned row", () => {
     expect(pinnedIssuerNote(universe, "AAA", A)).toBeNull();
     expect(pinnedIssuerNote(universe, "ZZZ", A)).toBeNull();
+  });
+});
+
+describe("get_evidence_bundle", () => {
+  const prior = { ...process.env };
+  const restore = () => {
+    for (const k of Object.keys(process.env)) if (!(k in prior)) delete process.env[k];
+    Object.assign(process.env, prior);
+  };
+
+  it("is registered, and its description says that it does not pay and returns no evidence", () => {
+    const t = tool("get_evidence_bundle");
+    expect(t.description).toMatch(/does NOT pay/);
+    expect(t.description).toMatch(/USER pays/);
+    expect(INSTRUCTIONS).toMatch(/never say you paid/);
+  });
+
+  it("answers not available when the paid switch is off, and carries no evidence", async () => {
+    delete process.env.X402_ENABLED;
+    try {
+      const out = await run("get_evidence_bundle", { asset_code: "USTRY" });
+      expect(out).toMatchObject({ premium: true, available: false, detail_path: null });
+      expect(JSON.stringify(out)).not.toMatch(/quote|snapshot_sha256|check-detail/);
+    } finally {
+      restore();
+    }
+  });
+
+  it("when the switch is on, only names the asset and the detail path: still no bundle", async () => {
+    Object.assign(process.env, { X402_ENABLED: "true", X402_PAY_TO: A, X402_TESTNET_AMOUNT: "1", PRICING_ENABLED: "false" });
+    try {
+      const out = await run("get_evidence_bundle", { asset_code: "USTRY" });
+      expect(Object.keys(out).sort()).toEqual(["asset_code", "available", "detail_path", "issuer", "note", "premium"]);
+      expect(out.premium).toBe(true);
+      if (out.available) expect(out.detail_path).toMatch(/^\/api\/check\/detail\?asset_code=USTRY&issuer=G/);
+      expect(JSON.stringify(out)).not.toMatch(/"quote"|snapshot_sha256|check-detail/);
+    } finally {
+      restore();
+    }
+  });
+
+  it("rejects a bad asset code or issuer", async () => {
+    expect((await run("get_evidence_bundle", { asset_code: "bad code" })).error).toMatch(/asset_code/);
+    expect((await run("get_evidence_bundle", { asset_code: "USTRY", issuer: "nope" })).error).toMatch(/issuer/);
   });
 });

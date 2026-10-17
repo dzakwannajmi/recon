@@ -13,6 +13,11 @@ const SIGNER = "agent/signer.ts";
 const ALLOWED_FEED = new Set(["lib/feed/reader.ts", "lib/feed/encode.ts", "lib/feed/deployment.ts"]);
 const feedFiles = (set: Set<string>) => [...set].filter((f) => f.toLowerCase().startsWith("lib/feed/") && !ALLOWED_FEED.has(f.toLowerCase()));
 const keyGetterUsers = (set: Set<string>, g: Graph) => [...set].filter((f) => g.read(f).toLowerCase().includes("getagentkeypair"));
+/**
+ * The one file that may build a keypair from secret material: the browser payer's burner key (W4.7). The key is made in
+ * the user's browser, kept in their localStorage, and never sent anywhere. The "browser-only" test below bounds this exception.
+ */
+const BROWSER_KEY_FILE = "lib/browser-payer/storage.ts";
 const appRoots = (g: Graph) => [...g.index.values()].filter((f) => /^(agent|app)\//.test(f) && !IS_TEST.test(f) && f.toLowerCase() !== SIGNER);
 
 describe("golden rules 1 and 8: nothing the app can reach touches the signing path or a secret", () => {
@@ -45,7 +50,26 @@ describe("golden rules 1 and 8: nothing the app can reach touches the signing pa
   });
 
   it("no reachable file (agent/wallet.ts included) loads a secret: no AGENT_SECRET_KEY, fromSecret, or secret-field read", () => {
-    expect(secretReaders(set, g)).toEqual([]);
+    expect(secretReaders([...set].filter((f) => f !== BROWSER_KEY_FILE), g)).toEqual([]);
+  });
+
+  it("the browser key file is browser-only: imported by no server code, no env access, and the only importer is a client hook", () => {
+    expect(g.index.has(BROWSER_KEY_FILE)).toBe(true);
+    const importers = [...g.index.values()].filter(
+      (f) => !IS_TEST.test(f) && f !== BROWSER_KEY_FILE && specifiers(g.read(f)).some((spec) => resolve(spec, f, g) === BROWSER_KEY_FILE),
+    );
+    expect(importers.sort()).toEqual(["components/chat/use-payer.ts", "lib/browser-payer/pay.ts", "lib/browser-payer/chain.ts"].sort());
+    expect(g.read("components/chat/use-payer.ts").trimStart().startsWith('"use client"')).toBe(true);
+    // No server entry (agent/, app/api/, app/**/route, server actions) reaches it directly; only the client hook does.
+    for (const f of importers.filter((f) => /^(agent|app)\//.test(f))) expect(f, "server code imports the browser key file").toBe("");
+    // Not even transitively: nothing reachable from agent/ or app/api/ (the server entries) reaches the key file.
+    const serverRoots = [...g.index.values()].filter((f) => /^(agent|app\/api)\//.test(f) && !IS_TEST.test(f) && f.toLowerCase() !== SIGNER);
+    expect(serverRoots.length).toBeGreaterThan(8);
+    expect(reachable(serverRoots, g).has(BROWSER_KEY_FILE)).toBe(false);
+    for (const f of [...g.index.values()].filter((f) => f.startsWith("lib/browser-payer/") && !IS_TEST.test(f))) {
+      expect(g.read(f), f).not.toMatch(/process\.env|node:fs|\bfs\b.*from|readFileSync/);
+      expect(g.read(f), f).not.toMatch(/AGENT_SECRET_KEY|getAgentKeypair|\.agent-wallet/i);
+    }
   });
 
   it("no reachable file enumerates the environment, and computed process.env[...] lookups stay in the allowlist", () => {

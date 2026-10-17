@@ -14,7 +14,7 @@ const link = "inline-flex items-center gap-1 underline-offset-4 hover:underline 
 /** One line per wallet state, written here. No amounts, no balances. */
 const STATE_LINE = {
   missing: "No payer wallet in this browser yet.",
-  not_funded: "The payer wallet has no test XLM yet.",
+  not_funded: "The payer wallet has no test XLM yet, so it is not on the ledger and the explorer shows \"not found\". It appears after Friendbot funds it.",
   no_trustline: "The payer wallet needs the test USDC trustline.",
   no_usdc: "The payer wallet has no test USDC yet. Send test USDC from the Circle testnet faucet to the address above, then refresh.",
   ready: "Ready to unlock.",

@@ -13,6 +13,12 @@ describe("describeError", () => {
     expect(describeError(groq)).toBe("AI_APICallError HTTP 413 rate_limit_exceeded");
   });
 
+  it("shows what an AI_RetryError wraps", () => {
+    const inner = Object.assign(new Error("overloaded detail"), { name: "AI_APICallError", statusCode: 503, data: { error: { status: "UNAVAILABLE" } } });
+    const retry = Object.assign(new Error("Failed after 3 attempts"), { name: "AI_RetryError", lastError: inner });
+    expect(describeError(retry)).toBe("AI_RetryError > AI_APICallError HTTP 503 UNAVAILABLE");
+  });
+
   it.each(["GEMINI_API_KEY", "GROQ_API_KEY", "OPENROUTER_API_KEY"])("redacts %s if it ever appears", (name) => {
     vi.stubEnv(name, "test-key-123");
     expect(describeError(Object.assign(new Error("x"), { name: "Err-test-key-123" }))).toBe("Err-[redacted]");

@@ -23,8 +23,8 @@ export const ENV_NAMES = ["PATH", "HOME", "TMPDIR", "LANG"] as const;
 export function pipelineSteps(day: string): StepSpec[] {
   if (!isIsoDay(day)) throw new Error(`refusing to run the pipeline for an invalid day: ${day}`);
   return [
-    { step: "check:assets", script: "scripts/check-assets.ts", args: [], timeoutMs: 10 * MIN },
-    { step: "examine", script: "scripts/examine.ts", args: [], timeoutMs: 20 * MIN },
+    { step: "check:assets", script: "scripts/check-assets.ts", args: ["--day", day], timeoutMs: 10 * MIN },
+    { step: "examine", script: "scripts/examine.ts", args: ["--day", day], timeoutMs: 20 * MIN },
     { step: "status", script: "scripts/status.ts", args: ["--as-of", day], timeoutMs: 2 * MIN },
   ];
 }

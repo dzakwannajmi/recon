@@ -9,8 +9,8 @@ const TSX = path.join(FRONTEND, "node_modules", ".bin", "tsx");
 describe("P1: the pipeline", () => {
   it("has the exact steps, argv and timeouts", () => {
     expect(pipelineSteps("2026-10-17")).toEqual([
-      { step: "check:assets", script: "scripts/check-assets.ts", args: [], timeoutMs: 600_000 },
-      { step: "examine", script: "scripts/examine.ts", args: [], timeoutMs: 1_200_000 },
+      { step: "check:assets", script: "scripts/check-assets.ts", args: ["--day", "2026-10-17"], timeoutMs: 600_000 },
+      { step: "examine", script: "scripts/examine.ts", args: ["--day", "2026-10-17"], timeoutMs: 1_200_000 },
       { step: "status", script: "scripts/status.ts", args: ["--as-of", "2026-10-17"], timeoutMs: 120_000 },
     ]);
   });
@@ -28,7 +28,7 @@ describe("P1: the pipeline", () => {
     });
     expect(r.ok).toBe(true);
     expect(calls.map((c) => [c.file, ...c.args])).toEqual([
-      [TSX, "scripts/check-assets.ts"], [TSX, "scripts/examine.ts"], [TSX, "scripts/status.ts", "--as-of", "2026-10-17"],
+      [TSX, "scripts/check-assets.ts", "--day", "2026-10-17"], [TSX, "scripts/examine.ts", "--day", "2026-10-17"], [TSX, "scripts/status.ts", "--as-of", "2026-10-17"],
     ]);
     expect(calls.every((c) => c.cwd === FRONTEND)).toBe(true);
     expect(calls.map((c) => c.timeout)).toEqual([600_000, 1_200_000, 120_000]);

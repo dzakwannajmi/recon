@@ -329,10 +329,12 @@ async function watch(opts: RunOptions, deps: RunDeps, mdir: string, writes: bool
     asset: k, code: universe[i].asset_code, chainCheckedAt: chainTimes.get(k) ?? null,
     tier: tier({ asset: k, events: allEvents, raisedFlags: raisedByAsset.get(k) ?? [], now }),
   }));
-  const reRuns = log.filter(isRun).filter((r) => (r.outcome === "ran" || r.outcome === "failed") && r.day === today);
+  // The gap counts re-checks of any day (23:40 and 00:15 are 35 minutes apart); the daily budget counts today's only.
+  const allReRuns = log.filter(isRun).filter((r) => r.outcome === "ran" || r.outcome === "failed");
+  const reRuns = allReRuns.filter((r) => r.day === today);
   const plan = planRun({
     now, assets: cadence, pending: uncovered, runsToday: reRuns.length,
-    lastRunAt: reRuns.length ? reRuns.map((r) => r.at).sort().at(-1)! : null,
+    lastRunAt: allReRuns.length ? allReRuns.map((r) => r.at).sort().at(-1)! : null,
     frozenToday: targetFiles(today).some((p) => frozen.has(p)), flags, limits,
   });
 

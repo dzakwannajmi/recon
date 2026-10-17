@@ -2,7 +2,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { afterEach, describe, expect, it } from "vitest";
-import { assertWritable, frozenPaths, loadFrozen, targetFiles } from "./frozen";
+import { assertDay, assertWritable, frozenPaths, loadFrozen, targetFiles } from "./frozen";
 
 const STATUS = {
   inputs: {
@@ -110,5 +110,24 @@ describe("Z1: each writer calls the guard before its first network read", () => 
     expect(guard).toBeGreaterThan(0);
     expect(guard).toBeLessThan(src.indexOf("buildStatus("));
     expect(src.indexOf("assertWritable(rel, DATA)", guard + 1)).toBeLessThan(src.indexOf("writeJson(out"));
+  });
+});
+
+describe("assertDay: a run that crosses midnight never mixes two days", () => {
+  it("passes without --day or on the same UTC day, and refuses another day or a bad value", () => {
+    expect(() => assertDay("2026-10-17T23:59:00.000Z", [])).not.toThrow();
+    expect(() => assertDay("2026-10-17T23:59:00.000Z", ["--day", "2026-10-17"])).not.toThrow();
+    expect(() => assertDay("2026-10-18T00:01:00.000Z", ["--day", "2026-10-17"])).toThrow(/planned for 2026-10-17 but the UTC day is now 2026-10-18/);
+    expect(() => assertDay("2026-10-17T10:00:00.000Z", ["--day", "x"])).toThrow(/--day must be/);
+    expect(() => assertDay("2026-10-17T10:00:00.000Z", ["--day"])).toThrow(/--day must be/);
+  });
+
+  it("check-assets.ts and examine.ts call it right after fixing checkedAt, before the guard and any network read", () => {
+    for (const f of ["scripts/check-assets.ts", "scripts/examine.ts"]) {
+      const src = fs.readFileSync(path.join(process.cwd(), f), "utf8");
+      const day = src.indexOf("assertDay(checkedAt");
+      expect(day, f).toBeGreaterThan(src.indexOf("const checkedAt"));
+      expect(day, f).toBeLessThan(src.indexOf("assertWritable(target)"));
+    }
   });
 });

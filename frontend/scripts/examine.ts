@@ -21,7 +21,7 @@ import { SnapshotStore, assetKey, currentRecords } from "../lib/documents/store"
 import { ClaimStore, type Claim } from "../lib/claims/store";
 import { checkFiledShares, checkMaxIssuance, checkTomlFixedNumber, checkTomlMaxNumber, type CheckResult, type Reference } from "../lib/examine/checks";
 import { investigateIdentityMismatch, investigateSupplyMismatch, lineStats, orgName, type Investigation } from "../lib/examine/investigate";
-import { assertWritable } from "../lib/monitor/frozen";
+import { assertDay, assertWritable } from "../lib/monitor/frozen";
 import { parseNmfp3, parseNport, tomlSupplyFields, type SourceFact, type StoredSourceFact } from "../lib/examine/sources";
 
 const DATA = path.join(process.cwd(), "..", "data");
@@ -114,6 +114,7 @@ async function main() {
   const sources = readSourceFacts(snapshots, loadSecMap());
 
   const checkedAt = new Date().toISOString();
+  assertDay(checkedAt, process.argv.slice(2));
   // Write-once evidence (D-047): stop before any network read or write when a published status used today's file.
   const target = `data/examinations/${checkedAt.slice(0, 10)}.json`;
   assertWritable(target);

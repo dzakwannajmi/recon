@@ -54,3 +54,16 @@ export function assertWritable(rel: string, dataDir = DEFAULT_DATA_DIR): void {
 export const targetFiles = (day: string): string[] => [
   `data/checks/${day}.json`, `data/examinations/${day}.json`, `data/status/${day}.json`, `data/monitor/issuance/${day}.json`,
 ];
+
+/**
+ * `--day YYYY-MM-DD` from the arguments (the Monitor passes the day it planned). A writer that finds its own
+ * UTC day is another one (a run that crossed midnight) refuses before any network read, so the day files of
+ * one re-check never mix two days.
+ */
+export function assertDay(checkedAt: string, argv: readonly string[]): void {
+  const i = argv.indexOf("--day");
+  if (i < 0) return;
+  const want = argv[i + 1];
+  if (!want || !/^\d{4}-\d{2}-\d{2}$/.test(want)) throw new Error("--day must be a date in the form YYYY-MM-DD");
+  if (checkedAt.slice(0, 10) !== want) throw new Error(`refusing to write: planned for ${want} but the UTC day is now ${checkedAt.slice(0, 10)}`);
+}

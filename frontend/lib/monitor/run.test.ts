@@ -68,7 +68,7 @@ describe("E1: a simulated set_options on a pinned issuer triggers a re-check in 
     expect(run[0]).toMatchObject({ kind: "run", day: "2026-10-17", outcome: "ran", partial_issuers: [] });
     expect(run[0].steps?.map((s) => [s.step, s.exit_code])).toEqual([["check:assets", 0], ["examine", 0], ["status", 0]]);
 
-    expect(t.rec.calls.map((c) => c.args)).toEqual([["scripts/check-assets.ts"], ["scripts/examine.ts"], ["scripts/status.ts", "--as-of", "2026-10-17"]]);
+    expect(t.rec.calls.map((c) => c.args)).toEqual([["scripts/check-assets.ts", "--day", "2026-10-17"], ["scripts/examine.ts", "--day", "2026-10-17"], ["scripts/status.ts", "--as-of", "2026-10-17"]]);
     expect(loadState(t.mdir).pending).toEqual([]);
 
     // the issuance file for today was written before the pipeline
@@ -222,6 +222,17 @@ describe("E4: budgets", () => {
     const r = await t.go(at, {}, t2.horizon);
     expect(r.run).toMatchObject({ outcome: "deferred", deferred: { reason: "min_gap", until: "2026-10-17T12:00:00.000Z" } });
     expect(t.rec.calls).toHaveLength(3);
+  });
+
+  it("the 120-minute gap counts a re-check of the day before (23:40, then 00:20 is 40 minutes)", async () => {
+    const t = setup();
+    await t.go(new Date("2026-10-16T23:40:00Z"), { forced: true }, syntheticHorizon(t.dataDir, new Date("2026-10-16T23:40:00Z"), {}, 300, 64_990_000).horizon);
+    const at = new Date("2026-10-17T00:20:00Z");
+    freshenChecks(t.dataDir, new Date("2026-10-16T23:00:00Z")); // so the event at 00:00 is newer than the newest check
+    const t2 = syntheticHorizon(t.dataDir, at, { setOptionsFor: ETHERFUSE }, 300, 65_000_900);
+    const r = await t.go(at, {}, t2.horizon);
+    expect(r.run).toMatchObject({ outcome: "deferred", deferred: { reason: "min_gap", until: "2026-10-17T01:40:00.000Z" } });
+    expect(t.rec.calls).toHaveLength(3); // only the first run's steps
   });
 
   it("requests stop at the budget: some issuers are partial, the state is saved, exit 2", async () => {

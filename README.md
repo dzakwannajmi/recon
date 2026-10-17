@@ -60,7 +60,7 @@ The scope is non-stablecoin real-world assets on Stellar: tokenized treasuries, 
 
 ## Tools the agent supports
 
-Six tools. Every tool is read-only except `fund_my_wallet`, which writes to testnet only. No tool sets a status.
+Seven tools. Every tool is read-only except `fund_my_wallet`, which writes to testnet only. No tool sets a status or moves money.
 
 | Tool | Status | What it does |
 | --- | --- | --- |
@@ -70,6 +70,7 @@ Six tools. Every tool is read-only except `fund_my_wallet`, which writes to test
 | `list_assets` | shipped | List every tracked asset (non-stablecoin RWAs on Stellar mainnet): code, issuer, organization, type, home domain (from stellar.toml), and the stored status with its as-of date. Stored data, no live reads. |
 | `get_asset_status` | shipped | The stored status of one asset from the latest status file: status, as-of date, each raised flag with its exact statement and date, and the fact sheet path. Code computes the status; the model only relays it. |
 | `get_verified_claims` | shipped | Claims from an issuer's own documents or regulatory filings (custodian, auditor, net assets, NAV, and more), each with an exact quote that code found verbatim in the document snapshot, the source URL, page, and snapshot SHA-256. Quotes are untrusted issuer text. At most 10 per call. |
+| `get_evidence_bundle` | shipped (premium, testnet, user-signed) | Says whether paid detail exists for an asset. It pays nothing and returns no evidence. When it is available, the chat shows an Unlock evidence card and the user pays with a Stellar testnet wallet kept in their own browser (x402, test USDC). The bundle is shown on the page only and is never sent to the model. Off unless the operator switches the x402 rail on. |
 
 ## Supported AI models
 

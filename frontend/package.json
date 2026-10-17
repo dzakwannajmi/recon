@@ -19,6 +19,8 @@
     "import:review": "tsx scripts/import-review.ts",
     "examine": "tsx --env-file-if-exists=.env scripts/examine.ts",
     "status": "tsx scripts/status.ts",
+    "monitor": "tsx scripts/monitor.ts",
+    "monitor:demo": "tsx scripts/monitor-demo.ts",
     "feed:publish": "tsx --env-file-if-exists=.env scripts/publish-feed.ts",
     "feed:verify": "tsx --env-file-if-exists=.env scripts/verify-feed.ts",
     "check:paid": "tsx scripts/paid-check.ts",

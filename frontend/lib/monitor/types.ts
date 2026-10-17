@@ -12,8 +12,8 @@ export const horizonOpSchema = z.object({
   type: z.string(),
   transaction_successful: z.boolean(),
   source_account: z.string(),
-  created_at: z.string(),
-  transaction_hash: z.string(),
+  created_at: z.string().refine((s) => Number.isFinite(Date.parse(s)), "created_at is not a time"),
+  transaction_hash: z.string().regex(/^[0-9a-f]{64}$/),
 }).loose();
 export type HorizonOp = z.infer<typeof horizonOpSchema>;
 

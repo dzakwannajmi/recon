@@ -75,11 +75,12 @@ describe("K1: planRun", () => {
 });
 
 describe("K1: pending events", () => {
-  it("an event before the newest chain check of every asset it names is covered", () => {
+  it("an event at or before the newest chain check of every asset it names is covered", () => {
     const p = [{ event_id: "a", assets: ["A:G", "B:G"], ledger_closed_at: "2026-10-17T09:30:00Z" }];
     const at = (m: Record<string, string | null>) => (k: string) => m[k] ?? null;
     expect(uncoveredPending(p, at({ "A:G": "2026-10-17T09:31:00Z", "B:G": "2026-10-17T09:31:00Z" }))).toEqual([]);
-    expect(uncoveredPending(p, at({ "A:G": "2026-10-17T09:31:00Z", "B:G": "2026-10-17T09:30:00Z" }))).toEqual(p); // not later
+    expect(uncoveredPending(p, at({ "A:G": "2026-10-17T09:31:00Z", "B:G": "2026-10-17T09:30:00Z" }))).toEqual([]); // at the same time
+    expect(uncoveredPending(p, at({ "A:G": "2026-10-17T09:31:00Z", "B:G": "2026-10-17T09:29:59Z" }))).toEqual(p); // earlier
     expect(uncoveredPending(p, at({ "A:G": "2026-10-17T09:31:00Z" }))).toEqual(p); // B has no check
   });
 });

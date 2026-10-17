@@ -64,11 +64,14 @@ export function intradayLarge(args: {
   return { events, seen: seen.slice(-40) };
 }
 
-/** Pending events not yet covered: an event is covered once every asset it names has a chain check later than the event. */
+/**
+ * Pending events not yet covered: an event is covered once every asset it names has a chain check at or after the
+ * event's time. (At, not only after: an unreconciled interval ends exactly at the newest check's own reading.)
+ */
 export function uncoveredPending(pending: readonly PendingEvent[], newestCheckAt: (asset: string) => string | null): PendingEvent[] {
   return pending.filter((p) => !p.assets.every((a) => {
     const t = newestCheckAt(a);
-    return t !== null && Date.parse(t) > Date.parse(p.ledger_closed_at);
+    return t !== null && Date.parse(t) >= Date.parse(p.ledger_closed_at);
   }));
 }
 

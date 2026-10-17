@@ -3,8 +3,11 @@
  * short provider code, never the message (it can echo request details), with
  * any provider API key redacted if it ever shows up.
  */
-export function describeError(err: unknown) {
+export function describeError(err: unknown): string {
   if (!(err instanceof Error)) return "non-Error thrown";
+  // A retry wrapper (AI_RetryError) hides the real cause: describe the last attempt's error after its own name.
+  const last = (err as Error & { lastError?: unknown }).lastError;
+  if (last instanceof Error && last !== err) return `${err.name} > ${describeError(last)}`.slice(0, 160);
   const e = err as Error & { statusCode?: unknown; code?: unknown; data?: { error?: { status?: unknown; code?: unknown } } };
   const short = (v: unknown) => (typeof v === "string" && /^[A-Za-z0-9_.-]{2,40}$/.test(v) ? v : null);
   const parts = [err.name, typeof e.statusCode === "number" ? `HTTP ${e.statusCode}` : null, short(e.data?.error?.status) ?? short(e.data?.error?.code) ?? short(e.code)].filter(Boolean);

@@ -1,3 +1,4 @@
+import { describeError } from "@/lib/llm-errors";
 import { MODEL, runAgent, type ChatMessage } from "@/agent/agent";
 import { BudgetExceededError, PROVIDER, apiKeyEnvName, budgetLeft, hasApiKey } from "@/agent/llm";
 import { availableChatModels, resolveChatModel, toPublic } from "@/agent/models";
@@ -91,7 +92,7 @@ export async function POST(req: Request) {
   } catch (err) {
     if (err instanceof BudgetExceededError) return Response.json({ error: err.message }, { status: 429 });
     if (err instanceof WalletError) return Response.json({ error: err.message }, { status: 500 });
-    console.error("Agent request failed:", (err as Error).name);
+    console.error("Agent request failed:", describeError(err));
     return Response.json({ error: "Something went wrong. Try again in a moment." }, { status: 500 });
   }
 }

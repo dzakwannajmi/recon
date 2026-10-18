@@ -15,7 +15,7 @@ export function GithubMark({ className = "size-5" }: { className?: string }) {
 
 /**
  * Sign in with GitHub. Used on /login and as the gate on /agent. Signed in already: a link to the agent instead.
- * Fact sheets and the live feed stay open without an account.
+ * Fact sheets and the Live feed link need an account too; the on-chain feed contract and the check API stay open for programs.
  */
 export function LoginCard({ heading = "Sign in to use the agent" }: { heading?: string }) {
   const auth = useAuth();
@@ -54,7 +54,7 @@ export function LoginCard({ heading = "Sign in to use the agent" }: { heading?: 
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
 
       <p className="text-xs text-muted-foreground">
-        We read your GitHub name and profile picture. <Link href="/privacy" className="underline underline-offset-4">Privacy</Link> · <Link href="/en/assets" className="underline underline-offset-4">Fact sheets</Link> and the live feed stay open without an account.
+        We read your GitHub name and profile picture. <Link href="/privacy" className="underline underline-offset-4">Privacy</Link>
       </p>
     </div>
   );

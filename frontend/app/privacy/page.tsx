@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         <Container>
           <article className="mx-auto max-w-[680px] text-sm leading-relaxed">
             <h1 className="text-3xl">Privacy</h1>
-            <p className="mt-4">The fact sheets and the live feed need no account. The agent chat needs you to sign in with GitHub, which also lets us save your chats and the evidence you unlock.</p>
+            <p className="mt-4">The agent chat and the fact sheets need you to sign in with GitHub, which also lets us save your chats and the evidence you unlock. The on-chain feed contract and the check API for programs stay open.</p>
 
             <h2 className={h}>What is stored when you sign in</h2>
             <ul className="list-disc pl-5">

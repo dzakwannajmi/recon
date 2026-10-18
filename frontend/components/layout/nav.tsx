@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ButtonLink, DarkLink } from "@/components/ui/button-link";
+import { UserMenu } from "@/components/auth/user-menu";
 import { Logo } from "./logo";
 import { DEMO_HREF, FEED_URL, NAV_LINKS } from "./links";
 
@@ -35,6 +36,7 @@ export function Nav() {
           </details>
           <ButtonLink href={FEED_URL} target="_blank" rel="noopener noreferrer" className={`${btnCls} hidden sm:inline-flex`}>Live feed</ButtonLink>
           <DarkLink href={DEMO_HREF} className={btnCls}>Ask the agent</DarkLink>
+          <UserMenu />
         </div>
       </nav>
     </header>

@@ -6,6 +6,8 @@ import { tools } from "@/agent/tools";
 import { WalletError } from "@/agent/wallet";
 import { retryAfterHeader } from "@/lib/gateway/rate-limit";
 import { chatLimiter } from "@/lib/chat-limiter";
+import { authRequired } from "@/lib/auth/config";
+import { signInGate } from "@/lib/auth/gate";
 
 // Up to 5 model steps with a 60s timeout (agent/llm.ts).
 export const maxDuration = 60;
@@ -18,6 +20,8 @@ const MAX_MESSAGE_CHARS = 4000;
 export async function GET() {
   return Response.json({
     hasApiKey: hasApiKey(),
+    // Whether the chat needs a signed-in user (AUTH_REQUIRED). Not a secret; the page uses it to show the sign-in gate.
+    authRequired: authRequired(),
     provider: PROVIDER,
     keyEnv: apiKeyEnvName(PROVIDER),
     model: MODEL,
@@ -37,6 +41,9 @@ export async function POST(req: Request) {
       { status: 429, headers: { "Retry-After": retryAfterHeader(limit) } },
     );
   }
+
+  const denied = await signInGate();
+  if (denied) return denied;
 
   if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) {
     return Response.json({ error: "Message is too long." }, { status: 413 });

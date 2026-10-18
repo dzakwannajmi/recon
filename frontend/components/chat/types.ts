@@ -5,7 +5,7 @@ export type Message = { role: "user" | "agent"; text: string; steps?: Step[]; er
 export type Reply = { text: string; error: boolean } | null;
 /** One model the user may pick in the chat (from GET /api/agent). */
 export type ChatModelInfo = { id: string; label: string; note: string | null; default: boolean };
-export type Status = { hasApiKey: boolean; provider?: string; keyEnv?: string | null; model: string; models?: ChatModelInfo[]; tools: { name: string; description: string }[] };
+export type Status = { hasApiKey: boolean; /** The server needs a signed-in user for the chat (AUTH_REQUIRED). */ authRequired?: boolean; provider?: string; keyEnv?: string | null; model: string; models?: ChatModelInfo[]; tools: { name: string; description: string }[] };
 export type WalletInfo = { address: string | null; balance?: string };
 
 /** Display names for the provider ids the status endpoint returns. */

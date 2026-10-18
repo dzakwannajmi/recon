@@ -38,6 +38,8 @@
     "@hugeicons/react": "^1.1.10",
     "@modelcontextprotocol/server": "2.3.1",
     "@stellar/stellar-sdk": "^17.2.1",
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.117.2",
     "@x402/core": "2.28.0",
     "@x402/next": "2.28.0",
     "@x402/stellar": "2.28.0",

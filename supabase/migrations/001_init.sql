@@ -56,11 +56,26 @@ create policy "own messages: insert" on public.chat_messages for insert to authe
     auth.uid() = user_id
     and exists (select 1 from public.chat_sessions s where s.id = session_id and s.user_id = auth.uid())
   );
-create policy "own messages: update" on public.chat_messages for update to authenticated using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "own messages: delete" on public.chat_messages for delete to authenticated using (auth.uid() = user_id);
 
 -- paid_evidence
 create policy "own evidence: read" on public.paid_evidence for select to authenticated using (auth.uid() = user_id);
 create policy "own evidence: insert" on public.paid_evidence for insert to authenticated with check (auth.uid() = user_id);
-create policy "own evidence: update" on public.paid_evidence for update to authenticated using (auth.uid() = user_id) with check (auth.uid() = user_id);
 create policy "own evidence: delete" on public.paid_evidence for delete to authenticated using (auth.uid() = user_id);
+
+-- Per-user row caps, so one account cannot fill the database through the REST API.
+create or replace function public.cap_rows() returns trigger language plpgsql security invoker as $$
+declare
+  limit_rows int := tg_argv[0]::int;
+  current_rows int;
+begin
+  execute format('select count(*) from %I.%I where user_id = $1', tg_table_schema, tg_table_name) into current_rows using new.user_id;
+  if current_rows >= limit_rows then
+    raise exception 'Row limit reached for %', tg_table_name using errcode = 'check_violation';
+  end if;
+  return new;
+end $$;
+
+create trigger cap_chat_sessions before insert on public.chat_sessions for each row execute function public.cap_rows(200);
+create trigger cap_chat_messages before insert on public.chat_messages for each row execute function public.cap_rows(5000);
+create trigger cap_paid_evidence before insert on public.paid_evidence for each row execute function public.cap_rows(200);

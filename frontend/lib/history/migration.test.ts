@@ -13,7 +13,8 @@ describe("001_init.sql", () => {
   it.each(tables)("%s has row level security enabled and owner-only policies for every command", (t) => {
     expect(sql).toContain(`alter table public.${t} enable row level security;`);
     const policies = [...sql.matchAll(new RegExp(`create policy "[^"]+" on public\\.${t} for (\\w+) to authenticated\\s+([^;]+);`, "g"))];
-    expect(policies.map((p) => p[1]).sort()).toEqual(["delete", "insert", "select", "update"]);
+    // Messages and evidence are never edited, so they get no update policy; sessions update their timestamp.
+    expect(policies.map((p) => p[1]).sort()).toEqual(t === "chat_sessions" ? ["delete", "insert", "select", "update"] : ["delete", "insert", "select"]);
     for (const p of policies) expect(p[2]).toContain("auth.uid() = user_id");
   });
 
@@ -25,6 +26,10 @@ describe("001_init.sql", () => {
 
   it("only lets a message join a session the same user owns", () => {
     expect(sql).toMatch(/exists \(select 1 from public\.chat_sessions s where s\.id = session_id and s\.user_id = auth\.uid\(\)\)/);
+  });
+
+  it("caps rows per user with a trigger on every table", () => {
+    for (const t of tables) expect(sql).toMatch(new RegExp(`create trigger cap_${t} before insert on public\\.${t} for each row execute function public\\.cap_rows\\(\\d+\\)`));
   });
 
   it("cascades from the user and from the session", () => {

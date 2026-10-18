@@ -46,6 +46,11 @@ export function useHistory(user: AuthUser | null, model: string | null) {
     }
   }, [userId]);
 
+  // A different user starts with no open chat, so the next save creates one of their own.
+  useEffect(() => {
+    setCurrent(null);
+  }, [userId]);
+
   useEffect(() => {
     void reload();
     const onChange = () => {

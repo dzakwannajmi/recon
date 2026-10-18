@@ -7,7 +7,7 @@ This folder is for Rise In Agentmaxxing reviewers. It collects what Recon does t
 | Checkpoint | Due | What is required | Status | Links |
 | --- | --- | --- | --- | --- |
 | CP1 | 2026-10-09 | Working agent link, repo link, short description, note on what we learned, at least one meaningful commit | Submitted 2026-10-08 | Live demo: https://recon-agent-opal.vercel.app. Repo: [root README](../README.md). Learned note: [progress.md](progress.md#week-1-what-we-learned). Commits: [PRs 1 to 9](progress.md) |
-| CP2 | 2026-10-16 | Working version of the agent, repo link, demo or walkthrough | Submitted | Live demo: https://recon-agent-opal.vercel.app. Walkthrough video: https://youtu.be/iadYWHccbgQ. Progress and proof: [progress.md](progress.md) |
+| CP2 | 2026-10-16 | Working version of the agent, repo link, demo or walkthrough | Submitted | Live demo: https://recon-agent-opal.vercel.app. Walkthrough videos (playlist): https://www.youtube.com/playlist?list=PLdXhc6eJG82E. Progress and proof: [progress.md](progress.md) |
 | CP3 (final) | 2026-10-23 | Crypto-enabled agent (the agent has a wallet and uses it), repo link, video of the crypto functionality | In progress | Feed publish and x402 settlement are on testnet (see [progress.md](progress.md)). Video link to be added |
 
 Plan for CP3: the agent's own testnet wallet writes feed entries to a Soroban contract, and an x402 check settles on testnet.

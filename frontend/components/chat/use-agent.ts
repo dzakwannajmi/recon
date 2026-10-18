@@ -18,6 +18,9 @@ type Options = {
 };
 
 /** State and fetch calls for the agent console: status, wallet, and the chat history. */
+/** Index of the last user message, or -1. */
+const lastUser = (messages: Message[]) => messages.map((m) => m.role).lastIndexOf("user");
+
 export function useAgent({ signedIn = false, onExchange }: Options = {}) {
   const [status, setStatus] = useState<Status | null>(null);
   const [wallet, setWallet] = useState<WalletInfo | null>(null);
@@ -62,9 +65,10 @@ export function useAgent({ signedIn = false, onExchange }: Options = {}) {
     saveModelChoice(id);
   }
 
-  async function send(text: string): Promise<Reply> {
+  async function send(text: string, again = false): Promise<Reply> {
     if (!text.trim() || thinking) return null;
-    const history: Message[] = [...messages, { role: "user", text }];
+    // "Try again" drops the old answer and asks the same question; the user's message is not repeated.
+    const history: Message[] = again ? messages.slice(0, lastUser(messages) + 1) : [...messages, { role: "user", text }];
     setMessages(history);
     setInput("");
     setThinking(true);
@@ -85,7 +89,7 @@ export function useAgent({ signedIn = false, onExchange }: Options = {}) {
       reply = data.error ? { text: String(data.error), error: true } : { text: String(data.answer ?? ""), error: false };
       const answer: Message = data.error ? { role: "agent", text: data.error, error: true } : { role: "agent", text: data.answer, steps: data.steps, elapsed };
       setMessages((m) => [...m, answer]);
-      if (!data.error) exchange.current?.([history[history.length - 1], answer]);
+      if (!data.error) exchange.current?.(again ? [answer] : [history[history.length - 1], answer]);
       if (data.steps?.some((s: Step) => s.tool.includes("wallet"))) loadWallet();
     } catch (e) {
       if (controller.signal.aborted || (e as Error).name === "AbortError") {
@@ -128,7 +132,7 @@ export function useAgent({ signedIn = false, onExchange }: Options = {}) {
         setMessages((m) => [...m, { role: "agent", text: reply!.text, error: true }]);
       } else {
         reply = { text: String(data.text ?? ""), error: false };
-        const answer: Message = { role: "agent", text: reply.text, steps: data.steps, elapsed, ...(typed.command === "evidence" ? { autoPayId: newCommandId() } : {}) };
+        const answer: Message = { role: "agent", text: reply.text, steps: data.steps, elapsed, command: true, ...(typed.command === "evidence" ? { autoPayId: newCommandId() } : {}) };
         setMessages((m) => [...m, answer]);
         exchange.current?.([{ role: "user", text }, answer]);
       }
@@ -149,6 +153,14 @@ export function useAgent({ signedIn = false, onExchange }: Options = {}) {
   function submit(text: string): Promise<Reply> {
     const typed = parseTyped(text);
     return typed ? runCommand(typed, text.trim()) : send(text);
+  }
+
+  /** Asks the last question again (model answers only; a slash command is never repeated, so it cannot pay twice). */
+  function regenerate(): Promise<Reply> {
+    const i = lastUser(messages);
+    const last = messages[messages.length - 1];
+    if (i < 0 || thinking || !last || last.role !== "agent" || last.command || parseTyped(messages[i].text)) return Promise.resolve(null);
+    return send(messages[i].text, true);
   }
 
   /** Stops waiting for the answer. The server may still finish; the reply is dropped. */
@@ -178,7 +190,7 @@ export function useAgent({ signedIn = false, onExchange }: Options = {}) {
     status, wallet, walletError, messages, input, setInput, thinking, creating,
     modelId, setModelId,
     ready, needsSignIn,
-    loadWallet, createWallet, send, submit, stop,
+    loadWallet, createWallet, send, submit, regenerate, stop,
     clear: () => setMessages([]),
     load: (m: Message[]) => setMessages(m),
   };

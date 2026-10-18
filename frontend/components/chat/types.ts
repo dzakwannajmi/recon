@@ -1,6 +1,7 @@
 export type Step = { tool: string; args: unknown; result: any; error?: boolean };
 export type Message = { role: "user" | "agent"; text: string; steps?: Step[]; error?: boolean; /** Seconds the agent took to answer. */ elapsed?: number;
-  /** Set on the reply to a `/evidence CODE` the user typed: that command's card may pay once, without a click (lib/browser-payer/auto.ts). */ autoPayId?: string };
+  /** Set on the reply to a `/evidence CODE` the user typed: that command's card may pay once, without a click (lib/browser-payer/auto.ts). */ autoPayId?: string;
+  /** The answer to a slash command (no model was used): it has no "try again". */ command?: boolean };
 /** What `send` hands back: the agent's reply as plain markdown text, or the error message. Null if nothing was sent or the request was stopped. */
 export type Reply = { text: string; error: boolean } | null;
 /** One model the user may pick in the chat (from GET /api/agent). */

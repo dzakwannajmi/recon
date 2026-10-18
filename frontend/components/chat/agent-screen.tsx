@@ -74,6 +74,7 @@ export function AgentScreen({ assets }: { assets: PromptAsset[] }) {
       <div className="h-full min-w-0 flex-1">
       <ChatView
         messages={a.messages}
+        onRegenerate={() => void a.regenerate()}
         thinking={a.thinking}
         ready={a.ready}
         wallet={a.wallet}

@@ -14,6 +14,8 @@ type Props = {
   ready: boolean;
   wallet?: WalletInfo | null;
   onPick: (text: string) => void;
+  /** Runs the last question again. When given, answers get a copy, rating and try-again row. */
+  onRegenerate?: () => void;
   /** Pinned at the bottom: the prompt bar and its controls. */
   composer: ReactNode;
   /** Buttons at the right end of the header row. */
@@ -31,7 +33,7 @@ type Props = {
  * The chat screen, from props only: header row, message list, empty state, composer slot.
  * It fills its parent (h-full) and scrolls the list, so it fits a page column or a small screen mockup.
  */
-export function ChatView({ messages, thinking, ready, wallet = null, onPick, composer, headerActions, className, compact, brand, column }: Props) {
+export function ChatView({ messages, thinking, ready, wallet = null, onPick, onRegenerate, composer, headerActions, className, compact, brand, column }: Props) {
   const list = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -57,7 +59,15 @@ export function ChatView({ messages, thinking, ready, wallet = null, onPick, com
       <div ref={list} className={cn("flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain", pad, compact ? "py-3" : "py-6")}>
         <div className={cn("mx-auto flex w-full flex-1 flex-col", compact ? "gap-3" : "gap-6", column)}>
           {messages.length === 0 && !thinking && <EmptyState ready={ready} wallet={wallet} onPick={onPick} compact={compact} />}
-          {messages.map((m, i) => <MessageView key={i} message={m} compact={compact} />)}
+          {messages.map((m, i) => (
+            <MessageView
+              key={i}
+              message={m}
+              compact={compact}
+              actions={onRegenerate !== undefined}
+              onRegenerate={i === messages.length - 1 && !thinking && !m.command ? onRegenerate : undefined}
+            />
+          ))}
           {thinking && <LiveThought compact={compact} />}
         </div>
       </div>

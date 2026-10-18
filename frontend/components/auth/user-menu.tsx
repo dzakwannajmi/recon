@@ -9,7 +9,7 @@ import { deleteMyData } from "@/lib/history/store";
 import { announceHistoryChanged } from "@/components/chat/use-history";
 import { useAuth } from "./use-auth";
 
-const PROVIDER_LABEL: Record<Provider, string> = { google: "Google", github: "GitHub" };
+const PROVIDER_LABEL: Record<Provider, string> = { github: "GitHub" };
 const item = "w-full rounded-[6px] px-3 py-2 text-left text-sm hover:bg-secondary focus-visible:outline-2 focus-visible:outline-foreground";
 const panel = "absolute right-0 z-50 mt-2 flex w-56 flex-col gap-1 rounded-[16px] border bg-card p-2";
 const summary = "flex h-10 cursor-pointer list-none items-center rounded-[6px] px-4 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground [&::-webkit-details-marker]:hidden";

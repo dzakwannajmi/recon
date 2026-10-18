@@ -8,7 +8,7 @@ const currentUserId = vi.fn();
 vi.mock("@/lib/auth/server", () => ({ currentUserId: () => currentUserId() }));
 vi.mock("@/agent/agent", () => ({ MODEL: "m", runAgent: vi.fn() }));
 
-const SIGN_IN = { error: "Sign in with Google or GitHub to use the agent." };
+const SIGN_IN = { error: "Sign in with GitHub to use the agent." };
 const req = (path: string, body: unknown) => new Request(`http://localhost${path}`, { method: "POST", body: JSON.stringify(body) });
 
 async function routes() {

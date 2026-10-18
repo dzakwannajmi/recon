@@ -19,7 +19,7 @@ describe("signInGate", () => {
     vi.stubEnv("AUTH_REQUIRED", "true");
     const res = await signInGate(async () => null);
     expect(res?.status).toBe(401);
-    expect(await res?.json()).toEqual({ error: "Sign in with Google or GitHub to use the agent." });
+    expect(await res?.json()).toEqual({ error: "Sign in with GitHub to use the agent." });
     expect(res?.headers.get("Cache-Control")).toBe("no-store");
   });
 

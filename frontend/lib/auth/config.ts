@@ -5,8 +5,8 @@
  */
 export type SupabaseConfig = { url: string; anonKey: string };
 
-export const SIGN_IN_REQUIRED_MESSAGE = "Sign in with Google or GitHub to use the agent.";
-export const PROVIDERS = ["google", "github"] as const;
+export const SIGN_IN_REQUIRED_MESSAGE = "Sign in with GitHub to use the agent.";
+export const PROVIDERS = ["github"] as const;
 export type Provider = (typeof PROVIDERS)[number];
 
 /** The Supabase project URL and anon key, or null when sign-in is not set up (then every sign-in control stays hidden). */

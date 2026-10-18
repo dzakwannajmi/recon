@@ -42,6 +42,9 @@ alter table public.chat_messages enable row level security;
 alter table public.paid_evidence enable row level security;
 
 revoke all on public.chat_sessions, public.chat_messages, public.paid_evidence from anon;
+-- Newer Supabase projects do not grant Data API access to tables by default, so say it explicitly. RLS still limits every row.
+grant select, insert, update, delete on public.chat_sessions to authenticated;
+grant select, insert, delete on public.chat_messages, public.paid_evidence to authenticated;
 
 -- chat_sessions
 create policy "own sessions: read" on public.chat_sessions for select to authenticated using (auth.uid() = user_id);

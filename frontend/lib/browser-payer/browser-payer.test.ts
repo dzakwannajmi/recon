@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { NETWORK as SERVER_NETWORK, USDC_TESTNET_SAC as SERVER_SAC } from "@/lib/gateway/payment-config";
 import { USDC_TESTNET_ISSUER as CLI_ISSUER } from "@/lib/payer/policy";
 import { DETAIL_SCHEMA as SERVER_SCHEMA } from "@/lib/gateway/detail";
-import { addTrustline, decimalToBase, friendbot, readSnapshot, snapshotOf, walletState } from "./chain";
+import { addTrustline, decimalToBase, formatBase, friendbot, readSnapshot, snapshotOf, walletState } from "./chain";
 import { DETAIL_SCHEMA, NETWORK, STORAGE_KEY, USDC_TESTNET_ISSUER, USDC_TESTNET_SAC } from "./constants";
 import { toBundleView } from "./bundle";
 import { offersOf, parseOffer } from "./offer";
@@ -119,8 +119,12 @@ describe("wallet state", () => {
 
   it("reads the snapshot with an injected fetch, and says unreadable on errors", async () => {
     const ok = vi.fn(async () => new Response(JSON.stringify({ balances: [] }), { status: 200 }));
-    expect(await readSnapshot(A, ok as never)).toEqual({ funded: true, trustline: false, usdcBase: 0n });
-    expect(await readSnapshot(A, (async () => new Response("", { status: 404 })) as never)).toEqual({ funded: false, trustline: false, usdcBase: 0n });
+    expect(formatBase(199999798314n * 100n / 100n, 2)).toBe("19999.97");
+    expect(formatBase(0n)).toBe("0");
+    expect(formatBase(15000000n)).toBe("1.5");
+    expect(snapshotOf({ balances: [{ asset_type: "native", balance: "9999.9999900" }] }).xlmBase).toBe(99999999900n);
+    expect(await readSnapshot(A, ok as never)).toEqual({ funded: true, trustline: false, usdcBase: 0n, xlmBase: 0n });
+    expect(await readSnapshot(A, (async () => new Response("", { status: 404 })) as never)).toEqual({ funded: false, trustline: false, usdcBase: 0n, xlmBase: 0n });
     expect(await readSnapshot(A, (async () => new Response("", { status: 500 })) as never)).toBe("unreadable");
     expect(await readSnapshot(A, (async () => { throw new Error("x"); }) as never)).toBe("unreadable");
   });

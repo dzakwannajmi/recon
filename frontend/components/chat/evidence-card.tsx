@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ExternalLink, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatBase } from "@/lib/browser-payer/chain";
 import { decideAutoPay } from "@/lib/browser-payer/auto";
 import { EXPLORER_ACCOUNT, EXPLORER_TX } from "@/lib/browser-payer/constants";
 import type { Offer } from "@/lib/browser-payer/offer";
@@ -19,7 +20,7 @@ const STATE_LINE = {
   missing: "No payer wallet in this browser yet.",
   not_funded: "The payer wallet has no test XLM yet, so it is not on the ledger and the explorer shows \"not found\". It appears after Friendbot funds it.",
   no_trustline: "The payer wallet needs the test USDC trustline.",
-  no_usdc: "The payer wallet has no test USDC yet. Send test USDC from the Circle testnet faucet to the address above, then refresh.",
+  no_usdc: "This payer wallet has 0 test USDC. Get test USDC from the Circle testnet faucet (network: Stellar testnet) and send it to the address above, then press Refresh.",
   ready: "Ready to unlock.",
 } as const;
 
@@ -61,6 +62,11 @@ export function EvidenceCard({ offer, autoPayId }: { offer: Offer; /** Set only 
           <p className="font-mono text-muted-foreground uppercase">Payer wallet (testnet only)</p>
           <code className="font-mono break-all text-foreground">{p.address}</code>
           <a className={link} href={`${EXPLORER_ACCOUNT}/${p.address}`} target="_blank" rel="noreferrer">Explorer <ExternalLink className="size-3" /></a>
+          {p.snap && p.snap !== "unreadable" && p.snap.funded && (
+            <p className="font-mono text-foreground">
+              XLM {formatBase(p.snap.xlmBase)} <span className="text-muted-foreground">·</span> USDC {p.snap.trustline ? formatBase(p.snap.usdcBase) : "no trustline"}
+            </p>
+          )}
           {!p.kept && <p className="text-muted-foreground">Storage is blocked, so this wallet is lost when you close the page.</p>}
         </div>
       )}
@@ -87,9 +93,10 @@ export function EvidenceCard({ offer, autoPayId }: { offer: Offer; /** Set only 
         {p.state === "missing" && <Button size="sm" variant="outline" onClick={p.create}>Create testnet wallet</Button>}
         {p.state === "not_funded" && p.address && <Button size="sm" variant="outline" disabled={busy} onClick={() => void p.fund()}>Fund with Friendbot</Button>}
         {p.state === "no_trustline" && <Button size="sm" variant="outline" disabled={busy} onClick={() => void p.trust()}>Add test USDC trustline</Button>}
-        {p.address && p.state !== "ready" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => void p.refresh()}>Refresh</Button>}
-        {p.state === "ready" && (p.pay.kind === "idle" || p.pay.kind === "failed") && (
-          <Button size="sm" disabled={busy} onClick={() => void p.payFor(url)}>Pay and unlock</Button>
+        {p.state === "no_usdc" && <a className={`${link} px-1 py-1`} href="https://faucet.circle.com" target="_blank" rel="noreferrer">Circle faucet <ExternalLink className="size-3" /></a>}
+        {p.address && p.pay.kind !== "paying" && <Button size="sm" variant="ghost" disabled={busy} onClick={() => void p.refresh()}>Refresh</Button>}
+        {p.address && (p.pay.kind === "idle" || p.pay.kind === "failed") && (
+          <Button size="sm" disabled={busy || p.state !== "ready"} onClick={() => void p.payFor(url)}>Pay and unlock</Button>
         )}
         {p.pay.kind === "unknown" && <Button size="sm" variant="outline" onClick={p.acknowledge}>I checked the explorer</Button>}
         {p.address && p.pay.kind !== "paying" && <Button size="sm" variant="ghost" onClick={p.forget}>Forget wallet</Button>}

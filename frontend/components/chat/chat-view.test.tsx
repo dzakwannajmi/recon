@@ -53,3 +53,31 @@ describe("ChatView", () => {
     expect(out.match(/max-w-\[760px\]/g)?.length).toBe(2);
   });
 });
+
+describe("ChatView answer actions", () => {
+  const messages: Message[] = [
+    { role: "user", text: "check USTRY" },
+    { role: "agent", text: "First answer." },
+    { role: "user", text: "and BB1?" },
+    { role: "agent", text: "Second answer." },
+  ];
+
+  it("shows no action row without onRegenerate (the landing demo)", () => {
+    expect(render({ messages })).not.toContain("Answer actions");
+  });
+
+  it("shows copy and rating under every answer, and try again only under the last one", () => {
+    const out = render({ messages, onRegenerate: () => {} });
+    expect(out.match(/Answer actions/g)).toHaveLength(2);
+    expect(out.match(/aria-label="Copy answer"/g)).toHaveLength(2);
+    expect(out.match(/aria-label="Try again"/g)).toHaveLength(1);
+  });
+
+  it("offers no try again while thinking, after a slash command, or on an error", () => {
+    expect(render({ messages, thinking: true, onRegenerate: () => {} })).not.toContain("Try again");
+    const cmd: Message[] = [{ role: "user", text: "/status BB1" }, { role: "agent", text: "BB1: ok", command: true }];
+    expect(render({ messages: cmd, onRegenerate: () => {} })).not.toContain("Try again");
+    const err: Message[] = [{ role: "user", text: "hi" }, { role: "agent", text: "Something went wrong.", error: true }];
+    expect(render({ messages: err, onRegenerate: () => {} })).not.toContain("Answer actions");
+  });
+});

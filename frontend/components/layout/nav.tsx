@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { ButtonLink, DarkLink } from "@/components/ui/button-link";
+import { DarkLink } from "@/components/ui/button-link";
+import { UserMenu } from "@/components/auth/user-menu";
 import { Logo } from "./logo";
-import { DEMO_HREF, FEED_URL, NAV_LINKS } from "./links";
+import { FeedButton, FeedMenuItem } from "./feed-link";
+import { DEMO_HREF, NAV_LINKS } from "./links";
 
 const linkCls = "rounded-[6px] px-3 py-2 text-sm hover:bg-secondary focus-visible:outline-2 focus-visible:outline-foreground";
 const btnCls = "h-10 px-4 text-sm";
@@ -30,11 +32,12 @@ export function Nav() {
               {NAV_LINKS.map((l) => (
                 <li key={l.label}><NavLink link={l} /></li>
               ))}
-              <li><a href={FEED_URL} target="_blank" rel="noopener noreferrer" className={linkCls}>Live feed</a></li>
+              <FeedMenuItem className={linkCls} />
             </ul>
           </details>
-          <ButtonLink href={FEED_URL} target="_blank" rel="noopener noreferrer" className={`${btnCls} hidden sm:inline-flex`}>Live feed</ButtonLink>
+          <FeedButton className={`${btnCls} hidden sm:inline-flex`} />
           <DarkLink href={DEMO_HREF} className={btnCls}>Ask the agent</DarkLink>
+          <UserMenu />
         </div>
       </nav>
     </header>

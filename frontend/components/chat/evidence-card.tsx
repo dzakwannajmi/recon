@@ -1,13 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ExternalLink, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { decideAutoPay } from "@/lib/browser-payer/auto";
 import { EXPLORER_ACCOUNT, EXPLORER_TX } from "@/lib/browser-payer/constants";
 import type { Offer } from "@/lib/browser-payer/offer";
+import { toBundleView } from "@/lib/browser-payer/bundle";
 import { BundleBody } from "./evidence-bundle";
+import { PaidBadge } from "./paid-badge";
 import { usePayer } from "./use-payer";
+import { useSavedEvidence } from "./use-saved-evidence";
 
 const link = "inline-flex items-center gap-1 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-foreground";
 
@@ -26,6 +29,8 @@ const STATE_LINE = {
  */
 export function EvidenceCard({ offer, autoPayId }: { offer: Offer; /** Set only for a card made by a command the user typed (`/evidence CODE`): it may pay once, without a click, when the wallet is ready. */ autoPayId?: string }) {
   const p = usePayer();
+  const keep = useSavedEvidence(offer, p.pay, p.raw);
+  const [reopened, setReopened] = useState(false);
 
   // At most one decision per typed command (lib/browser-payer/auto.ts). A card the model offered has no id and never pays by itself.
   useEffect(() => {
@@ -71,8 +76,8 @@ export function EvidenceCard({ offer, autoPayId }: { offer: Offer; /** Set only 
           </p>
         )}
         {p.pay.kind === "paid" && (
-          <p>
-            Paid. <a className={link} href={`${EXPLORER_TX}/${p.pay.tx}`} target="_blank" rel="noreferrer">Settlement transaction <ExternalLink className="size-3" /></a>
+          <p className="flex flex-wrap items-center gap-2">
+            <PaidBadge /> <a className={link} href={`${EXPLORER_TX}/${p.pay.tx}`} target="_blank" rel="noreferrer">Settlement transaction <ExternalLink className="size-3" /></a>
           </p>
         )}
         {p.notice && <p className="text-destructive">{p.notice}</p>}
@@ -89,6 +94,17 @@ export function EvidenceCard({ offer, autoPayId }: { offer: Offer; /** Set only 
         {p.pay.kind === "unknown" && <Button size="sm" variant="outline" onClick={p.acknowledge}>I checked the explorer</Button>}
         {p.address && p.pay.kind !== "paying" && <Button size="sm" variant="ghost" onClick={p.forget}>Forget wallet</Button>}
       </div>
+
+      {keep.note && <p role="status" className="text-muted-foreground">{keep.note}</p>}
+      {keep.saved && p.pay.kind !== "paid" && (
+        <div className="flex flex-col gap-2">
+          <PaidBadge label="Already paid" />
+          <Button size="sm" variant="outline" className="w-fit" aria-expanded={reopened} onClick={() => setReopened(!reopened)}>
+            {reopened ? "Hide saved evidence" : `Open saved (paid ${keep.saved.paid_at.slice(0, 10)})`}
+          </Button>
+          {reopened && (toBundleView(keep.saved.bundle) ? <BundleBody view={toBundleView(keep.saved.bundle)!} /> : <p role="alert">The saved bundle is not a recognised evidence bundle.</p>)}
+        </div>
+      )}
 
       {p.pay.kind === "paid" && (p.bundle ? <BundleBody view={p.bundle} raw={p.raw ?? undefined} /> : <p role="alert">The payment settled, but the response was not a recognised evidence bundle.</p>)}
     </section>

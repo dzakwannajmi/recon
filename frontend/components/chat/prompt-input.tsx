@@ -38,6 +38,8 @@ const LOOK = [
   "[&_[role=presentation]]:border [&_[role=presentation]]:border-input",
   // The asset list is long: scroll it, hairline instead of a shadow.
   "[&_[role=listbox]]:max-h-64 [&_[role=listbox]]:overflow-y-auto [&_[role=listbox]]:border [&_[role=listbox]]:shadow-none",
+  // The model list fits its longest name: no sideways scrollbar.
+  "[&_[role=listbox]]:overflow-x-hidden [&_[role=listbox]]:w-max [&_[role=listbox]]:min-w-full [&_[role=listbox]]:max-w-[calc(100vw-2rem)] [&_[role=option]]:whitespace-nowrap",
 ].join(" ");
 
 // One entry means nothing to choose, so no chevron.

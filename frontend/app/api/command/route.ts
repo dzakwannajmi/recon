@@ -3,6 +3,7 @@ import { COMMAND_TOOL, parseCommandBody, summarize } from "@/lib/commands";
 import { retryAfterHeader } from "@/lib/gateway/rate-limit";
 import { chatLimiter } from "@/lib/chat-limiter";
 import { describeError } from "@/lib/llm-errors";
+import { signInGate } from "@/lib/auth/gate";
 
 // A live check reads Horizon and a stellar.toml; no model is involved.
 export const maxDuration = 60;
@@ -23,6 +24,8 @@ export async function POST(req: Request) {
   if (limit.limited) {
     return Response.json({ error: "Too many commands. Wait a minute and try again." }, { status: 429, headers: { "Retry-After": retryAfterHeader(limit) } });
   }
+  const denied = await signInGate();
+  if (denied) return denied;
   if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) return Response.json({ error: "Request is too long." }, { status: 413 });
   const raw = await req.text();
   if (raw.length > MAX_BODY_BYTES) return Response.json({ error: "Request is too long." }, { status: 413 });

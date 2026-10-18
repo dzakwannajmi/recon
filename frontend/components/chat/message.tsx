@@ -3,11 +3,13 @@ import { cn } from "@/lib/utils";
 import { offersOf } from "@/lib/browser-payer/offer";
 import { EvidenceCard } from "./evidence-card";
 import { Markdown } from "./markdown";
+import { MessageActions } from "./message-actions";
 import { StepCard } from "./step-card";
 import { DoneThought } from "./thinking";
 import type { Message } from "./types";
 
-export function MessageView({ message: m, compact }: { message: Message; compact?: boolean }) {
+/** `actions`: show the copy, rating and try-again row under an answer; `onRegenerate` only on the last model answer. */
+export function MessageView({ message: m, compact, actions, onRegenerate }: { message: Message; compact?: boolean; actions?: boolean; onRegenerate?: () => void }) {
   if (m.role === "user") {
     return (
       <div className={cn("max-w-[85%] self-end rounded-[16px] bg-primary text-foreground [overflow-wrap:anywhere] whitespace-pre-wrap", compact ? "px-3 py-1.5" : "px-4 py-2.5")}>
@@ -32,6 +34,7 @@ export function MessageView({ message: m, compact }: { message: Message; compact
       ) : (
         <Markdown text={m.text} className="leading-relaxed" />
       )}
+      {actions && !m.error && m.text.trim() !== "" && <MessageActions text={m.text} onRegenerate={onRegenerate} />}
     </div>
   );
 }

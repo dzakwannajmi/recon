@@ -1,0 +1,189 @@
+[
+  {
+    "kind": "event",
+    "id": "1daee63f3778b964",
+    "seen_at": "2026-10-18T04:18:21.529Z",
+    "type": "supply_unreconciled",
+    "issuer": "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+    "assets": [
+      "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC"
+    ],
+    "ledger": null,
+    "ledger_closed_at": "2026-10-15T14:56:43.450Z",
+    "changes": [
+      "observed supply change -715.6121021",
+      "classified net +0"
+    ]
+  },
+  {
+    "kind": "run",
+    "at": "2026-10-18T04:18:21.529Z",
+    "day": "2026-10-18",
+    "reasons": [
+      "schedule:BENJI",
+      "schedule:gBENJI",
+      "schedule:grBENJI",
+      "schedule:sgBENJI",
+      "schedule:USDY",
+      "schedule:USTRY",
+      "schedule:TESOURO",
+      "schedule:EUROB",
+      "schedule:KTB",
+      "schedule:GILTS",
+      "schedule:GOLD",
+      "schedule:WTGX",
+      "schedule:WTSY",
+      "schedule:WTTS",
+      "schedule:WTST",
+      "schedule:WTLG",
+      "schedule:FLTT",
+      "schedule:TIPS",
+      "schedule:WTSI",
+      "schedule:CRDT",
+      "schedule:SPXU",
+      "schedule:TECH",
+      "schedule:EQTY",
+      "schedule:MODR",
+      "schedule:LNGV",
+      "schedule:BB1",
+      "schedule:YLDS",
+      "forced"
+    ],
+    "outcome": "ran",
+    "steps": [
+      {
+        "step": "check:assets",
+        "exit_code": 0,
+        "ms": 36876
+      },
+      {
+        "step": "examine",
+        "exit_code": 0,
+        "ms": 75982
+      },
+      {
+        "step": "status",
+        "exit_code": 0,
+        "ms": 497
+      }
+    ],
+    "files": [
+      {
+        "path": "data/checks/2026-10-18.json",
+        "sha256": "a958354d665aa7dfebf151ab7ca48e2da7eca833be856d49b6f134cd5b0fa595"
+      },
+      {
+        "path": "data/examinations/2026-10-18.json",
+        "sha256": "28cfe3634b28494cc5b3abb85ef8436fedf41b7dd3c8d5237cb51c6bf6a1b7c2"
+      },
+      {
+        "path": "data/status/2026-10-18.json",
+        "sha256": "b43fbfdc987467fdc6c4b6515566ff1102f6e90613d9636226b128d34e447b2e"
+      },
+      {
+        "path": "data/monitor/issuance/2026-10-18.json",
+        "sha256": "40a64dcc6a214bcb90a4184e2a318a15095ba3425446794dd515e5eb99289582"
+      }
+    ],
+    "diff": {
+      "against": "data/status/2026-10-15.json",
+      "items": [
+        {
+          "asset": "BENJI",
+          "status_from": "OK",
+          "status_to": "WARNING",
+          "bitmask_from": 0,
+          "bitmask_to": 4,
+          "raised": [
+            "STALE_ATTESTATION"
+          ],
+          "cleared": []
+        },
+        {
+          "asset": "gBENJI",
+          "status_from": "WARNING",
+          "status_to": "WARNING",
+          "bitmask_from": 128,
+          "bitmask_to": 160,
+          "raised": [
+            "LARGE_MINT_BURN"
+          ],
+          "cleared": []
+        },
+        {
+          "asset": "USTRY",
+          "status_from": "WARNING",
+          "status_to": "OK",
+          "bitmask_from": 24,
+          "bitmask_to": 0,
+          "raised": [],
+          "cleared": [
+            "FLAG_CHANGE",
+            "SIGNER_CHANGE"
+          ]
+        },
+        {
+          "asset": "TESOURO",
+          "status_from": "WARNING",
+          "status_to": "OK",
+          "bitmask_from": 24,
+          "bitmask_to": 0,
+          "raised": [],
+          "cleared": [
+            "FLAG_CHANGE",
+            "SIGNER_CHANGE"
+          ]
+        },
+        {
+          "asset": "EUROB",
+          "status_from": "WARNING",
+          "status_to": "OK",
+          "bitmask_from": 24,
+          "bitmask_to": 0,
+          "raised": [],
+          "cleared": [
+            "FLAG_CHANGE",
+            "SIGNER_CHANGE"
+          ]
+        },
+        {
+          "asset": "KTB",
+          "status_from": "WARNING",
+          "status_to": "OK",
+          "bitmask_from": 24,
+          "bitmask_to": 0,
+          "raised": [],
+          "cleared": [
+            "FLAG_CHANGE",
+            "SIGNER_CHANGE"
+          ]
+        },
+        {
+          "asset": "GILTS",
+          "status_from": "WARNING",
+          "status_to": "OK",
+          "bitmask_from": 24,
+          "bitmask_to": 0,
+          "raised": [],
+          "cleared": [
+            "FLAG_CHANGE",
+            "SIGNER_CHANGE"
+          ]
+        },
+        {
+          "asset": "WTGX",
+          "status_from": "OK",
+          "status_to": "WARNING",
+          "bitmask_from": 0,
+          "bitmask_to": 4,
+          "raised": [
+            "STALE_ATTESTATION"
+          ],
+          "cleared": []
+        }
+      ]
+    },
+    "horizon_requests": 204,
+    "partial_issuers": []
+  }
+]

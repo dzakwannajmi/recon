@@ -226,11 +226,11 @@
     "lastSeenAt": "2026-10-06T13:09:47.813Z"
   },
   {
-    "sha256": "1b01514b6a26598e3777e392008d4e32199d8bee4925f89e513a13a3d7d94245",
+    "sha256": "6f1082bee7d9c786592978231512fb9e3d21c80649400edfaeb50bd2c3952229",
     "url": "https://rwa.stellarsynth.org/.well-known/stellar.toml",
-    "finalUrl": "https://rwa.stellarsynth.org/.well-known/stellar.toml",
-    "contentType": "",
-    "bytes": 335,
+    "finalUrl": "https://rwa.stellarsynth.org/cgi-sys/suspendedpage.cgi",
+    "contentType": "text/html",
+    "bytes": 4460,
     "sourceClass": "third_party_toml",
     "assets": [
       "sgBENJI:GAYBNOMQB6723Q546PLGZ5PU2SG534WFI4LENDF5UK4BWVZUXUXSIWCE"
@@ -238,13 +238,13 @@
     "discoveredFrom": null,
     "text": {
       "kind": "text",
-      "chars": 335,
+      "chars": 4460,
       "pages": null,
-      "sha256": "1b01514b6a26598e3777e392008d4e32199d8bee4925f89e513a13a3d7d94245",
+      "sha256": "6f1082bee7d9c786592978231512fb9e3d21c80649400edfaeb50bd2c3952229",
       "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
-    "fetchedAt": "2026-10-06T22:56:52.275Z",
-    "lastSeenAt": "2026-10-15T14:57:17.668Z"
+    "fetchedAt": "2026-10-18T04:20:58.505Z",
+    "lastSeenAt": "2026-10-18T04:20:58.505Z"
   },
   {
     "sha256": "3419537b02847a58f9a7872004d7a295147d80765df125a5d935d34a13c4a31b",
@@ -265,7 +265,7 @@
       "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
     "fetchedAt": "2026-10-06T22:56:56.432Z",
-    "lastSeenAt": "2026-10-15T14:57:17.668Z"
+    "lastSeenAt": "2026-10-18T04:20:58.505Z"
   },
   {
     "sha256": "773b534176e3a9b7bdc9671568226d15978192fed4914725d786534a8168c156",
@@ -321,7 +321,7 @@
       "extractor": "text-v2 unpdf@1.8.1 pdfjs@6.1.200 html-scan@1"
     },
     "fetchedAt": "2026-10-06T22:56:58.987Z",
-    "lastSeenAt": "2026-10-15T14:57:17.668Z"
+    "lastSeenAt": "2026-10-18T04:20:58.505Z"
   },
   {
     "sha256": "1a1ed14b15e67a5c6680ba1ae1a1281206738fe889fdba64cbb308f7fc6af715",

@@ -16,11 +16,11 @@ export default function PrivacyPage() {
         <Container>
           <article className="mx-auto max-w-[680px] text-sm leading-relaxed">
             <h1 className="text-3xl">Privacy</h1>
-            <p className="mt-4">The agent chat and the fact sheets need you to sign in with GitHub, which also lets us save your chats and the evidence you unlock. The on-chain feed contract and the check API for programs stay open.</p>
+            <p className="mt-4">The agent chat and the fact sheets need you to sign in, which also lets us save your chats and the evidence you unlock. The on-chain feed contract and the check API for programs stay open.</p>
 
             <h2 className={h}>What is stored when you sign in</h2>
             <ul className="list-disc pl-5">
-              <li>Your sign-in identity (an id and the email, name, GitHub username and profile picture link that GitHub shares; the picture is loaded from GitHub only to show it next to your account menu), kept by our authentication provider, Supabase.</li>
+              <li>Your sign-in identity (an id and the basic profile details your sign-in provider shares, such as your name, email and profile picture), kept by our authentication provider, Supabase. The picture is loaded from the provider only to show it next to your account menu.</li>
               <li>The chats you save: what you typed, the agent&apos;s answers, and the tool steps behind them.</li>
               <li>Paid evidence bundles you unlock with your own testnet wallet, saved after the payment settles, so you can open them again for free.</li>
             </ul>

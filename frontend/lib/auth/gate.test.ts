@@ -5,18 +5,25 @@ import { initialOf, toAuthUser } from "./user";
 
 afterEach(() => vi.unstubAllEnvs());
 
+const setUp = () => {
+  vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://abc.supabase.co");
+  vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "anon");
+};
+
 describe("signInGate", () => {
-  it("lets everyone through, without looking up a user, when AUTH_REQUIRED is not true", async () => {
+  it("lets everyone through, without looking up a user, when AUTH_REQUIRED is false or sign-in is not set up", async () => {
     const lookup = vi.fn();
-    for (const v of ["", "false", "1", "TRUE"]) {
-      vi.stubEnv("AUTH_REQUIRED", v);
-      expect(await signInGate(lookup)).toBeNull();
-    }
+    setUp();
+    vi.stubEnv("AUTH_REQUIRED", "false");
+    expect(await signInGate(lookup)).toBeNull();
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "");
+    vi.stubEnv("AUTH_REQUIRED", "true");
+    expect(await signInGate(lookup)).toBeNull();
     expect(lookup).not.toHaveBeenCalled();
   });
 
   it("answers 401 with the sign-in message when it is on and nobody is signed in", async () => {
-    vi.stubEnv("AUTH_REQUIRED", "true");
+    setUp();
     const res = await signInGate(async () => null);
     expect(res?.status).toBe(401);
     expect(await res?.json()).toEqual({ error: "Sign in with GitHub to use the agent." });
@@ -24,12 +31,12 @@ describe("signInGate", () => {
   });
 
   it("lets a signed-in user through", async () => {
-    vi.stubEnv("AUTH_REQUIRED", "true");
+    setUp();
     expect(await signInGate(async () => "user-1")).toBeNull();
   });
 
   it("fails closed when the lookup throws", async () => {
-    vi.stubEnv("AUTH_REQUIRED", "true");
+    setUp();
     const res = await signInGate(async () => {
       throw new Error("network");
     });
@@ -38,10 +45,14 @@ describe("signInGate", () => {
 });
 
 describe("config", () => {
-  it("authRequired is on only for the exact value true", () => {
+  it("authRequired is on when sign-in is set up, unless AUTH_REQUIRED is exactly false", () => {
     expect(authRequired()).toBe(false);
-    vi.stubEnv("AUTH_REQUIRED", "true");
+    setUp();
     expect(authRequired()).toBe(true);
+    vi.stubEnv("AUTH_REQUIRED", "0");
+    expect(authRequired()).toBe(true);
+    vi.stubEnv("AUTH_REQUIRED", "false");
+    expect(authRequired()).toBe(false);
   });
 
   it("supabaseConfig needs both public values and an https URL", () => {

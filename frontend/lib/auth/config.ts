@@ -22,7 +22,11 @@ export function supabaseConfig(): SupabaseConfig | null {
   return { url, anonKey };
 }
 
-/** AUTH_REQUIRED=true makes the chat routes need a signed-in user. Anything else (including unset) leaves sign-in optional. */
+/**
+ * Signing in is required to use the agent chat whenever sign-in is set up (the two Supabase values exist). The only
+ * way out is AUTH_REQUIRED=false, for local work. Without the Supabase values there is nothing to sign in to, so the
+ * chat stays open instead of locking everyone out.
+ */
 export function authRequired(): boolean {
-  return process.env.AUTH_REQUIRED === "true";
+  return supabaseConfig() !== null && process.env.AUTH_REQUIRED !== "false";
 }

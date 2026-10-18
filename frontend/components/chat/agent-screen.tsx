@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
 import { History, RotateCcw, Settings2 } from "lucide-react";
-import { ProviderButtons, UserMenu } from "@/components/auth/user-menu";
+import { LoginCard } from "@/components/auth/login-card";
+import { UserMenu } from "@/components/auth/user-menu";
 import { useAuth } from "@/components/auth/use-auth";
 import { Button } from "@/components/ui/button";
-import { SIGN_IN_REQUIRED_MESSAGE } from "@/lib/auth/config";
 import type { PromptAsset } from "@/components/chat/prompt-config";
 import { ChatView } from "@/components/chat/chat-view";
 import { Logo } from "@/components/layout/logo";
@@ -60,18 +60,7 @@ export function AgentScreen({ assets }: { assets: PromptAsset[] }) {
       <main className="flex h-dvh w-full flex-col">
         <h1 className="sr-only">Agent</h1>
         <header className="flex h-14 shrink-0 items-center border-b px-4 sm:px-6"><Logo label="Back to home" /></header>
-        <div className="mx-auto flex w-full max-w-[420px] flex-1 flex-col justify-center gap-4 px-4">
-          <h2 className="text-xl">{SIGN_IN_REQUIRED_MESSAGE}</h2>
-          {auth.status === "off" ? (
-            <p role="alert" className="text-sm text-muted-foreground">Sign-in is not set up on this server yet.</p>
-          ) : (
-            <>
-              <p className="text-sm text-muted-foreground">Fact sheets and the live feed stay open without an account.</p>
-              <ProviderButtons />
-            </>
-          )}
-          <Link href="/en/assets" className="w-fit rounded-[6px] text-sm underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground">Fact sheets</Link>
-        </div>
+        <div className="flex flex-1 flex-col justify-center px-4"><LoginCard /></div>
       </main>
     );
   }

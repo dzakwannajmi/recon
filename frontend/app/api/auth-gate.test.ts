@@ -1,5 +1,5 @@
 /**
- * POST /api/agent and POST /api/command with AUTH_REQUIRED on and off. The user lookup is stubbed: no network, no cookies.
+ * POST /api/agent and POST /api/command with sign-in required (the default once Supabase is set up) and off (AUTH_REQUIRED=false). The user lookup is stubbed: no network, no cookies.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { resetChatLimiter } from "@/lib/chat-limiter";
@@ -8,6 +8,10 @@ const currentUserId = vi.fn();
 vi.mock("@/lib/auth/server", () => ({ currentUserId: () => currentUserId() }));
 vi.mock("@/agent/agent", () => ({ MODEL: "m", runAgent: vi.fn() }));
 
+const setUp = () => {
+  vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://abc.supabase.co");
+  vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "anon");
+};
 const SIGN_IN = { error: "Sign in with GitHub to use the agent." };
 const req = (path: string, body: unknown) => new Request(`http://localhost${path}`, { method: "POST", body: JSON.stringify(body) });
 
@@ -25,7 +29,7 @@ describe("sign-in gate on the chat routes", () => {
   afterEach(() => vi.unstubAllEnvs());
 
   it("answers 401 on both routes when required and signed out", async () => {
-    vi.stubEnv("AUTH_REQUIRED", "true");
+    setUp();
     currentUserId.mockResolvedValue(null);
     const { agent, command } = await routes();
     const a = await agent.POST(req("/api/agent", { messages: [{ role: "user", text: "hi" }] }));
@@ -36,14 +40,16 @@ describe("sign-in gate on the chat routes", () => {
   });
 
   it("lets a signed-in user reach the route's own validation", async () => {
-    vi.stubEnv("AUTH_REQUIRED", "true");
+    setUp();
     currentUserId.mockResolvedValue("user-1");
     const { agent, command } = await routes();
     expect((await agent.POST(req("/api/agent", {}))).status).toBe(400);
     expect((await command.POST(req("/api/command", { command: "nope" }))).status).toBe(400);
   });
 
-  it("does not look at the user at all when it is off", async () => {
+  it("does not look at the user at all when AUTH_REQUIRED is false", async () => {
+    setUp();
+    vi.stubEnv("AUTH_REQUIRED", "false");
     const { agent, command } = await routes();
     expect((await agent.POST(req("/api/agent", {}))).status).toBe(400);
     expect((await command.POST(req("/api/command", { command: "nope" }))).status).toBe(400);
@@ -53,7 +59,9 @@ describe("sign-in gate on the chat routes", () => {
   it("reports the switch in GET /api/agent so the page can show the gate", async () => {
     const { agent } = await routes();
     expect((await (await agent.GET()).json()).authRequired).toBe(false);
-    vi.stubEnv("AUTH_REQUIRED", "true");
+    setUp();
     expect((await (await agent.GET()).json()).authRequired).toBe(true);
+    vi.stubEnv("AUTH_REQUIRED", "false");
+    expect((await (await agent.GET()).json()).authRequired).toBe(false);
   });
 });

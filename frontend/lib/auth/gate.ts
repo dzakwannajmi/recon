@@ -5,9 +5,9 @@ const lookup = async () => (await import("./server")).currentUserId();
 
 /**
  * The sign-in gate of the chat routes. Returns null to let the request through, or the 401 to send back.
- * Off (the default): returns null without looking at any cookie, so anonymous use is untouched. On: needs a signed-in
- * user; a failed lookup (or sign-in not set up) answers 401 too, never lets the request through. Nothing is
- * cached, so signing out takes effect on the next request.
+ * Off (sign-in not set up, or AUTH_REQUIRED=false): returns null without looking at any cookie. On: needs a signed-in
+ * user; a failed lookup answers 401 too, never lets the request through. Nothing is cached, so signing out takes
+ * effect on the next request.
  */
 export async function signInGate(currentUserId: () => Promise<string | null> = lookup): Promise<Response | null> {
   if (!authRequired()) return null;

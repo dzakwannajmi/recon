@@ -3,7 +3,8 @@
  * Emphasis closers are found once up front and looked up by binary search, so matching is linear per
  * nesting level (depth is capped). Input over MAX_INPUT characters is rendered as plain text.
  * Supported: headings, paragraphs, fenced code, bullet and numbered lists, blockquotes, rules,
- * and inline bold, italic, code, http(s) links. Everything else is literal text.
+ * GitHub-style tables (header row, delimiter row, body rows; capped at MAX_ROWS x MAX_COLS, cells are
+ * parsed as inline markdown), and inline bold, italic, code, http(s) links. Everything else is literal text.
  */
 
 export type Inline =
@@ -20,7 +21,10 @@ export type Block =
   | { t: "code"; text: string }
   | { t: "hr" }
   | { t: "quote"; blocks: Block[] }
-  | { t: "list"; ordered: boolean; start: number; items: Block[][] };
+  | { t: "list"; ordered: boolean; start: number; items: Block[][] }
+  | { t: "table"; header: Inline[][]; align: TableAlign[]; rows: Inline[][][] };
+
+export type TableAlign = null | "left" | "right" | "center";
 
 const MAX_DEPTH = 5;
 const isSpace = (c: string | undefined) => c === undefined || c === " " || c === "\t" || c === "\n" || c === "\r";
@@ -28,6 +32,8 @@ const isAlnum = (c: string | undefined) => !!c && ((c >= "0" && c <= "9") || (c 
 const isPunct = (c: string) => "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".includes(c);
 
 export const MAX_INPUT = 20_000;
+export const MAX_ROWS = 200;
+export const MAX_COLS = 12;
 
 /** Only http and https links are ever clickable, and never with credentials in the URL (https://sec.gov@evil.com). */
 export function parseSafeUrl(raw: string): URL | null {
@@ -276,6 +282,56 @@ function markerOf(line: string): Marker | null {
   return null;
 }
 
+/** Cells of a table row: outer pipes dropped, split on pipes that are not escaped. One linear pass. */
+function splitRow(line: string): string[] {
+  let t = line.trim();
+  if (t.startsWith("|")) t = t.slice(1);
+  let end = t.length;
+  if (end > 0 && t[end - 1] === "|") {
+    let slashes = 0;
+    while (end - 2 - slashes >= 0 && t[end - 2 - slashes] === "\\") slashes++;
+    if (slashes % 2 === 0) end--;
+  }
+  t = t.slice(0, end);
+  const cells: string[] = [];
+  let from = 0;
+  for (let k = 0; k < t.length; k++) {
+    if (t[k] === "\\") k++;
+    else if (t[k] === "|") {
+      cells.push(t.slice(from, k).trim());
+      from = k + 1;
+    }
+  }
+  cells.push(t.slice(from).trim());
+  return cells;
+}
+
+const DELIM_CELL = /^:?-+:?$/;
+
+/** Alignments of a delimiter row (`|---|:--|--:|`) with exactly `count` cells, or null when the line is not one. */
+function delimiterOf(line: string, count: number): TableAlign[] | null {
+  if (!line.includes("|") || line.length > 2000) return null;
+  const cells = splitRow(line);
+  if (cells.length !== count) return null;
+  const align: TableAlign[] = [];
+  for (const c of cells) {
+    if (!DELIM_CELL.test(c)) return null;
+    const l = c[0] === ":";
+    const r = c[c.length - 1] === ":";
+    align.push(l && r ? "center" : r ? "right" : l ? "left" : null);
+  }
+  return align;
+}
+
+/** A table starts here when this line has pipes and the next line is a delimiter row with the same cell count. */
+function tableStartAt(lines: string[], i: number): { header: string[]; align: TableAlign[] } | null {
+  const line = lines[i];
+  if (i + 1 >= lines.length || !line.includes("|") || indentOf(line) > 3) return null;
+  const header = splitRow(line);
+  const align = delimiterOf(lines[i + 1], header.length);
+  return align ? { header, align } : null;
+}
+
 const startsBlock = (line: string) =>
   fenceOf(line) !== null || headingOf(line) !== null || line.trimStart().startsWith(">") || isRule(line) || markerOf(line) !== null;
 
@@ -323,6 +379,20 @@ export function parseBlocks(lines: string[], depth = 0): Block[] {
       continue;
     }
 
+    const table = tableStartAt(lines, i);
+    if (table) {
+      const cols = Math.min(table.header.length, MAX_COLS);
+      const cell = (cells: string[]) => Array.from({ length: cols }, (_, k) => (cells[k] ? parseInline(cells[k]) : []));
+      const rows: Inline[][][] = [];
+      i += 2;
+      while (i < lines.length && !isBlank(lines[i]) && lines[i].includes("|")) {
+        if (rows.length < MAX_ROWS) rows.push(cell(splitRow(lines[i])));
+        i++;
+      }
+      blocks.push({ t: "table", header: cell(table.header), align: table.align.slice(0, cols), rows });
+      continue;
+    }
+
     const first = markerOf(line);
     if (first) {
       const items: Block[][] = [];
@@ -365,7 +435,7 @@ export function parseBlocks(lines: string[], depth = 0): Block[] {
     while (i < lines.length && !isBlank(lines[i])) {
       if (para.length > 0) {
         const m = markerOf(lines[i]);
-        if (fenceOf(lines[i]) || headingOf(lines[i]) || lines[i].trimStart().startsWith(">") || isRule(lines[i]) || (m && (!m.ordered || m.number === 1))) break;
+        if (fenceOf(lines[i]) || headingOf(lines[i]) || lines[i].trimStart().startsWith(">") || isRule(lines[i]) || (m && (!m.ordered || m.number === 1)) || tableStartAt(lines, i)) break;
       }
       para.push(lines[i].trim());
       i++;

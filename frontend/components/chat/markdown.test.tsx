@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { Markdown } from "./markdown";
+import { parseMarkdown } from "./markdown-parse";
 
 const html = (text: string) => renderToStaticMarkup(<Markdown text={text} />);
 
@@ -149,6 +150,69 @@ describe("Markdown renderer", () => {
     const same = html("[https://sec.gov/filing](https://sec.gov/other)");
     expect(same).toContain('href="https://sec.gov/other"');
     expect(html("[stellar.toml](https://example.com/.well-known/stellar.toml)")).toContain('href="https://example.com/.well-known/stellar.toml"');
+  });
+
+  it("renders a table with header, rows and alignment", () => {
+    const out = html("| Issuer | Trustlines | Note |\n|:--|--:|:-:|\n| GCRY | 981 | ok |\n| GABC | 12 | new |");
+    expect(out).toContain("<table");
+    expect(out).toContain("overflow-x-auto");
+    expect((out.match(/<th /g) ?? []).length).toBe(3);
+    expect((out.match(/<tr/g) ?? []).length).toBe(3);
+    expect(out).toMatch(/<th [^>]*text-left[^>]*>Issuer/);
+    expect(out).toMatch(/<th [^>]*text-right[^>]*>Trustlines/);
+    expect(out).toMatch(/<td [^>]*text-right[^>]*>981/);
+    expect(out).toMatch(/<td [^>]*text-center[^>]*>ok/);
+    expect(out).not.toContain("|");
+  });
+
+  it("pads and trims uneven rows to the header width", () => {
+    const [t] = parseMarkdown("| a | b |\n|---|---|\n| 1 |\n| 1 | 2 | 3 |");
+    if (t.t !== "table") throw new Error("expected table");
+    expect(t.rows.map((r) => r.length)).toEqual([2, 2]);
+    expect(t.rows[0][1]).toEqual([]);
+  });
+
+  it("keeps links in cells safe", () => {
+    const out = html("| a | b |\n|---|---|\n| [x](https://example.com/p) | [y](javascript:alert(1)) |\n| [sec.gov](https://evil.com) | https://sec.gov@evil.com |");
+    expect(out).toContain('href="https://example.com/p"');
+    expect(out).not.toContain("javascript:");
+    expect(out).not.toContain('href="https://evil.com');
+    expect(out).not.toContain('href="https://sec.gov@');
+  });
+
+  it("leaves a pipe line without a delimiter row as a paragraph", () => {
+    const out = html("| a | b |\n| 1 | 2 |");
+    expect(out).not.toContain("<table");
+    expect(out).toContain("<p");
+    expect(html("a | b\n|---|---|---|")).not.toContain("<table");
+  });
+
+  it("shows raw HTML in cells as literal text", () => {
+    const out = html("| a |\n|---|\n| <script>alert(1)</script> <img src=x onerror=alert(1)> |");
+    expect(out).toContain("<table");
+    expect(out).not.toContain("<script");
+    expect(out).not.toContain("<img");
+    expect(out).toContain("&lt;script&gt;");
+  });
+
+  it("caps rows and columns, and ends the table at a blank line", () => {
+    const row = (v: string) => `| ${Array.from({ length: 15 }, () => v).join(" | ")} |`;
+    const src = [row("h"), row("---"), ...Array.from({ length: 250 }, () => row("x")), "", "after"].join("\n");
+    const blocks = parseMarkdown(src);
+    expect(blocks.length).toBe(2);
+    const t = blocks[0];
+    if (t.t !== "table") throw new Error("expected table");
+    expect(t.rows.length).toBe(200);
+    expect(t.header.length).toBe(12);
+    expect(t.align.length).toBe(12);
+    expect(blocks[1].t).toBe("p");
+  });
+
+  it("splits on unescaped pipes only", () => {
+    const [t] = parseMarkdown("| a | b |\n|---|---|\n| x \\| y | z |");
+    if (t.t !== "table") throw new Error("expected table");
+    expect(t.rows[0].length).toBe(2);
+    expect(t.rows[0][0]).toEqual([{ t: "text", text: "x | y" }]);
   });
 
   it("does not use dangerouslySetInnerHTML", async () => {

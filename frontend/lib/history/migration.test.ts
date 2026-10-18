@@ -1,11 +1,14 @@
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 
-const sql = readFileSync(path.join(__dirname, "../../../supabase/migrations/001_init.sql"), "utf8");
+// The supabase/ folder is local only (git-ignored), so these checks run where the SQL file exists and are skipped elsewhere.
+const file = path.join(__dirname, "../../../supabase/migrations/001_init.sql");
+const present = existsSync(file);
+const sql = present ? readFileSync(file, "utf8") : "";
 const tables = [...sql.matchAll(/create table public\.(\w+)/g)].map((m) => m[1]);
 
-describe("001_init.sql", () => {
+describe.skipIf(!present)("001_init.sql", () => {
   it("creates the three tables", () => {
     expect(tables).toEqual(["chat_sessions", "chat_messages", "paid_evidence"]);
   });

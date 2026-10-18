@@ -41,3 +41,6 @@ contracts/lending-mock/test_snapshots/
 # Monitor runtime files: the lock and temp files are never committed
 data/monitor/.lock
 data/monitor/**/*.tmp
+
+# local-only database setup (run by hand in the Supabase SQL editor)
+supabase/

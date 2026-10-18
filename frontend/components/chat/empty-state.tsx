@@ -10,7 +10,7 @@ export function EmptyState({ ready, wallet, onPick, compact }: Props) {
       <div>
         <p className={cn("tracking-tight", compact ? "text-base" : "text-3xl")}>Ask the agent something</p>
         <p className={cn("mt-1 text-muted-foreground", compact && "text-xs")}>
-          {!ready ? "Add your API key to start." : wallet && !wallet.address ? "Tip: create the wallet first so the agent can use it." : "Pick an example to start."}
+          {!ready ? "Add your API key to start." : "Pick an example to start."}
         </p>
       </div>
       <div className="flex flex-wrap justify-center gap-2">

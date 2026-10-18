@@ -5,10 +5,10 @@
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Message } from "@/components/chat/types";
-import { MAX_MESSAGES, MAX_SESSIONS, fromMessageRow, titleOf, toMessageRow, type EvidenceRow } from "./rows";
+import { MAX_MESSAGES, MAX_SESSIONS, cleanTitle, fromMessageRow, titleOf, toMessageRow, type EvidenceRow } from "./rows";
 
 export type Db = Pick<SupabaseClient, "from">;
-export type SessionItem = { id: string; title: string; updated_at: string };
+export type SessionItem = { id: string; title: string; updated_at: string; pinned: boolean };
 export type EvidenceItem = { id: string; asset_code: string; issuer: string; settlement_tx: string; paid_at: string; bundle: unknown };
 
 // The Supabase error (a code and a message about the request, never row content) goes to the browser console so a failed save can be diagnosed.
@@ -18,7 +18,7 @@ const fail = (what: string, error?: { code?: string; message?: string } | null):
 };
 
 export async function listSessions(db: Db): Promise<SessionItem[]> {
-  const { data, error } = await db.from("chat_sessions").select("id,title,updated_at").order("updated_at", { ascending: false }).limit(MAX_SESSIONS);
+  const { data, error } = await db.from("chat_sessions").select("id,title,updated_at,pinned").order("pinned", { ascending: false }).order("updated_at", { ascending: false }).limit(MAX_SESSIONS);
   if (error) fail("load saved chats", error);
   return (data ?? []) as SessionItem[];
 }
@@ -41,6 +41,20 @@ export async function loadMessages(db: Db, sessionId: string): Promise<Message[]
   const { data, error } = await db.from("chat_messages").select("role,text,steps").eq("session_id", sessionId).order("created_at", { ascending: true }).limit(MAX_MESSAGES);
   if (error) fail("open the chat", error);
   return (data ?? []).map(fromMessageRow).filter((m): m is Message => m !== null);
+}
+
+/** Renames a chat. The title is cleaned first; an empty one is refused. */
+export async function renameSession(db: Db, sessionId: string, title: string): Promise<void> {
+  const clean = cleanTitle(title);
+  if (!clean) throw new Error("Could not rename the chat.");
+  const { error } = await db.from("chat_sessions").update({ title: clean }).eq("id", sessionId);
+  if (error) fail("rename the chat", error);
+}
+
+/** Pins a chat to the top of the list, or unpins it. */
+export async function setPinned(db: Db, sessionId: string, pinned: boolean): Promise<void> {
+  const { error } = await db.from("chat_sessions").update({ pinned }).eq("id", sessionId);
+  if (error) fail("pin the chat", error);
 }
 
 /** Deleting a chat removes its messages too (ON DELETE CASCADE). */

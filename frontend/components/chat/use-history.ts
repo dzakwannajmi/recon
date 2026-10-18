@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { browserClient } from "@/lib/auth/client";
 import type { AuthUser } from "@/lib/auth/user";
-import { appendMessages, createSession, deleteEvidence, deleteSession, listEvidence, listSessions, loadMessages, type EvidenceItem, type SessionItem } from "@/lib/history/store";
+import { appendMessages, createSession, deleteEvidence, deleteSession, listEvidence, listSessions, loadMessages, renameSession, setPinned, type EvidenceItem, type SessionItem } from "@/lib/history/store";
 import type { Message } from "./types";
 
 const CHANGED = "history-changed";
@@ -114,6 +114,28 @@ export function useHistory(user: AuthUser | null, model: string | null) {
     }
   }
 
+  async function rename(id: string, title: string) {
+    const db = browserClient();
+    if (!db) return;
+    try {
+      await renameSession(db, id, title);
+      await reload();
+    } catch {
+      setError("Could not rename that chat.");
+    }
+  }
+
+  async function pin(id: string, pinned: boolean) {
+    const db = browserClient();
+    if (!db) return;
+    try {
+      await setPinned(db, id, pinned);
+      await reload();
+    } catch {
+      setError("Could not pin that chat.");
+    }
+  }
+
   async function removeEvidence(id: string) {
     const db = browserClient();
     if (!db) return;
@@ -125,5 +147,5 @@ export function useHistory(user: AuthUser | null, model: string | null) {
     }
   }
 
-  return { sessions, evidence, current, error, record, open, remove, removeEvidence, startNew: () => setCurrent(null), reload };
+  return { sessions, evidence, current, error, record, open, remove, rename, pin, removeEvidence, startNew: () => setCurrent(null), reload };
 }

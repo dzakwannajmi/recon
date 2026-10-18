@@ -25,6 +25,12 @@ export function titleOf(messages: Pick<Message, "role" | "text">[]): string {
   return cut(first.replace(/\s+/g, " ").trim(), MAX_TITLE) || "New chat";
 }
 
+/** A title the user typed: one line, trimmed, cut to the title cap. Null when nothing is left. */
+export function cleanTitle(raw: string): string | null {
+  const t = cut(raw.replace(/\s+/g, " ").trim(), MAX_TITLE);
+  return t === "" ? null : t;
+}
+
 /** The steps to store, or null when they are over the cap (the answer text is still saved). */
 export function capSteps(steps: Step[] | undefined): Step[] | null {
   if (!steps || steps.length === 0) return null;

@@ -51,6 +51,8 @@ export function AgentScreen({ assets }: { assets: PromptAsset[] }) {
         await history.remove(id);
         if (wasOpen) a.clear();
       }}
+      onRename={(id, title) => void history.rename(id, title)}
+      onPin={(id, pinned) => void history.pin(id, pinned)}
       onRemoveEvidence={(id) => void history.removeEvidence(id)}
     />
   );

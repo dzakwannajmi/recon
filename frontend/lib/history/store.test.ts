@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Db } from "./store";
-import { appendMessages, createSession, deleteMyData, listEvidence, loadMessages, saveEvidence } from "./store";
+import { appendMessages, createSession, deleteMyData, listEvidence, listSessions, loadMessages, renameSession, saveEvidence, setPinned } from "./store";
 
 type Call = { table: string; ops: [string, unknown[]][] };
 
@@ -89,5 +89,36 @@ describe("evidence", () => {
     const ops = calls[0].ops.map((o) => o[0]);
     expect(ops).toEqual(["select", "eq", "eq", "order", "limit"]);
     expect(calls[0].ops[1][1]).toEqual(["asset_code", "USTRY"]);
+  });
+});
+
+describe("rename and pin", () => {
+  it("renames with a cleaned title, scoped by the chat id", async () => {
+    const { db, calls } = fake();
+    await renameSession(db, "s1", "  My   chat \n name ");
+    expect(calls[0]).toEqual({ table: "chat_sessions", ops: [["update", [{ title: "My chat name" }]], ["eq", ["id", "s1"]]] });
+  });
+
+  it("refuses an empty title without calling the database", async () => {
+    const { db, calls } = fake();
+    await expect(renameSession(db, "s1", "   ")).rejects.toThrow("Could not rename the chat.");
+    expect(calls).toHaveLength(0);
+  });
+
+  it("pins and unpins", async () => {
+    const { db, calls } = fake();
+    await setPinned(db, "s1", true);
+    await setPinned(db, "s1", false);
+    expect(calls.map((c) => c.ops[0])).toEqual([["update", [{ pinned: true }]], ["update", [{ pinned: false }]]]);
+  });
+
+  it("lists pinned chats first, then the newest", async () => {
+    const { db, calls } = fake();
+    await listSessions(db);
+    expect(calls[0].ops.filter(([op]) => op === "order")).toEqual([["order", ["pinned", { ascending: false }]], ["order", ["updated_at", { ascending: false }]]]);
+  });
+
+  it("a failed update is an error", async () => {
+    await expect(setPinned(fake({ error: { message: "x" } }).db, "s1", true)).rejects.toThrow("Could not pin the chat.");
   });
 });

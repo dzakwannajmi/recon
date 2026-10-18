@@ -56,8 +56,6 @@ export function UserMenu() {
           {user.label}
           {user.handle && user.handle !== user.label && <span className="block">@{user.handle}</span>}
         </p>
-        <Link href="/agent#saved-chats" className={item}>Saved chats</Link>
-        <Link href="/agent#saved-evidence" className={item}>Saved evidence</Link>
         <button type="button" className={item} onClick={() => void wipe(user.id)}>Delete my data</button>
         <Link href="/privacy" className={item}>Privacy</Link>
         <button type="button" className={item} onClick={() => void auth.signOut()}>Sign out</button>

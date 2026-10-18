@@ -32,7 +32,8 @@ export type AssetRecord = {
   flags: AssetFlags;
 };
 
-function isHorizonUrl(href: string) {
+/** True when the link points at the fixed Horizon origin (paging links are followed only then). */
+export function isHorizonUrl(href: string) {
   try {
     return new URL(href).origin === HORIZON_MAINNET;
   } catch {

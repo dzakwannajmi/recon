@@ -1,14 +1,23 @@
 import { toStroops } from "../chain/asset";
+import { CHANGE_HOLD_DAYS, addDays, wholeDays } from "./changes";
 import { clear, notEvaluated, raised, type Evaluation } from "./types";
 
 /** A single day above this share of supply is flagged (D-035). */
 export const LARGE_MINT_BURN_SHARE = 0.2;
 /** Market price this far from NAV per unit is flagged (D-035). */
 export const PRICE_DEVIATION_SHARE = 0.02;
+/** A large day stays raised this many days after it (the D-038 hold, in check time). */
+export const MINT_BURN_HOLD_DAYS = CHANGE_HOLD_DAYS;
 
+/** One asset's daily issuance from the Monitor (`data/monitor/issuance/YYYY-MM-DD.json`). */
 export type MintBurnInput = {
   supply: string;
+  /** Complete days, proven by reconciliation against ledger-pinned supply. */
   days: { date: string; minted: string; burned: string; supply_end: string }[];
+  /** Dates the Monitor could not prove (not covered, or not reconciled). */
+  missing?: string[];
+  /** Evidence reference of the asset's entry, e.g. `data/monitor/issuance/2026-10-17.json#BENJI:G…`. */
+  ref?: string;
 };
 
 export type PriceInput = {
@@ -28,16 +37,22 @@ const fmt = (stroops: bigint) => {
 };
 
 /**
- * LARGE_MINT_BURN (WARNING only). Needs daily issuance data from the Monitor
- * (W4.1); the status script passes null until then. A day is large when minted
- * or burned is more than 20% of max(supply at start, supply at end).
+ * LARGE_MINT_BURN (WARNING only, flags-v4, D-047). A day is large when minted or burned is more than
+ * 20% of max(supply at start, supply at end). The window is the 7 days before the day of the current
+ * chain check, so the hold runs in check time like FLAG_CHANGE: a status run without new checks never
+ * clears it. A day the Monitor could not prove is never read as quiet.
  */
-export function flagLargeMintBurn(input: MintBurnInput | null): Evaluation {
-  if (!input) return notEvaluated("LARGE_MINT_BURN", "Needs daily issuance data from the Monitor (W4.1)");
-  if (input.days.length === 0) return notEvaluated("LARGE_MINT_BURN", "No daily issuance data in the input");
+export function flagLargeMintBurn(input: MintBurnInput | null, currentDay: string | null): Evaluation {
+  if (!input) return notEvaluated("LARGE_MINT_BURN", "No daily issuance data from the Monitor for this asset.");
+  if (!currentDay) return notEvaluated("LARGE_MINT_BURN", "No current chain check to anchor the 7-day window.");
+  const window = Array.from({ length: MINT_BURN_HOLD_DAYS }, (_, i) => addDays(currentDay, i - MINT_BURN_HOLD_DAYS));
+  const inWindow = (date: string) => { const n = wholeDays(date, currentDay); return n >= 1 && n <= MINT_BURN_HOLD_DAYS; };
+  const unproven = new Set(input.missing ?? []);
+
   type Hit = { date: string; side: "mint" | "burn"; amount: bigint; base: bigint; share: number };
   let largest: Hit | null = null;
   for (const d of input.days) {
+    if (!inWindow(d.date) || unproven.has(d.date)) continue;
     const [minted, burned, end] = [toStroops(d.minted), toStroops(d.burned), toStroops(d.supply_end)];
     const start = end - minted + burned;
     const base = start > end ? start : end;
@@ -50,13 +65,20 @@ export function flagLargeMintBurn(input: MintBurnInput | null): Evaluation {
       }
     }
   }
-  const asOf = input.days.map((d) => d.date).sort().at(-1)!;
-  if (!largest) return clear("LARGE_MINT_BURN", `No single day minted or burned more than ${LARGE_MINT_BURN_SHARE * 100}% of supply in the input.`, asOf, []);
-  return raised(
-    "LARGE_MINT_BURN", "WARNING",
-    `Single-day ${largest.side} of ${fmt(largest.amount)} on ${largest.date} is ${largest.share}% of supply (${fmt(largest.base)}); no matching document is checked in v1.`,
-    largest.date, [],
-  );
+  const evidence = (suffix = "") => (input.ref ? [{ kind: "chain_check" as const, ref: `${input.ref}${suffix}` }] : []);
+  if (largest) {
+    return raised(
+      "LARGE_MINT_BURN", "WARNING",
+      `Single-day ${largest.side} of ${fmt(largest.amount)} on ${largest.date} is ${largest.share}% of supply (${fmt(largest.base)}); no matching document is checked in v1. Held through ${addDays(largest.date, MINT_BURN_HOLD_DAYS)}.`,
+      currentDay, evidence(`#${largest.date}`),
+    );
+  }
+  const have = new Set(input.days.map((d) => d.date));
+  const gaps = window.filter((d) => !have.has(d) || unproven.has(d));
+  if (gaps.length > 0) {
+    return notEvaluated("LARGE_MINT_BURN", `Daily issuance data is missing or does not reconcile with on-chain supply for ${gaps.join(", ")}.`);
+  }
+  return clear("LARGE_MINT_BURN", `No single day from ${window[0]} to ${window[window.length - 1]} minted or burned more than ${LARGE_MINT_BURN_SHARE * 100}% of supply.`, currentDay, evidence());
 }
 
 /** PRICE_DEVIATION (WARNING only). Needs a market price and a NAV per unit in the same currency; null until sources exist. */

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toBundleView } from "@/lib/browser-payer/bundle";
 import type { EvidenceItem, SessionItem } from "@/lib/history/store";
 import { BundleBody } from "./evidence-bundle";
+import { PaidBadge } from "./paid-badge";
 
 type Props = {
   sessions: SessionItem[];
@@ -56,7 +57,7 @@ export function HistoryList({ sessions, evidence, current, error, busy, onNew, o
               <li key={e.id} className="flex flex-col gap-2">
                 <div className={row}>
                   <button type="button" className={open} aria-expanded={shown === e.id} onClick={() => setShown(shown === e.id ? null : e.id)}>
-                    {e.asset_code} <span className="text-muted-foreground">{when(e.paid_at)}</span>
+                    {e.asset_code} <span className="text-muted-foreground">{when(e.paid_at)}</span> <PaidBadge />
                   </button>
                   <Button variant="ghost" size="icon-sm" aria-label={`Delete saved evidence for ${e.asset_code}`} onClick={() => onRemoveEvidence(e.id)}><Trash2 /></Button>
                 </div>

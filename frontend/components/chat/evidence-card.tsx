@@ -8,6 +8,7 @@ import { EXPLORER_ACCOUNT, EXPLORER_TX } from "@/lib/browser-payer/constants";
 import type { Offer } from "@/lib/browser-payer/offer";
 import { toBundleView } from "@/lib/browser-payer/bundle";
 import { BundleBody } from "./evidence-bundle";
+import { PaidBadge } from "./paid-badge";
 import { usePayer } from "./use-payer";
 import { useSavedEvidence } from "./use-saved-evidence";
 
@@ -75,8 +76,8 @@ export function EvidenceCard({ offer, autoPayId }: { offer: Offer; /** Set only 
           </p>
         )}
         {p.pay.kind === "paid" && (
-          <p>
-            Paid. <a className={link} href={`${EXPLORER_TX}/${p.pay.tx}`} target="_blank" rel="noreferrer">Settlement transaction <ExternalLink className="size-3" /></a>
+          <p className="flex flex-wrap items-center gap-2">
+            <PaidBadge /> <a className={link} href={`${EXPLORER_TX}/${p.pay.tx}`} target="_blank" rel="noreferrer">Settlement transaction <ExternalLink className="size-3" /></a>
           </p>
         )}
         {p.notice && <p className="text-destructive">{p.notice}</p>}
@@ -97,6 +98,7 @@ export function EvidenceCard({ offer, autoPayId }: { offer: Offer; /** Set only 
       {keep.note && <p role="status" className="text-muted-foreground">{keep.note}</p>}
       {keep.saved && p.pay.kind !== "paid" && (
         <div className="flex flex-col gap-2">
+          <PaidBadge label="Already paid" />
           <Button size="sm" variant="outline" className="w-fit" aria-expanded={reopened} onClick={() => setReopened(!reopened)}>
             {reopened ? "Hide saved evidence" : `Open saved (paid ${keep.saved.paid_at.slice(0, 10)})`}
           </Button>

@@ -40,7 +40,7 @@ describe("EvidenceCard auto pay", () => {
   it("shows the setup card and does not pay when the wallet is not ready, even if it becomes ready later", () => {
     payer = { ...ready(), state: "no_usdc" };
     const html = renderToStaticMarkup(<EvidenceCard offer={offer} autoPayId="cmd-2" />);
-    expect(html).toContain("has no test USDC yet");
+    expect(html).toContain("has 0 test USDC");
     payer = ready();
     renderToStaticMarkup(<EvidenceCard offer={offer} autoPayId="cmd-2" />);
     expect(payFor).not.toHaveBeenCalled();

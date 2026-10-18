@@ -8,8 +8,16 @@ import type { PayerKey } from "./storage";
 
 type Fetch = typeof fetch;
 
-/** What the wallet holds, without any amount shown: only whether there is some test USDC. */
-export type Snapshot = { funded: boolean; trustline: boolean; usdcBase: bigint };
+/** What the wallet holds: test XLM and test USDC in base units (testnet only, no value). */
+export type Snapshot = { funded: boolean; trustline: boolean; usdcBase: bigint; xlmBase: bigint };
+
+/** Base units to a short decimal text: `"19999.97"`. Trailing zeros are dropped, at most `places` decimals kept. */
+export function formatBase(base: bigint, places = 2): string {
+  const unit = 10n ** BigInt(DECIMALS);
+  const whole = base / unit;
+  const frac = (base % unit).toString().padStart(DECIMALS, "0").slice(0, places).replace(/0+$/, "");
+  return frac ? `${whole}.${frac}` : `${whole}`;
+}
 
 export type WalletState = "missing" | "not_funded" | "no_trustline" | "no_usdc" | "ready";
 
@@ -21,11 +29,12 @@ export function decimalToBase(text: unknown): bigint {
 
 /** The snapshot from a Horizon account body; `null` body means the account does not exist. */
 export function snapshotOf(body: unknown): Snapshot {
-  if (body === null || typeof body !== "object") return { funded: false, trustline: false, usdcBase: 0n };
+  if (body === null || typeof body !== "object") return { funded: false, trustline: false, usdcBase: 0n, xlmBase: 0n };
   const balances = (body as { balances?: unknown }).balances;
   const list = Array.isArray(balances) ? balances : [];
   const usdc = list.find((b) => b && b.asset_code === USDC_CODE && b.asset_issuer === USDC_TESTNET_ISSUER);
-  return { funded: true, trustline: Boolean(usdc), usdcBase: usdc ? decimalToBase(usdc.balance) : 0n };
+  const xlm = list.find((b) => b && b.asset_type === "native");
+  return { funded: true, trustline: Boolean(usdc), usdcBase: usdc ? decimalToBase(usdc.balance) : 0n, xlmBase: xlm ? decimalToBase(xlm.balance) : 0n };
 }
 
 export function walletState(hasWallet: boolean, snap: Snapshot | null): WalletState {

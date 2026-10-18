@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Db } from "./store";
-import { appendMessages, createSession, deleteMyData, listEvidence, listSessions, loadMessages, renameSession, saveEvidence, setPinned } from "./store";
+import { appendMessages, createSession, deleteFeedback, deleteMyData, listEvidence, listSessions, loadMessages, renameSession, saveEvidence, saveFeedback, setPinned } from "./store";
 
 type Call = { table: string; ops: [string, unknown[]][] };
 
@@ -32,7 +32,7 @@ describe("deleteMyData", () => {
   it("deletes this user's saved evidence and chats (messages follow by cascade), scoped by user id", async () => {
     const { db, calls } = fake();
     await deleteMyData(db, "u1");
-    expect(calls.map((c) => c.table)).toEqual(["paid_evidence", "chat_sessions"]);
+    expect(calls.map((c) => c.table)).toEqual(["paid_evidence", "message_feedback", "chat_sessions"]);
     for (const c of calls) expect(c.ops).toEqual([["delete", []], ["eq", ["user_id", "u1"]]]);
   });
 
@@ -120,5 +120,20 @@ describe("rename and pin", () => {
 
   it("a failed update is an error", async () => {
     await expect(setPinned(fake({ error: { message: "x" } }).db, "s1", true)).rejects.toThrow("Could not pin the chat.");
+  });
+});
+
+describe("feedback", () => {
+  it("inserts one row and removes one by id", async () => {
+    const { db, calls } = fake();
+    const row = { id: "f1", user_id: "u1", rating: 1 as const, reason: null, detail: null, answer: "a" };
+    await saveFeedback(db, row);
+    await deleteFeedback(db, "f1");
+    expect(calls[0]).toEqual({ table: "message_feedback", ops: [["insert", [row]]] });
+    expect(calls[1]).toEqual({ table: "message_feedback", ops: [["delete", []], ["eq", ["id", "f1"]]] });
+  });
+
+  it("a failed save is an error", async () => {
+    await expect(saveFeedback(fake({ error: { message: "x" } }).db, { id: "f", user_id: "u", rating: -1, reason: null, detail: null, answer: "a" })).rejects.toThrow("Could not save your feedback.");
   });
 });

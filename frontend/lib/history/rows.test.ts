@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MAX_BUNDLE_BYTES, MAX_STEPS_BYTES, capSteps, evidenceRowFor, fromMessageRow, titleOf, toMessageRow } from "./rows";
+import { MAX_BUNDLE_BYTES, MAX_STEPS_BYTES, capSteps, evidenceRowFor, fromMessageRow, titleOf, toFeedbackRow, toMessageRow } from "./rows";
 
 const G = "GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5";
 const paid = { userId: "u1", payKind: "paid", assetCode: "USTRY", issuer: G, tx: "ab12", raw: JSON.stringify({ schema: "check-detail/1" }) };
@@ -71,5 +71,24 @@ describe("evidenceRowFor", () => {
     const ok = JSON.stringify({ pad: "x".repeat(MAX_BUNDLE_BYTES - 20) });
     expect(evidenceRowFor({ ...paid, raw: ok })).not.toBeNull();
     expect(evidenceRowFor({ ...paid, raw: JSON.stringify({ pad: "x".repeat(MAX_BUNDLE_BYTES) }) })).toBeNull();
+  });
+});
+
+describe("toFeedbackRow", () => {
+  it("keeps a known reason on a thumbs down and trims the note", () => {
+    expect(toFeedbackRow("u1", "f1", -1, "answer", { reason: "inaccurate", detail: "  wrong date \n" })).toEqual({ id: "f1", user_id: "u1", rating: -1, reason: "inaccurate", detail: "wrong date", answer: "answer" });
+  });
+
+  it("drops an unknown reason, ignores a reason on a thumbs up, and nulls an empty note", () => {
+    expect(toFeedbackRow("u1", "f1", -1, "a", { reason: "made-up" }).reason).toBeNull();
+    const up = toFeedbackRow("u1", "f1", 1, "a", { reason: "inaccurate", detail: "   " });
+    expect(up.reason).toBeNull();
+    expect(up.detail).toBeNull();
+  });
+
+  it("cuts the note to 1000 characters and the answer to 4000", () => {
+    const row = toFeedbackRow("u1", "f1", 1, "x".repeat(5000), { detail: "y".repeat(2000) });
+    expect(Array.from(row.detail!)).toHaveLength(1000);
+    expect(Array.from(row.answer)).toHaveLength(4000);
   });
 });

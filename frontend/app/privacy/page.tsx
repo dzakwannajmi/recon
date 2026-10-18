@@ -22,6 +22,7 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-5">
               <li>Your sign-in identity (an id and the basic profile details your sign-in provider shares, such as your name, email and profile picture), kept by our authentication provider, Supabase. The picture is loaded from the provider only to show it next to your account menu.</li>
               <li>The chats you save: what you typed, the agent&apos;s answers, and the tool steps behind them.</li>
+              <li>Ratings you give to answers (a thumbs up or down, the optional reason and note you write, and the answer you rated).</li>
               <li>Paid evidence bundles you unlock with your own testnet wallet, saved after the payment settles, so you can open them again for free.</li>
             </ul>
 
@@ -36,7 +37,7 @@ export default function PrivacyPage() {
             <p>Each row is readable only by the account that owns it (database row-level security). The site operator can see counts of users and saved chats in the dashboard.</p>
 
             <h2 className={h}>Delete it</h2>
-            <p>Open the account menu and choose &quot;Delete my data&quot; to remove all your saved chats and saved evidence. You can also delete one chat or one saved bundle from the saved list. To remove the sign-in account itself, ask the operator of this site.</p>
+            <p>Open the account menu and choose &quot;Delete my data&quot; to remove all your saved chats, saved evidence and ratings. You can also delete one chat or one saved bundle from the saved list. To remove the sign-in account itself, ask the operator of this site.</p>
           </article>
         </Container>
       </main>

@@ -81,3 +81,26 @@ export function evidenceRowFor(input: {
   if (bundle === null || typeof bundle !== "object" || Array.isArray(bundle)) return null;
   return { user_id: userId, asset_code: assetCode, issuer, bundle, settlement_tx: tx };
 }
+
+export const MAX_FEEDBACK_DETAIL = 1000;
+/** What a user can pick when an answer was not good. The ids are CHECK constraint values in the database. */
+export const FEEDBACK_REASONS = [
+  { id: "ui_bug", label: "UI bug" },
+  { id: "refused", label: "Refused without a reason" },
+  { id: "not_following", label: "Did not fully follow my request" },
+  { id: "inaccurate", label: "Factually inaccurate" },
+  { id: "incomplete", label: "Incomplete response" },
+  { id: "reasoning", label: "Problem with the reasoning" },
+  { id: "should_use_tool", label: "Should have used a tool" },
+  { id: "other", label: "Something else" },
+] as const;
+export type FeedbackReason = (typeof FEEDBACK_REASONS)[number]["id"];
+
+export type FeedbackRow = { id: string; user_id: string; rating: 1 | -1; reason: FeedbackReason | null; detail: string | null; answer: string };
+
+/** A feedback row: the rating, an optional known reason and note (cut to the cap), and the answer that was rated. */
+export function toFeedbackRow(userId: string, id: string, rating: 1 | -1, answer: string, input: { reason?: string | null; detail?: string }): FeedbackRow {
+  const reason = FEEDBACK_REASONS.find((r) => r.id === input.reason)?.id ?? null;
+  const detail = cut((input.detail ?? "").trim(), MAX_FEEDBACK_DETAIL);
+  return { id, user_id: userId, rating, reason: rating === -1 ? reason : null, detail: detail === "" ? null : detail, answer: cut(answer, MAX_TEXT) };
+}

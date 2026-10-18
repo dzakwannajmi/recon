@@ -5,7 +5,7 @@
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Message } from "@/components/chat/types";
-import { MAX_MESSAGES, MAX_SESSIONS, cleanTitle, fromMessageRow, titleOf, toMessageRow, type EvidenceRow } from "./rows";
+import { MAX_MESSAGES, MAX_SESSIONS, cleanTitle, fromMessageRow, titleOf, toMessageRow, type EvidenceRow, type FeedbackRow } from "./rows";
 
 export type Db = Pick<SupabaseClient, "from">;
 export type SessionItem = { id: string; title: string; updated_at: string; pinned: boolean };
@@ -89,6 +89,19 @@ export async function deleteEvidence(db: Db, id: string): Promise<void> {
  */
 export async function deleteMyData(db: Db, userId: string): Promise<void> {
   const evidence = await db.from("paid_evidence").delete().eq("user_id", userId);
+  const feedback = await db.from("message_feedback").delete().eq("user_id", userId);
   const sessions = await db.from("chat_sessions").delete().eq("user_id", userId);
-  if (evidence.error || sessions.error) fail("delete your data");
+  if (evidence.error || feedback.error || sessions.error) fail("delete your data");
+}
+
+/** Saves a rating for an answer, with the optional reason and note. */
+export async function saveFeedback(db: Db, row: FeedbackRow): Promise<void> {
+  const { error } = await db.from("message_feedback").insert(row);
+  if (error) fail("save your feedback", error);
+}
+
+/** Takes a rating back. */
+export async function deleteFeedback(db: Db, id: string): Promise<void> {
+  const { error } = await db.from("message_feedback").delete().eq("id", id);
+  if (error) fail("remove your feedback", error);
 }

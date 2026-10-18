@@ -55,6 +55,12 @@ describe("providers and keys", () => {
     expect(llm.languageModel("openrouter", "nvidia/nemotron-3-super-120b-a12b:free").provider).toBe("openrouter.chat");
   });
 
+  it("builds an nvidia model that reports its provider name as nvidia", async () => {
+    const llm = await load({ NVIDIA_API_KEY: "n" });
+    expect(llm.languageModel("nvidia", "nvidia/nemotron-3-super-120b-a12b").provider).toBe("nvidia.chat");
+    expect(llm.apiKeyEnvName("nvidia")).toBe("NVIDIA_API_KEY");
+  });
+
   it("throws on an unknown provider", async () => {
     const llm = await load();
     expect(() => llm.languageModel("nope", "m")).toThrow(/provider "nope" is not set up/);

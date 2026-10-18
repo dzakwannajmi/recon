@@ -2,6 +2,9 @@
  * Test helpers for the check routes: the real committed data, a fake feed reader, and a fake
  * x402 facilitator with call counters. No network. Test support only; nothing in the app imports this file.
  */
+import fs from "fs";
+import os from "os";
+import path from "path";
 import { encodePaymentSignatureHeader } from "@x402/core/http";
 import type { FacilitatorClient } from "@x402/core/server";
 import type { PaymentPayload, PaymentRequired, PaymentRequirements, SettleResponse, SupportedResponse, VerifyResponse } from "@x402/core/types";
@@ -11,7 +14,32 @@ import { createGatewayData, type GatewayData } from "./data";
 import type { EntryReader } from "./detail";
 import { resolveAsset } from "./resolve";
 
-export const realData = (): GatewayData => createGatewayData();
+/**
+ * The committed data as it stood when the 2026-10-15 status was published: dated files after `upTo`
+ * and the monitor folder are left out, so tests that rely on that status keep their meaning when newer
+ * runs are committed. Everything else is symlinked. Built once per process in a temp folder.
+ */
+let pinned: string | undefined;
+export function pinnedDataDir(upTo = "2026-10-15"): string {
+  if (pinned) return pinned;
+  const real = path.join(process.cwd(), "..", "data");
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), "pinned-data-"));
+  for (const name of fs.readdirSync(real)) {
+    const src = path.join(real, name);
+    if (name === "monitor") continue;
+    if (name === "status" || name === "checks" || name === "examinations") {
+      fs.mkdirSync(path.join(out, name));
+      for (const f of fs.readdirSync(src)) {
+        const date = /^(\d{4}-\d{2}-\d{2})\./.exec(f)?.[1];
+        if (date && date > upTo) continue;
+        fs.symlinkSync(path.join(src, f), path.join(out, name, f));
+      }
+    } else fs.symlinkSync(src, path.join(out, name));
+  }
+  return (pinned = out);
+}
+
+export const realData = (): GatewayData => createGatewayData(pinnedDataDir());
 
 /** The asset with this code from the committed status file, with its universe row. */
 export function realAsset(code: string, issuer?: string) {

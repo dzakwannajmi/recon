@@ -6,9 +6,10 @@ import { formatStroops } from "../chain/asset";
 import { buildIssuance, stableJson } from "../monitor/issuance";
 import { advance, emptyAssetState } from "../monitor/reconcile";
 import type { MonitorState, Point } from "../monitor/types";
+import { pinnedDataDir } from "../gateway/testkit";
 import { buildStatus, resolveOut } from "./run";
 
-const REAL = path.join(process.cwd(), "..", "data");
+const REAL = pinnedDataDir();
 const BENJI = "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5";
 const NOW = new Date("2026-10-17T12:00:00Z");
 
@@ -26,7 +27,9 @@ describe("F3: a dry recompute of the published 2026-10-15 status", () => {
     expect(published.rules_version).toBe("flags-v3");
     expect(fresh.rules_version).toBe("flags-v4");
     expect(fresh.summary).toEqual(published.summary);
-    expect(JSON.parse(JSON.stringify(fresh.inputs))).toEqual({ ...published.inputs, issuance: null });
+    // The snapshot index is append-and-refresh data: later runs (a third-party toml that went offline) change its hash, so only its path is compared.
+    const inputs = JSON.parse(JSON.stringify(fresh.inputs));
+    expect({ ...inputs, snapshots: inputs.snapshots?.path }).toEqual({ ...published.inputs, issuance: null, snapshots: published.inputs.snapshots?.path });
     for (const [i, a] of fresh.assets.entries()) {
       const p = published.assets[i];
       expect(a.raised, a.asset).toEqual(p.raised);

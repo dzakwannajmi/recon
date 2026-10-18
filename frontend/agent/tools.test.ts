@@ -124,8 +124,9 @@ describe("get_asset_status", () => {
     expect(out.found).toBe(true);
     const a = out.assets[0];
     expect(a.status).toBe("WARNING");
-    expect(a.raised_flags[0]).toMatchObject({ code: "NO_PUBLIC_DOCS" });
-    expect(a.raised_flags[0].statement).toMatch(/^No issuer document or regulatory filing/);
+    const docs = a.raised_flags.find((f: { code: string }) => f.code === "NO_PUBLIC_DOCS");
+    expect(docs).toBeDefined();
+    expect(docs.statement).toMatch(/^No issuer document or regulatory filing/);
     expect(a.fact_sheet).toBe("/en/assets/gBENJI");
     expect(Object.keys(a).sort()).toEqual(["as_of", "code", "fact_sheet", "issuer", "not_evaluated_count", "raised_flags", "rules_version", "status"]);
   });

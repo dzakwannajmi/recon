@@ -16,7 +16,7 @@
   <a href="https://github.com/dzakwannajmi/recon"><img alt="GitHub: dzakwannajmi/recon" src="https://img.shields.io/badge/GitHub-dzakwannajmi%2Frecon-181717?logo=github&logoColor=white"></a>
 </p>
 
-<p><b>For judges:</b> progress, proof links, worked examples, and scope are in <a href="agentmaxxing/"><code>agentmaxxing/</code></a>. Tech stack and repository layout: <a href="frontend/README.md"><code>frontend/</code></a>. Feed and lending contracts: <a href="contracts/README.md"><code>contracts/</code></a>.</p>
+<p><b>For judges:</b> progress, proof links, worked examples, and scope are in <a href="agentmaxxing/"><code>agentmaxxing/</code></a>.</p>
 
 </div>
 

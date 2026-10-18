@@ -11,8 +11,7 @@
   <img alt="reads mainnet, writes testnet" src="https://img.shields.io/badge/reads--mainnet_%C2%B7_writes--testnet-blue">
   <img alt="Rise In Agentmaxxing 2026" src="https://img.shields.io/badge/Rise_In-Agentmaxxing_2026-orange">
   <a href="https://recon-agent-opal.vercel.app"><img alt="Live app" src="https://img.shields.io/badge/live_app-recon--agent--opal.vercel.app-brightgreen"></a>
-  <a href="https://youtu.be/wOughNw-Mpw"><img alt="Week 1 demo video" src="https://img.shields.io/badge/Week_1-demo_video-red?logo=youtube&logoColor=white"></a>
-  <a href="https://youtu.be/iadYWHccbgQ"><img alt="Week 2 demo video" src="https://img.shields.io/badge/Week_2-demo_video-red?logo=youtube&logoColor=white"></a>
+  <a href="https://www.youtube.com/playlist?list=PLdXhc6eJG82E"><img alt="Demo videos playlist" src="https://img.shields.io/badge/Demo_videos-playlist-red?logo=youtube&logoColor=white"></a>
   <a href="https://x.com/reconagent"><img alt="X: @reconagent" src="https://img.shields.io/badge/X-@reconagent-black?logo=x&logoColor=white"></a>
   <a href="https://github.com/dzakwannajmi/recon"><img alt="GitHub: dzakwannajmi/recon" src="https://img.shields.io/badge/GitHub-dzakwannajmi%2Frecon-181717?logo=github&logoColor=white"></a>
 </p>

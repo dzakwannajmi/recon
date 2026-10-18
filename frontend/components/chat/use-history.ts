@@ -70,10 +70,12 @@ export function useHistory(user: AuthUser | null, model: string | null) {
         try {
           let id = currentRef.current;
           if (!id) {
-            id = newId();
+            const fresh = newId();
+            await createSession(db, userId, fresh, pair, model);
+            // Only a chat that exists is the open one, so a failed create does not make every later save fail.
+            id = fresh;
             currentRef.current = id;
             setCurrent(id);
-            await createSession(db, userId, id, pair, model);
           }
           await appendMessages(db, userId, id, pair.map((message) => ({ id: newId(), message })));
           setSessions(await listSessions(db));

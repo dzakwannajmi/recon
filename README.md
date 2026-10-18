@@ -70,13 +70,13 @@ Seven tools. Every tool is read-only except `fund_my_wallet`, which writes to te
 
 | Tool | Status | What it does |
 | --- | --- | --- |
-| `get_my_wallet` | shipped | Get the agent's own Stellar testnet wallet: address, balances, and an explorer link. |
-| `fund_my_wallet` | shipped | Fund the agent's testnet wallet with Friendbot (free test XLM). Testnet only. |
-| `check_asset` | shipped | Read-only mainnet check of an asset: issuer identity against the pinned official domain, total supply, authorized trustlines, funded holders, flags, and the largest holder's share. Without an issuer, it lists the issuers that use the code and whether each verifies. |
-| `list_assets` | shipped | List every tracked asset (non-stablecoin RWAs on Stellar mainnet): code, issuer, organization, type, home domain (from stellar.toml), and the stored status with its as-of date. Stored data, no live reads. |
-| `get_asset_status` | shipped | The stored status of one asset from the latest status file: status, as-of date, each raised flag with its exact statement and date, and the fact sheet path. Code computes the status; the model only relays it. |
-| `get_verified_claims` | shipped | Claims from an issuer's own documents or regulatory filings (custodian, auditor, net assets, NAV, and more), each with an exact quote that code found verbatim in the document snapshot, the source URL, page, and snapshot SHA-256. Quotes are untrusted issuer text. At most 10 per call. |
-| `get_evidence_bundle` | shipped (premium, testnet, user-signed) | Says whether paid detail exists for an asset. It pays nothing and returns no evidence. When it is available, the chat shows an Unlock evidence card and the user pays with a Stellar testnet wallet kept in their own browser (x402, test USDC). The bundle is shown on the page only and is never sent to the model. Typing `/evidence CODE` pays from the same wallet without a click. Off unless the operator switches the x402 rail on. |
+| `get_my_wallet` | Ready | Get the agent's own Stellar testnet wallet: address, balances, and an explorer link. |
+| `fund_my_wallet` | Ready | Fund the agent's testnet wallet with Friendbot (free test XLM). Testnet only. |
+| `check_asset` | Ready | Read-only mainnet check of an asset: issuer identity against the pinned official domain, total supply, authorized trustlines, funded holders, flags, and the largest holder's share. Without an issuer, it lists the issuers that use the code and whether each verifies. |
+| `list_assets` | Ready | List every tracked asset (non-stablecoin RWAs on Stellar mainnet): code, issuer, organization, type, home domain (from stellar.toml), and the stored status with its as-of date. Stored data, no live reads. |
+| `get_asset_status` | Ready | The stored status of one asset from the latest status file: status, as-of date, each raised flag with its exact statement and date, and the fact sheet path. Code computes the status; the model only relays it. |
+| `get_verified_claims` | Ready | Claims from an issuer's own documents or regulatory filings (custodian, auditor, net assets, NAV, and more), each with an exact quote that code found verbatim in the document snapshot, the source URL, page, and snapshot SHA-256. Quotes are untrusted issuer text. At most 10 per call. |
+| `get_evidence_bundle` | Updated (premium, testnet, user-signed) | Says whether paid detail exists for an asset. It pays nothing and returns no evidence. When it is available, the chat shows an Unlock evidence card and the user pays with a Stellar testnet wallet kept in their own browser (x402, test USDC). The bundle is shown on the page only and is never sent to the model. Typing `/evidence CODE` pays from the same wallet without a click. Off unless the operator switches the x402 rail on. |
 
 ## Supported AI models
 

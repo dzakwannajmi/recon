@@ -49,6 +49,7 @@ function Inlines({ nodes }: { nodes: Inline[] }) {
   );
 }
 
+const ALIGN_CLASS = { left: "text-left", right: "text-right", center: "text-center" };
 const HEADING_CLASS = ["text-xl", "text-xl", "text-lg", "text-base", "text-base", "text-sm"];
 
 function Blocks({ blocks }: { blocks: Block[] }): ReactNode {
@@ -82,6 +83,33 @@ function Blocks({ blocks }: { blocks: Block[] }): ReactNode {
           <blockquote key={i} className="flex flex-col gap-2 border-l-4 border-primary pl-3 text-muted-foreground">
             <Blocks blocks={b.blocks} />
           </blockquote>
+        );
+      case "table":
+        return (
+          <div key={i} className="max-w-full overflow-x-auto">
+            <table className="w-full border-collapse text-left text-sm">
+              <thead>
+                <tr className="border-b border-border">
+                  {b.header.map((cell, j) => (
+                    <th key={j} className={`px-2 py-1.5 font-mono text-xs font-normal tracking-wide text-muted-foreground uppercase ${ALIGN_CLASS[b.align[j] ?? "left"]}`}>
+                      <Inlines nodes={cell} />
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {b.rows.map((row, r) => (
+                  <tr key={r} className="border-b border-border align-top">
+                    {row.map((cell, j) => (
+                      <td key={j} className={`px-2 py-1.5 tabular-nums ${ALIGN_CLASS[b.align[j] ?? "left"]}`}>
+                        <Inlines nodes={cell} />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         );
       case "list": {
         const Tag = b.ordered ? "ol" : "ul";

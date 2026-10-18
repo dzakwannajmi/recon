@@ -57,7 +57,7 @@ The scope is non-stablecoin real-world assets on Stellar: tokenized treasuries, 
 - **Feed on Stellar testnet.** Lending protocols and other agents read each asset's status, flag bitmask, evidence hash, and as-of time from a Soroban contract the agent's own wallet writes to. Each entry is keyed by the asset's mainnet Stellar Asset Contract id, so that id exists on mainnet and shows as not found on the testnet explorer; only the feed contract itself lives on testnet.
 - **Example consumer.** A mock lending market and a keeper that pauses new borrows when the feed reports CRITICAL. The CRITICAL path is shown only on a synthetic, clearly labeled demo feed.
 - **MCP endpoint.** Other agents call `check_asset`, `get_fact_sheet`, and `list_flags` at `POST /api/mcp`.
-- **Paid evidence with x402 (testnet).** `GET /api/check/detail` returns the full evidence bundle (flags with quotes, source, page and snapshot hash) for a test payment settled on Stellar testnet; it passes the Wasit x402 conformance checks (7 of 7). In the chat, typing `/evidence BB1` pays from the user's own browser wallet and shows a compact view with a green Paid badge and Download JSON and PDF. The model never pays and never sees the bundle. The free summary stays free. The paid rail is off on the live app and runs from a local setup.
+- **Paid evidence with x402 (testnet).** `GET /api/check/detail` returns the full evidence bundle (flags with quotes, source, page and snapshot hash) for a test payment settled on Stellar testnet; it passes the Wasit x402 conformance checks (7 of 7). In the chat, typing `/evidence BB1` pays from the user's own browser wallet and shows a compact view with a green Paid badge and Download JSON and PDF. The model never pays and never sees the bundle. The free summary stays free. The paid rail is on for the live app, on Stellar testnet only.
 - **Chat commands without the model.** `/status`, `/flags`, `/claims`, `/check` and `/evidence` answer straight from code and stored data, so they cost no model request.
 - **Sign in with GitHub.** The agent chat and the fact sheets need an account. Signed-in users get saved chats (pin, rename, delete), saved paid evidence that reopens without paying again, and thumbs up or down with an optional note. Data is kept in Supabase with row-level security: each row is readable only by its owner, and there is a "Delete my data" action. See [`/privacy`](https://recon-agent-opal.vercel.app/privacy).
 - **Testnet agent wallet.** The agent has its own Stellar testnet wallet, funded by Friendbot.
@@ -118,7 +118,7 @@ flowchart LR
   stored["Stored-data tools<br/>list_assets, get_asset_status, get_verified_claims"]
   feed["Soroban feed<br/>testnet"]
   mcp["MCP endpoint and free summary"]
-  x402["Paid detail, x402<br/>testnet, local setup"]:::future
+  x402["Paid detail, x402<br/>testnet"]
 
   issuer --> inv
   sec --> inv
@@ -135,13 +135,12 @@ flowchart LR
   stored --> chat
   status --> feed
   status --> mcp
-  status -.-> x402
-  classDef future stroke-dasharray: 5 5
+  status --> x402
 ```
 
 The Investigator finds documents on the issuer's official domain (the domain whose `stellar.toml` lists the issuer account), snapshots them, and asks an LLM to propose claims. Code keeps a claim only if its exact quote appears in the snapshot. Documents where extraction fails go to a review queue and pass through the same verifier.
 
-The Examiner compares verified claims and filings with Stellar mainnet data. Flag rules are pure functions over the stored evidence, so the same inputs always produce the same status file. Fact sheets are built from that file. The dashed node is not on the live app.
+The Examiner compares verified claims and filings with Stellar mainnet data. Flag rules are pure functions over the stored evidence, so the same inputs always produce the same status file. Fact sheets are built from that file.
 
 ## Running locally
 

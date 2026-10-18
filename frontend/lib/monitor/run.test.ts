@@ -10,8 +10,9 @@ import { mintBurnInputFor, parseIssuance } from "./issuance";
 import { runMonitor, type MonitorFlags, type RunResult } from "./run";
 import { acquireLock, loadState, readLog } from "./state";
 import type { IssuerEvent, RunRecord } from "./types";
+import { pinnedDataDir } from "../gateway/testkit";
 
-const REAL = path.join(process.cwd(), "..", "data");
+const REAL = pinnedDataDir();
 const ETHERFUSE = "GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC";
 const USTRY = `USTRY:${ETHERFUSE}`;
 const NOW = new Date("2026-10-17T10:00:00Z");

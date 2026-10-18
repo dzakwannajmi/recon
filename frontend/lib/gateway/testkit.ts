@@ -34,6 +34,18 @@ export function pinnedDataDir(upTo = "2026-10-15"): string {
         if (date && date > upTo) continue;
         fs.symlinkSync(path.join(src, f), path.join(out, name, f));
       }
+    } else if (name === "feed") {
+      // The publish log as it stood: later publishes name status files that are left out above.
+      fs.mkdirSync(path.join(out, name));
+      for (const f of fs.readdirSync(src)) {
+        if (f !== "log.json") {
+          fs.symlinkSync(path.join(src, f), path.join(out, name, f));
+          continue;
+        }
+        const log = JSON.parse(fs.readFileSync(path.join(src, f), "utf8")) as { status_file?: string }[];
+        const kept = log.filter((r) => !/(\d{4}-\d{2}-\d{2})\.json$/.test(r.status_file ?? "") || /(\d{4}-\d{2}-\d{2})\.json$/.exec(r.status_file ?? "")![1] <= upTo);
+        fs.writeFileSync(path.join(out, name, f), JSON.stringify(kept, null, 2));
+      }
     } else fs.symlinkSync(src, path.join(out, name));
   }
   return (pinned = out);

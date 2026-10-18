@@ -1,0 +1,4256 @@
+{
+  "assets": [
+    {
+      "asset": "BENJI:GBHNGLLIE3KWGKCHIKMHJ5HVZHYIK7WTBE4QF5PLAKL4CJGSEU7HZIW5",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "48072.7952937",
+          "ops": 1002,
+          "supply_end": "469915980.4366570",
+          "top_tx": [
+            {
+              "amount": "21253.9514859",
+              "side": "mint",
+              "tx": "8db71d2e25b18d0006c64bd5351c6daa6d03fafe2b55affcdcc786d90c16b4f5"
+            },
+            {
+              "amount": "5610.3194645",
+              "side": "mint",
+              "tx": "72b6a94055978c8cbf7fd90d05ee9cbad50cf7ef70864e27ff747ad1cf24d5ff"
+            },
+            {
+              "amount": "4224.7283278",
+              "side": "mint",
+              "tx": "3a0be48e7ae2b70e5a00818df737f124fc9e44ee2986927f4cde6e010f020d2d"
+            },
+            {
+              "amount": "3974.5644305",
+              "side": "mint",
+              "tx": "3510bea4b8aecf4096f11a6947f64f37c8ca8e8e49deb66d80e74167941fa9cf"
+            },
+            {
+              "amount": "3841.4340442",
+              "side": "mint",
+              "tx": "3a78cf06a393b33fd12137cdd97d32da1272a16d8409888a3a45b2e3fb04aef6"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "48077.7136869",
+          "ops": 1002,
+          "supply_end": "469964058.1503439",
+          "top_tx": [
+            {
+              "amount": "21256.1260053",
+              "side": "mint",
+              "tx": "26c70f98d30c081cd05d30dedb970389425f334164067153efda75fd95c5cdb6"
+            },
+            {
+              "amount": "5610.8934636",
+              "side": "mint",
+              "tx": "3ea4111e59a289760ab24abb5b95a1439179ce402bfa7042fed1fe97917ec835"
+            },
+            {
+              "amount": "4225.1605652",
+              "side": "mint",
+              "tx": "1821f6f8ea48d1b5ec6002eca840235063b9b16c249c3c68a6f86c66b20e5b22"
+            },
+            {
+              "amount": "3974.9710734",
+              "side": "mint",
+              "tx": "a3f43b9d8b29a211651a127c731bf989aca52896ebc713f42fddf9ae79a77beb"
+            },
+            {
+              "amount": "3841.8270663",
+              "side": "mint",
+              "tx": "bca41de19886bd4a3536dda5b0b090f8da349cf874989d119ca4db808e21145a"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "48082.6325841",
+          "ops": 1002,
+          "supply_end": "470012140.7829280",
+          "top_tx": [
+            {
+              "amount": "21258.3007471",
+              "side": "mint",
+              "tx": "5b13e58bd36c9d1e7b47659759d884f18f6ca5ff23cafccf069996236dca5f59"
+            },
+            {
+              "amount": "5611.4675214",
+              "side": "mint",
+              "tx": "13179cb6daa879a6639c2747e923d6b00be5ee3fe40b13f0fd26a953bcc4ff8e"
+            },
+            {
+              "amount": "4225.5928469",
+              "side": "mint",
+              "tx": "c55b847625e27588d8c4b9c5c7eb91a112749e1f496635b5979814177ca746df"
+            },
+            {
+              "amount": "3975.3777578",
+              "side": "mint",
+              "tx": "ab25a70444e2d947fa64a8def4bc4bd8fe70e75a181dd1ad2af497e39b1fca34"
+            },
+            {
+              "amount": "3842.2201286",
+              "side": "mint",
+              "tx": "63a19106db7170a51c78e9459ae65ee4e53585cb16f6aa80786d2f212db3ab74"
+            }
+          ]
+        },
+        {
+          "burned": "20322265.5202054",
+          "date": "2026-10-13",
+          "minted": "97142.6316585",
+          "ops": 1025,
+          "supply_end": "449787017.8943811",
+          "top_tx": [
+            {
+              "amount": "20000000.0000000",
+              "side": "burn",
+              "tx": "9c44125cfbfc3a5582ae5061f2ce67f2bb7aa5ebb077db1a3501c51b2556e9a5"
+            },
+            {
+              "amount": "293814.5334229",
+              "side": "burn",
+              "tx": "7cfdd059d8a60012bd1951271d4e11f85fff22110d9d0eac2960db051a9ce6ff"
+            },
+            {
+              "amount": "50000.0000000",
+              "side": "mint",
+              "tx": "2e2fed082053db7a5bcc4b0fe73a4ef08fae7aa882dd04ca24e04b745bd9ca6b"
+            },
+            {
+              "amount": "21342.2878092",
+              "side": "mint",
+              "tx": "a8a0fbb072f4b9ed1c515a0beb5ef16078236d5054a036e1016e49d7ea998e63"
+            },
+            {
+              "amount": "10700.0000000",
+              "side": "burn",
+              "tx": "2fc7dbf2679b1dc32f3e1da36e646ab16d9182d75e36b59d7766451417ee7e1a"
+            }
+          ]
+        },
+        {
+          "burned": "8510500.0000000",
+          "date": "2026-10-14",
+          "minted": "495768.6597777",
+          "ops": 1009,
+          "supply_end": "441772286.5541588",
+          "top_tx": [
+            {
+              "amount": "8500000.0000000",
+              "side": "burn",
+              "tx": "75508c338d5b3beb99a5dde60ada5796cd296833c565b32e10b064623e63ae6e"
+            },
+            {
+              "amount": "450000.0000000",
+              "side": "mint",
+              "tx": "e4354e12341530ad46a78e6ba32c09adb35b9771830345f3d91aac29b17b9d76"
+            },
+            {
+              "amount": "21366.3012028",
+              "side": "mint",
+              "tx": "d5b53ac6a2e85ab5adf231079d9f0e7e8e4833083ff0ca0ba6e9413782ea8e07"
+            },
+            {
+              "amount": "10000.0000000",
+              "side": "burn",
+              "tx": "a357a9d5029970f99f6b2a9a3c4ac8afe7ae6ccf239a85bb5b11d59440629557"
+            },
+            {
+              "amount": "5639.9759641",
+              "side": "mint",
+              "tx": "63d36fecaa7aeb1e31e11bb2ca357b862cde1d99987791b17790dde1e57df1f3"
+            }
+          ]
+        },
+        {
+          "burned": "375500.0000000",
+          "date": "2026-10-15",
+          "minted": "96615.5938662",
+          "ops": 1019,
+          "supply_end": "441493402.1480250",
+          "top_tx": [
+            {
+              "amount": "200000.0000000",
+              "side": "burn",
+              "tx": "ec6c666565c82db9b599759d818cad54aea0b88fc18073f5493761a3a09130a5"
+            },
+            {
+              "amount": "115000.0000000",
+              "side": "burn",
+              "tx": "16d2ad72b9865ea5b0270159bef69516854b64063375a5e4482a4f12a5806dc6"
+            },
+            {
+              "amount": "50000.0000000",
+              "side": "mint",
+              "tx": "98ef79ea91289de281ecccef028bf66f94b041c9be0aae34d09c5813747e9351"
+            },
+            {
+              "amount": "50000.0000000",
+              "side": "burn",
+              "tx": "f4522359b8dd82967b11352b87a92928e46f5e4ec2ec2497be1ffb5b5bcdeb3f"
+            },
+            {
+              "amount": "21422.3296099",
+              "side": "mint",
+              "tx": "ef908d10d4a491909733e713bca16d0973e288860edbeb6f1cab434d139fc9ff"
+            }
+          ]
+        },
+        {
+          "burned": "50302.4700000",
+          "date": "2026-10-16",
+          "minted": "146432.7197646",
+          "ops": 1014,
+          "supply_end": "441589532.3977896",
+          "top_tx": [
+            {
+              "amount": "100000.0000000",
+              "side": "mint",
+              "tx": "3ed8894ccb97a9b26632ddda37610687937e54820f944cdc0af3832d4d65a689"
+            },
+            {
+              "amount": "50000.0000000",
+              "side": "burn",
+              "tx": "b6d6257afca79a445a1ccd1ca43720b9a490d381be5586d83e6888817aa03fdf"
+            },
+            {
+              "amount": "21339.8932201",
+              "side": "mint",
+              "tx": "c357233133bd32b3cb8e4e818555728934de4f61ca5802c2ef880acd1e4c3685"
+            },
+            {
+              "amount": "5633.0051559",
+              "side": "mint",
+              "tx": "af2a0a3b12d6a299d3a65a0d4e85e3505b8c892e5fb40eaf951989528b12571b"
+            },
+            {
+              "amount": "4601.0128542",
+              "side": "mint",
+              "tx": "02c746ae704da74694534a6d85ff716807f7490ca3aea787787a17942729ee0d"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "45334.3733961",
+          "ops": 1005,
+          "supply_end": "441634866.7711857",
+          "top_tx": [
+            {
+              "amount": "21342.0840119",
+              "side": "mint",
+              "tx": "449b51bb8fd301e9d7a40e7c4a14c8a07f3310a6ccbe18d4277273076b61bcd2"
+            },
+            {
+              "amount": "5633.5834503",
+              "side": "mint",
+              "tx": "31f909d9430b97fce96de1c2dd5450fe7c588f01f6cef6f463bec88d24baec5c"
+            },
+            {
+              "amount": "4601.4852024",
+              "side": "mint",
+              "tx": "61fa0aedd64a2e8eefff93a1a14760c7142cc45586f790d60c234aa6a4cde85d"
+            },
+            {
+              "amount": "3991.0455260",
+              "side": "mint",
+              "tx": "04b1ee2afe14f4e152341cda8584a86f1b517eae2ba0442fd2453561008007ab"
+            },
+            {
+              "amount": "3857.3630956",
+              "side": "mint",
+              "tx": "a01937b4391823abe3483ef228b37940b6ec87ae71cbf1358b74c3d4411000f3"
+            }
+          ]
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:19:43.962Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "531208860.7639536"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:35.090Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "441716386.5541588"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:35.090Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "441716386.5541588"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:17Z",
+            "ledger": 65002263,
+            "source": "monitor",
+            "supply": "441634866.7711857"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:43.962Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "531208860.7639536"
+        },
+        {
+          "at": "2026-10-15T14:56:35.090Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "441716386.5541588"
+        },
+        {
+          "at": "2026-10-18T04:18:17Z",
+          "ledger": 65002263,
+          "source": "monitor",
+          "supply": "441634866.7711857"
+        }
+      ]
+    },
+    {
+      "asset": "gBENJI:GD5J73EKK5IYL5XS3FBTHHX7CZIYRP7QXDL57XFWGC2WVYWT326OBXRP",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "11810.5531790",
+          "ops": 16,
+          "supply_end": "56814239.1957217",
+          "top_tx": [
+            {
+              "amount": "2741.3207999",
+              "side": "mint",
+              "tx": "c15ce53993d98293fed9254117da673896b754500c4368a85e11e1e3875719d2"
+            },
+            {
+              "amount": "2741.0358520",
+              "side": "mint",
+              "tx": "538814ef2b7d390fa7528c6d98967a2f12e359b90b5d747f4c26461ffd4e9335"
+            },
+            {
+              "amount": "1558.7194999",
+              "side": "mint",
+              "tx": "3d4697b8fbccc95de0cfa9d738875b3282e94954f6f56b0fad7426e41811ee6d"
+            },
+            {
+              "amount": "1558.5574780",
+              "side": "mint",
+              "tx": "a0ecfc96f54a1cd4f159ad4be96da17b8204139131bfbb1be68a1b821ceec556"
+            },
+            {
+              "amount": "541.8561296",
+              "side": "mint",
+              "tx": "9ebef99c52bbf4d8939c2313ff9c64d6534b60e5bf9991fd962c8d79736f88f0"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "5906.1974413",
+          "ops": 8,
+          "supply_end": "56820145.3931630",
+          "top_tx": [
+            {
+              "amount": "2741.6057774",
+              "side": "mint",
+              "tx": "e2ec1242b94b339b605a05559cb59fc4c52bb53873c61ebb2c45803750f5e46b"
+            },
+            {
+              "amount": "1558.8815386",
+              "side": "mint",
+              "tx": "9c5cecfef3627d3a955dda7f6797299e7c288753dd0c99259c1eca455659f3e3"
+            },
+            {
+              "amount": "541.9124589",
+              "side": "mint",
+              "tx": "525dbcaae322aa20a31a9b6eb14df183dceb3482843d8460957098fb557a9a4f"
+            },
+            {
+              "amount": "527.5592487",
+              "side": "mint",
+              "tx": "4c2a0c7fd46ad570f072d7f6a42eea8b8ed3198a06e47f10131761939c6d2872"
+            },
+            {
+              "amount": "281.7776438",
+              "side": "mint",
+              "tx": "e9f54c1be8471fa92bb58645579ad691c8f394597da47561589d4b5db8d1696a"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "56820145.3931630",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "11835.4734543",
+          "ops": 16,
+          "supply_end": "56831980.8666173",
+          "top_tx": [
+            {
+              "amount": "2752.0336436",
+              "side": "mint",
+              "tx": "a2498007ba82edf3917c637fcdcd457b089ecd136065201bc04a4a22a3150c5a"
+            },
+            {
+              "amount": "2741.8907846",
+              "side": "mint",
+              "tx": "74c58b98bd4b58d99fe59b0f397f5ceaa7157fb021a705f9f04402dc31602c06"
+            },
+            {
+              "amount": "1564.8108403",
+              "side": "mint",
+              "tx": "16240bd9b30024afe0c32789883cdd2eb216c94656266a9115501c83be984fe0"
+            },
+            {
+              "amount": "1559.0435941",
+              "side": "mint",
+              "tx": "7b181ed2c08dc57516aee32e92fe93cca4329c54f324b80bdf0ba9f4a25b38cf"
+            },
+            {
+              "amount": "543.9736563",
+              "side": "mint",
+              "tx": "c331758328088ff52c783b1d3a805613c465a3ae1d647672bb8693929918453e"
+            }
+          ]
+        },
+        {
+          "burned": "25250000.0000000",
+          "date": "2026-10-14",
+          "minted": "25255945.7618383",
+          "ops": 12,
+          "supply_end": "56837926.6284556",
+          "top_tx": [
+            {
+              "amount": "25000000.0000000",
+              "side": "mint",
+              "tx": "6a82adb11c5554da59d402082e20148534d23e508516ae36ebe735be12e02023"
+            },
+            {
+              "amount": "25000000.0000000",
+              "side": "burn",
+              "tx": "a34dd1a481062cb9c66afbedb4075589b3303c8777accb52ac067f6f8d80761b"
+            },
+            {
+              "amount": "250000.0000000",
+              "side": "burn",
+              "tx": "01f25b348dceb88459080b28641bc4a29831944a266f8cfd01d6c504ffc2223b"
+            },
+            {
+              "amount": "250000.0000000",
+              "side": "mint",
+              "tx": "f195db01c2bbf8f5ac5ba073ec3a246ec8c74ccfc21c36e60f91e3e51a2d59d7"
+            },
+            {
+              "amount": "2759.9712283",
+              "side": "mint",
+              "tx": "92f51e7bfe2db8974f63c8646b8470e65772dcea616141f7bf26636adadc3620"
+            }
+          ]
+        },
+        {
+          "burned": "25250000.0000000",
+          "date": "2026-10-15",
+          "minted": "3275.3521120",
+          "ops": 10,
+          "supply_end": "31591201.9805676",
+          "top_tx": [
+            {
+              "amount": "25000000.0000000",
+              "side": "burn",
+              "tx": "9766f33233617975ae3bc39514e0a0a36829c75d08363ea366d8e8f588591b16"
+            },
+            {
+              "amount": "250000.0000000",
+              "side": "burn",
+              "tx": "00a26cca020f8dc99be8b6a5f5cc2b14254584cabf9d5013fc8e1416a32727ed"
+            },
+            {
+              "amount": "1555.5366725",
+              "side": "mint",
+              "tx": "9f952e078da7bdd8e2791c60aac1f5b75919c4ad77d06a20b048d336a12d6926"
+            },
+            {
+              "amount": "540.7496864",
+              "side": "mint",
+              "tx": "1010426cba1a94102864b5c22db4adde4b432791eb9856eba8ef64505ff8965a"
+            },
+            {
+              "amount": "526.4272736",
+              "side": "mint",
+              "tx": "4460c513b7820132a4d516c4f99198f4e6330e518f86e156f0c0207fd03515e4"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "3280.6162435",
+          "ops": 8,
+          "supply_end": "31594482.5968111",
+          "top_tx": [
+            {
+              "amount": "1558.0367241",
+              "side": "mint",
+              "tx": "586e48f17941d5af62eca5ea3fb0e5a803d4900926e3bfa9ad20b90adfc79c6b"
+            },
+            {
+              "amount": "541.6187769",
+              "side": "mint",
+              "tx": "c153f8bed5e47a9990798a890bac2e73313af060949b6ac7cf149559f1eb34d7"
+            },
+            {
+              "amount": "527.2733452",
+              "side": "mint",
+              "tx": "7376ba0a7d8301f1a21a630a637bc9d7d07e7b5b9ed0089a7df061fffcf7d5c9"
+            },
+            {
+              "amount": "281.6249383",
+              "side": "mint",
+              "tx": "7fcc6ae35e2c58662c69447cada97b61622545f96fbe0147dc50f5c170bb5edc"
+            },
+            {
+              "amount": "143.7037491",
+              "side": "mint",
+              "tx": "0adb25dbce9e95ff6e0227fda214aab0d4d150c401797cebff8b115db4364d7d"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "3280.9569221",
+          "ops": 8,
+          "supply_end": "31597763.5537332",
+          "top_tx": [
+            {
+              "amount": "1558.1985198",
+              "side": "mint",
+              "tx": "10cc8a5419a678f8ae3d79ac2e9ab472d0a5e193b46a265541a29345dd23c015"
+            },
+            {
+              "amount": "541.6750218",
+              "side": "mint",
+              "tx": "1a79320d4c14ea1e9eb3c62cb2aefa5c85b16a4fa8bef883a5d5654d2e0d07d5"
+            },
+            {
+              "amount": "527.3281004",
+              "side": "mint",
+              "tx": "267965725a8218c39c00f660831601c83fd25e9d86930efe066a573ae8dbd64b"
+            },
+            {
+              "amount": "281.6541839",
+              "side": "mint",
+              "tx": "bb16e9c991ee7201675d828a501f73e72ffeed2f69ee27479e5d20bddb64c894"
+            },
+            {
+              "amount": "143.7186721",
+              "side": "mint",
+              "tx": "350d1086b9f141b37d6759026d5bd6a4b65d222a94b27d4eb4b4dba8513ee5c7"
+            }
+          ]
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:19:47.163Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "56802428.6425427"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:38.047Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "31587926.6284556"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:38.047Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "31587926.6284556"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:17Z",
+            "ledger": 65002263,
+            "source": "monitor",
+            "supply": "31597763.5537332"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:47.163Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "56802428.6425427"
+        },
+        {
+          "at": "2026-10-15T14:56:38.047Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "31587926.6284556"
+        },
+        {
+          "at": "2026-10-18T04:18:17Z",
+          "ledger": 65002263,
+          "source": "monitor",
+          "supply": "31597763.5537332"
+        }
+      ]
+    },
+    {
+      "asset": "grBENJI:GA3ZBL3LBRKOF7CZ6MCA7JLPHWQCGYCCGKH4GVWNEDZOXW4IPXFGN2FQ",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "266.2790711",
+          "ops": 16,
+          "supply_end": "1297992.4622160",
+          "top_tx": [
+            {
+              "amount": "51.7080419",
+              "side": "mint",
+              "tx": "28927b4538ba40e757580a9fc0429509dacb2f0c80577bf62219c719739d36e0"
+            },
+            {
+              "amount": "51.7027377",
+              "side": "mint",
+              "tx": "d210485bce9ad7544d2deaa56287277a002e1a38249cd50129e67d7dbccee47f"
+            },
+            {
+              "amount": "30.1849530",
+              "side": "mint",
+              "tx": "53c5bb40bacf1cc52667063ff0ce39d2f8a45ba58802e95aa25c7bb0811306d0"
+            },
+            {
+              "amount": "30.1818567",
+              "side": "mint",
+              "tx": "fe0c3d1d5b33ef115970dfd6ca9e6880f7d2c9409be0f730b516df167248c8b9"
+            },
+            {
+              "amount": "18.4845880",
+              "side": "mint",
+              "tx": "c9d4d186f491a6a10f637ea9b8b0bf2e66d281c78cb62f21309c6ad150095a05"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "133.1600241",
+          "ops": 8,
+          "supply_end": "1298125.6222401",
+          "top_tx": [
+            {
+              "amount": "51.7133466",
+              "side": "mint",
+              "tx": "c80c61fa269309af6e8204fa17a5dc4b3d310fafad158d08dcdc5f74875f0fb0"
+            },
+            {
+              "amount": "30.1880497",
+              "side": "mint",
+              "tx": "9da6b4ed3fa9bf932032b38f5a96d7a5066f33df4ce903d1e60cc1f6d3aea3aa"
+            },
+            {
+              "amount": "18.4864843",
+              "side": "mint",
+              "tx": "d85a62eb1a93fdda5756ef2c39f99d4e66743369b44685e933a2f7cde259409c"
+            },
+            {
+              "amount": "15.7429930",
+              "side": "mint",
+              "tx": "0b7653ade9838ff51ef874540cc5120af4b151d476f589ed9ae60672af16112e"
+            },
+            {
+              "amount": "15.2938677",
+              "side": "mint",
+              "tx": "0df3572fac7fbe7aa582bea06e959f2c61e521237db60dd2203bb83a0107659b"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "133.1736846",
+          "ops": 8,
+          "supply_end": "1298258.7959247",
+          "top_tx": [
+            {
+              "amount": "51.7186518",
+              "side": "mint",
+              "tx": "bcea1152b4c729cd2514447fa5b940e5b770b305c1f9400dded1ea11e503e59e"
+            },
+            {
+              "amount": "30.1911466",
+              "side": "mint",
+              "tx": "4c4b763a6b76b5876e3c4423535b1e0d22296949f8f762b3e2464a585c54e1d1"
+            },
+            {
+              "amount": "18.4883808",
+              "side": "mint",
+              "tx": "86b8f74de407c0404c8916c182ce5c7a2ef30b7acbc9aac45aa5ebf1ceb84d96"
+            },
+            {
+              "amount": "15.7446081",
+              "side": "mint",
+              "tx": "20b5c76ddbf66f043a96ccf53bda04ffb658f2fc5d635a05852bf71262896256"
+            },
+            {
+              "amount": "15.2954366",
+              "side": "mint",
+              "tx": "c7fce999edde8d5c8dc08fd89d6dc0617dfc9eca254ca998128a76831bbddbcf"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "133.6687257",
+          "ops": 8,
+          "supply_end": "1298392.4646504",
+          "top_tx": [
+            {
+              "amount": "51.9109033",
+              "side": "mint",
+              "tx": "d84610b3b77809b43d938e335edd6f87b8d4a4b1ffd3531490c8b41455b69d86"
+            },
+            {
+              "amount": "30.3033749",
+              "side": "mint",
+              "tx": "5b791214b91f0d945e07ad50e09ef819c2e164000682a049ca2608fe8ac310e7"
+            },
+            {
+              "amount": "18.5571069",
+              "side": "mint",
+              "tx": "fba3ac9c008fb8fc1382dd2a6f81419423325f92947e61e622f1f47aa456b901"
+            },
+            {
+              "amount": "15.8031349",
+              "side": "mint",
+              "tx": "d8e810748b46257376e0d6059bbad294a774e52979bd4d80faed13d0c2abf10a"
+            },
+            {
+              "amount": "15.3522937",
+              "side": "mint",
+              "tx": "2a7e77b6739bf447251251a3c1d3ede9f6529ccdb266168bfddd24a63320a1f5"
+            }
+          ]
+        },
+        {
+          "burned": "150000.0000000",
+          "date": "2026-10-14",
+          "minted": "118.5715219",
+          "ops": 9,
+          "supply_end": "1148511.0361723",
+          "top_tx": [
+            {
+              "amount": "150000.0000000",
+              "side": "burn",
+              "tx": "a1c6d04ada090cb691c68887006fbe5f4b05cccde67b4eacb31dc227b9ad6682"
+            },
+            {
+              "amount": "52.0624768",
+              "side": "mint",
+              "tx": "497fcff5488f126afa148334d279102c9c013a4074bd65911737f11d691fcbc3"
+            },
+            {
+              "amount": "30.3918570",
+              "side": "mint",
+              "tx": "bccf45530bd03882c5d150982f13c025ebf92d91827dfcbf3f6d9085deef9bc2"
+            },
+            {
+              "amount": "15.8492781",
+              "side": "mint",
+              "tx": "351d68bde68644bd94c08cef1b3a004cacd948a833211c60a43fd31c9021e6e3"
+            },
+            {
+              "amount": "15.3971205",
+              "side": "mint",
+              "tx": "f6b6e2d10bc7c8d5727e05e1dea522dc4c426c055fa247c54203f6699e1c3e28"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "117.5156492",
+          "ops": 8,
+          "supply_end": "1148628.5518215",
+          "top_tx": [
+            {
+              "amount": "51.5988634",
+              "side": "mint",
+              "tx": "3e9c0678e813840d8dd085226446d66c9aef3c447393f288239e492a5deb562e"
+            },
+            {
+              "amount": "30.1212193",
+              "side": "mint",
+              "tx": "32461dedf72a0b79c9ee59efaa9b8b351f5f0c6a38d3c6519718d8b2acbfd6ff"
+            },
+            {
+              "amount": "15.7081411",
+              "side": "mint",
+              "tx": "ad55173440293578df824dd769ec8836b2bdcafc07a6c8081a81b420db1631df"
+            },
+            {
+              "amount": "15.2600100",
+              "side": "mint",
+              "tx": "09e88a673b98d6294a5ef14bd0df391610f7505df31a2ca0b41ad6b5ea195500"
+            },
+            {
+              "amount": "3.0959742",
+              "side": "mint",
+              "tx": "4838ef222a3e7cec6499b062f5d114fc551df2f46212dbb216679e2afdd734ec"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "117.7185329",
+          "ops": 8,
+          "supply_end": "1148746.2703544",
+          "top_tx": [
+            {
+              "amount": "51.6879457",
+              "side": "mint",
+              "tx": "55a91426da915771337b88bdc4aea18a144d0e74680c4e995cdce53ec7033e17"
+            },
+            {
+              "amount": "30.1732217",
+              "side": "mint",
+              "tx": "83b8fd16d9439c800f8b8ce7bf06da9710d02001cfae2d543dedd5ee94032e06"
+            },
+            {
+              "amount": "15.7352603",
+              "side": "mint",
+              "tx": "90030b4e376e8f2f0839b5060f82ac19d9fe9dec4a57ab7cbbe4d27d698cf9ec"
+            },
+            {
+              "amount": "15.2863555",
+              "side": "mint",
+              "tx": "9c99ae1c85e5a0ccc57809cf9f291baf2bba0282ffd8ff42f27139265c93ccae"
+            },
+            {
+              "amount": "3.1013192",
+              "side": "mint",
+              "tx": "b9ea69035757c91d66bff12395d8fec9440cd4701a805fe78c966e6a2554fa87"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "117.7305974",
+          "ops": 8,
+          "supply_end": "1148864.0009518",
+          "top_tx": [
+            {
+              "amount": "51.6932430",
+              "side": "mint",
+              "tx": "bb7e8efc0cfc3d34423ed6571fbb63b2347c0ca290c84195004bf0a596f6a30a"
+            },
+            {
+              "amount": "30.1763141",
+              "side": "mint",
+              "tx": "735b384a2a36afd4cfd76bfb779c004d3e8cbcdea1dca1822129df2f5fdc81c3"
+            },
+            {
+              "amount": "15.7368729",
+              "side": "mint",
+              "tx": "23997e3280cb574eb92952ba51d08d6ee1f29ee01e96c9fe584d6fb93aab2f19"
+            },
+            {
+              "amount": "15.2879222",
+              "side": "mint",
+              "tx": "3221656a35192d902679747e1374d6a72e399bf1a94572a4f762d6ac439a5766"
+            },
+            {
+              "amount": "3.1016370",
+              "side": "mint",
+              "tx": "02a3ce954aee00359a07fcf2d5139c4fe62daa52bf60417619dddd97361e423a"
+            }
+          ]
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:19:48.511Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1297726.1831449"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:39.223Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1148511.0361723"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:39.223Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1148511.0361723"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:17Z",
+            "ledger": 65002263,
+            "source": "monitor",
+            "supply": "1148864.0009518"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:48.511Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1297726.1831449"
+        },
+        {
+          "at": "2026-10-15T14:56:39.223Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1148511.0361723"
+        },
+        {
+          "at": "2026-10-18T04:18:17Z",
+          "ledger": 65002263,
+          "source": "monitor",
+          "supply": "1148864.0009518"
+        }
+      ]
+    },
+    {
+      "asset": "sgBENJI:GAGICV3VBJSKKH5H5MQQIUTUP462YVHC23KUHZY6FJERRJFBDIVZBM5C",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "26999779.0155658",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "26999779.0155658",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "26999779.0155658",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "26999779.0155658",
+          "top_tx": []
+        },
+        {
+          "burned": "9662.7693497",
+          "date": "2026-10-14",
+          "minted": "10596.2816684",
+          "ops": 2,
+          "supply_end": "27000712.5278845",
+          "top_tx": [
+            {
+              "amount": "10596.2816684",
+              "side": "mint",
+              "tx": "311583d27dded048480c35a56fee5b03d57f32a013f5dc68139d6be7ef658622"
+            },
+            {
+              "amount": "9662.7693497",
+              "side": "burn",
+              "tx": "a15b9da3c6eb93629ff83519bab09ce09dd00322b62113add395fb917534d64a"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "963.2055481",
+          "ops": 1,
+          "supply_end": "27001675.7334326",
+          "top_tx": [
+            {
+              "amount": "963.2055481",
+              "side": "mint",
+              "tx": "dbafa63f11be1ad47734f32ba25d70fdb88de73b64fb86d5449096607f7516e8"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "27001675.7334326",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "27001675.7334326",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:19:49.729Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "26999779.0155658"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:40.478Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "27001675.7334326"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:40.478Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "27001675.7334326"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:17Z",
+            "ledger": 65002263,
+            "source": "monitor",
+            "supply": "27001675.7334326"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:49.729Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "26999779.0155658"
+        },
+        {
+          "at": "2026-10-15T14:56:40.478Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "27001675.7334326"
+        },
+        {
+          "at": "2026-10-18T04:18:17Z",
+          "ledger": 65002263,
+          "source": "monitor",
+          "supply": "27001675.7334326"
+        }
+      ]
+    },
+    {
+      "asset": "USDY:GAJMPX5NBOG6TQFPQGRABJEEB2YE7RFRLUKJDZAZGAD5GFX4J7TADAZ6",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "467502151.6966762",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "467502151.6966762",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "467502151.6966762",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "467502151.6966762",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "467502151.6966762",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "467502151.6966762",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "467502151.6966762",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "467502151.6966762",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:19:50.960Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "467502151.6966762"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:41.658Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "467502151.6966762"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:41.658Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "467502151.6966762"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:22Z",
+            "ledger": 65002264,
+            "source": "monitor",
+            "supply": "467502151.6966762"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:50.960Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "467502151.6966762"
+        },
+        {
+          "at": "2026-10-15T14:56:41.658Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "467502151.6966762"
+        },
+        {
+          "at": "2026-10-18T04:18:22Z",
+          "ledger": 65002264,
+          "source": "monitor",
+          "supply": "467502151.6966762"
+        }
+      ]
+    },
+    {
+      "asset": "USTRY:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "11513230.8784747",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "11513230.8784747",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": false,
+          "from": {
+            "at": "2026-10-09T13:19:52.301Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "11513946.4905768"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:43.450Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "11513230.8784747"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:43.450Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "11513230.8784747"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:22Z",
+            "ledger": 65002264,
+            "source": "monitor",
+            "supply": "11513230.8784747"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [
+        {
+          "date": "2026-10-10",
+          "reason": "not_reconciled"
+        },
+        {
+          "date": "2026-10-11",
+          "reason": "not_reconciled"
+        },
+        {
+          "date": "2026-10-12",
+          "reason": "not_reconciled"
+        },
+        {
+          "date": "2026-10-13",
+          "reason": "not_reconciled"
+        },
+        {
+          "date": "2026-10-14",
+          "reason": "not_reconciled"
+        },
+        {
+          "date": "2026-10-15",
+          "reason": "not_reconciled"
+        }
+      ],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:52.301Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "11513946.4905768"
+        },
+        {
+          "at": "2026-10-15T14:56:43.450Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "11513230.8784747"
+        },
+        {
+          "at": "2026-10-18T04:18:22Z",
+          "ledger": 65002264,
+          "source": "monitor",
+          "supply": "11513230.8784747"
+        }
+      ]
+    },
+    {
+      "asset": "TESOURO:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1210811.2723843",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1210811.2723843",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1210811.2723843",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1210811.2723843",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1210811.2723843",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1210811.2723843",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1210811.2723843",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1210811.2723843",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:19:53.732Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1191000.5526793"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:44.959Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1210811.2723843"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:44.959Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1210811.2723843"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:22Z",
+            "ledger": 65002264,
+            "source": "monitor",
+            "supply": "1210811.2723843"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:53.732Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1191000.5526793"
+        },
+        {
+          "at": "2026-10-15T14:56:44.959Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1210811.2723843"
+        },
+        {
+          "at": "2026-10-18T04:18:22Z",
+          "ledger": 65002264,
+          "source": "monitor",
+          "supply": "1210811.2723843"
+        }
+      ]
+    },
+    {
+      "asset": "EUROB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.5000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.5000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.5000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.5000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.5000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.5000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.5000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.5000000",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:19:54.948Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1.5000000"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:46.170Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1.5000000"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:46.170Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1.5000000"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:22Z",
+            "ledger": 65002264,
+            "source": "monitor",
+            "supply": "1.5000000"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:54.948Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1.5000000"
+        },
+        {
+          "at": "2026-10-15T14:56:46.170Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1.5000000"
+        },
+        {
+          "at": "2026-10-18T04:18:22Z",
+          "ledger": 65002264,
+          "source": "monitor",
+          "supply": "1.5000000"
+        }
+      ]
+    },
+    {
+      "asset": "KTB:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "102.0000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "102.0000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "102.0000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "102.0000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "102.0000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "102.0000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "102.0000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "102.0000000",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:19:56.271Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "102.0000000"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:47.397Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "102.0000000"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:47.397Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "102.0000000"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:22Z",
+            "ledger": 65002264,
+            "source": "monitor",
+            "supply": "102.0000000"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:56.271Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "102.0000000"
+        },
+        {
+          "at": "2026-10-15T14:56:47.397Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "102.0000000"
+        },
+        {
+          "at": "2026-10-18T04:18:22Z",
+          "ledger": 65002264,
+          "source": "monitor",
+          "supply": "102.0000000"
+        }
+      ]
+    },
+    {
+      "asset": "GILTS:GCRYUGD5NVARGXT56XEZI5CIFCQETYHAPQQTHO2O3IQZTHDH4LATMYWC",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.7000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.7000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.7000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.7000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.7000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.7000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.7000000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1.7000000",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:19:57.506Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1.7000000"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:48.667Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1.7000000"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:48.667Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1.7000000"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:22Z",
+            "ledger": 65002264,
+            "source": "monitor",
+            "supply": "1.7000000"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:57.506Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1.7000000"
+        },
+        {
+          "at": "2026-10-15T14:56:48.667Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1.7000000"
+        },
+        {
+          "at": "2026-10-18T04:18:22Z",
+          "ledger": 65002264,
+          "source": "monitor",
+          "supply": "1.7000000"
+        }
+      ]
+    },
+    {
+      "asset": "GOLD:GCK75CK3VX5L4ZLSD7HHNVA4L3LKGIAYWLCZO2IBNGOFTBV3HJBE2MPJ",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "484.8810000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "484.8810000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "484.8810000",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0320000",
+          "date": "2026-10-13",
+          "minted": "0.0690000",
+          "ops": 4,
+          "supply_end": "484.9180000",
+          "top_tx": [
+            {
+              "amount": "0.0370000",
+              "side": "mint",
+              "tx": "fa045777866d14e5603aea8899f27d88f14b126e426096b8bec2bb8c3213cfe3"
+            },
+            {
+              "amount": "0.0320000",
+              "side": "mint",
+              "tx": "8429e4bad2938f83527dbce27df2b12e05ca359147dd776d5a4683a2cb2879fd"
+            },
+            {
+              "amount": "0.0250000",
+              "side": "burn",
+              "tx": "d46c02778643bfdcf3930ad5af7e8961547af35fabf5fdbe4db34c7b4bbc68ca"
+            },
+            {
+              "amount": "0.0070000",
+              "side": "burn",
+              "tx": "9dc52d9a81b0d323b8f0bf378d8e9b799fab5229b999f9be9379609ca76ae035"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0080000",
+          "ops": 1,
+          "supply_end": "484.9260000",
+          "top_tx": [
+            {
+              "amount": "0.0080000",
+              "side": "mint",
+              "tx": "48b96ae5d1cb3329f9deb7c7e264da64053f51e9832650969cba733b60ad26b6"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.5320000",
+          "ops": 1,
+          "supply_end": "485.4580000",
+          "top_tx": [
+            {
+              "amount": "0.5320000",
+              "side": "mint",
+              "tx": "bb86b1a751feb671c8e22cc89d8231015a70348334036791ae9a33e5099d7ce7"
+            }
+          ]
+        },
+        {
+          "burned": "0.0200000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 1,
+          "supply_end": "485.4380000",
+          "top_tx": [
+            {
+              "amount": "0.0200000",
+              "side": "burn",
+              "tx": "f025d9e09777b45d28261c8361f8c7cc03ccfbcaa811ad79633fd6803045e52e"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "485.4380000",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:19:58.721Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "484.8390000"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:49.860Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "484.9260000"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:49.860Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "484.9260000"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:27Z",
+            "ledger": 65002265,
+            "source": "monitor",
+            "supply": "485.4380000"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:19:58.721Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "484.8390000"
+        },
+        {
+          "at": "2026-10-15T14:56:49.860Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "484.9260000"
+        },
+        {
+          "at": "2026-10-18T04:18:27Z",
+          "ledger": 65002265,
+          "source": "monitor",
+          "supply": "485.4380000"
+        }
+      ]
+    },
+    {
+      "asset": "WTGX:GDMBNMFJ3TRFLASJ6UGETFME3PJPNKPU24C7KFDBEBPQFG2CI6UC3JG6",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2299305.6759061",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2299305.6759061",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2299305.6759061",
+          "top_tx": []
+        },
+        {
+          "burned": "11499.6352977",
+          "date": "2026-10-13",
+          "minted": "35847.9000000",
+          "ops": 16,
+          "supply_end": "2323653.9406084",
+          "top_tx": [
+            {
+              "amount": "35842.9000000",
+              "side": "mint",
+              "tx": "0d827b3d53f5a9847ae9050c88a9102a8c088a9846a7948474919be3fc786841"
+            },
+            {
+              "amount": "6145.1400000",
+              "side": "burn",
+              "tx": "f1d22e8f0e0eb3140f70b51b09b100f3ba6a2e0ead76ba417a9fe85b53ce0bfa"
+            },
+            {
+              "amount": "5000.0000000",
+              "side": "burn",
+              "tx": "c7c4e637b841f17eac99aa5635b35d2d3311e6d37aa30da86ef7e92aa2c48c8f"
+            },
+            {
+              "amount": "160.0000000",
+              "side": "burn",
+              "tx": "e5e8869a0206ffc3995836ca5c99e230b4947e5fb68acf408b27cc31c2f6f1f5"
+            },
+            {
+              "amount": "96.3957833",
+              "side": "burn",
+              "tx": "c6969d75cc9ba4eff88fd947ae9bdb43ad73901919a4633fa0dc8d2f9b2a7dcb"
+            }
+          ]
+        },
+        {
+          "burned": "65673.5282604",
+          "date": "2026-10-14",
+          "minted": "357.4900000",
+          "ops": 9,
+          "supply_end": "2258337.9023480",
+          "top_tx": [
+            {
+              "amount": "60000.0000000",
+              "side": "burn",
+              "tx": "2208f95f0837859de0531199e59bfc0f4fb9ad88f5cc5ebe2c7cbd92ae20e63e"
+            },
+            {
+              "amount": "5657.4600000",
+              "side": "burn",
+              "tx": "e8b996a17f4b234b6f5d68889b2cbcf6a44ba47d329d6b8c427900c432a7f6b9"
+            },
+            {
+              "amount": "357.4900000",
+              "side": "mint",
+              "tx": "81e149f399402b7de8066d101a6bb67b6eaf7ed797a95d4946f8ce8d2e1a9077"
+            },
+            {
+              "amount": "11.0682604",
+              "side": "burn",
+              "tx": "ff3659e200f6295c87c94aebc6bb961077fed92a53ccc6844f276a64acb3568e"
+            },
+            {
+              "amount": "5.0000000",
+              "side": "burn",
+              "tx": "e512d15c81ffd90207f3baf0b2367633b01ac88ff4b819851c498d6bc58445be"
+            }
+          ]
+        },
+        {
+          "burned": "7650.0000000",
+          "date": "2026-10-15",
+          "minted": "37821.6500000",
+          "ops": 20,
+          "supply_end": "2288509.5523480",
+          "top_tx": [
+            {
+              "amount": "37821.6500000",
+              "side": "mint",
+              "tx": "b3a36d8d850b54e9b0ea780da2286cdb0a46486a1a3089cc452c2ed710811c35"
+            },
+            {
+              "amount": "5000.0000000",
+              "side": "burn",
+              "tx": "8db1f1205b4eb76a4e073daf72073696975f4d442a63df25aa1654f2685b39d4"
+            },
+            {
+              "amount": "2650.0000000",
+              "side": "burn",
+              "tx": "6e552000db3adbbb39a73e3e5a8c261cec35cd1b7c7cc440c73d2b3ff0d17670"
+            }
+          ]
+        },
+        {
+          "burned": "1251.0259370",
+          "date": "2026-10-16",
+          "minted": "42460.5800000",
+          "ops": 12,
+          "supply_end": "2329719.1064110",
+          "top_tx": [
+            {
+              "amount": "42460.5800000",
+              "side": "mint",
+              "tx": "5247cb0296ceaab71ee12cc07c3355688d69206d958d35f99d43f350b07ab70d"
+            },
+            {
+              "amount": "1000.0000000",
+              "side": "burn",
+              "tx": "07ae301dcc8d46b5d71268ed258c1bf4641fed7745a15f27e2ce8a3bd280a495"
+            },
+            {
+              "amount": "251.0259370",
+              "side": "burn",
+              "tx": "75b3ec61241b31d3d268c6cb043542fecb0b31fbeb2a4b593f580b2a1af94692"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2329719.1064110",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:00.604Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "2196399.1015682"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:51.743Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "2258337.9023480"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:51.743Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "2258337.9023480"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:27Z",
+            "ledger": 65002265,
+            "source": "monitor",
+            "supply": "2329719.1064110"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:00.604Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "2196399.1015682"
+        },
+        {
+          "at": "2026-10-15T14:56:51.743Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "2258337.9023480"
+        },
+        {
+          "at": "2026-10-18T04:18:27Z",
+          "ledger": 65002265,
+          "source": "monitor",
+          "supply": "2329719.1064110"
+        }
+      ]
+    },
+    {
+      "asset": "WTSY:GB3ZUC7FGDEEBXY3BDEJWMPNGBFA66YRI4QQT6PBO3ZT6F33S7RL36VF",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1019868.9115239",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1019868.9115239",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1019868.9115239",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1019868.9115239",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1019868.9115239",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1019868.9115239",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "25.2934034",
+          "ops": 1,
+          "supply_end": "1019894.2049273",
+          "top_tx": [
+            {
+              "amount": "25.2934034",
+              "side": "mint",
+              "tx": "0f371e104835f317490b8497e870b4024f04875b554d030fe7a2fb9bc78a93af"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1019894.2049273",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:01.880Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1019868.9115239"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:52.929Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1019868.9115239"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:52.929Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1019868.9115239"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:27Z",
+            "ledger": 65002265,
+            "source": "monitor",
+            "supply": "1019894.2049273"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:01.880Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1019868.9115239"
+        },
+        {
+          "at": "2026-10-15T14:56:52.929Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1019868.9115239"
+        },
+        {
+          "at": "2026-10-18T04:18:27Z",
+          "ledger": 65002265,
+          "source": "monitor",
+          "supply": "1019894.2049273"
+        }
+      ]
+    },
+    {
+      "asset": "WTTS:GBBV5CF7UPA2PYRPA632URLB55BWML7X4H33ZRCDWMTULOXDGPHJR5VI",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100519.0469656",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100519.0469656",
+          "top_tx": []
+        },
+        {
+          "burned": "15.5241922",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 1,
+          "supply_end": "100503.5227734",
+          "top_tx": [
+            {
+              "amount": "15.5241922",
+              "side": "burn",
+              "tx": "966845ed4848013968251851e3010c9dfd195da2804e98c78784835d65aade5c"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100503.5227734",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100503.5227734",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100503.5227734",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100503.5227734",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100503.5227734",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:03.147Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "100519.0469656"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:54.084Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "100503.5227734"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:54.084Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "100503.5227734"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:27Z",
+            "ledger": 65002265,
+            "source": "monitor",
+            "supply": "100503.5227734"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:03.147Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "100519.0469656"
+        },
+        {
+          "at": "2026-10-15T14:56:54.084Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "100503.5227734"
+        },
+        {
+          "at": "2026-10-18T04:18:27Z",
+          "ledger": 65002265,
+          "source": "monitor",
+          "supply": "100503.5227734"
+        }
+      ]
+    },
+    {
+      "asset": "WTST:GDEBI5X7J4IDXCSVV3KPFZIHQRCBVF3DAZMS5H7KYOBK45T6XYGDE77P",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101280.7627074",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101280.7627074",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101280.7627074",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101280.7627074",
+          "top_tx": []
+        },
+        {
+          "burned": "2.7327896",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 1,
+          "supply_end": "101278.0299178",
+          "top_tx": [
+            {
+              "amount": "2.7327896",
+              "side": "burn",
+              "tx": "7db864e8ee085b2592ed7c3038c86cdca74adccfacfd73efb4eb76b9369a5930"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101278.0299178",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101278.0299178",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101278.0299178",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:04.422Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "101280.7627074"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:55.243Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "101278.0299178"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:55.243Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "101278.0299178"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:27Z",
+            "ledger": 65002265,
+            "source": "monitor",
+            "supply": "101278.0299178"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:04.422Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "101280.7627074"
+        },
+        {
+          "at": "2026-10-15T14:56:55.243Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "101278.0299178"
+        },
+        {
+          "at": "2026-10-18T04:18:27Z",
+          "ledger": 65002265,
+          "source": "monitor",
+          "supply": "101278.0299178"
+        }
+      ]
+    },
+    {
+      "asset": "WTLG:GAK7PE7DD4ZRJQN3VBCQFBKFV53JGUM2SQATQAKLFK6MVONPGNYK34XH",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100229.7773348",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100229.7773348",
+          "top_tx": []
+        },
+        {
+          "burned": "3.3065891",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 1,
+          "supply_end": "100226.4707457",
+          "top_tx": [
+            {
+              "amount": "3.3065891",
+              "side": "burn",
+              "tx": "966845ed4848013968251851e3010c9dfd195da2804e98c78784835d65aade5c"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100226.4707457",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100226.4707457",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100226.4707457",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100226.4707457",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "100226.4707457",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:05.782Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "100229.7773348"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:56.468Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "100226.4707457"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:56.468Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "100226.4707457"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:32Z",
+            "ledger": 65002266,
+            "source": "monitor",
+            "supply": "100226.4707457"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:05.782Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "100229.7773348"
+        },
+        {
+          "at": "2026-10-15T14:56:56.468Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "100226.4707457"
+        },
+        {
+          "at": "2026-10-18T04:18:32Z",
+          "ledger": 65002266,
+          "source": "monitor",
+          "supply": "100226.4707457"
+        }
+      ]
+    },
+    {
+      "asset": "FLTT:GBTZKH3RNKW46XEZNCGZEBAGJISKDZKQXKSQ2N5G5SFX36TLWKKR6QJ6",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1875231.4691866",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1875231.4691866",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1875231.4691866",
+          "top_tx": []
+        },
+        {
+          "burned": "21606.6952460",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 1,
+          "supply_end": "1853624.7739406",
+          "top_tx": [
+            {
+              "amount": "21606.6952460",
+              "side": "burn",
+              "tx": "cb3202d0ade6d2d4aed73cfcbebed6d4a563893ffc4e7f23a2eb9ad3c6c7ec43"
+            }
+          ]
+        },
+        {
+          "burned": "298.5074626",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 1,
+          "supply_end": "1853326.2664780",
+          "top_tx": [
+            {
+              "amount": "298.5074626",
+              "side": "burn",
+              "tx": "b8e6e51e0f8d2928b8239c166dc779e11f40aee7ee94a9cb3a515fbf83035849"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1853326.2664780",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1853326.2664780",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "1853326.2664780",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:07.794Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1875231.4691866"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:57.644Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1853326.2664780"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:57.644Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "1853326.2664780"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:32Z",
+            "ledger": 65002266,
+            "source": "monitor",
+            "supply": "1853326.2664780"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:07.794Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1875231.4691866"
+        },
+        {
+          "at": "2026-10-15T14:56:57.644Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "1853326.2664780"
+        },
+        {
+          "at": "2026-10-18T04:18:32Z",
+          "ledger": 65002266,
+          "source": "monitor",
+          "supply": "1853326.2664780"
+        }
+      ]
+    },
+    {
+      "asset": "TIPS:GAJ4KSYLVBJKQ4UBPKJJXPYWVIRZWVTIYRMHBXTHGCDS4XJXXYEUALVD",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101346.4682344",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101346.4682344",
+          "top_tx": []
+        },
+        {
+          "burned": "8.0273528",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 1,
+          "supply_end": "101338.4408816",
+          "top_tx": [
+            {
+              "amount": "8.0273528",
+              "side": "burn",
+              "tx": "da42f047ad815575021ffa8b3b766f9991790d49541ec0865c4842dcdefe06f5"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "2.7575557",
+          "ops": 1,
+          "supply_end": "101341.1984373",
+          "top_tx": [
+            {
+              "amount": "2.7575557",
+              "side": "mint",
+              "tx": "31d6c13a470c97d8ffef37e181164b4a1a246923030932301d4a777fb8c77a50"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101341.1984373",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101341.1984373",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101341.1984373",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "101341.1984373",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:09.330Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "101346.4682344"
+          },
+          "to": {
+            "at": "2026-10-15T14:56:58.810Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "101341.1984373"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:56:58.810Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "101341.1984373"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:32Z",
+            "ledger": 65002266,
+            "source": "monitor",
+            "supply": "101341.1984373"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:09.330Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "101346.4682344"
+        },
+        {
+          "at": "2026-10-15T14:56:58.810Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "101341.1984373"
+        },
+        {
+          "at": "2026-10-18T04:18:32Z",
+          "ledger": 65002266,
+          "source": "monitor",
+          "supply": "101341.1984373"
+        }
+      ]
+    },
+    {
+      "asset": "WTSI:GAD22PDBRFEMXAKPFDP4JGDFWKKD6VPXWUWEAXBS6ZYJYFFQDUN7HAFG",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "127313.8989225",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "127313.8989225",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "127313.8989225",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "2.5060646",
+          "ops": 1,
+          "supply_end": "127316.4049871",
+          "top_tx": [
+            {
+              "amount": "2.5060646",
+              "side": "mint",
+              "tx": "d3c33746b2da74e33427abe7bb6a2ef945129b5f344bee9af104062ff9e6f9d1"
+            }
+          ]
+        },
+        {
+          "burned": "2.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 1,
+          "supply_end": "127314.4049871",
+          "top_tx": [
+            {
+              "amount": "2.0000000",
+              "side": "burn",
+              "tx": "0b46522c99a47a8f2496df6a0eba87a8d864a84e2ee5025aab7713c9b5fccce0"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "127314.4049871",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "127314.4049871",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "127314.4049871",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:10.768Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "127311.3932095"
+          },
+          "to": {
+            "at": "2026-10-15T14:57:00.367Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "127314.4049871"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:57:00.367Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "127314.4049871"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:32Z",
+            "ledger": 65002266,
+            "source": "monitor",
+            "supply": "127314.4049871"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:10.768Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "127311.3932095"
+        },
+        {
+          "at": "2026-10-15T14:57:00.367Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "127314.4049871"
+        },
+        {
+          "at": "2026-10-18T04:18:32Z",
+          "ledger": 65002266,
+          "source": "monitor",
+          "supply": "127314.4049871"
+        }
+      ]
+    },
+    {
+      "asset": "CRDT:GBWMQUGPPLSC62YPGD5CEHATOQRQMNLNAV2TMEXJ4ZYOTY4TJD6J2P45",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "36464.4975497",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "36464.4975497",
+          "top_tx": []
+        },
+        {
+          "burned": "19.9960956",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 2,
+          "supply_end": "36444.5014541",
+          "top_tx": [
+            {
+              "amount": "16.3573503",
+              "side": "burn",
+              "tx": "966845ed4848013968251851e3010c9dfd195da2804e98c78784835d65aade5c"
+            },
+            {
+              "amount": "3.6387453",
+              "side": "burn",
+              "tx": "c3a2a9932558107fd63a333aa5aa11190ed15ba48255a6d400434dff1096c0f3"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "3.6520341",
+          "ops": 1,
+          "supply_end": "36448.1534882",
+          "top_tx": [
+            {
+              "amount": "3.6520341",
+              "side": "mint",
+              "tx": "2919ee93992ce2fa7a13d8c94fd2f8d373e1efbbe4b70a324da74921d4dd31be"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "36448.1534882",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "36448.1534882",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "36448.1534882",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "36448.1534882",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:12.198Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "36464.7645605"
+          },
+          "to": {
+            "at": "2026-10-15T14:57:01.593Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "36448.1534882"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:57:01.593Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "36448.1534882"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:32Z",
+            "ledger": 65002266,
+            "source": "monitor",
+            "supply": "36448.1534882"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:12.198Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "36464.7645605"
+        },
+        {
+          "at": "2026-10-15T14:57:01.593Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "36448.1534882"
+        },
+        {
+          "at": "2026-10-18T04:18:32Z",
+          "ledger": 65002266,
+          "source": "monitor",
+          "supply": "36448.1534882"
+        }
+      ]
+    },
+    {
+      "asset": "SPXU:GDJBVX3QA5HJPBSAU5VIX2W6MC37NU4UFXPKEGK42SJCYN6AEQ4Z6COM",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "929208.6415004",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "929208.6415004",
+          "top_tx": []
+        },
+        {
+          "burned": "37.9551571",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 2,
+          "supply_end": "929170.6863433",
+          "top_tx": [
+            {
+              "amount": "26.6968472",
+              "side": "burn",
+              "tx": "bd79da4ba11b11da0e69de1e9d195b9842ec7353d6d28c6329c3af2b87b9ee9f"
+            },
+            {
+              "amount": "11.2583099",
+              "side": "burn",
+              "tx": "966845ed4848013968251851e3010c9dfd195da2804e98c78784835d65aade5c"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "29.1319173",
+          "ops": 4,
+          "supply_end": "929199.8182606",
+          "top_tx": [
+            {
+              "amount": "26.7038253",
+              "side": "mint",
+              "tx": "78ade195cfcfa9ba58c5a170e5945196f32e1c7c74ca4ee1d12478626b32ea70"
+            },
+            {
+              "amount": "2.4280920",
+              "side": "mint",
+              "tx": "bcace229ccd9d9da94e7cbde5ff4561bcf1f2a169309a22dcde32bb18d3b569f"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "929199.8182606",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "36.7051498",
+          "ops": 2,
+          "supply_end": "929236.5234104",
+          "top_tx": [
+            {
+              "amount": "36.7051498",
+              "side": "mint",
+              "tx": "6904fcb33efeb1bb431eb5133de85f15eac6897c4c1b4db599cbd4bd3a55eadc"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "1484.6560794",
+          "ops": 1,
+          "supply_end": "930721.1794898",
+          "top_tx": [
+            {
+              "amount": "1484.6560794",
+              "side": "mint",
+              "tx": "0d100e4bfa1c7ec303ee8528111578dab25e59be19c4b50a7303ee01c3076964"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "930721.1794898",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:13.615Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "929208.6415004"
+          },
+          "to": {
+            "at": "2026-10-15T14:57:02.753Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "929199.8182606"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:57:02.753Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "929199.8182606"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:32Z",
+            "ledger": 65002266,
+            "source": "monitor",
+            "supply": "930721.1794898"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:13.615Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "929208.6415004"
+        },
+        {
+          "at": "2026-10-15T14:57:02.753Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "929199.8182606"
+        },
+        {
+          "at": "2026-10-18T04:18:32Z",
+          "ledger": 65002266,
+          "source": "monitor",
+          "supply": "930721.1794898"
+        }
+      ]
+    },
+    {
+      "asset": "TECH:GDSAW27GPR7EWKPTFDPGN2WWZYUHBFKVDBLOUUEKSNKHID4ZWUVOBF5R",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "238033.4394329",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "238033.4394329",
+          "top_tx": []
+        },
+        {
+          "burned": "12.1750362",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 1,
+          "supply_end": "238021.2643967",
+          "top_tx": [
+            {
+              "amount": "12.1750362",
+              "side": "burn",
+              "tx": "966845ed4848013968251851e3010c9dfd195da2804e98c78784835d65aade5c"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "3.6052793",
+          "ops": 3,
+          "supply_end": "238024.8696760",
+          "top_tx": [
+            {
+              "amount": "3.6052793",
+              "side": "mint",
+              "tx": "bd4247f00ee1316555769d1387058109a55e5f8c9a654d5acb2239b58ea8993d"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.9230337",
+          "ops": 1,
+          "supply_end": "238025.7927097",
+          "top_tx": [
+            {
+              "amount": "0.9230337",
+              "side": "mint",
+              "tx": "476e214d4d86a7204d7b6902e0b9dae13e37a7ff8e471cc18ed9ffc82675eee4"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "238025.7927097",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "1139.4150243",
+          "ops": 1,
+          "supply_end": "239165.2077340",
+          "top_tx": [
+            {
+              "amount": "1139.4150243",
+              "side": "mint",
+              "tx": "7691d6d387162a4bc3c6abfbc1f0201230fc68b520e45d349f61d6f470e97b08"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "239165.2077340",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:15.003Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "238030.7570313"
+          },
+          "to": {
+            "at": "2026-10-15T14:57:03.949Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "238025.7927097"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:57:03.949Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "238025.7927097"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:37Z",
+            "ledger": 65002267,
+            "source": "monitor",
+            "supply": "239165.2077340"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:15.003Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "238030.7570313"
+        },
+        {
+          "at": "2026-10-15T14:57:03.949Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "238025.7927097"
+        },
+        {
+          "at": "2026-10-18T04:18:37Z",
+          "ledger": 65002267,
+          "source": "monitor",
+          "supply": "239165.2077340"
+        }
+      ]
+    },
+    {
+      "asset": "EQTY:GAKODZFS4MV36JGDTULJACWJKBJCO33CJTVTWSQFSUV7XLZJNXTDH6D6",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "79526.3269414",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "79526.3269414",
+          "top_tx": []
+        },
+        {
+          "burned": "57.7438232",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 2,
+          "supply_end": "79468.5831182",
+          "top_tx": [
+            {
+              "amount": "30.9665336",
+              "side": "burn",
+              "tx": "8b7e15b230864ac4e79c759731f38b3609efcda089a53dc050bf97e90fe1c652"
+            },
+            {
+              "amount": "26.7772896",
+              "side": "burn",
+              "tx": "966845ed4848013968251851e3010c9dfd195da2804e98c78784835d65aade5c"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "5.0901340",
+          "ops": 2,
+          "supply_end": "79473.6732522",
+          "top_tx": [
+            {
+              "amount": "3.3957702",
+              "side": "mint",
+              "tx": "26a5604dc6c45d44c8d5b6568d1c105b5df6e9a6f3d28a4b68dbbb74efeca134"
+            },
+            {
+              "amount": "1.6943638",
+              "side": "mint",
+              "tx": "d30d9498bf46e7800030189e917b129f081077e90d6ea6012830829e17daa982"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "79473.6732522",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "79473.6732522",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "79473.6732522",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "79473.6732522",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:16.177Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "79526.3269414"
+          },
+          "to": {
+            "at": "2026-10-15T14:57:05.158Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "79473.6732522"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:57:05.158Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "79473.6732522"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:37Z",
+            "ledger": 65002267,
+            "source": "monitor",
+            "supply": "79473.6732522"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:16.177Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "79526.3269414"
+        },
+        {
+          "at": "2026-10-15T14:57:05.158Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "79473.6732522"
+        },
+        {
+          "at": "2026-10-18T04:18:37Z",
+          "ledger": 65002267,
+          "source": "monitor",
+          "supply": "79473.6732522"
+        }
+      ]
+    },
+    {
+      "asset": "MODR:GANULT25TFO6V6BFWSEG4VSCR4QXBNHV5T344R2AFZEPE6B324LVLOOJ",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "41710.0246225",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "41710.0246225",
+          "top_tx": []
+        },
+        {
+          "burned": "18.3383968",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 1,
+          "supply_end": "41691.6862257",
+          "top_tx": [
+            {
+              "amount": "18.3383968",
+              "side": "burn",
+              "tx": "966845ed4848013968251851e3010c9dfd195da2804e98c78784835d65aade5c"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "41691.6862257",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "41691.6862257",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "41691.6862257",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "41691.6862257",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "41691.6862257",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:17.560Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "41710.0246225"
+          },
+          "to": {
+            "at": "2026-10-15T14:57:06.760Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "41691.6862257"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:57:06.760Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "41691.6862257"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:37Z",
+            "ledger": 65002267,
+            "source": "monitor",
+            "supply": "41691.6862257"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:17.560Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "41710.0246225"
+        },
+        {
+          "at": "2026-10-15T14:57:06.760Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "41691.6862257"
+        },
+        {
+          "at": "2026-10-18T04:18:37Z",
+          "ledger": 65002267,
+          "source": "monitor",
+          "supply": "41691.6862257"
+        }
+      ]
+    },
+    {
+      "asset": "LNGV:GAHOGWBAWNIKESGNNW7Y7JU5KL54HIEHJGY6Y5QLY6YR3J7WZIDHLC6D",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "43738.9566490",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "43738.9566490",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "43738.9566490",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "1.8974900",
+          "ops": 1,
+          "supply_end": "43740.8541390",
+          "top_tx": [
+            {
+              "amount": "1.8974900",
+              "side": "mint",
+              "tx": "09ad6f54112e1b520d2269a53622856d06a5bd117fe7501f4d1443a29cd8ce2d"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "49.6469942",
+          "ops": 2,
+          "supply_end": "43790.5011332",
+          "top_tx": [
+            {
+              "amount": "49.6469942",
+              "side": "mint",
+              "tx": "94faab0efc8ab96bd7f72b7264bb126e4907ba5467ba091c1e66f4c7788a7a41"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "1.8936094",
+          "ops": 1,
+          "supply_end": "43792.3947426",
+          "top_tx": [
+            {
+              "amount": "1.8936094",
+              "side": "mint",
+              "tx": "b1f901dd4e260df4c69fa040b485feb3b1b2d5b6899d5aacaf594f972ac981c3"
+            }
+          ]
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "43792.3947426",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "43792.3947426",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:18.795Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "43738.9566490"
+          },
+          "to": {
+            "at": "2026-10-15T14:57:07.935Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "43790.5011332"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:57:07.935Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "43790.5011332"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:37Z",
+            "ledger": 65002267,
+            "source": "monitor",
+            "supply": "43792.3947426"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:18.795Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "43738.9566490"
+        },
+        {
+          "at": "2026-10-15T14:57:07.935Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "43790.5011332"
+        },
+        {
+          "at": "2026-10-18T04:18:37Z",
+          "ledger": 65002267,
+          "source": "monitor",
+          "supply": "43792.3947426"
+        }
+      ]
+    },
+    {
+      "asset": "BB1:GD5J6HLF5666X4AZLTFTXLY46J5SW7EXRKBLEYPJP33S33MXZGV6CWFN",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2668351.5866776",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2668351.5866776",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2668351.5866776",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2668351.5866776",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2668351.5866776",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2668351.5866776",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2668351.5866776",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "2668351.5866776",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:20.044Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "2668351.5866776"
+          },
+          "to": {
+            "at": "2026-10-15T14:57:09.101Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "2668351.5866776"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:57:09.101Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "2668351.5866776"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:42Z",
+            "ledger": 65002268,
+            "source": "monitor",
+            "supply": "2668351.5866776"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:20.044Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "2668351.5866776"
+        },
+        {
+          "at": "2026-10-15T14:57:09.101Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "2668351.5866776"
+        },
+        {
+          "at": "2026-10-18T04:18:42Z",
+          "ledger": 65002268,
+          "source": "monitor",
+          "supply": "2668351.5866776"
+        }
+      ]
+    },
+    {
+      "asset": "YLDS:GAC7MOPTQLQUM3KC24AW4GHS3RLF72LPEZO54AH7EZ6TSMGRB5SOAVH3",
+      "days": [
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-10",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "25244820.1116650",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-11",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "25244820.1116650",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-12",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "25244820.1116650",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-13",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "25244820.1116650",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-14",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "25244820.1116650",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-15",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "25244820.1116650",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-16",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "25244820.1116650",
+          "top_tx": []
+        },
+        {
+          "burned": "0.0000000",
+          "date": "2026-10-17",
+          "minted": "0.0000000",
+          "ops": 0,
+          "supply_end": "25244820.1116650",
+          "top_tx": []
+        }
+      ],
+      "intervals": [
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-09T13:20:23.433Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "25244820.1116650"
+          },
+          "to": {
+            "at": "2026-10-15T14:57:11.093Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "25244820.1116650"
+          },
+          "unclassified": 0
+        },
+        {
+          "explained": true,
+          "from": {
+            "at": "2026-10-15T14:57:11.093Z",
+            "ledger": null,
+            "source": "checks",
+            "supply": "25244820.1116650"
+          },
+          "to": {
+            "at": "2026-10-18T04:18:42Z",
+            "ledger": 65002268,
+            "source": "monitor",
+            "supply": "25244820.1116650"
+          },
+          "unclassified": 0
+        }
+      ],
+      "missing": [],
+      "supply_points": [
+        {
+          "at": "2026-10-09T13:20:23.433Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "25244820.1116650"
+        },
+        {
+          "at": "2026-10-15T14:57:11.093Z",
+          "ledger": null,
+          "source": "checks",
+          "supply": "25244820.1116650"
+        },
+        {
+          "at": "2026-10-18T04:18:42Z",
+          "ledger": 65002268,
+          "source": "monitor",
+          "supply": "25244820.1116650"
+        }
+      ]
+    }
+  ],
+  "day": "2026-10-18",
+  "generated_at": "2026-10-18T04:18:21.529Z",
+  "horizon": "https://horizon.stellar.org",
+  "monitor_version": 1,
+  "window": {
+    "from": "2026-10-10",
+    "to": "2026-10-17"
+  }
+}

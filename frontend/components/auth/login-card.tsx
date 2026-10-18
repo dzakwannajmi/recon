@@ -26,7 +26,7 @@ export function LoginCard({ heading = "Sign in to use the agent" }: { heading?: 
     <div className="mx-auto flex w-full max-w-[420px] flex-col gap-5 rounded-[16px] border bg-card p-6 sm:p-8">
       <div className="flex flex-col gap-2">
         <h2 className="text-2xl">{heading}</h2>
-        <p className="text-sm text-muted-foreground">Sign in with GitHub to chat with the agent. Your chats and the evidence you unlock are saved to your account.</p>
+        <p className="text-sm text-muted-foreground">Sign in to chat with the agent. Your chats and the evidence you unlock are saved to your account.</p>
       </div>
 
       {auth.status === "off" && <p role="alert" className="text-sm text-muted-foreground">Sign-in is not set up on this server yet.</p>}
@@ -54,7 +54,7 @@ export function LoginCard({ heading = "Sign in to use the agent" }: { heading?: 
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
 
       <p className="text-xs text-muted-foreground">
-        We read your GitHub name and profile picture. <Link href="/privacy" className="underline underline-offset-4">Privacy</Link>
+        By continuing you agree to how we handle your account data. <Link href="/privacy" className="underline underline-offset-4">Privacy</Link>
       </p>
     </div>
   );

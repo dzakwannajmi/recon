@@ -20,7 +20,7 @@ export default function PrivacyPage() {
 
             <h2 className={h}>What is stored when you sign in</h2>
             <ul className="list-disc pl-5">
-              <li>Your sign-in identity (an id and the email and name your provider shares), kept by our authentication provider, Supabase.</li>
+              <li>Your sign-in identity (an id and the email, name, GitHub username and profile picture link that GitHub shares; the picture is loaded from GitHub only to show it next to your account menu), kept by our authentication provider, Supabase.</li>
               <li>The chats you save: what you typed, the agent&apos;s answers, and the tool steps behind them.</li>
               <li>Paid evidence bundles you unlock with your own testnet wallet, saved after the payment settles, so you can open them again for free.</li>
             </ul>

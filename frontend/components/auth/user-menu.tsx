@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { PROVIDERS, type Provider } from "@/lib/auth/config";
-import { initialOf } from "@/lib/auth/user";
+import { initialOf, type AuthUser } from "@/lib/auth/user";
 import { browserClient } from "@/lib/auth/client";
 import { deleteMyData } from "@/lib/history/store";
 import { announceHistoryChanged } from "@/components/chat/use-history";
@@ -28,6 +28,16 @@ export function ProviderButtons({ className = "" }: { className?: string }) {
       {error && <p role="alert" className="px-3 text-xs text-destructive">{error}</p>}
     </div>
   );
+}
+
+/** The GitHub profile picture when there is one (and it loads), else the initial. No referrer is sent to the image host. */
+function Avatar({ user }: { user: AuthUser }) {
+  const [broken, setBroken] = useState(false);
+  if (user.avatarUrl && !broken) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={user.avatarUrl} alt="" referrerPolicy="no-referrer" className="size-full rounded-full object-cover" onError={() => setBroken(true)} />;
+  }
+  return <>{initialOf(user.label)}</>;
 }
 
 /** "Sign in" (ink) when signed out; an initial-letter menu when signed in. Renders nothing when sign-in is not set up. */
@@ -64,10 +74,13 @@ export function UserMenu() {
   return (
     <details className="group relative">
       <summary aria-label={`Account menu, ${user.label}`} className="flex size-10 cursor-pointer list-none items-center justify-center rounded-full border bg-primary text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground [&::-webkit-details-marker]:hidden">
-        {initialOf(user.label)}
+        <Avatar user={user} />
       </summary>
       <div className={panel}>
-        <p className="truncate px-3 py-1 text-xs text-muted-foreground">{user.label}</p>
+        <p className="truncate px-3 py-1 text-xs text-muted-foreground">
+          {user.label}
+          {user.handle && user.handle !== user.label && <span className="block">@{user.handle}</span>}
+        </p>
         <Link href="/agent#saved-chats" className={item}>Saved chats</Link>
         <Link href="/agent#saved-evidence" className={item}>Saved evidence</Link>
         <button type="button" className={item} onClick={() => void wipe(user.id)}>Delete my data</button>

@@ -69,7 +69,15 @@ describe("toAuthUser", () => {
     expect(toAuthUser({ id: "u", user_metadata: { name: "x".repeat(100) } })?.label).toHaveLength(60);
   });
 
-  it("takes one uppercase initial and carries no avatar URL", () => {
+  it("keeps the GitHub login and picture only when they look right", () => {
+    const avatar = "https://avatars.githubusercontent.com/u/1?v=4";
+    expect(toAuthUser({ id: "u", user_metadata: { user_name: "ada-l", avatar_url: avatar } })).toEqual({ id: "u", label: "ada-l", handle: "ada-l", avatarUrl: avatar });
+    expect(toAuthUser({ id: "u", user_metadata: { name: "Ada", user_name: "bad name!", avatar_url: "https://evil.example/a.png" } })).toEqual({ id: "u", label: "Ada" });
+    expect(toAuthUser({ id: "u", user_metadata: { avatar_url: "http://avatars.githubusercontent.com/u/1" } })).toEqual({ id: "u", label: "Account" });
+    expect(toAuthUser({ id: "u", user_metadata: { avatar_url: "https://user:pw@avatars.githubusercontent.com/u/1" } })?.avatarUrl).toBeUndefined();
+  });
+
+  it("takes one uppercase initial", () => {
     expect(initialOf("ada")).toBe("A");
     expect(initialOf("")).toBe("?");
     expect(Object.keys(toAuthUser({ id: "u", user_metadata: { avatar_url: "https://x/y.png", name: "N" } })!)).toEqual(["id", "label"]);

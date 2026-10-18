@@ -74,7 +74,7 @@ export function assertExtractConfig() {
 }
 
 /** Where each provider's key lives. The values are env var names, never keys. */
-const KEY_ENV: Record<string, string> = { google: "GEMINI_API_KEY", groq: "GROQ_API_KEY", openrouter: "OPENROUTER_API_KEY" };
+const KEY_ENV: Record<string, string> = { google: "GEMINI_API_KEY", groq: "GROQ_API_KEY", openrouter: "OPENROUTER_API_KEY", nvidia: "NVIDIA_API_KEY" };
 
 /** The env var that holds a provider's API key (the name only, never a value); null for an unknown provider. */
 export function apiKeyEnvName(provider: string) {
@@ -98,6 +98,7 @@ export function languageModel(provider: string, model: string) {
   if (!apiKey) throw new Error(`${name} is not set (put it in frontend/.env).`);
   if (provider === "google") return createGoogle({ apiKey })(model);
   if (provider === "groq") return createGroq({ apiKey })(model);
+  if (provider === "nvidia") return createOpenAICompatible({ name: "nvidia", baseURL: "https://integrate.api.nvidia.com/v1", apiKey })(model);
   return createOpenAICompatible({ name: "openrouter", baseURL: "https://openrouter.ai/api/v1", apiKey, supportsStructuredOutputs: true })(model);
 }
 

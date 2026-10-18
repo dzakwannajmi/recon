@@ -19,6 +19,8 @@ export const CHAT_MODELS: readonly ChatModel[] = [
   { id: "gemini-flash", label: "Gemini Flash", provider: "google", model: "gemini-flash-latest" },
   { id: "gpt-oss-120b", label: "GPT-OSS 120B", provider: "groq", model: "openai/gpt-oss-120b" },
   { id: "nemotron-3-super", label: "Nemotron 3 Super", provider: "openrouter", model: "nvidia/nemotron-3-super-120b-a12b:free" },
+  { id: "nvidia-nemotron-super", label: "Nemotron 3 Super (NVIDIA)", provider: "nvidia", model: "nvidia/nemotron-3-super-120b-a12b" },
+  { id: "nvidia-nemotron-ultra", label: "Nemotron 3 Ultra (NVIDIA)", provider: "nvidia", model: "nvidia/nemotron-3-ultra-550b-a55b" },
 ];
 
 /** The default entry: whatever the environment says. It takes the id and label of the allowlist entry it matches, else a plain "default" entry. */
